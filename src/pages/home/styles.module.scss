@@ -10,7 +10,7 @@
 
 .title {
   animation: titleAppear 1s;
-  font-size: xx-large;
+  @apply text-5xl;
   color: white;
   z-index: 9;
 }
