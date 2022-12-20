@@ -1,6 +1,6 @@
 import { Playfair_Display } from '@next/font/google';
 import { Provider } from 'react-redux';
-import { store } from '@/store';
+import { store } from '../store';
 import Head from "next/head";
 import HomePage from "./home";
 

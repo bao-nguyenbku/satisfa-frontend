@@ -10,7 +10,8 @@
       "@/components/*": ["components/*"],
       "@/assets/*": ["assets/*"],
       "@/store/*": ["store/*"],
-      "@/store": ["store/index"]
+      "@/store": ["store/index"],
+      "@/hooks/*": ["hooks/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
