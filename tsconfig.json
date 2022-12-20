@@ -9,6 +9,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/assets/*": ["assets/*"],
+      "@/store/*": ["store/*"],
     },
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
