@@ -11,7 +11,8 @@
       "@/assets/*": ["assets/*"],
       "@/store/*": ["store/*"],
       "@/store": ["store/index"],
-      "@/hooks/*": ["hooks/*"]
+      "@/hooks/*": ["hooks/*"],
+      "@/hooks": ["hooks/index"]
     },
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
