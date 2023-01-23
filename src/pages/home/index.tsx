@@ -9,16 +9,20 @@ type Props = {};
 const HomePage = (props: Props) => {
   const { name } = useAppSelector(selectUser);
   return (
-  <div
-    className='flex items-center justify-center relative w-screen h-screen'
-  >
-    <Image 
-      src={background}
-      alt='background-image'
-      className={styles.background}
-    />
-    <h1 className={styles.title}>Hi, I am {name}</h1>
-  </div>
+    <>
+    <div
+      className='flex items-center justify-center relative w-screen h-screen'
+    >
+      <Image 
+        src={background}
+        alt='background-image'
+        className={styles.background}
+      />
+      <h1 className={styles.title}>Hi, I am {name}</h1>
+      
+    </div>
+    </>
+  
   );
 };
 
