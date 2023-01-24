@@ -2,9 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  images: {
-    domains: ["images.pexels.com"]
-  }
+  eslint: {
+    dirs: ['./src/*']
+  },
 }
 
 module.exports = nextConfig
