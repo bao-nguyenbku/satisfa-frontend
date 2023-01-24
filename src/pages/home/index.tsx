@@ -1,9 +1,9 @@
 import React from 'react';
 import background from '@/assets/images/login-background.jpg';
-import styles from './styles.module.scss';
 import Image from 'next/image';
+import styles from './styles.module.scss';
 import { useAppSelector } from '../../hooks';
-import { selectUser } from '../../store/reducer/user';
+import {selectUser} from '../../store/reducer/user';
 type Props = {};
 
 const HomePage = (props: Props) => {
