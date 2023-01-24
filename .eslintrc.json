@@ -10,6 +10,8 @@
     "no-duplicate-imports": "error",
     "no-mixed-spaces-and-tabs": "error",
     "no-console": "warn",
-    "object-curly-spacing": "warn"
+    "object-curly-spacing": ["error", "always"],
+    "no-unused-expressions": "warn",
+    "spaced-comment": "warn"
   }
 }
