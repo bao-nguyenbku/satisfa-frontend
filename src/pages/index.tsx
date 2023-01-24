@@ -1,9 +1,9 @@
-import { Playfair_Display } from "@next/font/google";
-import Head from "next/head";
-import HomePage from "./home";
+import { Playfair_Display } from '@next/font/google';
+import Head from 'next/head';
+import HomePage from './home';
 
 const playfair_display = Playfair_Display({
-  subsets: ["latin"],
+  subsets: ['latin'],
 });
 export default function Home() {
   return (
