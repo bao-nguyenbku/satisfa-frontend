@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react';
+import React, { useState } from 'react';
 import { InputChangeEvent } from 'types/html-types';
 import Input from './input';
 import Link from 'next/link';

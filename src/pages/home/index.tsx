@@ -4,6 +4,8 @@ import styles from './styles.module.scss';
 import Image from 'next/image';
 import { useAppSelector } from '../../hooks';
 import { selectUser } from '../../store/reducer/user';
+import CircleButton from '@/components/circle-button';
+
 type Props = {};
 
 const HomePage = (props: Props) => {
@@ -16,6 +18,7 @@ const HomePage = (props: Props) => {
         className={styles.background}
       />
       <h1 className={styles.title}>Hi, I am {name}</h1>
+      <CircleButton />
     </div>
   );
 };
