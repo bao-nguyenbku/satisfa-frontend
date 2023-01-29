@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import MessageHeader from './message-header';
 import MessageSection from './message-section';
 import MessageInput from './message-input';
@@ -10,22 +10,24 @@ import { io, Socket } from 'socket.io-client';
 
 export interface MessagePayload {
   user: string;
-  message: string
+  message: string;
 }
 type Props = {};
 
 const MessageBox = (props: Props) => {
   const [socket, setSocket] = useState<Socket>();
   const [messagesSection, setMessagesSection] = useState<MessagePayload[]>([]);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const newSocket = io('http://localhost:5000');
     newSocket.on('connect', () => {
       setSocket(newSocket);
-    })
+    });
     return () => {
       socket?.disconnect();
-    }
-  }, [])
+    };
+  }, []);
   useEffect(() => {
     if (socket) {
       console.log('Connected: ', socket.id);
@@ -33,23 +35,42 @@ const MessageBox = (props: Props) => {
     }
     socket?.on('onMessage', (payload) => {
       console.log(payload);
-      setMessagesSection(prev => {
-        return [...prev, payload];
-      })
+      const newPayload = {
+        user: payload.user,
+        message: payload.message.sentence
+      }
+      setMessagesSection((prev) => {
+        return [...prev, newPayload];
+      });
+    });
+    socket?.on('typing', () => {
+      console.log('Satisgi is typing');
+      setIsTyping(true);
     })
-  }, [socket])
+    socket?.on('off-typing', () => {
+      setIsTyping(false);
+    })
+  }, [socket]);
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messagesSection, isTyping])
   return (
     <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col">
       <div className="w-full h-20 bg-dark-2 flex items-center px-3">
         <MessageHeader />
       </div>
-      <div className={styles.messageSection}>
-        <MessageSection messages={messagesSection}/>
+      <div className={styles.messageSection} ref={containerRef}>
+        <MessageSection 
+          messages={messagesSection} 
+          isTyping={isTyping}
+        />
       </div>
-      <div className='py-3'>
-        <MessageInput socket={socket}/>
+      <div className="py-3">
+        <MessageInput socket={socket} setMessagesSection={setMessagesSection}/>
       </div>
-  </div>
+    </div>
   );
 };
 

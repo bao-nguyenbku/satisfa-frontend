@@ -3,32 +3,43 @@ import SendIcon from '@mui/icons-material/Send';
 import styles from './styles.module.scss';
 import { Socket } from 'socket.io-client';
 import { KeyDownEvent } from 'types/html-types';
+import { MessagePayload } from '.';
 
 type Props = {
   socket?: Socket;
+  setMessagesSection?: React.Dispatch<React.SetStateAction<MessagePayload[]>>;
 };
 
 const MessageInput = (props: Props) => {
   const [text, setText] = useState('');
-  const { socket } = props;
+  const { socket, setMessagesSection } = props;
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
   const onSubmit = () => {
-    socket?.emit('chat', {
-      message: text
-    })
-  }
+    const myMessage = {
+      message: text,
+      user: 'me',
+    };
+    if (setMessagesSection) {
+      setMessagesSection((prev) => {
+        return [...prev, myMessage];
+      });
+    }
+    socket?.emit('chat', myMessage);
+  };
   const handleKeyPress = (e: KeyDownEvent) => {
     if (e.key === 'Enter') {
       onSubmit();
+      setText('');
     }
-  }
+  };
   return (
     <div className="w-full flex items-center px-3 gap-2">
       <input
         className="flex-1 focus:outline-none bg-white/20 h-14 rounded-full px-2 text-white"
         placeholder="Aa"
+        value={text}
         onChange={handleChangeText}
         onKeyDown={handleKeyPress}
       />

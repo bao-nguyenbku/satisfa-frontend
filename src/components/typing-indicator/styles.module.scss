@@ -1,12 +1,13 @@
+$ti-color-bg: #fff;
+$indicator-size: 10px;
+
 .typingIndicator {
-  $ti-color-bg: #E6E7ED;
+  $ti-color-bg: #fff;
   background-color: $ti-color-bg;
   will-change: transform;
-  width: auto;
+  width: max-content;
   border-radius: 50px;
   padding: 20px;
-  display: table;
-  margin: 0 auto;
   position: relative;
   animation: 2s bulge infinite ease-out;
   &::before,
@@ -27,8 +28,8 @@
     bottom: -10px;
   }
   span {
-    height: 15px;
-    width: 15px;
+    height: $indicator-size;
+    width: $indicator-size;
     float: left;
     margin: 0 1px;
     background-color: #9E9EA1;
