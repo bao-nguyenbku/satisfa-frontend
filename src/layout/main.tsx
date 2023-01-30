@@ -1,11 +1,19 @@
-import React from 'react'
+import NavigationBar from "@/components/navigation-bar";
+import SimpleBar from 'simplebar-react';
+import 'simplebar-react/dist/simplebar.min.css';
 
-type Props = {}
-
-const MainLayout = (props: Props) => {
+type LayoutProps = {
+  children: React.ReactNode;
+}
+export default function Layout({ children }: LayoutProps) {
   return (
-    <div>MainLayout</div>
+    <>
+    <SimpleBar style={{
+      maxHeight: '100vh'
+    }}>
+      <NavigationBar />
+      <main>{children}</main>
+    </SimpleBar>
+    </>
   )
 }
-
-export default MainLayout

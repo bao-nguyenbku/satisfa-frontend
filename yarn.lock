@@ -897,6 +897,11 @@ camelcase-css@^2.0.1:
   resolved "https://registry.yarnpkg.com/camelcase-css/-/camelcase-css-2.0.1.tgz#ee978f6947914cc30c6b44741b6ed1df7f043fd5"
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
+can-use-dom@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/can-use-dom/-/can-use-dom-0.1.0.tgz#22cc4a34a0abc43950f42c6411024a3f6366b45a"
+  integrity sha512-ceOhN1DL7Y4O6M0j9ICgmTYziV89WMd96SvSl0REd8PMgrY0B/WBOPoed5S1KUmJqXgUXh8gzSe6E3ae27upsQ==
+
 caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001426:
   version "1.0.30001439"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001439.tgz#ab7371faeb4adff4b74dad1718a6fd122e45d9cb"
@@ -2026,6 +2031,11 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
 loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
@@ -2655,6 +2665,21 @@ side-channel@^1.0.4:
     call-bind "^1.0.0"
     get-intrinsic "^1.0.2"
     object-inspect "^1.9.0"
+
+simplebar-core@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/simplebar-core/-/simplebar-core-1.2.0.tgz#3f109ba472f9c576032564d0fabb6013847f2160"
+  integrity sha512-OgF3poOTi3mzj6HmNvuJfPtvMH/7OsMC+2H3HXQUzddyRDxUifpjHx1/3ozziWWAGTrJejLtu4E8h/kK3eboWQ==
+  dependencies:
+    can-use-dom "^0.1.0"
+    lodash "^4.17.21"
+
+simplebar-react@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/simplebar-react/-/simplebar-react-3.2.0.tgz#0316c0220f85f6f29d7e7c4830fdd98aca294ec0"
+  integrity sha512-rsKUAAARhZ/w5f/uoUf3PWjNVQN7CsFrOPMqJSsXtM2lTyXmiN5femuPLHeY0+95EF2QcQigKQABq9A2a6EvJg==
+  dependencies:
+    simplebar-core "^1.2.0"
 
 slash@^3.0.0:
   version "3.0.0"

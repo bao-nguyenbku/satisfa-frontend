@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import HomePage from './home';
-
+import AboutUsSection from '@/components/about-us';
 
 export default function Home() {
   return (
@@ -11,9 +11,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <div>
         <HomePage />
-      </main>
+        <AboutUsSection />
+      </div>
     </div>
   );
 }

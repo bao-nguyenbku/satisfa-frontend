@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from '../store'; 
 import { Playfair_Display } from '@next/font/google';
 import { SessionProvider } from 'next-auth/react';
+import Layout from '@/layout/main';
 
 const playfair_display = Playfair_Display({
   subsets: ['latin'],
@@ -14,7 +15,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <main className={playfair_display.className}>
       <SessionProvider session={session}>
         <Provider store={store}>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </Provider>
       </SessionProvider>
     </main>

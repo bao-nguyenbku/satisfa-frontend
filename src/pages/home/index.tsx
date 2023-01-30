@@ -6,12 +6,13 @@ import styles from './styles.module.scss';
 // Example usage of redux
 import { useAppSelector } from '../../hooks';
 import { selectUser } from '../../store/reducer/user';
-import CircleButton from '@/components/circle-button';
-
+import { useSession } from 'next-auth/react';
 type Props = {};
 
 const HomePage = (props: Props) => {
   const { name } = useAppSelector(selectUser);
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <div className="flex items-center justify-center relative w-screen h-screen">
       <Image
@@ -19,8 +20,7 @@ const HomePage = (props: Props) => {
         alt="background-image"
         className={styles.background}
       />
-      <h1 className={styles.title}>Hi, I am {name}</h1>
-      <CircleButton />
+      <h1 className={styles.title}>Hi, We are {name}</h1>
     </div>
   );
 };

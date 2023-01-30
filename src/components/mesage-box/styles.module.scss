@@ -2,5 +2,5 @@
   @apply overflow-y-auto;
   @apply py-2;
   @apply flex-1;
-  scrollbar-gutter: stable both-edges;
+ @apply scroll-gutter-both;
 }

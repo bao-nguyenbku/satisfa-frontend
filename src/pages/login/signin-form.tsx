@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { InputChangeEvent } from 'types/html-types';
 import Input from './input';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 type Props = {}
 type UserInput = {
@@ -14,6 +16,7 @@ const SigninForm = (props: Props) => {
     username: '',
     password: ''
   })
+  const router = useRouter();
   const onChangeEmail = (e: InputChangeEvent) => {
     setUserInput(prev => {
       return {
@@ -30,8 +33,17 @@ const SigninForm = (props: Props) => {
       }
     })
   }
-  const onSubmit = () => {
-    console.log(userInput);
+  const onSubmit = async () => {
+    const response = await signIn('credentials', {
+      redirect: false,
+      email: userInput.username,
+      password: userInput.password,
+      callbackUrl: '/'
+    })
+    console.log("🚀 ~ file: signin-form.tsx:42 ~ onSubmit ~ response", response);
+    if (response?.ok) {
+      router.push('/');
+    }
   }
   return (
     <div className='flex flex-col gap-8'>
