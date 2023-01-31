@@ -43,7 +43,7 @@ const CircleButton = (props: Props) => {
           <MessageBox />
       </Popover>
       <button
-        className="absolute w-20 h-20 bottom-12 right-12 border-gray-600 bg-white/5 p-4 border rounded-full"
+        className="fixed w-20 h-20 bottom-12 right-12 border-gray-600 bg-white/5 p-4 border rounded-full"
         onClick={handleClick}>
         <div className="relative w-full h-full">
           <Image

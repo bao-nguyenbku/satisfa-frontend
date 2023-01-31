@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styles from './styles.module.scss';
 import ReviewSection from './review-section';
 import SigninForm from './signin-form';
+import SigninLayout from '@/layout/signin';
 
 type Props = {};
 
@@ -26,3 +27,11 @@ const LoginPage = (props: Props) => {
 };
 
 export default LoginPage;
+
+LoginPage.getLayout = (page: any) => {
+  return (
+    <SigninLayout>
+      {page}
+    </SigninLayout>
+  )
+}

@@ -7,13 +7,13 @@ import { useRouter } from 'next/router';
 
 type Props = {}
 type UserInput = {
-  username: string,
+  email: string,
   password: string
 }
 const SigninForm = (props: Props) => {
   // TODO: VALIDATE INPUT
   const [userInput, setUserInput] = useState<UserInput>({
-    username: '',
+    email: '',
     password: ''
   })
   const router = useRouter();
@@ -21,7 +21,7 @@ const SigninForm = (props: Props) => {
     setUserInput(prev => {
       return {
         ...prev,
-        username: e.target.value
+        email: e.target.value
       }
     })
   }
@@ -36,11 +36,10 @@ const SigninForm = (props: Props) => {
   const onSubmit = async () => {
     const response = await signIn('credentials', {
       redirect: false,
-      email: userInput.username,
+      email: userInput.email,
       password: userInput.password,
       callbackUrl: '/'
     })
-    console.log("🚀 ~ file: signin-form.tsx:42 ~ onSubmit ~ response", response);
     if (response?.ok) {
       router.push('/');
     }
@@ -49,7 +48,7 @@ const SigninForm = (props: Props) => {
     <div className='flex flex-col gap-8'>
       <Input 
         type='email'
-        value={userInput.username}
+        value={userInput.email}
         placeholder='example@gmail.com'
         label='Your email or phone number'
         onChange={onChangeEmail}
