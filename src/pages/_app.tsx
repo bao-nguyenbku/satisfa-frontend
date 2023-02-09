@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import { store } from '../store';
 import { Playfair_Display } from '@next/font/google';
 import { SessionProvider } from 'next-auth/react';
+import { AnimatePresence } from "framer-motion"
+
 import MainLayout from '@/layout/main';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -26,12 +28,14 @@ export default function App({
 }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
   return (
-    <main className={playfair_display.className}>
-      <SessionProvider session={session}>
-        <Provider store={store}>
-          {getLayout(<Component {...pageProps} />)}
-        </Provider>
-      </SessionProvider>
-    </main>
+    <AnimatePresence mode='wait'>
+      <main className={playfair_display.className}>
+        <SessionProvider session={session}>
+          <Provider store={store}>
+            {getLayout(<Component {...pageProps} />)}
+          </Provider>
+        </SessionProvider>
+      </main>
+    </AnimatePresence>
   );
 }

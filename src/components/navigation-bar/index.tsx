@@ -1,14 +1,6 @@
-import React, {
-  SetStateAction,
-  RefObject,
-  useEffect,
-  useCallback,
-  useState,
-} from 'react';
+import React, { RefObject, useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
 import SimpleBarCore from 'simplebar-core';
-import { ScrollEvent } from 'types/html-types';
-import { useSession } from 'next-auth/react';
 import useUser from '@/hooks/useUser';
 type Props = {
   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
@@ -45,9 +37,7 @@ const NavigationBar = (props: Props) => {
       <li>
         <Link href="/login">Sign in</Link>
       </li>
-      <li>
-        {!isLoading && data.email}
-      </li>
+      <li>{!isLoading && data && data.email}</li>
     </ul>
   );
 };

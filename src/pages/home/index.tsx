@@ -8,6 +8,7 @@ import { useAppSelector } from '../../hooks';
 import { selectUser } from '../../store/reducer/user';
 import { useSession } from 'next-auth/react';
 import type { NextPageWithLayout } from '../_app';
+import { motion } from 'framer-motion';
 type Props = {};
 
 const HomePage: NextPageWithLayout = (props: Props) => {
@@ -21,10 +22,14 @@ const HomePage: NextPageWithLayout = (props: Props) => {
         alt="background-image"
         className={styles.background}
       />
-      <h1 className="text-white z-10 text-7xl leading-[100px]">
+      <motion.h1 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="text-white z-10 text-7xl leading-[100px]">
         We serve <br /> your high expectation <br />
         Of delicious taste of food
-      </h1>
+      </motion.h1>
     </div>
   );
 };
