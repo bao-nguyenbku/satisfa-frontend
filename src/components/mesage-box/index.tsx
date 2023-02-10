@@ -57,7 +57,7 @@ const MessageBox = (props: Props) => {
     }
   }, [messagesSection, isTyping])
   return (
-    <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col">
+    <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col z-20">
       <div className="w-full h-20 bg-dark-2 flex items-center px-3">
         <MessageHeader />
       </div>

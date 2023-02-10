@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultColors = require('tailwindcss/colors');
-
+const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -14,7 +14,11 @@ module.exports = {
       'primary-yellow': '#C49246',
       'dark-2': '#263238',
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        'passions-conflict': ['Passions Conflict', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 
