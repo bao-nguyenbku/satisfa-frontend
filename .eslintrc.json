@@ -1,3 +1,17 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "next", "prettier"],
+  "settings": {
+    "next": {
+      "rootDir": "./src/*"
+    }
+  },
+  "rules": {
+    "prefer-const": "error",
+    "no-duplicate-imports": "error",
+    "no-mixed-spaces-and-tabs": "error",
+    "no-console": "warn",
+    "object-curly-spacing": ["error", "always"],
+    "no-unused-expressions": "warn",
+    "spaced-comment": "warn"
+  }
 }
