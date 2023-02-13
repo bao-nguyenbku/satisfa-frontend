@@ -27,7 +27,7 @@ export default function FoodCard(props: FoodCardProps) {
         <Grid 
         className={styles.foodCard}
         container 
-        style={{fontFamily:"Playfair Display" , border: "1px solid white", height: "50vh"}}>
+        style={{fontFamily:"Playfair Display" , border: "1px solid white"}}>
           <Grid item xs={12} marginTop={1} >
             <img
               style={{height: "20vh", margin: "0 auto"}}
