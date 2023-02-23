@@ -14,13 +14,42 @@ constructor(createChatBotMessage, setStateFunc, createClientMessage) {
 
   handleDineIn =() =>{
     const message = this.createChatBotMessage(
-        "Please wait a second.",
+        "Pick a time range and number of people",
         {
-            widget: "dineIn"
+            widget: "dineIn"  // then we need an api to return if there is a table still empty
         }
     )
     this.addMessageToState(message);
+
   }
+
+  handleDineInSubmitBtn = (fromTime, toTime, amount) => {
+
+    const message = this.createChatBotMessage(
+      `So you want to book a table from ${fromTime.slice(11)} to ${toTime.slice(11)} on ${fromTime.slice(0,10)} for ${amount} people`,
+      {
+        widget: "checkEmptyTable",
+        payload: {age: 18}
+      }
+    )
+    this.setState(
+      (state) => ({
+      ...state,
+      fromTime: fromTime,
+      toTime: toTime,
+      customerAmount: amount
+    })
+    );
+    this.addMessageToState(message);
+  }
+
+  handleBookingTable = () => {
+    
+  }
+
+
+
+
 
   handleCategoryTypeDelivery = (state) => {
     const message1 = this.createChatBotMessage("Finding a place, one moment.", {
