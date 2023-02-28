@@ -10,7 +10,6 @@ type Props = {
 };
 const MessageSection = (props: Props) => {
   const { messages, isTyping } = props;
-  console.log(messages);
   return (
     <div className="w-full flex flex-col gap-6 px-2">
       {messages &&

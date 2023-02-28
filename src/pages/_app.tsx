@@ -6,17 +6,17 @@ import { Provider } from 'react-redux';
 import { store } from '../store';
 import { Playfair_Display } from '@next/font/google';
 import { SessionProvider } from 'next-auth/react';
-import { AnimatePresence } from "framer-motion"
+import { AnimatePresence } from 'framer-motion';
 
 import MainLayout from '@/layout/main';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode
-}
+  getLayout?: (page: ReactElement) => ReactNode;
+};
 
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
-}
+  Component: NextPageWithLayout;
+};
 
 const playfair_display = Playfair_Display({
   subsets: ['latin'],
@@ -26,9 +26,10 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
+  const getLayout =
+    Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
   return (
-    <AnimatePresence mode='wait'>
+    <AnimatePresence mode="wait">
       <main className={playfair_display.className}>
         <SessionProvider session={session}>
           <Provider store={store}>
