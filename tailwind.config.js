@@ -2,10 +2,14 @@
 const defaultColors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
+  important: "#__next",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/layout/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./src/**/*.js",
   ],
   theme: {
     colors: {
@@ -17,9 +21,13 @@ module.exports = {
     extend: {
       fontFamily: {
         'passions-conflict': ['Passions Conflict', 'sans-serif'],
-      }
+        backgroundColor: {
+          'dark-theme': '#212121',
+          'dark-form': '#2D2D2D',
+          'item-background': '#1F1F1F'
+        }
+      },
     },
-  },
-  plugins: [],
-
+    plugins: [],
+  }
 }

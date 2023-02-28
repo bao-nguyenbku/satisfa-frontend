@@ -32,11 +32,15 @@ export default function FoodCard(props: FoodCardProps) {
         height: '50vh',
       }}>
       <Grid item xs={12} marginTop={1}>
-        <Image
-          fill
-          src={props.image}
-          alt="background-image"
-        />
+        <div style={{position: "relative", height: "10vh", width: "10vh"}}>
+          <Image
+            fill
+            src={props.image}
+            alt="background-image"
+          />
+        </div>
+          
+        
       </Grid>
       <Grid item xs={12}>
         <Grid container spacing={1} justifyContent="space-between">
