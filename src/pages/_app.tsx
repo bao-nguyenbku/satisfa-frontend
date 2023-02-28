@@ -7,8 +7,9 @@ import { store } from '../store';
 import { Playfair_Display } from '@next/font/google';
 import { SessionProvider } from 'next-auth/react';
 import { AnimatePresence } from 'framer-motion';
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import MainLayout from '@/layout/main';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -30,13 +31,15 @@ export default function App({
     Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
   return (
     <AnimatePresence mode="wait">
-      <main className={playfair_display.className}>
-        <SessionProvider session={session}>
-          <Provider store={store}>
-            {getLayout(<Component {...pageProps} />)}
-          </Provider>
-        </SessionProvider>
-      </main>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <main className={playfair_display.className}>
+          <SessionProvider session={session}>
+            <Provider store={store}>
+              {getLayout(<Component {...pageProps} />)}
+            </Provider>
+          </SessionProvider>
+        </main>
+      </LocalizationProvider>
     </AnimatePresence>
   );
 }

@@ -13,7 +13,7 @@ const AboutUsSection = (props: Props) => {
     >
       <h2 className="text-primary-yellow text-6xl">About us</h2>
       <div className="flex z-10 relative w-full h-full items-center">
-        <article className='max-w-3xl w-1/3'>
+        <article className='max-w-3xl w-1/3 text-white'>
           <h3 className="text-8xl font-passions-conflict mb-4">What is Satisfia?</h3>
           <p className="text-2xl leading-relaxed tracking-widest">
             Le Laurie Raphaël est une plateforme pour la mise en valeur du

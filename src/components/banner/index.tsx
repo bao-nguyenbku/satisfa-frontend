@@ -7,7 +7,7 @@ import MainLayout from '@/layout/main';
 import { useAppSelector } from '../../hooks';
 import { selectUser } from '../../store/reducer/user';
 import { useSession } from 'next-auth/react';
-import type { NextPageWithLayout } from '../_app';
+import type { NextPageWithLayout } from '../../pages/_app';
 import { motion } from 'framer-motion';
 type Props = {};
 

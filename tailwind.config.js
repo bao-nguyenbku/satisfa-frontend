@@ -2,7 +2,7 @@
 const defaultColors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
-  // important: "#__next",
+  important: ["#__next", ".MuiPopover-root"],
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
