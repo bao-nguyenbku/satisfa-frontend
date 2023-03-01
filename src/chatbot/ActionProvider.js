@@ -1,5 +1,5 @@
 class ActionProvider {
-constructor(createChatBotMessage, setStateFunc, createClientMessage) {
+  constructor(createChatBotMessage, setStateFunc, createClientMessage) {
     this.createChatBotMessage = createChatBotMessage;
     this.setState = setStateFunc;
     this.createClientMessage = createClientMessage;
@@ -12,12 +12,12 @@ constructor(createChatBotMessage, setStateFunc, createClientMessage) {
     this.addMessageToState(message);
   };
 
-  handleDineIn =() =>{
+  handleDineIn = () => {
     const message = this.createChatBotMessage(
-        "Pick a time range and number of people",
-        {
-            widget: "dineIn"  // then we need an api to return if there is a table still empty
-        }
+      "Pick a time range and number of people",
+      {
+        widget: "dineIn"  // then we need an api to return if there is a table still empty
+      }
     )
     this.addMessageToState(message);
 
@@ -26,25 +26,25 @@ constructor(createChatBotMessage, setStateFunc, createClientMessage) {
   handleDineInSubmitBtn = (fromTime, toTime, amount) => {
 
     const message = this.createChatBotMessage(
-      `So you want to book a table from ${fromTime.slice(11)} to ${toTime.slice(11)} on ${fromTime.slice(0,10)} for ${amount} people`,
+      `So you want to book a table from ${fromTime.slice(11)} to ${toTime.slice(11)} on ${fromTime.slice(0, 10)} for ${amount} people`,
       {
         widget: "checkEmptyTable",
-        payload: {age: 18}
+        payload: { age: 18 }
       }
     )
     this.setState(
       (state) => ({
-      ...state,
-      fromTime: fromTime,
-      toTime: toTime,
-      customerAmount: amount
-    })
+        ...state,
+        fromTime: fromTime,
+        toTime: toTime,
+        customerAmount: amount
+      })
     );
     this.addMessageToState(message);
   }
 
   handleBookingTable = () => {
-    
+
   }
 
 
