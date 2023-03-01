@@ -1,15 +1,13 @@
-
-
 .chatInner{
     &>div
     {
         width: 300px!important;
     }
 
-    
+    // :global .react-chatbot-kit-chat-header{
+    //     border: 1px solid rgba(177, 177, 177, 0.995);
+    // }
 }
 
-.react-chatbot-kit-chat-header{
-    border: 1px solid black;
-}
+
 

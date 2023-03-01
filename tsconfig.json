@@ -5,14 +5,9 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/assets/*": ["assets/*"],
-      "@/store/*": ["store/*"],
-      "@/store": ["store/index"],
-      "@/hooks/*": ["hooks/*"],
-      "@/hooks": ["hooks/index"]
+      "@/*":["./src/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,

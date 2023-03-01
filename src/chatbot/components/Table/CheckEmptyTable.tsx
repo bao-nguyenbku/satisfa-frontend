@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { getTable } from 'chatbot/data'
+import { useGetAllReservationQuery } from '@/service/reseravation';
 
 import { Grid, Typography, Button } from '@mui/material'
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
@@ -16,7 +16,8 @@ export default function CheckEmptyTable(props: any){
     console.log(props)
     const [currentTables, setCurrentTables] = useState<Table[]>([])
     const [bookingStatus, setBookingStatus] = useState(false)
-    
+    const { data, error, isLoading } = useGetAllReservationQuery()
+    console.log(data) 
     // useEffect(()=> {
     //     getTable(fromTime, toTime, customerAmount)
     //     .then(res => {
