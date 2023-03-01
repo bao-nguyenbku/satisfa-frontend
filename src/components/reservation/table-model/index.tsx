@@ -1,8 +1,29 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { TABLE_CHECKED_IN, TABLE_FREE, TABLE_RESERVERD } from '@/constants';
 
-type Props = {};
+type Props = {
+  code: string;
+  status: TABLE_CHECKED_IN | TABLE_FREE | TABLE_RESERVERD;
+};
 
+const getStylebyStatus = (status: string) => {
+  switch (status) {
+    case 'CHECKED-IN': {
+      return 'red-500';
+    }
+    case 'FREE': {
+      return 'green-500';
+    }
+    case 'RESERVERD': {
+      return 'yellow-500';
+    }
+    default: {
+      return 'gray-500';
+    }
+  }
+};
 const TableModel = (props: Props) => {
+  const { code, status } = props;
   const chairRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const [chairSize, setChairSize] = useState<{
@@ -40,13 +61,13 @@ const TableModel = (props: Props) => {
         className={`grid grid-cols-${numOfChair / 2} w-fit gap-4`}
         ref={chairRef}>
         {Array.from(Array(numOfChair).keys()).map((item) => (
-          <div key={item} className="bg-green-600 w-16 h-16 rounded-full"></div>
+          <div key={item} className={`bg-${getStylebyStatus(status)} w-16 h-16 rounded-full`}></div>
         ))}
       </div>
       <div
         className={`bg-white/20 backdrop-blur-sm absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] border-l-green-600 p-2`}
         ref={tableRef}>
-        <h2 className="text-white text-end">T1</h2>
+        <h2 className="text-white text-end">{code}</h2>
       </div>
     </div>
   );

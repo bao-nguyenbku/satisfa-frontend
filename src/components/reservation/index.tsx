@@ -14,10 +14,10 @@ const Reservation = (props: Props) => {
         <GuestCounter />
       </div>
       <div className='pt-10 flex gap-36 flex-wrap items-center justify-center'>
-        <TableModel />
-        <TableModel />
-        <TableModel />
-        <TableModel />
+        <TableModel code='T1' status='FREE'/>
+        <TableModel code='T2' status='CHECKED-IN'/>
+        <TableModel code='T3' status='RESERVERD'/>
+        {/* <TableModel code='T4'/> */}
       </div>
     </div>
   );
