@@ -16,6 +16,7 @@ module.exports = {
     extend: {
       fontFamily: {
         'passions-conflict': ['Passions Conflict', 'sans-serif'],
+        'playfair': ['Playfair Display', 'sans-serif'],
         backgroundColor: {
           'dark-theme': '#212121',
           'dark-form': '#2D2D2D',
