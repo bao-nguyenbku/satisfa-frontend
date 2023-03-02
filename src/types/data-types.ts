@@ -6,3 +6,7 @@ export type Reservation = {
     to: Date;
     numberOfGuest: number;
   }
+
+export type ChatBotType = {
+  re_type: string;
+}
