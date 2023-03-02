@@ -1,0 +1,12 @@
+.popover {
+  :global {
+    .MuiPaper-root {
+      @apply bg-white/5;
+      @apply backdrop-blur-lg;
+      @apply border-gray-600;
+      @apply border;
+      @apply rounded-3xl;
+      @apply p-0;
+    }
+  }
+}

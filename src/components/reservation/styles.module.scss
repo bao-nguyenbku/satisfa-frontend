@@ -1,0 +1,22 @@
+.pickerContainer {
+  @apply bg-neutral-800;
+  @apply border;
+  :global .MuiInputBase-root {
+    @apply h-20;
+    @apply text-white;
+  }
+  :global .MuiIconButton-root {
+    @apply text-white;
+  }
+  :global .MuiOutlinedInput-notchedOutline {
+    @apply border-gray-600;
+    @apply rounded-none;
+  }
+  :global .MuiInputBase-root.Mui-focused fieldset {
+    @apply border-gray-500;
+    @apply border;
+  }
+  :global .MuiInputBase-root {
+    @apply h-full;
+  }
+}
