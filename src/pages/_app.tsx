@@ -19,8 +19,6 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-
-
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
@@ -33,14 +31,7 @@ export default function App({
         <main className={playfair_display.className}>
           <SessionProvider session={session}>
             <Provider store={store}>
-              {getLayout(
-                <>
-                  <style>{`html {
-                font-family: ${playfair_display.style.fontFamily};
-              }`}</style>
-                  <Component {...pageProps} />
-                </>
-              )}
+              {getLayout(<Component {...pageProps} />)}
             </Provider>
           </SessionProvider>
         </main>
