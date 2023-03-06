@@ -4,6 +4,7 @@ import {
   ThunkAction,
   configureStore,
   getDefaultMiddleware,
+
 } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
@@ -11,10 +12,13 @@ import { reservationSlice } from './reducer/reseravation';
 import { userSlice } from './reducer/user';
 import { reservationApi } from '@/service/reseravation';
 import { rtkQueryErrorLogger } from './error-handling';
-import { authApi } from '@/service/auth';
+import { authApi } from '@/service/auth'
+import { chatbotSlice } from "./reducer/chatbot";
+
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
+  [chatbotSlice.name]: reservationSlice.reducer,
   [reservationApi.reducerPath]: reservationApi.reducer,
   [userSlice.name]: userSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
