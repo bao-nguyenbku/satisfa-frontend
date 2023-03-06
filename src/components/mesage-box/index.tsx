@@ -63,7 +63,7 @@ const MessageBox = (props: Props) => {
   }, [messagesSection, isTyping]);
   return (
     <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col z-20">
-      <div className={styles.chatInner}>
+      <div className={styles.chatbotContainer}>
         <Chatbot
           config={config}
           actionProvider={ActionProvider}

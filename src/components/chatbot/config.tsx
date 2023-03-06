@@ -6,7 +6,9 @@ import MessageParser from './MessageParser';
 import DineIn from './components/dine-in/DineIn';
 import CheckEmptyTable from './components/Table/CheckEmptyTable';
 import IConfig from 'react-chatbot-kit/src/interfaces/IConfig';
-
+import MessageHeader from '@/components/mesage-box/message-header';
+import GuestMessageItem from '../mesage-box/guest-message-item';
+import MeMessageItem from '../mesage-box/me-message-item';
 
 const config: IConfig = {
   botName: 'FoodBot',
@@ -18,15 +20,11 @@ const config: IConfig = {
     }),
   ],
   customComponents: {
-    userAvatar: (props) => <UserAvatar {...props} />,
-  },
-  customStyles: {
-    botMessageBox: {
-      backgroundColor: '#376B7E',
-    },
-    chatButton: {
-      backgroundColor: '#5ccc9d',
-    },
+    userAvatar: () => <></>,
+    botAvatar: () => <></>,
+    header: (props) => <MessageHeader {...props} />,
+    botChatMessage: (props) => <GuestMessageItem {...props} />,
+    userChatMessage: (props) => <MeMessageItem {...props} />
   },
   widgets: [
     {

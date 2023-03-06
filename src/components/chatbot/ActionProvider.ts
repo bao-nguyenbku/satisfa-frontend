@@ -27,6 +27,8 @@ type CreateClientMessage = (
 };
 class ActionProvider {
   createChatBotMessage: CreateChatBotMessage;
+  options: IMessageOptions;
+  setState: any;
   createClientMessage: CreateClientMessage;
   constructor(
     createChatBotMessage: CreateChatBotMessage,
@@ -35,13 +37,18 @@ class ActionProvider {
   ) {
     this.createChatBotMessage = createChatBotMessage;
     this.setState = setStateFunc;
+    this.options = {
+      delay: 500,
+    };
     this.createClientMessage = createClientMessage;
   }
 
   unhandledInput = () => {
     const message = this.createChatBotMessage(
       'I did not understand that. Please type a cuisine.',
-      {}
+      {
+        ...this.options,
+      }
     );
     this.addMessageToState(message);
   };
@@ -50,6 +57,7 @@ class ActionProvider {
     const message = this.createChatBotMessage(
       'Pick a time range and number of people',
       {
+        ...this.options,
         widget: 'dineIn', // then we need an api to return if there is a table still empty
       }
     );
