@@ -1,21 +1,23 @@
-import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "@/store";
+import { createAction, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState, ReduxDataType } from "@/store";
 import { HYDRATE } from "next-redux-wrapper";
 import { ChatBotType } from "@/types/data-types";
-import { ReduxDataType } from "@/store";
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
-type ReservationStateType = {
-  chatbotList: ChatBotType[]
+type ChatbotState = {
+  chatbotList: ReduxDataType & {
+    data: ChatBotType | undefined
+  }
 }
 
-const chatbotList : ChatBotType[] = []
 
 // Define the initial state using that type
-const initialState: ReservationStateType = {
-    chatbotList,
+const initialState: ChatbotState = {
+    chatbotList: {
+      data: undefined,
+      isLoading: false,
+    }
 };
 // export const createReservation = createAsyncThunk(
 //   "/reservations/createReservation",
@@ -44,6 +46,6 @@ export const chatbotSlice = createSlice({
 export const {} = chatbotSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectReservationState= (state: RootState) => state.reservation;
+export const selectChatbotState= (state: RootState) => state.chatbot;
 
 export default chatbotSlice.reducer;
