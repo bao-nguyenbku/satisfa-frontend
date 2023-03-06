@@ -10,7 +10,7 @@ import NavigationBar from '@/components/navigation-bar';
 import SimpleBar from 'simplebar-react';
 import SimpleBarCore from 'simplebar-core';
 import 'simplebar-react/dist/simplebar.min.css';
-import CircleButton from '@/components/circle-button';
+import ChatbotButton from '@/components/chatbot-button';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -35,7 +35,7 @@ export default function MainLayout({ children }: LayoutProps) {
         }}>
         <NavigationBar scrollableNodeRef={propsRef} />
         <>{children}</>
-        <CircleButton />
+        <ChatbotButton />
       </SimpleBar>
     </>
   );

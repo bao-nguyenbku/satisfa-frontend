@@ -6,6 +6,13 @@ import styles from './styles.module.scss';
 /**
  * Connect websocket, for testing only
  */
+import { Box } from '@mui/material';
+import Chatbot from 'react-chatbot-kit';
+import 'react-chatbot-kit/build/main.css';
+
+import ActionProvider from '@/components/chatbot/ActionProvider';
+import config from '@/components/chatbot/config';
+import MessageParser from '@/components/chatbot/MessageParser';
 import { io, Socket } from 'socket.io-client';
 
 export interface MessagePayload {
@@ -34,31 +41,38 @@ const MessageBox = (props: Props) => {
       socket.emit('join-room', socket.id);
     }
     socket?.on('onMessage', (payload) => {
-      console.log(payload);
       const newPayload = {
         user: payload.user,
-        message: payload.message.sentence
-      }
+        message: payload.message.sentence,
+      };
       setMessagesSection((prev) => {
         return [...prev, newPayload];
       });
     });
     socket?.on('typing', () => {
-      console.log('Satisgi is typing');
       setIsTyping(true);
-    })
+    });
     socket?.on('off-typing', () => {
       setIsTyping(false);
-    })
+    });
   }, [socket]);
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [messagesSection, isTyping])
+  }, [messagesSection, isTyping]);
   return (
     <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col z-20">
-      <div className="w-full h-20 bg-dark-2 flex items-center px-3">
+      <div className={styles.chatInner}>
+        <Chatbot
+          config={config}
+          actionProvider={ActionProvider}
+          // messageHistory={loadMessages()}
+          messageParser={MessageParser}
+          // saveMessages={saveMessages}
+        />
+      </div>
+      {/* <div className="w-full h-20 bg-dark-2 flex items-center px-3">
         <MessageHeader />
       </div>
       <div className={styles.messageSection} ref={containerRef}>
@@ -69,7 +83,7 @@ const MessageBox = (props: Props) => {
       </div>
       <div className="py-3">
         <MessageInput socket={socket} setMessagesSection={setMessagesSection}/>
-      </div>
+      </div> */}
     </div>
   );
 };
