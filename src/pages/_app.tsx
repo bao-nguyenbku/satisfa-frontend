@@ -17,6 +17,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import MainLayout from '@/layout/main';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { playfair_display } from '@/constants';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const theme = createTheme({});
 const emotionCache = createCache({
@@ -43,21 +45,24 @@ const App = ({
     <AnimatePresence mode="wait">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <main className={playfair_display.className}>
-          <StyledEngineProvider injectFirst>
-            <CacheProvider value={emotionCache}>
-              <ThemeProvider theme={theme}>
-                <SessionProvider session={session}>
-                  <Provider store={store}>
-                    {getLayout(<Component {...props.pageProps} />)}
-                  </Provider>
-                </SessionProvider>
-              </ThemeProvider>
-            </CacheProvider>
-          </StyledEngineProvider>
+          <>
+            <StyledEngineProvider injectFirst>
+              <CacheProvider value={emotionCache}>
+                <ThemeProvider theme={theme}>
+                  <SessionProvider session={session}>
+                    <Provider store={store}>
+                      {getLayout(<Component {...props.pageProps} />)}
+                    </Provider>
+                  </SessionProvider>
+                </ThemeProvider>
+              </CacheProvider>
+            </StyledEngineProvider>
+            <ToastContainer />
+          </>
         </main>
       </LocalizationProvider>
     </AnimatePresence>
   );
 };
 
-export default wrapper.withRedux(App);
+export default App;

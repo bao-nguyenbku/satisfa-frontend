@@ -1,6 +1,9 @@
-import { isRejectedWithValue } from "@reduxjs/toolkit";
-import type { MiddlewareAPI, Middleware } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
+import {
+  isRejectedWithValue,
+  MiddlewareAPI,
+  Middleware,
+} from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 /**
  * Log a warning and show a toast!
