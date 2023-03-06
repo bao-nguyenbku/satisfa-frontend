@@ -2,6 +2,7 @@ import React, { RefObject, useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
 import SimpleBarCore from 'simplebar-core';
 import useUser from '@/hooks/useUser';
+import { signOut } from 'next-auth/react';
 type Props = {
   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
 };
@@ -36,7 +37,11 @@ const NavigationBar = (props: Props) => {
       <li>
         <Link href="/login">Sign in</Link>
       </li>
+
       {/* <li>{!isLoading && data && data.email}</li> */}
+
+      {/* <li className='hover:underline cursor-pointer' onClick={() => signOut()}>{!isLoading && data && data.email}</li> */}
+
     </ul>
   );
 };
