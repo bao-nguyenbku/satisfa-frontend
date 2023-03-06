@@ -17,7 +17,6 @@ export type CreateUser = {
   email: string;
   fullname: string;
   password: string;
-
   owner: string;
   table: string;
   from: Date;
