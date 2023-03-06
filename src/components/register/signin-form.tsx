@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { Formik, FormikHelpers, Form } from 'formik';
 import * as Yup from 'yup';
 import * as _ from 'lodash';
+import { useRegisterMutation } from '@/service/auth';
 
 type Props = {};
 interface IUserInputData {
@@ -25,16 +26,33 @@ const SignupValidation = Yup.object().shape({
   ),
 });
 const SigninForm = (props: Props) => {
+  const router = useRouter();
   const initialValues: IUserInputData = {
     email: '',
     password: '',
     confirmPassword: '',
   };
+  const [register, { isLoading }] = useRegisterMutation();
   const onSubmit = async (
     values: IUserInputData,
     aciton: FormikHelpers<IUserInputData>
   ) => {
-    console.log(values);
+    const regRes = await register({
+      email: values.email,
+      fullname: values.email,
+      password: values.password,
+    }).unwrap();
+    if (regRes) {
+      const logRes = await signIn('credentials', {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+        callbackUrl: '/',
+      });
+      if (logRes?.ok) {
+        router.push('/');
+      }
+    }
   };
   return (
     <Formik
@@ -42,7 +60,6 @@ const SigninForm = (props: Props) => {
       onSubmit={onSubmit}
       validationSchema={SignupValidation}>
       {({ values, handleChange, errors }) => {
-        console.log(errors);
         return (
           <Form className="flex flex-col gap-8">
             <Input
@@ -52,13 +69,16 @@ const SigninForm = (props: Props) => {
               placeholder="example@gmail.com"
               label="Your email or phone number"
               onChange={handleChange}
-              error={errors}
+              error={errors && !_.isEmpty(errors.email)}
+              errorMessage={errors && errors.email}
             />
             <Input
               type="password"
               value={values.password}
               name="password"
               placeholder="****"
+              error={errors && !_.isEmpty(errors.password)}
+              errorMessage={errors && errors.password}
               label="Your password"
               onChange={handleChange}
             />
@@ -67,15 +87,18 @@ const SigninForm = (props: Props) => {
               value={values.confirmPassword}
               name="confirmPassword"
               placeholder="****"
+              error={errors && !_.isEmpty(errors.confirmPassword)}
+              errorMessage={errors && errors.confirmPassword}
               label="Confirm password"
               onChange={handleChange}
             />
-
-            <button
-              className="bg-primary-yellow w-full h-16 font-bold text-xl text-white hover:bg-primary-yellow/70 mt-10"
-              type="submit">
-              Create account
-            </button>
+            {!isLoading && (
+              <button
+                className="bg-primary-yellow w-full h-16 font-bold text-xl text-white hover:bg-primary-yellow/70 mt-10"
+                type="submit">
+                Create account
+              </button>
+            )}
           </Form>
         );
       }}
