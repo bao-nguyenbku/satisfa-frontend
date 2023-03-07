@@ -88,7 +88,7 @@ const TableModel = (props: Props) => {
         };
       });
     }
-  }, [chairRef.current]);
+  }, [chairRef]);
 
   return (
     <>
