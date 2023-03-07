@@ -1,3 +1,4 @@
+
 .messageSection {
   @apply overflow-y-auto;
   @apply py-2;
@@ -11,6 +12,8 @@
   :global .react-chatbot-kit-chat-container {
     @apply w-full;
     @apply h-full;
+    @apply flex;
+    @apply flex-col;
   }
   :global .react-chatbot-kit-chat-inner-container {
     @apply h-full;
@@ -18,13 +21,17 @@
     @apply flex-col;
     @apply bg-transparent;
     @apply overflow-x-hidden;
+
+    // Message Input Container (Input + Send Button)
     .react-chatbot-kit-chat-input-container {
       @apply p-4;
+      @apply mt-auto;
       .react-chatbot-kit-chat-input-form {
         @apply bg-transparent;
         @apply flex;
         @apply items-center;
         @apply gap-3;
+        // Message Input
         .react-chatbot-kit-chat-input {
           @apply m-0;
           @apply rounded-full;
@@ -40,6 +47,8 @@
             @apply outline-none;
           }
         }
+
+        // Send Button
         .react-chatbot-kit-chat-btn-send {
           @apply w-14;
           @apply h-14;
@@ -66,10 +75,10 @@
         @apply m-0;
         @apply my-3;
         // .react-chatbot-kit-chat-bot-message {
-          // @apply my-3;
-          // .react-chatbot-kit-chat-bot-message-arrow {
-          //   @apply hidden;
-          // }
+        // @apply my-3;
+        // .react-chatbot-kit-chat-bot-message-arrow {
+        //   @apply hidden;
+        // }
         // }
       }
     }
