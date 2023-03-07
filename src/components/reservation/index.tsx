@@ -27,7 +27,7 @@ const Reservation = (props: Props) => {
         <TimePicker value={dayjs(bookingData.date)} onChange={handleChange}/>
         <GuestCounter />
       </div>
-      <div className="pt-10 flex gap-36 flex-wrap items-center justify-center">
+      <div className="pt-10 flex gap-36 flex-wrap items-center justify-center overflow-hidden">
         <TableModel code="T1" status="FREE" chairs={4} />
         <TableModel code="T2" status="CHECKED-IN" chairs={6} />
         <TableModel code="T3" status="RESERVERD" chairs={8} />

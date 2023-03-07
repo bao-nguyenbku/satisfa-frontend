@@ -83,7 +83,7 @@ const TableModel = (props: Props) => {
       setChairSize((prev) => {
         return {
           ...prev,
-          width: width * 1.3,
+          width: width * 1.1,
           height: height * 0.7,
         };
       });
@@ -108,7 +108,9 @@ const TableModel = (props: Props) => {
         <BookingCard />
       </Popover>
 
-      <button className="relative w-fit cursor-pointer tracking-wide" onClick={handleClick}>
+      <button
+        className="relative cursor-pointer tracking-wide overflow-hidden w-max px-10"
+        onClick={handleClick}>
         <div className={`grid w-fit gap-4`} ref={chairRef}>
           {Array.from(Array(chairs).keys()).map((item) => (
             <div
