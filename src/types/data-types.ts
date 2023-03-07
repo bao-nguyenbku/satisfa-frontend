@@ -1,11 +1,11 @@
-export type Reservation = {
-  id: string;
-  owner: string;
-  table: string;
-  from: Date;
-  to: Date;
+export type ReservationType = {
+  customerId: string;
+  tableId: string;
+  date: string;
   numberOfGuest: number;
+  note: string
 };
+
 
 export type User = {
   id: string;
@@ -27,3 +27,12 @@ export type CreateUser = {
 export type ChatBotType = {
   re_type: string;
 };
+
+
+
+export type TableType = {
+  id: string;
+  code: string;
+  numberOfSeat: number;
+  status: "empty" | "";
+}

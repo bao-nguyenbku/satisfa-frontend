@@ -1,4 +1,4 @@
-import { Reservation } from "@/types/data-types";
+import { ReservationType } from "@/types/data-types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
 import { BASE_URL } from "@/constants";
@@ -17,7 +17,7 @@ export const reservationApi = createApi({
         getAllReservation: build.query<any, void>({
           query: () => "/reservations",
         }),
-        createReservation: build.mutation<Reservation, Omit<Reservation, "id">>({
+        createReservation: build.mutation<any, ReservationType>({
           query(body) {
             console.log(body)
             return {

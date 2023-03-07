@@ -6,6 +6,8 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
+import Link from 'next/link';
+
 export default function Optons(props) {
   const options = [
     {
@@ -31,15 +33,17 @@ export default function Optons(props) {
     <div className="options-container ml-8">
       <Grid container>
         {options.map((option) => (
-          <Grid item xs={12} style={{ marginBottom: '1vh' }} key={option.id}>
-            <Button
-              startIcon={option.icon}
-              variant="outlined"
-              onClick={option.handler}
-              className="text-black option-button rounded border-slate-300">
-              <Typography variant="body1">{option.text}</Typography>
-            </Button>
-          </Grid>
+          <Link href="/reservation">
+            <Grid item xs={12} style={{ marginBottom: '1vh' }} key={option.id}>
+              <Button
+                startIcon={option.icon}
+                variant="outlined"
+                onClick={option.handler}
+                className="text-black option-button rounded border-slate-300">
+                <Typography variant="body1">{option.text}</Typography>
+              </Button>
+            </Grid>
+          </Link>
         ))}
       </Grid>
     </div>
