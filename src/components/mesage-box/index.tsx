@@ -6,7 +6,6 @@ import styles from './styles.module.scss';
 /**
  * Connect websocket, for testing only
  */
-import { Box } from '@mui/material';
 import Chatbot from 'react-chatbot-kit';
 import 'react-chatbot-kit/build/main.css';
 
