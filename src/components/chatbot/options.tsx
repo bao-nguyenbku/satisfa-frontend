@@ -8,7 +8,8 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 import Link from 'next/link';
 
-export default function Optons(props) {
+
+export default function Optons(props: any) {
   const options = [
     {
       text: 'dine in',

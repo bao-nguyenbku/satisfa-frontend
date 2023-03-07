@@ -10,9 +10,9 @@ import { Box } from '@mui/material';
 import Chatbot from 'react-chatbot-kit';
 import 'react-chatbot-kit/build/main.css';
 
-import ActionProvider from '@/components/chatbot/ActionProvider';
+import ActionProvider from '@/components/chatbot/action-provider';
 import config from '@/components/chatbot/config';
-import MessageParser from '@/components/chatbot/MessageParser';
+import MessageParser from '@/components/chatbot/message-parser';
 import { io, Socket } from 'socket.io-client';
 
 export interface MessagePayload {
@@ -27,7 +27,7 @@ const MessageBox = (props: Props) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(process.env.NEXT_PUBLIC_BASE_API_URL || '');
     newSocket.on('connect', () => {
       setSocket(newSocket);
     });
@@ -63,7 +63,7 @@ const MessageBox = (props: Props) => {
   }, [messagesSection, isTyping]);
   return (
     <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col z-20">
-      <div className={styles.chatInner}>
+      <div className={styles.chatbotContainer}>
         <Chatbot
           config={config}
           actionProvider={ActionProvider}
@@ -72,18 +72,6 @@ const MessageBox = (props: Props) => {
           // saveMessages={saveMessages}
         />
       </div>
-      {/* <div className="w-full h-20 bg-dark-2 flex items-center px-3">
-        <MessageHeader />
-      </div>
-      <div className={styles.messageSection} ref={containerRef}>
-        <MessageSection 
-          messages={messagesSection} 
-          isTyping={isTyping}
-        />
-      </div>
-      <div className="py-3">
-        <MessageInput socket={socket} setMessagesSection={setMessagesSection}/>
-      </div> */}
     </div>
   );
 };

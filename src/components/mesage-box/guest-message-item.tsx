@@ -1,11 +1,12 @@
 import React from 'react';
 import UserAvatar from './user-avatar';
 type Props = {
-  message: string
+  message: string;
+  loading: boolean;
 };
 
-const GuestMessageItem = (props: Props) => {
-  const { message } = props;
+const GuestMessageItem = (props: any) => {
+  const { message, loading } = props;
   return (
     <div className="flex items-end gap-2">
       <UserAvatar />
