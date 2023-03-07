@@ -15,9 +15,9 @@ const Reservation = (props: Props) => {
   const bookingData = useAppSelector((state)=>(state.reservation))
   console.log(bookingData)
   const handleChange = (newValue: Dayjs | null) => {
-    if(newValue){
-      dispatch(getTime(newValue.toISOString()))
-    }
+    // if(newValue){
+    //   // dispatch(getTime(newValue.toISOString()))
+    // }
   };
 
   return (

@@ -1,11 +1,10 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, {  useRef, useEffect } from 'react';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TextField } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import styles from '@/components/reservation/styles.module.scss'
-import { useAppDispatch } from '@/hooks';
 
 type Props = {
   value: any;
@@ -14,7 +13,6 @@ type Props = {
 
 export default function DatePicker(props: Props){
 
-  const dispatch = useAppDispatch()
   const inputReference = useRef<HTMLInputElement>(null);
   const {value, onChange} = props
 

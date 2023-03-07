@@ -12,7 +12,6 @@ type Props = {
 
 const TimePicker = (props: Props) => {
   const {value, onChange} = props
-  console.log(value.minute())
 
   const handleChange = (newValue: Dayjs | null) => {
     onChange(dayjs(newValue));
