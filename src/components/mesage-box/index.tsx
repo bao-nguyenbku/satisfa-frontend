@@ -6,6 +6,12 @@ import styles from './styles.module.scss';
 /**
  * Connect websocket, for testing only
  */
+import Chatbot from 'react-chatbot-kit';
+import 'react-chatbot-kit/build/main.css';
+
+import ActionProvider from '@/components/chatbot/action-provider';
+import config from '@/components/chatbot/config';
+import MessageParser from '@/components/chatbot/message-parser';
 import { io, Socket } from 'socket.io-client';
 
 export interface MessagePayload {
@@ -20,7 +26,7 @@ const MessageBox = (props: Props) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(process.env.NEXT_PUBLIC_BASE_API_URL || '');
     newSocket.on('connect', () => {
       setSocket(newSocket);
     });
@@ -34,41 +40,36 @@ const MessageBox = (props: Props) => {
       socket.emit('join-room', socket.id);
     }
     socket?.on('onMessage', (payload) => {
-      console.log(payload);
       const newPayload = {
         user: payload.user,
-        message: payload.message.sentence
-      }
+        message: payload.message.sentence,
+      };
       setMessagesSection((prev) => {
         return [...prev, newPayload];
       });
     });
     socket?.on('typing', () => {
-      console.log('Satisgi is typing');
       setIsTyping(true);
-    })
+    });
     socket?.on('off-typing', () => {
       setIsTyping(false);
-    })
+    });
   }, [socket]);
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [messagesSection, isTyping])
+  }, [messagesSection, isTyping]);
   return (
     <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col z-20">
-      <div className="w-full h-20 bg-dark-2 flex items-center px-3">
-        <MessageHeader />
-      </div>
-      <div className={styles.messageSection} ref={containerRef}>
-        <MessageSection 
-          messages={messagesSection} 
-          isTyping={isTyping}
+      <div className={styles.chatbotContainer}>
+        <Chatbot
+          config={config}
+          actionProvider={ActionProvider}
+          // messageHistory={loadMessages()}
+          messageParser={MessageParser}
+          // saveMessages={saveMessages}
         />
-      </div>
-      <div className="py-3">
-        <MessageInput socket={socket} setMessagesSection={setMessagesSection}/>
       </div>
     </div>
   );

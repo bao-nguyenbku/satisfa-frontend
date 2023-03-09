@@ -5,7 +5,6 @@ import { HYDRATE } from "next-redux-wrapper";
 import { Reservation } from "@/types/data-types";
 import { createReservation } from "@/service/reseravation";
 import { AxiosError } from "axios";
-import { ReduxDataType } from "@/store";
 import dayjs, { Dayjs } from 'dayjs';
 
 

@@ -1,5 +1,92 @@
+
 .messageSection {
   @apply overflow-y-auto;
   @apply py-2;
   @apply flex-1;
+}
+
+.chatbotContainer {
+  @apply h-full;
+  @apply bg-none;
+  @apply bg-transparent;
+  :global .react-chatbot-kit-chat-container {
+    @apply w-full;
+    @apply h-full;
+    @apply flex;
+    @apply flex-col;
+  }
+  :global .react-chatbot-kit-chat-inner-container {
+    @apply h-full;
+    @apply flex;
+    @apply flex-col;
+    @apply bg-transparent;
+    @apply overflow-x-hidden;
+
+    // Message Input Container (Input + Send Button)
+    .react-chatbot-kit-chat-input-container {
+      @apply p-4;
+      @apply mt-auto;
+      .react-chatbot-kit-chat-input-form {
+        @apply bg-transparent;
+        @apply flex;
+        @apply items-center;
+        @apply gap-3;
+        // Message Input
+        .react-chatbot-kit-chat-input {
+          @apply m-0;
+          @apply rounded-full;
+          @apply h-full;
+          @apply border-none;
+          @apply text-white;
+          @apply flex-1;
+          @apply bg-white/20;
+          &::placeholder {
+            @apply text-white/50;
+          }
+          &:focus {
+            @apply outline-none;
+          }
+        }
+
+        // Send Button
+        .react-chatbot-kit-chat-btn-send {
+          @apply w-14;
+          @apply h-14;
+          @apply rounded-full;
+          @apply flex;
+          @apply items-center;
+          @apply justify-center;
+          @apply border;
+          @apply border-solid;
+          @apply bg-dark-2;
+          @apply border-gray-600;
+          svg {
+            @apply m-0;
+          }
+        }
+      }
+    }
+    .react-chatbot-kit-chat-message-container {
+      @apply flex-1;
+      @apply overflow-x-hidden;
+      .react-chatbot-kit-chat-bot-message-container {
+        @apply flex;
+        @apply items-center;
+        @apply m-0;
+        @apply my-3;
+        // .react-chatbot-kit-chat-bot-message {
+        // @apply my-3;
+        // .react-chatbot-kit-chat-bot-message-arrow {
+        //   @apply hidden;
+        // }
+        // }
+      }
+    }
+    .react-chatbot-kit-chat-input-container {
+      @apply static;
+    }
+  }
+  // :global  {
+
+  // }
 }

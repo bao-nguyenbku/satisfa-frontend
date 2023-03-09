@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import SatisgiAvatar from '@/assets/images/satisgi.jpg';
 import styles from './styles.module.scss';
@@ -7,11 +7,9 @@ import MessageBox from '../mesage-box';
 
 type Props = {};
 
-const CircleButton = (props: Props) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
-  
+const ChatbotButton = (props: Props) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -27,9 +25,9 @@ const CircleButton = (props: Props) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         className={styles.popover}
-        // keepMounted
+        keepMounted
         style={{
-          top: -20
+          top: -20,
         }}
         anchorOrigin={{
           vertical: 'top',
@@ -38,9 +36,8 @@ const CircleButton = (props: Props) => {
         transformOrigin={{
           vertical: 'bottom',
           horizontal: 'right',
-        }}
-        >
-          <MessageBox />
+        }}>
+        <MessageBox />
       </Popover>
       <button
         className="fixed w-20 h-20 bottom-12 right-12 border-gray-600 bg-white/5 p-4 border rounded-full z-10"
@@ -58,4 +55,4 @@ const CircleButton = (props: Props) => {
   );
 };
 
-export default CircleButton;
+export default ChatbotButton;

@@ -9,7 +9,6 @@ type Props = {
 
 const NavigationBar = (props: Props) => {
   const { scrollableNodeRef } = props;
-  const { data, isLoading } = useUser();
   const [scrollTop, setScrollTop] = useState<number>(0);
   const handleScroll = useCallback((event: any) => {
     setScrollTop(event.target.scrollTop);
@@ -38,7 +37,11 @@ const NavigationBar = (props: Props) => {
       <li>
         <Link href="/login">Sign in</Link>
       </li>
-      <li className='hover:underline cursor-pointer' onClick={() => signOut()}>{!isLoading && data && data.email}</li>
+
+      {/* <li>{!isLoading && data && data.email}</li> */}
+
+      {/* <li className='hover:underline cursor-pointer' onClick={() => signOut()}>{!isLoading && data && data.email}</li> */}
+
     </ul>
   );
 };
