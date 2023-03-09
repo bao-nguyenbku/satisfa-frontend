@@ -27,3 +27,12 @@ export type CreateUser = {
 export type ChatBotType = {
   re_type: string;
 };
+
+export type Product = {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  images: string[];
+  price: number;
+};

@@ -3,12 +3,14 @@ import Link from 'next/link';
 import SimpleBarCore from 'simplebar-core';
 import useUser from '@/hooks/useUser';
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 type Props = {
   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
 };
 
 const NavigationBar = (props: Props) => {
   const { scrollableNodeRef } = props;
+  const router = useRouter();
   const [scrollTop, setScrollTop] = useState<number>(0);
   const handleScroll = useCallback((event: any) => {
     setScrollTop(event.target.scrollTop);
@@ -28,11 +30,13 @@ const NavigationBar = (props: Props) => {
     : 'absolute';
   return (
     <ul
-      className={`flex items-center justify-end text-white gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 ${scrolledClass}`}>
+      className={`flex items-center justify-end text-white gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 uppercase ${scrolledClass}`}>
       <li>
         <Link href="#about-us">About us</Link>
       </li>
-      <li>Our menu</li>
+      <li>
+        <Link href='/menu'>Our menu</Link>
+      </li>
       <li>Contact</li>
       <li>
         <Link href="/login">Sign in</Link>
