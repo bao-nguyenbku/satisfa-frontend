@@ -1,16 +1,29 @@
 {
-  "extends": ["next/core-web-vitals", "next", "prettier"],
+  "extends": [
+    "next/core-web-vitals",
+    "next",
+    "prettier"
+  ],
   "settings": {
     "next": {
       "rootDir": "./src/*"
     }
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest"
   },
   "rules": {
     "prefer-const": "error",
     "no-duplicate-imports": "error",
     "no-mixed-spaces-and-tabs": "error",
     "no-console": "warn",
-    "object-curly-spacing": ["error", "always"],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
     "no-unused-expressions": "warn",
     "spaced-comment": "warn"
   }

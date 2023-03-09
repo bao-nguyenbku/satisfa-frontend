@@ -175,35 +175,6 @@ export default function BasicTabs() {
           })}
         </Tabs>
       </Box>
-      {datas.map((data, index) => {
-        return (
-          <>
-            <TabPanel value={value} index={index} key={index}>
-              <Grid
-                container
-                spacing={1}
-                key={index}
-                style={{ width: '90vw', margin: 'auto' }}>
-                {data.include.map((food, index) => {
-                  if (index == 0) {
-                    console.log(food.image);
-                  }
-                  return (
-                    <Grid item xs={3} key={index}>
-                      <FoodCard
-                        key={index}
-                        name={food.name}
-                        price={food.price}
-                        image={food.image}
-                      />
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </TabPanel>
-          </>
-        );
-      })}
     </Box>
   );
 }

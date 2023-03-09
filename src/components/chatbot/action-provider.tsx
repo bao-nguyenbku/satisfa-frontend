@@ -17,7 +17,7 @@ const ActionProvider = (props: Props) => {
       'Of course. Take a look to your screen😘',
       {}
     );
-    setState((prev) => {
+    setState((prev: any) => {
       return {
         ...prev,
         messages: [...prev.messages, botMessage],

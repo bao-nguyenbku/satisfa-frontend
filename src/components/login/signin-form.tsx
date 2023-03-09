@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputChangeEvent } from '@/types/html-types';
+import { InputChangeEvent } from '@/types/event-types';
 import Input from '@/components/input';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
