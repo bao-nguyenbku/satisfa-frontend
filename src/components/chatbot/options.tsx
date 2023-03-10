@@ -6,8 +6,6 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
-
-
 export default function Optons(props: any) {
   const options = [
     {

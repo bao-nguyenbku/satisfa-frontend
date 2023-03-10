@@ -56,7 +56,7 @@ const BookingCard = (props: Props) => {
     <div className="bg-primary-dark text-white rounded-none p-3 border border-gray-600">
       <h1>Confirm reservation</h1>
       <Button
-        disabled={table.status != 'free' || !(data.date || data.number)}
+        disabled={table.status != 'free' || !(data.date || data.numberOfGuest)}
         onClick={handleClick}
         className="bg-primary-yellow text-white normal-case hover:bg-primary-dark rounded-none">
         {table.status == 'checkedin'
