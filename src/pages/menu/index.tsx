@@ -9,11 +9,9 @@ import FoodCard from '@/components/menu/food-card';
 import { wrapper } from '@/store';
 import {
   productApi,
-  useGetAllProductQuery,
 } from '@/service/product';
 
 const Menu: NextPageWithLayout = () => {
-  const { data: productList, isLoading } = useGetAllProductQuery();
   return (
     <div className="bg-primary-dark min-h-screen w-full">
       <div>MENU</div>
