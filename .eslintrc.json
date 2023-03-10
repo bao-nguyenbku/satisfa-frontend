@@ -27,6 +27,7 @@
       "error",
       "always"
     ],
+    "no-unused-vars": "error",
     "no-unused-expressions": "warn",
     "spaced-comment": "warn",
     "import/prefer-default-export": "off"
