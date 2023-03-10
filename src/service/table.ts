@@ -3,29 +3,32 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
 import { BASE_URL } from "@/constants";
 
+
 export const tableApi = createApi({
     reducerPath: "tableApi",
     baseQuery: fetchBaseQuery({
         baseUrl: BASE_URL,
     }),
+    tagTypes: ['Table'],
     extractRehydrationInfo(action, { reducerPath }) {
         if (action.type === HYDRATE) {
           return action.payload[reducerPath];
         }
       },
       endpoints: (build) => ({
-        getAllTable: build.query<any, void>({
+        getAllTable: build.query<TableType[], void>({
           query: () => "/tables",
+          providesTags: ["Table"]
         }),
-        updateTable: build.mutation<any, TableType>({
-          query(body) {
-            console.log(body)
+        updateTable: build.mutation<void, {_id: string; body: TableType}>({
+          query({_id, body}) {
             return {
-              url: '/tables/update',
-              method: 'patch',
-              body
+              url: `/tables/${_id}`,
+              method: 'PATCH',
+              body: body
             }
-          }
+          },
+          invalidatesTags: ["Table"]
         }),
       }),
       refetchOnFocus: true,

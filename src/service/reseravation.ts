@@ -18,6 +18,7 @@ export const reservationApi = createApi({
           query: () => "/reservations",
         }),
         createReservation: build.mutation<any, ReservationType>({
+          
           query(body) {
             console.log(body)
             return {

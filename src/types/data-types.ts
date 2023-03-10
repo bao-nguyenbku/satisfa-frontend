@@ -31,8 +31,9 @@ export type ChatBotType = {
 
 
 export type TableType = {
+  _id: string;
   id: string;
   code: string;
   numberOfSeat: number;
-  status: "empty" | "";
+  status: "checkedin" | "free" | "reserved";
 }

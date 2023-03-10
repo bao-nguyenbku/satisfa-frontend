@@ -8,25 +8,25 @@ import { TableType } from "@/types/data-types";
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
 type TableStateType = {
-  reservationList: TableType[],
-  numberOfGuest: number,
+  tableList: TableType[],
+  numberOfSeat: number,
   id: string,
   code: string,
   status: string
 }
 
-const reservationList : ReservationType[] = []
-const numberOfGuest : number = 0
-const tableId : string = "T0"
-const date: string = ""
-const note: string = "test "
+const tableList : TableType[] = []
+const numberOfSeat : number = 0
+const id : string = ""
+const code: string = ""
+const status: string = "free"
 // Define the initial state using that type
-const initialState: ReservationStateType = {
-  reservationList,
-  numberOfGuest,
-  tableId,
-  date,
-  note
+const initialState: TableStateType = {
+  tableList,
+  numberOfSeat,
+  id,
+  code,
+  status
 };
 // export const createReservation = createAsyncThunk(
 //   "/reservations/createReservation",
@@ -35,17 +35,11 @@ const initialState: ReservationStateType = {
 //   }
 // );
 
-export const reservationSlice = createSlice({
-  name: "reservation",
+export const tableSlice = createSlice({
+  name: "table",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    guestSelect: (initialState, action: PayloadAction<number>) => {
-      initialState.numberOfGuest = action.payload
-    },
-    getTime: (initialState, action: PayloadAction<string>) => {
-      initialState.date = action.payload
-    }
 
   },
   extraReducers: (builder) => {
@@ -60,9 +54,9 @@ export const reservationSlice = createSlice({
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
 });
 
-export const { guestSelect, getTime} = reservationSlice.actions;
+export const { } = tableSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectReservationState= (state: RootState) => state.reservation;
+export const selectTableState= (state: RootState) => state.table;
 
-export default reservationSlice.reducer;
+export default tableSlice.reducer;
