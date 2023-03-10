@@ -1,24 +1,27 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, Button } from '@mui/material';
+
 
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
+import Link from 'next/link';
+
+
 export default function Optons(props: any) {
   const options = [
     {
-      text: 'dine in',
-      handler: props.actionProvider.handleDineIn,
+      text: 'booking table',
+      handler: props.actionProvider.handleShowDatePicker,
       id: 0,
-      icon: <RestaurantMenuIcon />,
+      icon: <TableRestaurantIcon />
     },
     {
-      text: 'booking table',
+      text: 'dine in',
       handler: props.actionProvider.handleDineIn,
       id: 1,
-      icon: <TableRestaurantIcon />,
+      icon: <RestaurantMenuIcon />,
     },
     {
       text: 'get menu',
@@ -29,17 +32,17 @@ export default function Optons(props: any) {
   ];
   return (
     <div className="options-container ml-8">
-      <Grid container>
+      <Grid container columnGap={1}>
         {options.map((option) => (
-          <Grid item xs={12} style={{ marginBottom: '1vh' }} key={option.id}>
-            <Button
-              startIcon={option.icon}
-              variant="outlined"
-              onClick={option.handler}
-              className="text-black option-button rounded border-slate-300">
-              <Typography variant="body1">{option.text}</Typography>
-            </Button>
-          </Grid>
+            <Grid item xs={12} style={{ marginBottom: '1vh' }} key={option.id}>
+              <Button
+                startIcon={option.icon}
+                variant="outlined"
+                onClick={option.handler}
+                className="text-black option-button rounded border-slate-300 hover:border-slate-600 hover:bg-white bg-white">
+                <Typography variant="body1">{option.text}</Typography>
+              </Button>
+            </Grid>
         ))}
       </Grid>
     </div>

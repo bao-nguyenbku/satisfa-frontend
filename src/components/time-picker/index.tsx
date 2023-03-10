@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import { TimePicker as TimePicker_ } from '@mui/x-date-pickers/TimePicker';
 import { TextField } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import styles from '@/components/reservation/styles.module.scss'
 
-import { useAppDispatch } from '@/hooks';
-import { getHour, getMinute } from '@/store/reducer/reseravation';
 
-const TimePicker = () => {
-  const [value, setValue] = useState<Dayjs | null>(null);
-  const dispatch = useAppDispatch()
+
+type Props = {
+  value: any;
+  onChange: (value: any) => void;
+};
+
+const TimePicker = (props: Props) => {
+  const {value, onChange} = props
+
+
   const handleChange = (newValue: Dayjs | null) => {
-    if (newValue){
-      dispatch(getHour(newValue.hour()))
-      dispatch(getMinute(newValue.minute()))
-    }
-    setValue(newValue);
-  };
+    onChange(dayjs(newValue));
+  }
   return (
     <TimePicker_
       className={styles.pickerContainer}
+      ampm
+      orientation="landscape"
+      openTo="hours"
       value={value}
       minutesStep={30}
       closeOnSelect={false}

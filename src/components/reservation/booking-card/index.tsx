@@ -1,67 +1,81 @@
 import { Button } from '@mui/material';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import { useAppSelector } from '@/hooks';
-import { Reservation } from '@/types/data-types';
-import { useCreateReservationMutation } from '@/service/reseravation';
 
-const reserveData: Omit<Reservation, 'id'> = {
-  table: '63fb319e765710c5bae252f0',
-  from: new Date(),
-  to: new Date(),
-  numberOfGuest: 0,
-  owner: '6asd8f7as8fa',
+import { ReservationType } from '@/types/data-types';
+
+import { useCreateReservationMutation } from '@/service/reseravation';
+import { useUpdateTableMutation } from '@/service/table';
+
+
+import {
+  TABLE_CHECKED_IN,
+  TABLE_FREE,
+  TABLE_RESERVERD,
+} from '@/constants';
+
+type TableProps = {
+  code: string;
+  status: TABLE_CHECKED_IN | TABLE_FREE | TABLE_RESERVERD;
+  numberOfSeat: number;
+  id: string;
+  _id: string;
 };
-const BookingCard = () => {
-  // const dispatch = useAppDispatch();
+
+type Props = {
+  table: TableProps;
+}
+let reserveData : ReservationType = {
+  tableId: "63fb319e765710c5bae252f0",
+  date: new Date().toString(),
+  note: "tran chau duong den",
+  numberOfGuest: 0,
+  customerId: "63d8a95cf26dede7b8ee5030"
+}
+const BookingCard = (props: Props) => {
+  const {table} = props
   const data = useAppSelector((state) => state.reservation);
-  const [createReservation] = useCreateReservationMutation();
+  const [createReservation, response ] = useCreateReservationMutation();
+  const [updateTable, updateResponse] = useUpdateTableMutation()
+
+  useEffect(() => {
+    console.log(response)
+    if (response && !response.isLoading && response.isSuccess) {
+        updateTable({
+        _id: table._id,
+        body: {...table, status: "reserved"}
+      })
+    }
+  }, [response]);
+
+
+
+  useEffect(() => {
+    console.log(updateResponse)
+    if (updateResponse && !updateResponse.isLoading && updateResponse.isSuccess) {
+    }
+  }, [updateResponse]);
 
   const handleClick = () => {
-    let fromString = '';
-    let toString = '';
-    let dateString = '';
-    let monthString = '';
-    let yearString = '';
-    if (data?.numberOfGuest > 0) {
-      dateString = data.dateBooking.getDate().toString();
-      monthString = (data.dateBooking.getMonth() + 1).toString();
-      yearString = (data.dateBooking.getFullYear() + 1900).toString();
-      fromString =
-        yearString +
-        '-' +
-        monthString +
-        '-' +
-        dateString +
-        ' ' +
-        data.hourBooking.toString() +
-        ':' +
-        data.minuteBooking.toString();
-      toString =
-        yearString +
-        '-' +
-        monthString +
-        '-' +
-        dateString +
-        ' ' +
-        (data.hourBooking + 1).toString() +
-        ':' +
-        data.minuteBooking.toString();
 
-      reserveData.to = new Date(toString);
-      reserveData.from = new Date(fromString);
-      reserveData.numberOfGuest = data.numberOfGuest;
-      createReservation(reserveData);
-    }
-  };
+    if (data?.numberOfGuest > 0){
+      reserveData.tableId = table._id
+      reserveData.date = data.date
+      reserveData.numberOfGuest = data.numberOfGuest
+      createReservation(reserveData)
+  }
+    
+  }
   return (
     <div className="bg-primary-dark text-white rounded-none p-3 border border-gray-600">
-      <h1>Confirm reservation</h1>
-      <Button
-        onClick={handleClick}
-        className="bg-primary-yellow text-white normal-case hover:bg-primary-dark rounded-none">
-        Booking
-      </Button>
+        <h1>Confirm reservation</h1>
+          <Button
+            disabled={table.status != "free" || !(data.date || data.number)}
+            onClick={handleClick}
+            className="bg-primary-yellow text-white normal-case hover:bg-primary-dark rounded-none">
+            {table.status == "checkedin" ? "Checked-in" : (table.status == "free" ? "Booking" : "Reservered")}
+          </Button>
     </div>
   );
 };

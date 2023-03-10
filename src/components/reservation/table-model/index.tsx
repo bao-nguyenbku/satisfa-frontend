@@ -4,32 +4,41 @@ import {
   TABLE_FREE,
   TABLE_RESERVERD,
 } from '@/constants';
-import { Popover } from '@mui/material';
+
+import { Tooltip, Popover } from '@mui/material';
+
 import BookingCard from '../booking-card';
 
-type Props = {
+
+type TableProps = {
   code: string;
   status: TABLE_CHECKED_IN | TABLE_FREE | TABLE_RESERVERD;
-  chairs: number;
+  numberOfSeat: number;
+  id: string;
+  _id: string;
 };
+
+type Props = {
+  table: TableProps;
+}
 
 const getStylesByStatus = (status: string) => {
   switch (status) {
-    case 'CHECKED-IN': {
+    case 'checkedin': {
       return {
         bg: 'bg-red-500',
         border: 'border-l-red-500',
         title: 'Checked-in',
       };
     }
-    case 'FREE': {
+    case 'free': {
       return {
         bg: 'bg-green-500',
         border: 'border-l-green-500',
         title: 'Free',
       };
     }
-    case 'RESERVERD': {
+    case 'reserved': {
       return {
         bg: 'bg-yellow-500',
         border: 'border-l-yellow-500',
@@ -45,7 +54,7 @@ const getStylesByStatus = (status: string) => {
   }
 };
 const TableModel = (props: Props) => {
-  const { code, status, chairs = 2 } = props;
+  const { table} = props;
   const chairRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -75,7 +84,7 @@ const TableModel = (props: Props) => {
   useEffect(() => {
     if (chairRef.current) {
       chairRef.current.style.gridTemplateColumns = ` repeat(${
-        chairs / 2
+        table.numberOfSeat / 2
       }, minmax(0, 1fr))`;
       const width = chairRef.current?.offsetWidth;
       const height = chairRef.current?.offsetHeight;
@@ -104,31 +113,33 @@ const TableModel = (props: Props) => {
           vertical: 'center',
           horizontal: 'left',
         }}>
-        <BookingCard />
+          <Tooltip title="Make sure filing neccesary information before booking>">
+            <BookingCard table={table}/>
+          </Tooltip>
       </Popover>
 
       <button
         className="relative cursor-pointer tracking-wide overflow-hidden w-max px-10"
         onClick={handleClick}>
         <div className={`grid w-fit gap-4`} ref={chairRef}>
-          {Array.from(Array(chairs).keys()).map((item) => (
+          {Array.from(Array(table.numberOfSeat).keys()).map((item) => (
             <div
               key={item}
               className={`${
-                getStylesByStatus(status).bg
+                getStylesByStatus(table.status).bg
               } w-16 h-16 rounded-full`}></div>
           ))}
         </div>
         <div
           className={`bg-white/20 backdrop-blur-sm absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] ${
-            getStylesByStatus(status).border
+            getStylesByStatus(table.status).border
           } p-2`}
           ref={tableRef}>
           <h2 className="text-white text-end font-playfair normal-case">
-            {code}
+            {table.code}
           </h2>
           <h1 className="text-white font-bold text-center normal-case">
-            {getStylesByStatus(status).title}
+            {getStylesByStatus(table.status).title}
           </h1>
         </div>
       </button>

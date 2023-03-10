@@ -33,7 +33,7 @@ const config: IConfig = {
       mapStateToProps: [],
     },
     {
-      widgetName: 'dineIn',
+      widgetName: 'getDate',
       widgetFunc: (props) => <DineIn {...props} />,
       props: null,
       mapStateToProps: [],

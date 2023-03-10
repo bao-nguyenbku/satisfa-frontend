@@ -4,14 +4,19 @@ import { createWrapper } from 'next-redux-wrapper';
 import { reservationSlice } from './reducer/reseravation';
 import { userSlice } from './reducer/user';
 import { reservationApi } from '@/service/reseravation';
+import { tableSlice } from './reducer/table';
 import { rtkQueryErrorLogger } from './error-handling';
 import { authApi } from '@/service/auth';
 import { chatbotSlice } from './reducer/chatbot';
+import { tableApi } from '@/service/table';
 import { productApi } from '@/service/product';
+
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
   [chatbotSlice.name]: reservationSlice.reducer,
+  [tableSlice.name]: tableSlice.reducer,
+  [tableApi.reducerPath]: tableApi.reducer,
   [reservationApi.reducerPath]: reservationApi.reducer,
   [userSlice.name]: userSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
@@ -25,6 +30,7 @@ const makeStore = () =>
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
         reservationApi.middleware,
+        tableApi.middleware,
         authApi.middleware,
         productApi.middleware,
         rtkQueryErrorLogger,

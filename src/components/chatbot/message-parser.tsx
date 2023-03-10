@@ -7,8 +7,18 @@ const MessageParser = (props: Props) => {
   const { children, actions } = props;
 
   const parse = (message: string) => {
-    if (message.includes('reservation')) {
-      actions.handleNavigateToReservation();
+    let parseMessage = message.split('_')
+    switch(parseMessage[0]){
+      case "reservation":
+        actions.handleNavigateToReservation();
+        break;
+      case "table":
+        if (parseMessage[1] == "getDate"){
+          actions.handleShowTimePicker();
+        }
+      default:
+        actions.unhandledInput();
+        break;
     }
   }
 
