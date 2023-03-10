@@ -1,7 +1,7 @@
-import { ReactNode, ReactElement } from 'react';
+import React, { ReactNode, ReactElement } from 'react';
 import type { NextPage } from 'next';
 import '../styles/globals.scss';
-import type { AppProps, AppLayoutProps } from 'next/app';
+import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import createCache from '@emotion/cache';
 
@@ -17,21 +17,21 @@ import { AnimatePresence } from 'framer-motion';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import MainLayout from '@/layout/main';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { playfair_display, podkova } from '@/constants';
+import { podkova } from '@/constants';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
 const theme = createTheme({});
-const emotionCache = createCache({
-  key: 'css',
-  prepend: true,
-});
+// const emotionCache = createCache({
+//   key: 'css',
+//   prepend: true,
+// });
 
 const muiCache = createCache({
   key: 'mui',
   prepend: true,
 });
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 

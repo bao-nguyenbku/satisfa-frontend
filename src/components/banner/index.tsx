@@ -1,19 +1,19 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import background from '@/assets/images/login-background.jpg';
 import Image from 'next/image';
 import styles from './styles.module.scss';
-import MainLayout from '@/layout/main';
+// import MainLayout from '@/layout/main';
 // Example usage of redux
-import { useAppSelector } from '../../hooks';
-import { selectUser } from '../../store/reducer/user';
-import { useSession } from 'next-auth/react';
+// import { useAppSelector } from '../../hooks';
+// import { selectUser } from '../../store/reducer/user';
+// import { useSession } from 'next-auth/react';
 import type { NextPageWithLayout } from '../../pages/_app';
 import { motion } from 'framer-motion';
-type Props = {};
+// type Props = {};
 
-const HomePage: NextPageWithLayout = (props: Props) => {
-  const { name } = useAppSelector(selectUser);
-  const { data: session } = useSession();
+const HomePage: NextPageWithLayout = () => {
+  // const { name } = useAppSelector(selectUser);
+  // const { data: session } = useSession();
   // TODO: Authorize
   return (
     <div className="flex items-center px-20 relative w-screen h-screen">

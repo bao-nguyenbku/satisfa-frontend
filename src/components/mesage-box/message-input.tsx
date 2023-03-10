@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
-import styles from './styles.module.scss';
 import { Socket } from 'socket.io-client';
 import { KeyDownEvent } from '@/types/event-types';
 import { MessagePayload } from '.';

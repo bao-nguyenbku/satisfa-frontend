@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import { Typography, Grid, Tab } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';

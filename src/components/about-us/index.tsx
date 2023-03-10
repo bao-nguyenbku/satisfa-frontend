@@ -3,10 +3,10 @@ import Image from 'next/image';
 import styles from './styles.module.scss';
 import { motion } from 'framer-motion';
 
-type Props = {};
+// type Props = {};
 
 
-const AboutUsSection = (props: Props) => {
+const AboutUsSection = () => {
   return (
     <motion.div
       initial={{ marginTop: 100 }}

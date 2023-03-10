@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import type { ChatbotState, CreateChatBotMessage, CreateClientMessage } from './types';
+import React from 'react';
+import type { CreateChatBotMessage, CreateClientMessage } from './types';
 
 type Props = {
   setState: React.Dispatch<React.SetStateAction<any>>,

@@ -1,5 +1,5 @@
-import NextAuth, { Awaitable, Session } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import NextAuth from 'next-auth';
+// import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
 
@@ -20,7 +20,7 @@ const providers = [
         type: 'password',
       },
     },
-    async authorize(credentials, req) {
+    async authorize(credentials) {
       // Add logic here to look up the user from the credentials supplied
       const userInput = { ...credentials };
       const response = await axios.post(

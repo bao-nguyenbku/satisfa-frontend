@@ -1,16 +1,13 @@
 import React, { RefObject, useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
 import SimpleBarCore from 'simplebar-core';
-import useUser from '@/hooks/useUser';
-import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
+
 type Props = {
   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
 };
 
 const NavigationBar = (props: Props) => {
   const { scrollableNodeRef } = props;
-  const router = useRouter();
   const [scrollTop, setScrollTop] = useState<number>(0);
   const handleScroll = useCallback((event: any) => {
     setScrollTop(event.target.scrollTop);

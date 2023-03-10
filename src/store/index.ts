@@ -1,12 +1,6 @@
-import {
-  Action,
-  AnyAction,
-  ThunkAction,
-  configureStore,
-  getDefaultMiddleware,
-} from '@reduxjs/toolkit';
+import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
-import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { createWrapper } from 'next-redux-wrapper';
 import { reservationSlice } from './reducer/reseravation';
 import { userSlice } from './reducer/user';
 import { reservationApi } from '@/service/reseravation';
@@ -30,7 +24,7 @@ const makeStore = () =>
       getDefaultMiddleware().concat(
         reservationApi.middleware,
         authApi.middleware,
-        rtkQueryErrorLogger
+        rtkQueryErrorLogger,
       ),
   });
 

@@ -1,10 +1,8 @@
-import { Button, Typography, IconButton } from '@mui/material';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import React from 'react';
+import { Button } from '@mui/material';
+
 import Image from 'next/image';
-import styles from './styles.module.scss';
 import type { Product } from '@/types/data-types';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { formatCurrency } from '@/utils/currency-format';
 type Props = {
   data: Product;
@@ -19,12 +17,14 @@ export default function FoodCard(props: Props) {
         sizes="100%"
         alt={`thumbnail of ${data.id}`}
       />
-      <span className='font-bold text-2xl'>{data.name}</span>
-      <div className='mt-auto flex items-center justify-between'>
+      <span className="font-bold text-2xl">{data.name}</span>
+      <div className="mt-auto flex items-center justify-between">
         <Button className="bg-primary-yellow normal-case rounded-none font-podkova text-white group-hover:bg-primary-dark">
           Add
         </Button>
-        <span className='text-2xl text-primary-yellow font-extrabold group-hover:text-white'>{formatCurrency(data.price)}</span>
+        <span className="text-2xl text-primary-yellow font-extrabold group-hover:text-white">
+          {formatCurrency(data.price)}
+        </span>
       </div>
     </div>
   );

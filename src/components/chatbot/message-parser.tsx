@@ -1,5 +1,5 @@
 import React from 'react';
-import ActionProvider from './action-provider';
+// import ActionProvider from './action-provider';
 
 type Props = any;
 

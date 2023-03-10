@@ -3,10 +3,13 @@
     "next/core-web-vitals",
     "next",
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "prettier"
   ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "settings": {
     "next": {
       "rootDir": "./src/*"
@@ -27,9 +30,11 @@
       "error",
       "always"
     ],
-    "no-unused-vars": "error",
+    "no-unused-vars": "off",
     "no-unused-expressions": "warn",
     "spaced-comment": "warn",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-explicit-any": "warn"
   }
 }

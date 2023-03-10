@@ -1,16 +1,15 @@
 import React from 'react';
 import { createChatBotMessage } from 'react-chatbot-kit';
 import Options from './options';
-import MessageParser from './message-parser';
+// import MessageParser from './message-parser';
 import DineIn from './components/dine-in/DineIn';
 import CheckEmptyTable from './components/Table/CheckEmptyTable';
-import IConfig from 'react-chatbot-kit/src/interfaces/IConfig';
 import MessageHeader from '@/components/mesage-box/message-header';
 import GuestMessageItem from '../mesage-box/guest-message-item';
 import MeMessageItem from '../mesage-box/me-message-item';
-import { ICustomConfig } from './types';
+import IConfig from 'react-chatbot-kit/src/interfaces/IConfig';
 
-const config: ICustomConfig = {
+const config: IConfig = {
   botName: 'FoodBot',
   initialMessages: [
     createChatBotMessage(`Hey! I'm Satisgi, super bot of Satisfa.`, {}),

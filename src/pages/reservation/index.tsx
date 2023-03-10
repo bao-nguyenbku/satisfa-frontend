@@ -1,9 +1,7 @@
 import React from 'react';
 import Reservation from '@/components/reservation';
 
-type Props = {};
-
-const ReservationPage = (props: Props) => {
+const ReservationPage = () => {
   return (
     <div
       className="h-screen bg-primary-dark flex flex-col items-center p-8"

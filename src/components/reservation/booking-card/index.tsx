@@ -1,11 +1,10 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-import { useAppSelector, useAppDispatch } from '@/hooks';
+import { useAppSelector } from '@/hooks';
 import { Reservation } from '@/types/data-types';
 import { useCreateReservationMutation } from '@/service/reseravation';
 
-type Props = {};
 const reserveData: Omit<Reservation, 'id'> = {
   table: '63fb319e765710c5bae252f0',
   from: new Date(),
@@ -13,12 +12,11 @@ const reserveData: Omit<Reservation, 'id'> = {
   numberOfGuest: 0,
   owner: '6asd8f7as8fa',
 };
-const BookingCard = (props: Props) => {
-  const dispatch = useAppDispatch();
+const BookingCard = () => {
+  // const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.reservation);
-  const [createReservation, { isLoading }] = useCreateReservationMutation();
+  const [createReservation] = useCreateReservationMutation();
 
-  console.log(data);
   const handleClick = () => {
     let fromString = '';
     let toString = '';

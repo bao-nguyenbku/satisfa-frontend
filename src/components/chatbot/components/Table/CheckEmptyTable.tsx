@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useGetAllReservationQuery } from '@/service/reseravation';
+import React from 'react';
+// import { useGetAllReservationQuery } from '@/service/reseravation';
 
 import { Grid, Typography, Button } from '@mui/material';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 
-type Table = {};
+// type Table = {};
 
 /*
     We use this function to show a list of available tables
     then booking a table
 */
 
-export default function CheckEmptyTable(props: any) {
-  console.log(props);
-  const [currentTables, setCurrentTables] = useState<Table[]>([]);
-  const [bookingStatus, setBookingStatus] = useState(false);
-  const { data, error, isLoading } = useGetAllReservationQuery();
-  console.log(data);
+export default function CheckEmptyTable() {
+  // console.log(props);
+  // const [currentTables, setCurrentTables] = useState<Table[]>([]);
+  // const [bookingStatus, setBookingStatus] = useState(false);
+  // const { data, error, isLoading } = useGetAllReservationQuery();
   // useEffect(()=> {
   //     getTable(fromTime, toTime, customerAmount)
   //     .then(res => {
@@ -82,7 +81,7 @@ export default function CheckEmptyTable(props: any) {
       {
         // this part need to be checked to display
         // if user booking we need to wait for the result to display
-        //that means if the status is loading we will disable the button
+        // that means if the status is loading we will disable the button
         <Grid item xs={12} className="mt-4">
           <Grid container alignContent={'center'}>
             <Button

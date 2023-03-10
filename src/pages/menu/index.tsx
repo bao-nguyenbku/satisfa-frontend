@@ -1,14 +1,13 @@
 import React, { ReactElement } from 'react';
-import Image from 'next/image';
-import { useAppSelector } from '../../hooks';
-import { selectUser } from '../../store/reducer/user';
-import BasicTabs from '../../components/menu/category';
+// import Image from 'next/image';
+// import { useAppSelector } from '../../hooks';
+// import { selectUser } from '../../store/reducer/user';
+// import BasicTabs from '../../components/menu/category';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/layout/main';
 import FoodCard from '@/components/menu/food-card';
-type Props = {};
 
-const Menu: NextPageWithLayout = (props: Props) => {
+const Menu: NextPageWithLayout = () => {
   return (
     <div className="bg-primary-dark min-h-screen w-full">
       <div>MENU</div>

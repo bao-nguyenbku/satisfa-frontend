@@ -5,12 +5,11 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
-type Props = {}
 type UserInput = {
   email: string,
   password: string
 }
-const SigninForm = (props: Props) => {
+const SigninForm = () => {
   // TODO: VALIDATE INPUT
   const [userInput, setUserInput] = useState<UserInput>({
     email: '',

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { InputChangeEvent } from '@/types/event-types';
 
 type Props = {
