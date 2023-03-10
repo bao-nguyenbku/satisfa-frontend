@@ -1,7 +1,6 @@
 import React from 'react';
-// import background from '@/assets/images/login-background.jpg';
-// import Image from 'next/image';
-import styles from './styles.module.scss';
+import background from '@/assets/images/login-background.jpg';
+import Image from 'next/image';
 // import MainLayout from '@/layout/main';
 // Example usage of redux
 // import { useAppSelector } from '../../hooks';
@@ -16,9 +15,16 @@ const HomePage: NextPageWithLayout = () => {
   // const { data: session } = useSession();
   // TODO: Authorize
   return (
-    <div className="flex items-center relative h-screen">
-      <div className={styles.background}></div>
-      <motion.h1 
+    <header className="flex items-center relative h-screen">
+      <div className="absolute w-screen h-screen -left-20">
+        <Image
+          src={background}
+          fill
+          className="object-cover brightness-50"
+          alt="banner"
+        />
+      </div>
+      <motion.h1
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.5, ease: 'easeOut' }}
@@ -26,7 +32,7 @@ const HomePage: NextPageWithLayout = () => {
         We serve <br /> your high expectation <br />
         Of delicious taste of food
       </motion.h1>
-    </div>
+    </header>
   );
 };
 
