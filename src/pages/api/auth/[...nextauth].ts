@@ -41,16 +41,14 @@ export default NextAuth({
     jwt: async (params) => {
       const { token, user } = params;
       if (user) {
-        token.userToken = user;
+        token.jwt = user;
       }
       return token;
     },
     session: async (params) => {
       const { session, token } = params;
-      return {
-        ...session,
-        user: token
-      };
+      session.user.jwtToken = token.jwt as string;
+      return session;
     },
   },
 });

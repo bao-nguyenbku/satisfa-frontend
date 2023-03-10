@@ -17,7 +17,7 @@ module.exports = {
       fontFamily: {
         'passions-conflict': ['Passions Conflict', 'sans-serif'],
         'playfair': ['Playfair Display', 'sans-serif'],
-        'podkova': ['var(--font-podkova)', ...fontFamily.sans],
+        'podkova': ['Podkova', ...fontFamily.sans],
         backgroundColor: {
           'dark-theme': '#212121',
           'dark-form': '#2D2D2D',

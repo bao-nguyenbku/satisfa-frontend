@@ -26,7 +26,7 @@ const BookingCard = () => {
     if (data?.numberOfGuest > 0) {
       dateString = data.dateBooking.getDate().toString();
       monthString = (data.dateBooking.getMonth() + 1).toString();
-      yearString = (data.dateBooking.getYear() + 1900).toString();
+      yearString = (data.dateBooking.getFullYear() + 1900).toString();
       fromString =
         yearString +
         '-' +

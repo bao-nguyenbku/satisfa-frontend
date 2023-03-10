@@ -1,5 +1,4 @@
-next-env.d.ts
+*.d.ts
 next.config.js
 tailwind.config.js
 .prettierrc
-next.d.ts
