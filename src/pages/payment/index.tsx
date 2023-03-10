@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Button, Grid, TextField, Typography } from '@mui/material';
 import React from 'react';
 import styles from './styles.module.scss';
 import OrderItem from './orderItem';
@@ -8,9 +8,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
-type Props = {};
 
-export default function Menu(props: Props) {
+export default function Menu() {
   return (
     <div className="menu-page bg-dark-theme h-full">
       <div className={styles.menuHeader}>

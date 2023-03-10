@@ -1,13 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
-import {
-  TABLE_CHECKED_IN,
-  TABLE_FREE,
-  TABLE_RESERVERD,
-  playfair_display,
-} from '@/constants';
-import { Tooltip, Popover } from '@mui/material';
-import BookingCard from '../booking-card';
+import { TABLE_CHECKED_IN, TABLE_FREE, TABLE_RESERVERD } from '@/constants';
 
+import { Tooltip, Popover } from '@mui/material';
+
+import BookingCard from '../booking-card';
 
 type TableProps = {
   code: string;
@@ -19,7 +15,7 @@ type TableProps = {
 
 type Props = {
   table: TableProps;
-}
+};
 
 const getStylesByStatus = (status: string) => {
   switch (status) {
@@ -53,11 +49,11 @@ const getStylesByStatus = (status: string) => {
   }
 };
 const TableModel = (props: Props) => {
-  const { table} = props;
+  const { table } = props;
   const chairRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
+    null,
   );
 
   const handleClose = () => {
@@ -112,9 +108,9 @@ const TableModel = (props: Props) => {
           vertical: 'center',
           horizontal: 'left',
         }}>
-          <Tooltip title="Make sure filing neccesary information before booking>">
-            <BookingCard table={table}/>
-          </Tooltip>
+        <Tooltip title="Make sure filing neccesary information before booking>">
+          <BookingCard table={table} />
+        </Tooltip>
       </Popover>
 
       <button

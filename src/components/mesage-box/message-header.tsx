@@ -2,9 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import Satisgi from '@/assets/images/satisgi.jpg';
 
-type Props = {};
+// type Props = unknown;
 
-const MessageHeader = (props: Props) => {
+const MessageHeader = () => {
   return (
     <div className="w-full h-20 bg-dark-2 flex items-center px-3">
       <div className="flex items-center gap-2">

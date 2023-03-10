@@ -4,9 +4,8 @@ import backgroundImage from '@/assets/images/login-background.jpg';
 import styles from './styles.module.scss';
 import Link from 'next/link';
 
-type Props = {}
 
-const ReviewSection = (props: Props) => {
+const ReviewSection = () => {
   return (
     <div className='bg-slate-300 h-full relative'>
       <Image

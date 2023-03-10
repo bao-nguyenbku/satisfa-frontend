@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { IconButton } from '@mui/material';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-type Props = {};
 
 
 import { useAppDispatch } from '@/hooks';
 import { guestSelect } from '@/store/reducer/reseravation';
+// type Props = {};
 
-const GuestCounter = (props: Props) => {
+const GuestCounter = () => {
   const dispatch = useAppDispatch()
   const [value, setValue] = useState<number>(0);
   const onIncrease = () => {

@@ -17,16 +17,12 @@ export type CreateUser = {
   email: string;
   fullname: string;
   password: string;
-  owner: string;
-  table: string;
-  from: Date;
-  to: Date;
-  numberOfGuest: number;
 };
 
 export type ChatBotType = {
   re_type: string;
 };
+
 
 
 
@@ -37,3 +33,13 @@ export type TableType = {
   numberOfSeat: number;
   status: "checkedin" | "free" | "reserved";
 }
+
+export type Product = {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  images: string[];
+  price: number;
+};
+

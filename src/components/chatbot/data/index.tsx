@@ -6,7 +6,7 @@ export async function getTable(
   toTime: Date,
   customerAmount: number
 ) {
-  const data = await axios.get<String[]>(
+  const data = await axios.get<string[]>(
     `${baseURL}search?from=${fromTime}&to=${toTime}&amount=${customerAmount}`,
     {
       headers: {
@@ -15,6 +15,5 @@ export async function getTable(
       },
     }
   );
-  console.log(data);
   return data;
 }

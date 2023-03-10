@@ -17,6 +17,12 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/kogleo/image/upload/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '5000',
+        pathname: '/uploads/*',
+      },
     ],
   },
 }

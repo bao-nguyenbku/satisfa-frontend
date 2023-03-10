@@ -1,13 +1,10 @@
-import React from 'react';
-import Image from 'next/image';
+import React, { ReactElement } from 'react';
 import ReviewSection from '@/components/login/review-section';
 import SigninForm from '@/components/register/signin-form';
 import SigninLayout from '@/layout/signin';
 import Link from 'next/link';
 
-type Props = {};
-
-const RegisterPage = (props: Props) => {
+const RegisterPage = () => {
   return (
     <div className="flex h-screen">
       <div className="w-2/3">
@@ -34,4 +31,4 @@ const RegisterPage = (props: Props) => {
 
 export default RegisterPage;
 
-RegisterPage.getLayout = (page: any) => <SigninLayout>{page}</SigninLayout>;
+RegisterPage.getLayout = (page: ReactElement) => <SigninLayout>{page}</SigninLayout>;

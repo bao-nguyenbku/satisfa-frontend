@@ -1,8 +1,7 @@
 import React, { RefObject, useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
 import SimpleBarCore from 'simplebar-core';
-import useUser from '@/hooks/useUser';
-import { signOut } from 'next-auth/react';
+
 type Props = {
   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
 };
@@ -28,11 +27,16 @@ const NavigationBar = (props: Props) => {
     : 'absolute';
   return (
     <ul
-      className={`flex items-center justify-end text-white gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 ${scrolledClass}`}>
+      className={`flex items-center justify-end text-white gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 uppercase ${scrolledClass}`}>
+      <li className='mr-auto font-passions-conflict text-5xl normal-case'>
+        <Link href='/'>Satisfa</Link>
+      </li>
       <li>
         <Link href="#about-us">About us</Link>
       </li>
-      <li>Our menu</li>
+      <li>
+        <Link href='/menu'>Our menu</Link>
+      </li>
       <li>Contact</li>
       <li>
         <Link href="/login">Sign in</Link>

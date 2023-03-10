@@ -1,12 +1,6 @@
-import {
-  Action,
-  AnyAction,
-  ThunkAction,
-  configureStore,
-  getDefaultMiddleware,
-} from '@reduxjs/toolkit';
+import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
-import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { createWrapper } from 'next-redux-wrapper';
 import { reservationSlice } from './reducer/reseravation';
 import { userSlice } from './reducer/user';
 import { reservationApi } from '@/service/reseravation';
@@ -15,6 +9,8 @@ import { rtkQueryErrorLogger } from './error-handling';
 import { authApi } from '@/service/auth';
 import { chatbotSlice } from './reducer/chatbot';
 import { tableApi } from '@/service/table';
+import { productApi } from '@/service/product';
+
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
@@ -24,6 +20,7 @@ const reducer = {
   [reservationApi.reducerPath]: reservationApi.reducer,
   [userSlice.name]: userSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
+  [productApi.reducerPath]: productApi.reducer,
 };
 
 const makeStore = () =>
@@ -35,7 +32,8 @@ const makeStore = () =>
         reservationApi.middleware,
         tableApi.middleware,
         authApi.middleware,
-        rtkQueryErrorLogger
+        productApi.middleware,
+        rtkQueryErrorLogger,
       ),
   });
 

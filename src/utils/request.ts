@@ -11,7 +11,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async (config) => {
   const session = await getSession();
-  (config.headers as AxiosHeaders).set('Authorization', `Bearer ${session?.user?.userToken}`);
+  (config.headers as AxiosHeaders).set('Authorization', `Bearer ${session?.user?.jwtToken}`);
   return config;
 }, (error) => {
   return Promise.reject(error);

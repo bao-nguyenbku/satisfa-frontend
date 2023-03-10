@@ -1,8 +1,11 @@
 .background {
+  background-image: url('../../assets/images/login-background.jpg');
   position: absolute;
-  filter: brightness(50%);
   top: 0;
-  left: 0;
+  @apply -left-20;
+
+  background-size: cover;
+  filter: brightness(50%);
   object-fit: cover;
   width: 100vw;
   height: 100vh;

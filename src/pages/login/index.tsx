@@ -1,13 +1,11 @@
 import React from 'react';
-import Image from 'next/image';
+
 import ReviewSection from '@/components/login/review-section';
 import SigninForm from '@/components/login/signin-form';
 import SigninLayout from '@/layout/signin';
 import Link from 'next/link';
 
-type Props = {};
-
-const LoginPage = (props: Props) => {
+const LoginPage = () => {
   return (
     <div className="flex h-screen">
       <div className="w-2/3">
@@ -26,7 +24,9 @@ const LoginPage = (props: Props) => {
         <SigninForm />
         <span className="text-neutral-500 mt-4 text-center">
           Don&apos;t have an account?&nbsp;
-          <Link href="/register" className="text-white font-bold hover:underline">
+          <Link
+            href="/register"
+            className="text-white font-bold hover:underline">
             Sign up for free
           </Link>
         </span>
