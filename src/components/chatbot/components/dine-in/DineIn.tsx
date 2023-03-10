@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { Button, TextField, Typography } from '@mui/material';
 
 interface DataForm {
-  fromTime: String;
-  toTime: String;
+  fromTime: string;
+  toTime: string;
   customerAmount: number;
 }
 
 export default function DineIn(props: any) {
-  const [currentTables, setCurrentTables] = useState<String[] | any>([]);
+  // const [currentTables, setCurrentTables] = useState<String[] | any>([]);
 
   const [input, setInput] = useState<DataForm>({
     fromTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
@@ -30,7 +30,6 @@ export default function DineIn(props: any) {
       [e.target.id]: e.target.value,
     }));
   };
-  console.log('here');
   return (
     <div className="time-range border-2 p-1">
       <Typography className="mt-4" textAlign={'center'} variant="h6">

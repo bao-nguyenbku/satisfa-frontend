@@ -2,9 +2,8 @@ import React from 'react';
 import Input from '@/components/input';
 import { Button } from '@mui/material';
 
-type Props = {};
 
-const Register = (props: Props) => {
+const Register = () => {
   return (
     <div className="flex w-full h-full">
       <div className="flex flex-col m-auto text-white">

@@ -1,8 +1,8 @@
 import React from 'react'
 
-type Props = {}
+// type Props = {}
 
-const Button = (props: Props) => {
+const Button = () => {
   return (
     <div>Button</div>
   )

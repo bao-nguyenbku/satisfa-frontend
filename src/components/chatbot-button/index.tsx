@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import SatisgiAvatar from '@/assets/images/satisgi.jpg';
 import styles from './styles.module.scss';
 import { Popover } from '@mui/material';
 import MessageBox from '../mesage-box';
 
-type Props = {};
+// type Props = {};
 
-const ChatbotButton = (props: Props) => {
+const ChatbotButton = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClose = () => {

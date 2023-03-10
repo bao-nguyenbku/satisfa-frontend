@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { InputChangeEvent } from '@/types/html-types';
+import React from 'react';
+// import { InputChangeEvent } from '@/types/event-types';
 import Input from '@/components/input';
-import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { Formik, FormikHelpers, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import * as _ from 'lodash';
 import { useRegisterMutation } from '@/service/auth';
 
-type Props = {};
+
 interface IUserInputData {
   email: string;
   password: string;
@@ -25,7 +24,7 @@ const SignupValidation = Yup.object().shape({
     'Confirm password is not matched'
   ),
 });
-const SigninForm = (props: Props) => {
+const SigninForm = () => {
   const router = useRouter();
   const initialValues: IUserInputData = {
     email: '',
@@ -35,7 +34,7 @@ const SigninForm = (props: Props) => {
   const [register, { isLoading }] = useRegisterMutation();
   const onSubmit = async (
     values: IUserInputData,
-    aciton: FormikHelpers<IUserInputData>
+    // aciton: FormikHelpers<IUserInputData>
   ) => {
     const regRes = await register({
       email: values.email,

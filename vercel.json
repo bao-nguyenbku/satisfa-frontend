@@ -1,0 +1,10 @@
+{
+  "buildCommand": "next build",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "dev": true
+    }
+  },
+  "framework": "nextjs"
+}

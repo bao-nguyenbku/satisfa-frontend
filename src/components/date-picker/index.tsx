@@ -1,9 +1,10 @@
 
-import React, {  useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TextField } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
+
 import styles from '@/components/reservation/styles.module.scss'
 
 type Props = {
@@ -11,7 +12,8 @@ type Props = {
   onChange: (value: any) => void;
 };
 
-export default function DatePicker(props: Props){
+
+export default function DatePicker() {
 
   const inputReference = useRef<HTMLInputElement>(null);
   const {value, onChange} = props
@@ -35,6 +37,6 @@ export default function DatePicker(props: Props){
         onChange={handleChange}
         renderInput={(params) => <TextField  className='border-white focus-within:border-blue-400'  {...params} />}
       />
-  );
-};
 
+  );
+}

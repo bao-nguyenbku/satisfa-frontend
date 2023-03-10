@@ -1,7 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import MessageHeader from './message-header';
-import MessageSection from './message-section';
-import MessageInput from './message-input';
 import styles from './styles.module.scss';
 /**
  * Connect websocket, for testing only
@@ -18,9 +15,8 @@ export interface MessagePayload {
   user: string;
   message: string;
 }
-type Props = {};
 
-const MessageBox = (props: Props) => {
+const MessageBox = () => {
   const [socket, setSocket] = useState<Socket>();
   const [messagesSection, setMessagesSection] = useState<MessagePayload[]>([]);
   const [isTyping, setIsTyping] = useState<boolean>(false);

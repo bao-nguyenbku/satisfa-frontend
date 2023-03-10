@@ -20,7 +20,6 @@ export const reservationApi = createApi({
         createReservation: build.mutation<any, ReservationType>({
           
           query(body) {
-            console.log(body)
             return {
               url: '/reservations/create',
               method: 'POST',

@@ -2,9 +2,12 @@ import { Button } from '@mui/material';
 import React, {useEffect} from 'react';
 
 import { useAppSelector } from '@/hooks';
+
 import { ReservationType } from '@/types/data-types';
+
 import { useCreateReservationMutation } from '@/service/reseravation';
 import { useUpdateTableMutation } from '@/service/table';
+
 
 import {
   TABLE_CHECKED_IN,
@@ -45,6 +48,8 @@ const BookingCard = (props: Props) => {
       })
     }
   }, [response]);
+
+
 
   useEffect(() => {
     console.log(updateResponse)

@@ -3,9 +3,10 @@ import {
   TABLE_CHECKED_IN,
   TABLE_FREE,
   TABLE_RESERVERD,
-  playfair_display,
 } from '@/constants';
+
 import { Tooltip, Popover } from '@mui/material';
+
 import BookingCard from '../booking-card';
 
 

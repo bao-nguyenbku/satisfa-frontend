@@ -1,5 +1,6 @@
-import { createAction, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState, ReduxDataType } from "@/store";
+import { createAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "@/store";
+import { ReduxDataType } from "@/types/redux-type";
 import { HYDRATE } from "next-redux-wrapper";
 import { ChatBotType } from "@/types/data-types";
 
@@ -43,7 +44,7 @@ export const chatbotSlice = createSlice({
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
 });
 
-export const {} = chatbotSlice.actions;
+// export const {} = chatbotSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectChatbotState= (state: RootState) => state.chatbot;

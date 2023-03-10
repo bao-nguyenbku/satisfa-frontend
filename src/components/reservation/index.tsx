@@ -9,6 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useGetAllTableQuery } from '@/service/table';
 
 
+
 type Props = {};
 
 const Reservation = (props: Props) => {
@@ -25,6 +26,7 @@ const Reservation = (props: Props) => {
   if (tables && tables.length < 1) {
     return <div>No table available!</div>
   }
+
   return (
     <div className="flex flex-col w-full gap-10 px-32">
       <div className="flex w-full justify-center gap-6 mt-10">

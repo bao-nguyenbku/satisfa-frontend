@@ -1,17 +1,40 @@
 {
-  "extends": ["next/core-web-vitals", "next", "prettier"],
+  "extends": [
+    "next/core-web-vitals",
+    "next",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "settings": {
     "next": {
       "rootDir": "./src/*"
     }
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest"
   },
   "rules": {
     "prefer-const": "error",
     "no-duplicate-imports": "error",
     "no-mixed-spaces-and-tabs": "error",
     "no-console": "warn",
-    "object-curly-spacing": ["error", "always"],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "no-unused-vars": "off",
     "no-unused-expressions": "warn",
-    "spaced-comment": "warn"
+    "spaced-comment": "warn",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-explicit-any": "warn"
   }
 }
