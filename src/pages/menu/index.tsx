@@ -6,8 +6,14 @@ import React, { ReactElement } from 'react';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/layout/main';
 import FoodCard from '@/components/menu/food-card';
+import { wrapper } from '@/store';
+import {
+  productApi,
+  useGetAllProductQuery,
+} from '@/service/product';
 
 const Menu: NextPageWithLayout = () => {
+  const { data: productList, isLoading } = useGetAllProductQuery();
   return (
     <div className="bg-primary-dark min-h-screen w-full">
       <div>MENU</div>
@@ -37,7 +43,15 @@ const Menu: NextPageWithLayout = () => {
   );
 };
 
+export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
+  store.dispatch(productApi.endpoints.getAllProduct.initiate());
+  await Promise.all(store.dispatch(productApi.util.getRunningQueriesThunk()));
+  return {
+    props: {}
+  }
+});
 Menu.getLayout = (page: ReactElement) => {
   return <MainLayout>{page}</MainLayout>;
 };
+
 export default Menu;

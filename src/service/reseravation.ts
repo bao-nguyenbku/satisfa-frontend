@@ -19,7 +19,6 @@ export const reservationApi = createApi({
         }),
         createReservation: build.mutation<Reservation, Omit<Reservation, "id">>({
           query(body) {
-            console.log(body)
             return {
               url: '/reservations/create',
               method: 'POST',

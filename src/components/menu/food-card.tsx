@@ -17,7 +17,7 @@ export default function FoodCard(props: Props) {
         sizes="100%"
         alt={`thumbnail of ${data.id}`}
       />
-      <span className="font-bold text-2xl">{data.name}</span>
+      <span className="font-bold text-2xl mt-3">{data.name}</span>
       <div className="mt-auto flex items-center justify-between">
         <Button className="bg-primary-yellow normal-case rounded-none font-podkova text-white group-hover:bg-primary-dark">
           Add

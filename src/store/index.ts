@@ -7,6 +7,7 @@ import { reservationApi } from '@/service/reseravation';
 import { rtkQueryErrorLogger } from './error-handling';
 import { authApi } from '@/service/auth';
 import { chatbotSlice } from './reducer/chatbot';
+import { productApi } from '@/service/product';
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
@@ -14,6 +15,7 @@ const reducer = {
   [reservationApi.reducerPath]: reservationApi.reducer,
   [userSlice.name]: userSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
+  [productApi.reducerPath]: productApi.reducer,
 };
 
 const makeStore = () =>
@@ -24,6 +26,7 @@ const makeStore = () =>
       getDefaultMiddleware().concat(
         reservationApi.middleware,
         authApi.middleware,
+        productApi.middleware,
         rtkQueryErrorLogger,
       ),
   });

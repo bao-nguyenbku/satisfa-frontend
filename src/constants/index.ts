@@ -29,7 +29,8 @@ export const podkova = localFont({
       style: 'normal'
     },
   ],
-  variable: '--font-podkova'
+  variable: '--font-podkova',
+  display: 'swap'
 })
 export const playfair_display = Playfair_Display({
   subsets: ['latin'],
