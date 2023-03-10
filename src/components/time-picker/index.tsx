@@ -1,10 +1,8 @@
- import React, { useState } from 'react';
+import React from 'react';
 import { TimePicker as TimePicker_ } from '@mui/x-date-pickers/TimePicker';
 import { TextField } from '@mui/material';
-import { Dayjs } from 'dayjs';
-import styles from '@/components/reservation/styles.module.scss'
-
-
+import dayjs, { Dayjs } from 'dayjs';
+import styles from '@/components/reservation/styles.module.scss';
 
 type Props = {
   value: any;
@@ -12,12 +10,11 @@ type Props = {
 };
 
 const TimePicker = (props: Props) => {
-  const {value, onChange} = props
-
+  const { value, onChange } = props;
 
   const handleChange = (newValue: Dayjs | null) => {
     onChange(dayjs(newValue));
-  }
+  };
   return (
     <TimePicker_
       className={styles.pickerContainer}

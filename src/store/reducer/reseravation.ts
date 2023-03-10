@@ -1,29 +1,27 @@
-
-import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "@/store";
-import { HYDRATE } from "next-redux-wrapper";
-import { ReservationType } from "@/types/data-types";
-import dayjs, { Dayjs } from 'dayjs';
-
-
+import {
+  createAction,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import type { RootState } from '@/store';
+import { HYDRATE } from 'next-redux-wrapper';
+import { ReservationType } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
 type ReservationStateType = {
+  reservationList: ReservationType[];
+  numberOfGuest: number;
+  tableId: string;
+  date: string;
+  note: string;
+};
 
-  reservationList: ReservationType[],
-  numberOfGuest: number,
-  tableId: string,
-  date: string,
-  note: string
-}
-
-const reservationList : ReservationType[] = []
-const numberOfGuest : number = 0
-const tableId : string = "T0"
-const date: string = ""
-const note: string = "test "
+const reservationList: ReservationType[] = [];
+const numberOfGuest = 0;
+const tableId = 'T0';
+const date = '';
+const note = 'test ';
 
 // Define the initial state using that type
 const initialState: ReservationStateType = {
@@ -32,8 +30,7 @@ const initialState: ReservationStateType = {
 
   tableId,
   date,
-  note
-
+  note,
 };
 // export const createReservation = createAsyncThunk(
 //   "/reservations/createReservation",
@@ -47,16 +44,13 @@ export const reservationSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-
-
     guestSelect: (initialState, action: PayloadAction<number>) => {
       initialState.numberOfGuest = action.payload;
     },
 
     getTime: (initialState, action: PayloadAction<string>) => {
-      initialState.date = action.payload
-    }
-
+      initialState.date = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(hydrate, (state, action) => {
@@ -69,9 +63,7 @@ export const reservationSlice = createSlice({
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
 });
 
-
-export const { guestSelect, getTime} = reservationSlice.actions;
-
+export const { guestSelect, getTime } = reservationSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectReservationState = (state: RootState) => state.reservation;

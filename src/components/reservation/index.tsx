@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import DatePicker from '../date-picker';
 import TimePicker from '../time-picker';
 import GuestCounter from '../guest-counter';
@@ -8,38 +8,31 @@ import { getTime } from '@/store/reducer/reseravation';
 import dayjs, { Dayjs } from 'dayjs';
 import { useGetAllTableQuery } from '@/service/table';
 
+const Reservation = () => {
+  const dispatch = useAppDispatch();
+  const { data: tables } = useGetAllTableQuery();
 
-
-type Props = {};
-
-const Reservation = (props: Props) => {
-  const dispatch = useAppDispatch()
-  const {data: tables, isLoading}  = useGetAllTableQuery();
-  console.log(tables)
-
-  const bookingData = useAppSelector((state)=>(state.reservation))
+  const bookingData = useAppSelector((state) => state.reservation);
   const handleChange = (newValue: Dayjs | null) => {
-    if(newValue){
-      dispatch(getTime(newValue.toISOString()))
+    if (newValue) {
+      dispatch(getTime(newValue.toISOString()));
     }
   };
   if (tables && tables.length < 1) {
-    return <div>No table available!</div>
+    return <div>No table available!</div>;
   }
 
   return (
     <div className="flex flex-col w-full gap-10 px-32">
       <div className="flex w-full justify-center gap-6 mt-10">
-        <DatePicker value={dayjs(bookingData.date)} onChange={handleChange}/>
-        <TimePicker value={dayjs(bookingData.date)} onChange={handleChange}/>
+        <DatePicker value={dayjs(bookingData.date)} onChange={handleChange} />
+        <TimePicker value={dayjs(bookingData.date)} onChange={handleChange} />
         <GuestCounter />
       </div>
       <div className="pt-10 flex gap-36 flex-wrap items-center justify-center overflow-hidden">
-        
-        {tables?.map((table, index)=>(
-            <TableModel table={table} key={table.id} />
+        {tables?.map((table) => (
+          <TableModel table={table} key={table.id} />
         ))}
-      
       </div>
     </div>
   );
