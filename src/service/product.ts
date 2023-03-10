@@ -14,7 +14,7 @@ export const productApi = createApi({
     }
   },
   endpoints: (build) => ({
-    getAllProduct: build.query<Product, void>({
+    getAllProduct: build.query<Product[], void>({
       query: () => '/products'
     }),
   }),

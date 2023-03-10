@@ -22,12 +22,15 @@ export default function MainLayout({ children }: LayoutProps) {
   return (
     <SimpleBar
       ref={scrollableNodeRef}
+      className='bg-primary-dark'
       style={{
         maxHeight: '100vh',
       }}>
-      <NavigationBar scrollableNodeRef={propsRef} />
-      <>{children}</>
-      <ChatbotButton />
+        <div className='px-20'>
+        <NavigationBar scrollableNodeRef={propsRef} />
+        <>{children}</>
+        <ChatbotButton />
+        </div>
     </SimpleBar>
   );
 }

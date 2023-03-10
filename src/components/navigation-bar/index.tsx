@@ -28,6 +28,9 @@ const NavigationBar = (props: Props) => {
   return (
     <ul
       className={`flex items-center justify-end text-white gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 uppercase ${scrolledClass}`}>
+      <li className='mr-auto font-passions-conflict text-5xl normal-case'>
+        <Link href='/'>Satisfa</Link>
+      </li>
       <li>
         <Link href="#about-us">About us</Link>
       </li>
