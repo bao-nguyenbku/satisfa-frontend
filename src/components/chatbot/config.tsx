@@ -3,11 +3,11 @@ import { createChatBotMessage } from 'react-chatbot-kit';
 import Options from './options';
 // import MessageParser from './message-parser';
 import DineIn from './components/dine-in/DineIn';
-import CheckEmptyTable from './components/Table/CheckEmptyTable';
 import MessageHeader from '@/components/mesage-box/message-header';
 import GuestMessageItem from '../mesage-box/guest-message-item';
 import MeMessageItem from '../mesage-box/me-message-item';
 import IConfig from 'react-chatbot-kit/src/interfaces/IConfig';
+import FreeTables from './components/Table/FreeTables';
 
 const config: IConfig = {
   botName: 'FoodBot',
@@ -39,8 +39,8 @@ const config: IConfig = {
       mapStateToProps: [],
     },
     {
-      widgetName: 'checkEmptyTable',
-      widgetFunc: (props) => <CheckEmptyTable {...props} />,
+      widgetName: 'freeTables',
+      widgetFunc: (props) => <FreeTables {...props} />,
       mapStateToProps: [''],
       props: null,
     },

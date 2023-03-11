@@ -1,10 +1,17 @@
 import React from 'react';
 // import ActionProvider from './action-provider';
+import { useCreateReservationMutation } from '@/service/reseravation';
+import { getTime, guestSelect } from '@/store/reducer/reseravation';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import dayjs from 'dayjs';
 
 type Props = any;
 
 const MessageParser = (props: Props) => {
   const { children, actions } = props;
+  const [createReservation, response] = useCreateReservationMutation();
+  const dispatch = useAppDispatch()
+  const reserveData = useAppSelector(state=> state.reservation)
 
   const parse = (message: string) => {
     const parseMessage = message.split('_');
@@ -15,7 +22,17 @@ const MessageParser = (props: Props) => {
       }
       case 'table': {
         if (parseMessage[1] == 'getDate') {
+          dispatch(getTime(parseMessage[2])) 
           actions.handleShowTimePicker();
+        }
+        if (parseMessage[1] == 'getTime') {
+
+          dispatch(getTime(dayjs(reserveData.date+ ' ' + parseMessage[2]).toISOString())) 
+          actions.handleShowGuestSelector();
+        }
+        if (parseMessage[1] == 'customerAmount') {
+          dispatch(guestSelect(parseInt(parseMessage[2], 10)))
+          actions.handleShowFreeTables();
         }
         break;
       }

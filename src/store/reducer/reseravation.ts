@@ -49,6 +49,7 @@ export const reservationSlice = createSlice({
     },
 
     getTime: (initialState, action: PayloadAction<string>) => {
+      console.log(action.payload)
       initialState.date = action.payload;
     },
   },

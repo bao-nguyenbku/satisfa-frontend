@@ -22,6 +22,7 @@ const Reservation = () => {
     return <div>No table available!</div>;
   }
 
+  console.log("hi")
   return (
     <div className="flex flex-col w-full gap-10 px-32">
       <div className="flex w-full justify-center gap-6 mt-10">

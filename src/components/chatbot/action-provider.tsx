@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import type { CreateChatBotMessage, CreateClientMessage } from './types';
+import { useAppSelector } from '@/hooks';
 
 type Props = {
   setState: React.Dispatch<React.SetStateAction<any>>,
@@ -19,6 +20,16 @@ const ActionProvider = (props: Props) => {
     addMessageToState(botMessage);
   };
 
+  const handleContinueWithChatbot = () => {
+    const botMessage = createChatBotMessage(
+      'Nice to meet you again, my lord',
+      {
+        widget: 'options'
+      }
+    );
+    addMessageToState(botMessage)
+
+  }
   const handleNavigateToReservation = () => {
     const botMessage = createChatBotMessage(
       'Of course. Take a look to your screen😘',
@@ -38,6 +49,7 @@ const ActionProvider = (props: Props) => {
       `Following this syntax: table_getDate_<DD-MM-YYYY>, <br/> example: table_getDate_12-12-2023`,{}
     );
     addMessageToState(botMessage2)
+    router.push('/reservation');
   }
 
   const handleShowTimePicker = () => {
@@ -51,6 +63,26 @@ const ActionProvider = (props: Props) => {
     addMessageToState(botMessage2)
   }
 
+  const handleShowGuestSelector = () => {
+    const botMessage = createChatBotMessage(
+      'One step closer, how many people does you have for your meal?',{}
+    );
+    addMessageToState(botMessage)
+    const botMessage2 = createChatBotMessage(
+      'Following this syntax: table_customerAmount_<x>, example: table_customerAmount_5',{}
+    );
+    addMessageToState(botMessage2)
+  }
+
+  const handleShowFreeTables = () => {
+    const botMessage = createChatBotMessage(
+      'Finally, choose a table for you',{
+        widget: 'freeTables'
+      }
+    );
+    addMessageToState(botMessage)
+  }
+
   const addMessageToState = (message: any) => {
     setState((prev: any) => ({
       ...prev,
@@ -58,6 +90,8 @@ const ActionProvider = (props: Props) => {
     }));
   };
 
+  const data = useAppSelector(state=> state.reservation)
+  console.log(data)
   return (
     <>
       {React.Children.map(children, (child) => {
@@ -66,6 +100,9 @@ const ActionProvider = (props: Props) => {
             handleNavigateToReservation,
             handleShowDatePicker,
             handleShowTimePicker,
+            handleShowGuestSelector,
+            handleShowFreeTables,
+            handleContinueWithChatbot,
             unhandledInput
           },
         });
