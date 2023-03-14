@@ -1,20 +1,22 @@
-.background {
-    background-image: url('../../assets/images/contact-background.jpg');
+.footer {
+
     position: relative;
     top: 0;
     @apply -left-20;
     height: 100vh;
     background-size: cover;
-    filter: brightness(100%);
     object-fit: cover;
     width: 100vw;
     z-index: 0;
 }
 
+.bgImage{
+    position: absolute;
+    filter: brightness(60%);
+}
 
 .footerContent{
     position: absolute;
-    background: rgba(0,0,0,0.5);
     z-index: 1;
     :global button {
         text-transform: none !important;

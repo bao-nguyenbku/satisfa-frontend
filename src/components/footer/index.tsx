@@ -1,17 +1,23 @@
 import { Button, Grid, Typography, IconButton } from '@mui/material';
 import React from 'react';
-// import Image from 'next/image';
+import Image from 'next/image';
 import styles from './styles.module.scss';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Link from 'next/link';
-
+import bgImage from '../../assets/images/contact-background.jpg'
 // type Props = {};
 
 const FooterSection = () => {
   return (
-    <div className={styles.background} id="footer">
+    <div className={styles.footer} id="footer">
+        <Image className={styles.bgImage}
+            src={bgImage}
+            alt="contact"
+            fill
+            sizes='100vh'
+        />
         <Grid container alignItems={"center"} className={styles.footerContent}>
             <Grid item xs={12} className="mt-56">
                 <Typography variant='h6' textAlign={"center"} className='text-primary-yellow text-8xl font-passions-conflict'>
