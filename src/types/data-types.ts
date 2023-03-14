@@ -2,7 +2,7 @@ export type ReservationType = {
   customerId: string;
   tableId: string;
   date: string;
-  numberOfGuest: number;
+  numberOfGuests: number;
   note: string
 };
 
@@ -31,7 +31,7 @@ export type TableType = {
   id: string;
   code: string;
   numberOfSeat: number;
-  status: "checkedin" | "free" | "reserved";
+  status: TableStatus;
 }
 
 export type Product = {
@@ -43,3 +43,8 @@ export type Product = {
   price: number;
 };
 
+export enum TableStatus {
+  FREE = 'FREE',
+  CHECKED_IN = 'CHECKED_IN',
+  RESERVED = 'RESERVED',
+}

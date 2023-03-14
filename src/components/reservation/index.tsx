@@ -22,13 +22,12 @@ const Reservation = () => {
     return <div>No table available!</div>;
   }
 
-  console.log("hi")
   return (
     <div className="flex flex-col w-full gap-10 px-32">
       <div className="flex w-full justify-center gap-6 mt-10">
         <DatePicker value={dayjs(bookingData.date)} onChange={handleChange} />
         <TimePicker value={dayjs(bookingData.date)} onChange={handleChange} />
-        <GuestCounter />
+        <GuestCounter amount={bookingData.numberOfGuests}/>
       </div>
       <div className="pt-10 flex gap-36 flex-wrap items-center justify-center overflow-hidden">
         {tables?.map((table) => (

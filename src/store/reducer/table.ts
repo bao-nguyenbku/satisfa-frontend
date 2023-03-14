@@ -17,7 +17,7 @@ const tableList: TableType[] = [];
 const numberOfSeat = 0;
 const id = '';
 const code = '';
-const status = 'free';
+const status = 'FREE';
 // Define the initial state using that type
 const initialState: TableStateType = {
   tableList,

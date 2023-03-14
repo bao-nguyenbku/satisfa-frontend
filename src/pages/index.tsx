@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import HomePage from '@/components/banner';
 import AboutUsSection from '@/components/about-us';
+import FooterSection from '@/components/footer';
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <main>
         <HomePage />
         <AboutUsSection />
+        <FooterSection/>
       </main>
     </>
   );
