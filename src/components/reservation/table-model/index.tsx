@@ -8,7 +8,7 @@ import BookingCard from '../booking-card';
 type TableProps = {
   code: string;
   status: TableStatus;
-  numberOfSeat: number;
+  numberOfSeats: number;
   id: string;
   _id: string;
 };
@@ -80,7 +80,7 @@ const TableModel = (props: Props) => {
   useEffect(() => {
     if (chairRef.current) {
       chairRef.current.style.gridTemplateColumns = ` repeat(${
-        table.numberOfSeat / 2
+        table.numberOfSeats / 2
       }, minmax(0, 1fr))`;
       const width = chairRef.current?.offsetWidth;
       const height = chairRef.current?.offsetHeight;
@@ -118,7 +118,7 @@ const TableModel = (props: Props) => {
         className="relative cursor-pointer tracking-wide overflow-hidden w-max px-10"
         onClick={handleClick}>
         <div className={`grid w-fit gap-4`} ref={chairRef}>
-          {Array.from(Array(table.numberOfSeat).keys()).map((item) => (
+          {Array.from(Array(table.numberOfSeats).keys()).map((item) => (
             <div
               key={item}
               className={`${

@@ -30,7 +30,7 @@ export type TableType = {
   _id: string;
   id: string;
   code: string;
-  numberOfSeat: number;
+  numberOfSeats: number;
   status: TableStatus;
 }
 

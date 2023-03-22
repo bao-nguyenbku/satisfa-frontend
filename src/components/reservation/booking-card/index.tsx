@@ -11,7 +11,7 @@ import { useCreateReservationMutation } from '@/service/reseravation';
 type TableProps = {
   code: string;
   status: TableStatus;
-  numberOfSeat: number;
+  numberOfSeats: number;
   id: string;
   _id: string;
 };
