@@ -1,5 +1,5 @@
 import React from 'react';
-// import Reservation from '@/components/reservation';
+import Reservation from '@/components/reservation';
 
 const ReservationPage = () => {
   return (
@@ -8,7 +8,7 @@ const ReservationPage = () => {
       id="about-us">
       <h2 className="text-primary-yellow text-6xl">Reservation</h2>
       <div className="flex z-10 relative w-full h-full items-start">
-        {/* <Reservation /> */}
+        <Reservation />
       </div>
     </div>
   );

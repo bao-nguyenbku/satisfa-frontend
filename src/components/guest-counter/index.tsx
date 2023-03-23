@@ -6,9 +6,12 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import { useAppDispatch } from '@/hooks';
 import { guestSelect } from '@/store/reducer/reseravation';
-// type Props = {};
+type Props = {
+  amount: number;
+};
 
-const GuestCounter = () => {
+const GuestCounter = (props: Props) => {
+  const { amount } = props;
   const dispatch = useAppDispatch()
   const [value, setValue] = useState<number>(0);
   const onIncrease = () => {
@@ -23,7 +26,7 @@ const GuestCounter = () => {
   };
   return (
     <div className="text-white bg-neutral-800 border-gray-600 border flex items-center">
-      <span className='px-6'>{value}</span>
+      <span className='px-6'>{amount}</span>
       <IconButton onClick={onDecrease}
         className='bg-white/20 rounded-none hover:bg-white/30 h-20 w-20'
       >

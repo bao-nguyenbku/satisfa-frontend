@@ -37,7 +37,9 @@ const NavigationBar = (props: Props) => {
       <li>
         <Link href='/menu'>Our menu</Link>
       </li>
-      <li>Contact</li>
+      <li>
+        <Link href='#footer'>Contact</Link>
+      </li>
       <li>
         <Link href="/login">Sign in</Link>
       </li>

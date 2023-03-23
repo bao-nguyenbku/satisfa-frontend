@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { TABLE_CHECKED_IN, TABLE_FREE, TABLE_RESERVERD } from '@/constants';
+import { TableStatus } from '@/types/data-types';
 
 import { Tooltip, Popover } from '@mui/material';
 
@@ -7,8 +7,8 @@ import BookingCard from '../booking-card';
 
 type TableProps = {
   code: string;
-  status: TABLE_CHECKED_IN | TABLE_FREE | TABLE_RESERVERD;
-  numberOfSeat: number;
+  status: TableStatus;
+  numberOfSeats: number;
   id: string;
   _id: string;
 };
@@ -19,21 +19,21 @@ type Props = {
 
 const getStylesByStatus = (status: string) => {
   switch (status) {
-    case 'checkedin': {
+    case TableStatus.CHECKED_IN: {
       return {
         bg: 'bg-red-500',
         border: 'border-l-red-500',
         title: 'Checked-in',
       };
     }
-    case 'free': {
+    case TableStatus.FREE: {
       return {
         bg: 'bg-green-500',
         border: 'border-l-green-500',
         title: 'Free',
       };
     }
-    case 'reserved': {
+    case TableStatus.RESERVED: {
       return {
         bg: 'bg-yellow-500',
         border: 'border-l-yellow-500',
@@ -50,6 +50,7 @@ const getStylesByStatus = (status: string) => {
 };
 const TableModel = (props: Props) => {
   const { table } = props;
+  console.log(table)
   const chairRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -79,7 +80,7 @@ const TableModel = (props: Props) => {
   useEffect(() => {
     if (chairRef.current) {
       chairRef.current.style.gridTemplateColumns = ` repeat(${
-        table.numberOfSeat / 2
+        table.numberOfSeats / 2
       }, minmax(0, 1fr))`;
       const width = chairRef.current?.offsetWidth;
       const height = chairRef.current?.offsetHeight;
@@ -117,7 +118,7 @@ const TableModel = (props: Props) => {
         className="relative cursor-pointer tracking-wide overflow-hidden w-max px-10"
         onClick={handleClick}>
         <div className={`grid w-fit gap-4`} ref={chairRef}>
-          {Array.from(Array(table.numberOfSeat).keys()).map((item) => (
+          {Array.from(Array(table.numberOfSeats).keys()).map((item) => (
             <div
               key={item}
               className={`${

@@ -7,21 +7,21 @@ const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
 type TableStateType = {
   tableList: TableType[];
-  numberOfSeat: number;
+  numberOfSeats: number;
   id: string;
   code: string;
   status: string;
 };
 
 const tableList: TableType[] = [];
-const numberOfSeat = 0;
+const numberOfSeats = 0;
 const id = '';
 const code = '';
-const status = 'free';
+const status = 'FREE';
 // Define the initial state using that type
 const initialState: TableStateType = {
   tableList,
-  numberOfSeat,
+  numberOfSeats,
   id,
   code,
   status,
