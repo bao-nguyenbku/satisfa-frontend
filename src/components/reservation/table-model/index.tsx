@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { TABLE_CHECKED_IN, TABLE_FREE, TABLE_RESERVERD } from '@/constants';
-
 import { Tooltip, Popover } from '@mui/material';
 
 import BookingCard from '../booking-card';
