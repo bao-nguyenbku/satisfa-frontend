@@ -5,8 +5,9 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import { useGetAllTableQuery } from '@/service/table';
 import { useCreateReservationMutation } from '@/service/reseravation';
 import { useAppSelector } from '@/hooks';
-import { ReservationType } from '@/types/data-types';
+import { ReservationType, TableStatus } from '@/types/data-types';
 import { toast } from 'react-toastify';
+
 // type Table = {};
 
 /*
@@ -15,23 +16,24 @@ import { toast } from 'react-toastify';
 */
 
 export default function FreeTables(props: any) {
-  const {data: tables} = useGetAllTableQuery()
-  const freeTables = tables?.filter(table => table.status == "free")
+  const { data: tables } = useGetAllTableQuery()
+  const freeTables = tables?.filter(table => table.status == TableStatus.FREE)
   const [createReservation, response] = useCreateReservationMutation();
   const data = useAppSelector(state => state.reservation)
   const reserveData: ReservationType = {
     tableId: '63fb319e765710c5bae252f0',
     date: new Date().toString(),
     note: 'tran chau duong den',
-    numberOfGuest: 0,
+    numberOfGuests: 0,
     customerId: '63d8a95cf26dede7b8ee5030',
   };
-  console.log(props)
+
   const handleBookingTable = (id: string) => {
     reserveData.date = data.date
-    reserveData.numberOfGuest = data.numberOfGuest
+    reserveData.numberOfGuests = data.numberOfGuests
     reserveData.tableId = id
     createReservation(reserveData)
+
   }
   useEffect(() => {
     if (response && !response.isLoading && response.isSuccess) {
@@ -53,9 +55,9 @@ export default function FreeTables(props: any) {
           container
           justifyContent={'space-around'}>
             {freeTables?.map((freeTable) => (
-              <Grid item xs={5}>
+              <Grid item xs={5} key={freeTable.code}>
                 <Button
-                  onClick={() => handleBookingTable(freeTable._id)}
+                  onClick={() => handleBookingTable(freeTable.id)}
                   disabled={response.isLoading}
                   variant="outlined"
                   startIcon={<TableRestaurantIcon fontSize="large" />} 

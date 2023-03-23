@@ -3,6 +3,7 @@ import ReviewSection from '@/components/login/review-section';
 import SigninForm from '@/components/register/signin-form';
 import SigninLayout from '@/layout/signin';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const RegisterPage = () => {
   return (
@@ -17,10 +18,16 @@ const RegisterPage = () => {
           </h2>
           <span>Create an account now</span>
         </div>
-        <SigninForm />
+        <motion.div
+          initial={{ scale: 0.3 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <SigninForm />
+        </motion.div>
         <span className="text-neutral-500 mt-4 text-center">
-          Have an account?
-          <Link href="/login" className="text-white font-bold">
+          Have an account?{' '}
+          <Link href="/login" className="text-white font-bold hover:underline">
             Sign in now
           </Link>
         </span>
@@ -31,4 +38,6 @@ const RegisterPage = () => {
 
 export default RegisterPage;
 
-RegisterPage.getLayout = (page: ReactElement) => <SigninLayout>{page}</SigninLayout>;
+RegisterPage.getLayout = (page: ReactElement) => (
+  <SigninLayout>{page}</SigninLayout>
+);
