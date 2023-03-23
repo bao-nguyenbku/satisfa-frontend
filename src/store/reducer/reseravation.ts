@@ -11,14 +11,14 @@ const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
 type ReservationStateType = {
   reservationList: ReservationType[];
-  numberOfGuest: number;
+  numberOfGuests: number;
   tableId: string;
   date: string;
   note: string;
 };
 
 const reservationList: ReservationType[] = [];
-const numberOfGuest = 0;
+const numberOfGuests = 0;
 const tableId = 'T0';
 const date = '';
 const note = 'test ';
@@ -26,18 +26,12 @@ const note = 'test ';
 // Define the initial state using that type
 const initialState: ReservationStateType = {
   reservationList,
-  numberOfGuest,
+  numberOfGuests,
 
   tableId,
   date,
   note,
 };
-// export const createReservation = createAsyncThunk(
-//   "/reservations/createReservation",
-//   async (_, { rejectWithValue }) => {
-
-//   }
-// );
 
 export const reservationSlice = createSlice({
   name: 'reservation',
@@ -45,11 +39,10 @@ export const reservationSlice = createSlice({
   initialState,
   reducers: {
     guestSelect: (initialState, action: PayloadAction<number>) => {
-      initialState.numberOfGuest = action.payload;
+      initialState.numberOfGuests = action.payload;
     },
 
     getTime: (initialState, action: PayloadAction<string>) => {
-      console.log(action.payload)
       initialState.date = action.payload;
     },
   },

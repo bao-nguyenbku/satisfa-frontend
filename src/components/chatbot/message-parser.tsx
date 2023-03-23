@@ -1,6 +1,4 @@
 import React from 'react';
-// import ActionProvider from './action-provider';
-import { useCreateReservationMutation } from '@/service/reseravation';
 import { getTime, guestSelect } from '@/store/reducer/reseravation';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import dayjs from 'dayjs';
@@ -9,10 +7,8 @@ type Props = any;
 
 const MessageParser = (props: Props) => {
   const { children, actions } = props;
-  const [createReservation, response] = useCreateReservationMutation();
   const dispatch = useAppDispatch()
   const reserveData = useAppSelector(state=> state.reservation)
-
   const parse = (message: string) => {
     const parseMessage = message.split('_');
     switch (parseMessage[0]) {
