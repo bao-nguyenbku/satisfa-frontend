@@ -2,12 +2,12 @@ import React from 'react';
 // import { InputChangeEvent } from '@/types/event-types';
 import Input from '@/components/input';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { Formik, Form } from 'formik';
+// import { useRouter } from 'next/router';
+import { Formik, Form, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import * as _ from 'lodash';
 import { useRegisterMutation } from '@/service/auth';
-
+import Button from '../common/button';
 
 interface IUserInputData {
   email: string;
@@ -21,11 +21,10 @@ const SignupValidation = Yup.object().shape({
     .min(8, 'At least 8 characaters'),
   confirmPassword: Yup.string().oneOf(
     [Yup.ref('password')],
-    'Confirm password is not matched'
+    'Confirm password is not matched',
   ),
 });
 const SigninForm = () => {
-  const router = useRouter();
   const initialValues: IUserInputData = {
     email: '',
     password: '',
@@ -34,23 +33,21 @@ const SigninForm = () => {
   const [register, { isLoading }] = useRegisterMutation();
   const onSubmit = async (
     values: IUserInputData,
-    // aciton: FormikHelpers<IUserInputData>
+    action: FormikHelpers<IUserInputData>,
   ) => {
+    action.validateForm();
     const regRes = await register({
       email: values.email,
       fullname: values.email,
       password: values.password,
     }).unwrap();
     if (regRes) {
-      const logRes = await signIn('credentials', {
+      await signIn('credentials', {
         redirect: false,
         email: values.email,
         password: values.password,
         callbackUrl: '/',
       });
-      if (logRes?.ok) {
-        router.push('/');
-      }
     }
   };
   return (
@@ -92,11 +89,11 @@ const SigninForm = () => {
               onChange={handleChange}
             />
             {!isLoading && (
-              <button
-                className="bg-primary-yellow w-full h-16 font-bold text-xl text-white hover:bg-primary-yellow/70 mt-10"
+              <Button
+                className="bg-primary-yellow w-full h-16 font-bold text-xl text-white hover:bg-primary-yellow/70 mt-10 font-podkova rounded-none normal-case"
                 type="submit">
                 Create account
-              </button>
+              </Button>
             )}
           </Form>
         );
