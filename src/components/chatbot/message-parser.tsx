@@ -2,33 +2,47 @@ import React from 'react';
 import { getTime, guestSelect } from '@/store/reducer/reseravation';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import dayjs from 'dayjs';
+import { isValidDate, isValidTime } from '@/utils';
 
 type Props = any;
 
 const MessageParser = (props: Props) => {
   const { children, actions } = props;
+
+  const botState = children.props.state.botState
   const dispatch = useAppDispatch()
   const reserveData = useAppSelector(state=> state.reservation)
   const parse = (message: string) => {
-    const parseMessage = message.split('_');
-    switch (parseMessage[0]) {
-      case 'reservation': {
+    switch (botState) {
+      case 'table': {
         actions.handleNavigateToReservation();
         break;
       }
-      case 'table': {
-        if (parseMessage[1] == 'getDate') {
-          dispatch(getTime(parseMessage[2])) 
+      case 'getDate': {
+        if (isValidDate(message)){
+          dispatch(getTime(message)) 
           actions.handleShowTimePicker();
+        } else {
+          actions.unhandledInput()
         }
-        if (parseMessage[1] == 'getTime') {
-
-          dispatch(getTime(dayjs(reserveData.date+ ' ' + parseMessage[2]).toISOString())) 
+        break;
+      }
+      case 'getTime': {
+        if (isValidTime(message)){
+          dispatch(getTime(dayjs(reserveData.date+ ' ' + message).toISOString())) 
           actions.handleShowGuestSelector();
+        
+        } else {
+          actions.unhandledInput()
         }
-        if (parseMessage[1] == 'customerAmount') {
-          dispatch(guestSelect(parseInt(parseMessage[2], 10)))
+        break;
+      }
+      case 'amount': {  
+        if (!isNaN(parseInt(message, 10))){
+          dispatch(guestSelect(parseInt(message, 10)))
           actions.handleShowFreeTables();
+        } else {
+          actions.unhandledInput()
         }
         break;
       }

@@ -46,9 +46,10 @@ const ActionProvider = (props: Props) => {
     );
     addMessageToState(botMessage)
     const botMessage2 = createChatBotMessage(
-      `Following this syntax: table_getDate_<DD-MM-YYYY>, <br/> example: table_getDate_12-12-2023`,{}
+      `Following this syntax: <DD/MM/YYYY> example: 12/12/2023`,{}
     );
     addMessageToState(botMessage2)
+    setBotState('getDate')
     router.push('/reservation');
   }
 
@@ -58,9 +59,10 @@ const ActionProvider = (props: Props) => {
     );
     addMessageToState(botMessage)
     const botMessage2 = createChatBotMessage(
-      'Following this syntax: table_getTime_<hh:mm>, example: table_getTime_23:30',{}
+      'Following this syntax: <hh:mm>, example: 23:30',{}
     );
     addMessageToState(botMessage2)
+    setBotState('getTime')
   }
 
   const handleShowGuestSelector = () => {
@@ -69,9 +71,10 @@ const ActionProvider = (props: Props) => {
     );
     addMessageToState(botMessage)
     const botMessage2 = createChatBotMessage(
-      'Following this syntax: table_customerAmount_<x>, example: table_customerAmount_5',{}
+      'Following this syntax: <amount>, example: 5',{}
     );
     addMessageToState(botMessage2)
+    setBotState('amount')
   }
 
   const handleShowFreeTables = () => {
@@ -87,6 +90,13 @@ const ActionProvider = (props: Props) => {
     setState((prev: any) => ({
       ...prev,
       messages: [...prev.messages, message],
+    }));
+  };
+
+  const setBotState = (state: string) => {
+    setState((prev: any) => ({
+      ...prev,
+      botState: state,
     }));
   };
 

@@ -21,7 +21,6 @@ export default function Home() {
         <HomePage />
         <AboutUsSection />
         <FooterSection/>
-      </main>
       </motion.main>
     </>
   );
