@@ -20,8 +20,7 @@ export default function Home() {
         transition={{ duration: 0.5 }}>
         <HomePage />
         <AboutUsSection />
-        <FooterSection/>
-      </main>
+        <FooterSection />
       </motion.main>
     </>
   );
