@@ -16,10 +16,9 @@ const FooterSection = () => {
             src={bgImage}
             alt="contact"
             fill
-            sizes='100vh'
         />
         <Grid container alignItems={"center"} className={styles.footerContent}>
-            <Grid item xs={12} className="mt-56">
+            <Grid item xs={12} className="mt-48">
                 <Typography variant='h6' textAlign={"center"} className='text-primary-yellow text-8xl font-passions-conflict'>
                     Questions
                 </Typography>
