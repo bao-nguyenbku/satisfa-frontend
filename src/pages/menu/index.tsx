@@ -10,6 +10,7 @@ import Loading from '@/components/common/loading';
 import { wrapper } from '@/store';
 import { productApi, useGetAllProductQuery } from '@/service/product';
 import { AnimatePresence, motion } from 'framer-motion';
+import Head from 'next/head';
 
 const Menu: NextPageWithLayout = () => {
   const { data: productList, isLoading } = useGetAllProductQuery();
@@ -17,21 +18,26 @@ const Menu: NextPageWithLayout = () => {
     return <Loading />;
   }
   return (
-    <AnimatePresence initial={false} mode='wait'>
-      <motion.div
-        className="bg-primary-dark min-h-screen w-full flex flex-col items-center px-24"
-        key="menu"
-        exit={{ x: 400 }}>
-        <span className="text-primary-yellow text-7xl mt-16">Menu</span>
+    <>
+      <Head>
+        <title>Menu | Satisfa</title>
+      </Head>
+      <AnimatePresence initial={false} mode="wait">
+        <motion.div
+          className="bg-primary-dark min-h-screen w-full flex flex-col items-center px-24"
+          key="menu"
+          exit={{ x: 400 }}>
+          <span className="text-primary-yellow text-7xl mt-16">Menu</span>
 
-        <div className="mt-12 grid grid-cols-4 gap-2 w-full">
-          {productList &&
-            productList.map((item) => {
-              return <FoodCard key={item.id} data={item} />;
-            })}
-        </div>
-      </motion.div>
-    </AnimatePresence>
+          <div className="mt-12 flex flex-wrap gap-2 w-full">
+            {productList &&
+              productList.map((item) => {
+                return <FoodCard key={item.id} data={item} />;
+              })}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </>
   );
 };
 

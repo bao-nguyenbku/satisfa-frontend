@@ -11,8 +11,8 @@ type Props = {
 export default function FoodCard(props: Props) {
   const { data } = props;
   return (
-    <div className="max-w-sm border border-gray-600 text-white flex flex-col h-[600px] p-3 hover:bg-primary-yellow hover:ease-out duration-300 hover:scale-105 group cursor-pointer">
-      <div className='relative w-full h-72'>
+    <div className="bg-neutral-900/50 p-3 text-white flex flex-col hover:bg-primary-yellow hover:ease-out duration-300 hover:scale-105 group cursor-pointer">
+      <div className='relative w-96 h-96'>
         <Image
           src={data.images[0]}
           sizes="100%"
@@ -21,8 +21,8 @@ export default function FoodCard(props: Props) {
           alt={`thumbnail of ${data.id}`}
         />
       </div>
-      <span className="font-bold text-2xl mt-3">{data.name}</span>
-      <div className="mt-auto flex items-center justify-between">
+      <span className="font-bold text-2xl my-6">{data.name}</span>
+      <div className="flex items-center justify-between mt-10">
         <Button className="bg-primary-yellow normal-case rounded-none font-podkova text-white group-hover:bg-primary-dark">
           Add
         </Button>

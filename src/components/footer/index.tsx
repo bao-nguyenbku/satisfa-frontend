@@ -10,7 +10,7 @@ import bgImage from '@/assets/images/contact-background.jpg';
 
 const FooterSection = () => {
   return (
-    <div className="h-screen w-screen relative -left-20 top-0">
+    <div className="h-screen w-screen relative -left-20 top-0" id='footer'>
       <Image
         className="object-cover absolute top-0 left-0 -z-10 brightness-50"
         src={bgImage}
