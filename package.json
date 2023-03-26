@@ -33,7 +33,7 @@
     "lodash": "^4.17.21",
     "moment": "2.29.4",
     "next": "13.1.5",
-    "next-auth": "4.18.10",
+    "next-auth": "4.20.1",
     "next-redux-wrapper": "8.1.0",
     "react": "18.2.0",
     "react-chatbot-kit": "2.1.2",
