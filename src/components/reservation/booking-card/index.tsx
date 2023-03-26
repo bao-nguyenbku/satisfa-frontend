@@ -28,6 +28,8 @@ const reserveData: ReservationType = {
 };
 const BookingCard = (props: Props) => {
   const { table } = props;
+  const user = useAppSelector(state => state.user)
+  console.log(user)
   const data = useAppSelector((state) => state.reservation);
   const [createReservation] = useCreateReservationMutation();
 

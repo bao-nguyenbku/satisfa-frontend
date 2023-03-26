@@ -5,6 +5,6 @@ export function isValidDate(date: string) {
 }
 
 export function isValidTime(inputField: string) {
-    const isValid = /^([0-1][8-9]|2[0-3]):([0,3][0])$/.test(inputField);
-    return isValid;
-  }
+  const isValid = /^([0][8-9]|2[0-3]|1[0-9]):([0,3][0])$/.test(inputField);
+  return isValid;
+}
