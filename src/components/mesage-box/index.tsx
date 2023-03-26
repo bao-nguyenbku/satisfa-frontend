@@ -10,6 +10,7 @@ import ActionProvider from '@/components/chatbot/action-provider';
 import config from '@/components/chatbot/config';
 import MessageParser from '@/components/chatbot/message-parser';
 import { io, Socket } from 'socket.io-client';
+import { BASE_URL } from '@/constants';
 
 export interface MessagePayload {
   user: string;
@@ -22,7 +23,7 @@ const MessageBox = () => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const newSocket = io(process.env.NEXT_PUBLIC_BASE_API_URL || '');
+    const newSocket = io(BASE_URL || '');
     newSocket.on('connect', () => {
       setSocket(newSocket);
     });

@@ -1,13 +1,11 @@
 import { TableType } from '@/types/data-types';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseQuery } from '@/utils/request';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
-import { BASE_URL } from '@/constants';
 
 export const tableApi = createApi({
   reducerPath: 'tableApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
+  baseQuery,
   tagTypes: ['Table'],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {

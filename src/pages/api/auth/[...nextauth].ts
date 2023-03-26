@@ -2,8 +2,8 @@ import NextAuth from 'next-auth';
 // import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
+import { NEXTAUTH_URL, BASE_URL } from '@/constants';
 
-const BASE_API_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 const providers = [
   CredentialsProvider({
     // The name to display on the sign in form (e.g. "Sign in with...")
@@ -24,8 +24,8 @@ const providers = [
       // Add logic here to look up the user from the credentials supplied
       const userInput = { ...credentials };
       const response = await axios.post(
-        BASE_API_URL + '/auth/login',
-        userInput
+        (NEXTAUTH_URL || BASE_URL) + '/auth/login',
+        userInput,
       );
       if (response) {
         return response.data.accessToken;
@@ -37,6 +37,44 @@ const providers = [
 
 export default NextAuth({
   providers,
+  secret: 'Dy8kXSC+FCHvf/nucRIfZI1AHbarvoeGG68zIw18QgI=',
+  logger: {
+    error(code, metadata) {
+      console.error(code, metadata);
+    },
+    warn(code) {
+      console.warn(code);
+    },
+    debug(code, metadata) {
+      console.debug(code, metadata);
+    },
+  },
+  cookies: {
+    sessionToken: {
+      name: 'next-auth.session-token.landing',
+      options: {
+        httpOnly: true,
+        sameSite: 'none',
+        path: '/',
+        domain: NEXTAUTH_URL,
+        secure: true,
+      },
+    },
+    callbackUrl: {
+      name: 'next-auth.callback-url.landing',
+      options: {
+        httpOnly: true,
+        secure: true,
+      },
+    },
+    csrfToken: {
+      name: 'next-auth.csrf-token.landing',
+      options: {
+        httpOnly: true,
+        secure: true,
+      },
+    },
+  },
   callbacks: {
     jwt: async (params) => {
       const { token, user } = params;

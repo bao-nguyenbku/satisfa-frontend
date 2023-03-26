@@ -36,5 +36,6 @@ export const playfair_display = Playfair_Display({
   subsets: ['latin'],
 });
 
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
-
+export const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
