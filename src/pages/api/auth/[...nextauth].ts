@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 // import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
-import { NEXTAUTH_URL, BASE_URL } from '@/constants';
+import { NEXTAUTH_URL, BASE_URL, NEXTAUTH_SECRET, DEV_MODE } from '@/constants';
 
 const providers = [
   CredentialsProvider({
@@ -37,7 +37,7 @@ const providers = [
 
 export default NextAuth({
   providers,
-  secret: 'Dy8kXSC+FCHvf/nucRIfZI1AHbarvoeGG68zIw18QgI=',
+  secret: NEXTAUTH_SECRET,
   logger: {
     error(code, metadata) {
       console.error(code, metadata);
@@ -49,6 +49,7 @@ export default NextAuth({
       console.debug(code, metadata);
     },
   },
+  debug: DEV_MODE,
   cookies: {
     sessionToken: {
       name: 'next-auth.session-token.landing',

@@ -1,4 +1,5 @@
 import { Playfair_Display } from '@next/font/google';
+export const DEV_MODE = process.env.NODE_ENV === 'development';
 import localFont from '@next/font/local';
 
 export const podkova = localFont({
@@ -6,32 +7,32 @@ export const podkova = localFont({
     {
       path: '../assets/fonts/Podkova-Bold.ttf',
       weight: '700',
-      style: 'normal'
+      style: 'normal',
     },
     {
       path: '../assets/fonts/Podkova-ExtraBold.ttf',
       weight: '800',
-      style: 'normal'
+      style: 'normal',
     },
     {
       path: '../assets/fonts/Podkova-Medium.ttf',
       weight: '500',
-      style: 'normal'
+      style: 'normal',
     },
     {
       path: '../assets/fonts/Podkova-Regular.ttf',
       weight: '400',
-      style: 'normal'
+      style: 'normal',
     },
     {
       path: '../assets/fonts/Podkova-SemiBold.ttf',
       weight: '600',
-      style: 'normal'
+      style: 'normal',
     },
   ],
   variable: '--font-podkova',
-  display: 'swap'
-})
+  display: 'swap',
+});
 export const playfair_display = Playfair_Display({
   subsets: ['latin'],
 });
