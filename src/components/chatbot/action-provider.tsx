@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import type { CreateChatBotMessage, CreateClientMessage } from './types';
-import { useAppSelector } from '@/hooks';
 
 type Props = {
   setState: React.Dispatch<React.SetStateAction<any>>,
@@ -12,10 +11,18 @@ type Props = {
 const ActionProvider = (props: Props) => {
   const router = useRouter();
   const { children, setState, createChatBotMessage } = props;
-  
+  const handleBotTyping = () => {
+    const botMessage = createChatBotMessage('', {
+      payload: <h1>Typing</h1>
+    })
+    addMessageToState(botMessage);
+  }
   const unhandledInput = () => {
     const botMessage = createChatBotMessage(
-      "That is not our syntax for chatbot, checking your text again", {}
+      "That is not our syntax for chatbot, checking your text again", {
+        delay: 1000,
+        loading: true,
+      }
     );
     addMessageToState(botMessage);
   };
@@ -100,8 +107,6 @@ const ActionProvider = (props: Props) => {
     }));
   };
 
-  const data = useAppSelector(state=> state.reservation)
-  console.log(data)
   return (
     <>
       {React.Children.map(children, (child) => {
@@ -113,7 +118,8 @@ const ActionProvider = (props: Props) => {
             handleShowGuestSelector,
             handleShowFreeTables,
             handleContinueWithChatbot,
-            unhandledInput
+            unhandledInput,
+            handleBotTyping
           },
         });
       })}
