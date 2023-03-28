@@ -1,7 +1,7 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { createWrapper } from 'next-redux-wrapper';
-import { reservationSlice } from './reducer/reseravation';
+import { reservationSlice } from './reducer/reservation';
 import { userSlice } from './reducer/user';
 import { reservationApi } from '@/service/reseravation';
 import { tableSlice } from './reducer/table';
@@ -10,7 +10,6 @@ import { authApi } from '@/service/auth';
 import { chatbotSlice } from './reducer/chatbot';
 import { tableApi } from '@/service/table';
 import { productApi } from '@/service/product';
-
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,

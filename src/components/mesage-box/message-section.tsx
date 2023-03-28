@@ -3,6 +3,7 @@ import MeMessageItem from './me-message-item';
 import GuestMessageItem from './guest-message-item';
 import TypingIndicator from '../chatbot/typing-indicator';
 import { Message } from '../chatbot/types';
+import { motion } from 'framer-motion';
 
 type Props = {
   messages?: Message[];
@@ -22,11 +23,22 @@ const MessageSection = (props: Props) => {
           }
           if (payload.role === 'widget') {
             return (
-              <div key={payload.id}>
+              <motion.div
+                key={payload.id}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  duration: 0.5,
+                }}
+                style={{
+                  originX: 0,
+                  originY: 0,
+                  originZ: 1,
+                }}>
                 {cloneElement(payload?.component as ReactElement, {
                   ...props,
                 })}
-              </div>
+              </motion.div>
             );
           }
         })}

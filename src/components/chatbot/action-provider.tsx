@@ -1,14 +1,8 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import type { CreateChatBotMessage, CreateClientMessage } from './types';
 
-type Props = {
-  setState: React.Dispatch<React.SetStateAction<any>>,
-  createChatBotMessage: CreateChatBotMessage,
-  createClientMessage: CreateClientMessage,
-  children: React.ReactNode
-};
-const ActionProvider = (props: Props) => {
+
+const ActionProvider = (props: any) => {
   const router = useRouter();
   const { children, setState, createChatBotMessage } = props;
   const unhandledInput = () => {

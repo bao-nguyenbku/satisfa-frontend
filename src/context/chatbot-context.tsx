@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  // ReactElement,
+  // cloneElement,
+} from 'react';
 import {
   MessageOption,
   Message,
@@ -7,6 +13,9 @@ import {
 } from '@/components/chatbot/types';
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
+import { useAppSelector } from '@/hooks';
+import { selectReservationState } from '@/store/reducer/reservation';
+// import Yes from '@/components/chatbot/widgets/yes';
 
 type Props = {
   children: React.ReactNode;
@@ -50,6 +59,7 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const router = useRouter();
+  const botReservation = useAppSelector(selectReservationState);
   const createOptions = (options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
     setTimeout(() => {
@@ -69,6 +79,7 @@ export const ChatbotProvider = ({ children }: Props) => {
   };
   const createBotMessage = (message: string, options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
+    activeTyping();
     setTimeout(() => {
       setMessages((prev) => {
         const lastMessage = prev[prev.length - 1];
@@ -97,8 +108,27 @@ export const ChatbotProvider = ({ children }: Props) => {
           },
         ];
       });
+      disableTyping();
     }, delay);
   };
+  // const createWidget = (widget: ReactElement) => {
+  //   setTimeout(() => {
+  //     setMessages((prev) => {
+  //       return [
+  //         ...prev,
+  //         {
+  //           id: Math.random(),
+  //           text: '',
+  //           role: 'widget',
+  //           isNew: false,
+  //           component: cloneElement(widget as ReactElement, {
+  //             actions,
+  //           }),
+  //         },
+  //       ];
+  //     });
+  //   }, DEFAULT_DELAY);
+  // };
   const createUserMessage = (message: string) => {
     setMessages((prev) => {
       const lastMessage = prev[prev.length - 1];
@@ -142,10 +172,7 @@ export const ChatbotProvider = ({ children }: Props) => {
   }, [messages]);
   const actions = {
     unhandleInput: () => {
-      createBotMessage(
-        'I can not understand. Please provide correct syntax',
-        {},
-      );
+      createBotMessage('I can not understand. Please provide correct syntax');
     },
     askForHelp: () => {
       createBotMessage('Hi, I am Satisgi. How can I help you?');
@@ -166,6 +193,32 @@ export const ChatbotProvider = ({ children }: Props) => {
       createBotMessage(
         'Of course! I navigated you to reservation page, do you see it😉',
       );
+      actions.getDatePicker({
+        delay: 800,
+      });
+    },
+    getDatePicker: (options?: MessageOption) => {
+      createBotMessage(botReservation[0].text, {
+        delay: options ? options.delay : DEFAULT_DELAY,
+      });
+    },
+    sendMessage: (message: string, options?: MessageOption) => {
+      createBotMessage(message, {
+        delay: options ? options.delay : DEFAULT_DELAY,
+      });
+    },
+    getTimePicker: (options?: MessageOption) => {
+      createBotMessage(botReservation[1].text, {
+        delay: options ? options.delay : DEFAULT_DELAY,
+      });
+    },
+    getGuest: (options?: MessageOption) => {
+      createBotMessage(botReservation[2].text, {
+        delay: options ? options.delay : DEFAULT_DELAY,
+      });
+    },
+    confirmYes: () => {
+      return;
     },
     handleOrder: () => {
       setBotService(BotService.ORDER);
