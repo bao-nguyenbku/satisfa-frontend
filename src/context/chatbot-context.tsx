@@ -1,5 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { MessageOption, Message, BotService, DEFAULT_DELAY } from '@/components/chatbot/types';
+import {
+  MessageOption,
+  Message,
+  BotService,
+  DEFAULT_DELAY,
+} from '@/components/chatbot/types';
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
 
@@ -55,14 +60,15 @@ export const ChatbotProvider = ({ children }: Props) => {
             id: Math.random(),
             text: '',
             role: 'widget',
+            isNew: false,
             component: <Options actions={actions} />,
           },
         ];
       });
     }, delay);
   };
-  const createBotMessage = (message: string, options: MessageOption) => {
-    const { delay = DEFAULT_DELAY } = options;
+  const createBotMessage = (message: string, options?: MessageOption) => {
+    const { delay = DEFAULT_DELAY } = options ? options : {};
     setTimeout(() => {
       setMessages((prev) => {
         const lastMessage = prev[prev.length - 1];
@@ -145,9 +151,17 @@ export const ChatbotProvider = ({ children }: Props) => {
     navigateToReservation: () => {
       router.replace('/reservation');
     },
+    navigateToMenu: () => {
+      router.replace('/menu');
+    },
     handleReservation: () => {
       setBotService(BotService.RESERVATION);
       actions.navigateToReservation();
+      createBotMessage('Of course! I navigated you to reservation page, do you see it😉')
+    },
+    handleOrder: () => {
+      setBotService(BotService.ORDER);
+      actions.navigateToMenu();
     },
   };
   return (

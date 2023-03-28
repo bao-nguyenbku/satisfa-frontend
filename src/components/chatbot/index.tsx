@@ -21,17 +21,17 @@ const Chatbot = () => {
   } = useChatbot();
   const parseMessage = async (message: string) => {
     activeTyping();
+    createUserMessage(message, {});
     switch (botService) {
       case BotService.RESERVATION: {
+        actions.handleReservation();
         break;
       }
-        
+
       default: {
         actions.unhandleInput();
       }
-     
     }
-    createUserMessage(message, {});
   };
   useEffect(() => {
     createBotMessage('Hi, I am Satisgi. How can I help you?', {});
