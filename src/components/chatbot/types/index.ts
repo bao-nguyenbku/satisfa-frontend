@@ -1,44 +1,19 @@
-import { IMessageOptions } from 'react-chatbot-kit/src/interfaces/IMessages';
-
-export type CreateChatBotMessage = (
-  message: string,
-  options: IMessageOptions
-) => {
-  loading: boolean;
-  widget?: string;
-  delay?: number;
-  payload?: any;
-  message: string;
-  type: string;
+export type Message = {
   id: number;
+  text: string;
+  role: 'bot' | 'user' | 'widget';
+  component?: React.ReactNode;
+  isNew: boolean;
 };
-export type CreateClientMessage = (
-  message: string,
-  options: IMessageOptions
-) => {
-  loading?: boolean;
-  widget?: string;
+export type MessageOption = {
   delay?: number;
-  payload?: any;
-  message: string;
-  type: string;
-  id: number;
-};
-export type CreateCustomMessage = (
-  message: string,
-  type: string,
-  options: IMessageOptions
-) => {
-  loading?: boolean;
   widget?: string;
-  delay?: number;
-  payload?: any;
-  message: string;
-  type: string;
-  id: number;
 };
 
-export type ChatbotState = {
-  messages: string[];
-};
+export enum BotService {
+  RESERVATION = 'RESERVATION',
+  ORDER = 'ORDER',
+  NONE = 'NONE',
+}
 
+export const DEFAULT_DELAY = 500;

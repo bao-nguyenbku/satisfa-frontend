@@ -31,28 +31,30 @@ const ChatbotButton = () => {
           hideBackdrop
           disableScrollLock
           anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
           transformOrigin={{
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'right',
           }}>
           <MessageBox />
         </Popover>
       </ClickAwayListener>
-      <button
-        className="fixed w-20 h-20 bottom-12 right-20 border-gray-600 bg-white/5 p-4 border rounded-full z-10"
-        onClick={handleClick}>
-        <div className="relative w-full h-full">
-          <Image
-            src={SatisgiAvatar}
-            fill
-            className="rounded-full object-cover"
-            alt="bot-avatar"
-          />
-        </div>
-      </button>
+      {!open && (
+        <button
+          className="fixed w-20 h-20 bottom-12 right-20 border-gray-600 bg-white/5 p-4 border rounded-full z-10 animate-pulse"
+          onClick={handleClick}>
+          <div className="relative w-full h-full">
+            <Image
+              src={SatisgiAvatar}
+              fill
+              className="rounded-full object-cover"
+              alt="bot-avatar"
+            />
+          </div>
+        </button>
+      )}
     </>
   );
 };

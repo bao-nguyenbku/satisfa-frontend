@@ -11,12 +11,6 @@ type Props = {
 const ActionProvider = (props: Props) => {
   const router = useRouter();
   const { children, setState, createChatBotMessage } = props;
-  const handleBotTyping = () => {
-    const botMessage = createChatBotMessage('', {
-      payload: <h1>Typing</h1>
-    })
-    addMessageToState(botMessage);
-  }
   const unhandledInput = () => {
     const botMessage = createChatBotMessage(
       "That is not our syntax for chatbot, checking your text again", {
@@ -119,7 +113,6 @@ const ActionProvider = (props: Props) => {
             handleShowFreeTables,
             handleContinueWithChatbot,
             unhandledInput,
-            handleBotTyping
           },
         });
       })}
