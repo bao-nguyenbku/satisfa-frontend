@@ -50,8 +50,8 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const router = useRouter();
-  const createOptions = (options: MessageOption) => {
-    const { delay = 0 } = options;
+  const createOptions = (options?: MessageOption) => {
+    const { delay = DEFAULT_DELAY } = options ? options : {};
     setTimeout(() => {
       setMessages((prev) => {
         return [
@@ -147,7 +147,13 @@ export const ChatbotProvider = ({ children }: Props) => {
         {},
       );
     },
-
+    askForHelp: () => {
+      createBotMessage('Hi, I am Satisgi. How can I help you?');
+      createOptions();
+    },
+    introduce: () => {
+      createBotMessage('Hi, I am Satisgi. Nice to meet you 😍');
+    },
     navigateToReservation: () => {
       router.replace('/reservation');
     },
@@ -157,7 +163,9 @@ export const ChatbotProvider = ({ children }: Props) => {
     handleReservation: () => {
       setBotService(BotService.RESERVATION);
       actions.navigateToReservation();
-      createBotMessage('Of course! I navigated you to reservation page, do you see it😉')
+      createBotMessage(
+        'Of course! I navigated you to reservation page, do you see it😉',
+      );
     },
     handleOrder: () => {
       setBotService(BotService.ORDER);

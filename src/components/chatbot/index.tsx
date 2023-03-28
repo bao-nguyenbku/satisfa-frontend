@@ -4,7 +4,7 @@ import MessageHeader from '../mesage-box/message-header';
 import MessageInput from '../mesage-box/message-input';
 import MessageSection from '../mesage-box/message-section';
 import useChatbot from '@/hooks/useChatbot';
-import { BotService } from './types';
+// import { BotService } from './types';
 // import Yes from './widgets/yes';
 
 const Chatbot = () => {
@@ -15,29 +15,20 @@ const Chatbot = () => {
     createUserMessage,
     activeTyping,
     actions,
-    createOptions,
-    createBotMessage,
-    botService,
+    // createOptions,
+    // createBotMessage,
+    // botService,
   } = useChatbot();
   const parseMessage = async (message: string) => {
     activeTyping();
     createUserMessage(message, {});
-    switch (botService) {
-      case BotService.RESERVATION: {
-        actions.handleReservation();
-        break;
-      }
-
-      default: {
-        actions.unhandleInput();
-      }
+    const rawMessage = message.toLowerCase();
+    if (rawMessage.includes('hello')) {
+      actions.introduce();
     }
   };
   useEffect(() => {
-    createBotMessage('Hi, I am Satisgi. How can I help you?', {});
-    createOptions({
-      delay: 500,
-    });
+    actions.askForHelp();
   }, []);
   useEffect(() => {
     if (sectionRef.current) {
