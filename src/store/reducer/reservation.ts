@@ -1,68 +1,63 @@
-import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
+import {
+  createAction,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
+import { ReservationType } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
+type ReservationStateType = {
+  reservationList: ReservationType[];
+  numberOfGuests: number;
+  tableId: string;
+  date: string;
+  note: string;
+};
+
+const reservationList: ReservationType[] = [];
+const numberOfGuests = 0;
+const tableId = 'T0';
+const date = '';
+const note = 'test ';
 
 // Define the initial state using that type
-const initialState = [
-  {
-    id: 1,
-    text: 'First, let you pick a date for your meal. Please type with syntax: DD/MM/YYYY',
-    isComplete: false,
-    value: '',
-  },
-  {
-    id: 2,
-    text: 'Second, let you pick a time. Please type with syntax: hh:mm',
-    isComplete: false,
-    value: '',
-  },
-  {
-    id: 3,
-    text: 'Ok good. How many guests? Please type a number',
-    isComplete: false,
-    value: 0,
-  },
-];
+const initialState: ReservationStateType = {
+  reservationList,
+  numberOfGuests,
+
+  tableId,
+  date,
+  note,
+};
 
 export const reservationSlice = createSlice({
   name: 'reservation',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setDate: (state, action: PayloadAction<string>) => {
-      const cloneState = [...state];
-      cloneState[0].value = action.payload;
-      cloneState[0].isComplete = true;
-      state = cloneState;
+    guestSelect: (initialState, action: PayloadAction<number>) => {
+      initialState.numberOfGuests = action.payload;
     },
-    setTime: (state, action: PayloadAction<string>) => {
-      const cloneState = [...state];
-      cloneState[1].value = action.payload;
-      cloneState[1].isComplete = true;
-      state = cloneState;
+
+    getTime: (initialState, action: PayloadAction<string>) => {
+      initialState.date = action.payload;
     },
-    setGuest: (state, action: PayloadAction<number>) => {
-      const cloneState = [...state];
-      cloneState[2].value = action.payload;
-      cloneState[2].isComplete = true;
-      state = cloneState;
-    }
   },
   extraReducers: (builder) => {
     builder.addCase(hydrate, (state, action) => {
       return {
         ...state,
-        ...action.payload,
+        ...action.payload.reservation,
       };
     });
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
 });
 
-export const { setDate, setTime, setGuest } = reservationSlice.actions;
+export const { guestSelect, getTime } = reservationSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectReservationState = (state: RootState) => state.reservation;

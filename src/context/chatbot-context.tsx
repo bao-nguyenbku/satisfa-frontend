@@ -194,7 +194,7 @@ export const ChatbotProvider = ({ children }: Props) => {
         'Of course! I navigated you to reservation page, do you see it😉',
       );
       actions.getDatePicker({
-        delay: 800,
+        delay: 600,
       });
     },
     getDatePicker: (options?: MessageOption) => {

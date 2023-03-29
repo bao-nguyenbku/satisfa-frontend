@@ -13,7 +13,7 @@ import { productApi } from '@/service/product';
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
-  [chatbotSlice.name]: reservationSlice.reducer,
+  [chatbotSlice.name]: chatbotSlice.reducer,
   [tableSlice.name]: tableSlice.reducer,
   [tableApi.reducerPath]: tableApi.reducer,
   [reservationApi.reducerPath]: reservationApi.reducer,

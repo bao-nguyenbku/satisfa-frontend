@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import { Socket } from 'socket.io-client';
 import { KeyDownEvent } from '@/types/event-types';
-import { MessagePayload } from '.';
+import { MessagePayload } from '../mesage-box';
 import { IconButton } from '@mui/material';
 
 type Props = {

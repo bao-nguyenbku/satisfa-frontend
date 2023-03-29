@@ -1,38 +1,28 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 // import { MessageOption, Message } from './types';
-import MessageHeader from '../mesage-box/message-header';
-import MessageInput from '../mesage-box/message-input';
-import MessageSection from '../mesage-box/message-section';
+import MessageHeader from './message-header';
+import MessageInput from './message-input';
+import MessageSection from './message-section';
 import useChatbot from '@/hooks/useChatbot';
 import { BotService } from './types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
-  selectReservationState,
+  selectBotReservationState,
   setDate,
   setTime,
   setGuest,
-} from '@/store/reducer/reservation';
+} from '@/store/reducer/chatbot';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
 import { isNumber, isValidDate, isValidTime } from '@/utils';
 
 const Chatbot = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
-  const {
-    messages,
-    isTyping,
-    createUserMessage,
-    activeTyping,
-    actions,
-    botService,
-  } = useChatbot();
-  const botReservationState = useAppSelector(selectReservationState);
-  const parseMessage = async (message: string) => {
-    activeTyping();
-    createUserMessage(message, {});
-    // const rawMessage = message.toLowerCase();
-    console.log(botReservationState);
+  const { messages, isTyping, createUserMessage, actions, botService } =
+    useChatbot();
+  // const [currentMessage, setCurrentMessage] = useState<string>('');
+  const botReservationState = useAppSelector(selectBotReservationState);
+  const handleBotReservation = (message: string) => {
     switch (botService) {
       case BotService.RESERVATION: {
         if (!botReservationState[0].isComplete) {
@@ -64,9 +54,6 @@ const Chatbot = () => {
         else if (!botReservationState[2].isComplete) {
           if (isNumber(message)) {
             dispatch(setGuest(parseInt(message, 10)));
-            actions.sendMessage('OK all fine. Please wait...', {
-              delay: 400,
-            });
           } else {
             actions.sendMessage(
               'That is not a valid number. Please provide a number for me.',
@@ -81,7 +68,10 @@ const Chatbot = () => {
         }
         // Newline
         else {
-          actions.unhandleInput();
+          actions.sendMessage('OK all fine. Please wait...', {
+            delay: 400,
+          });
+          // actions.unhandleInput();
         }
         break;
       }
@@ -91,24 +81,20 @@ const Chatbot = () => {
       }
     }
   };
+  const parseMessage = async (message: string) => {
+    // setCurrentMessage(message);
+    createUserMessage(message, {});
+    handleBotReservation(message);
+    // const rawMessage = message.toLowerCase();
+  };
   useEffect(() => {
     actions.askForHelp();
   }, []);
-  useEffect(() => {
-    if (sectionRef.current) {
-      sectionRef.current.scrollTo({
-        top: sectionRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, [messages, sectionRef]);
 
   return (
     <div className="flex flex-col h-full">
       <MessageHeader />
-      <div
-        className="flex-1 overflow-auto flex flex-col overflow-x-hidden pt-2"
-        ref={sectionRef}>
+      <div className="flex-1 overflow-y-auto flex flex-col overflow-x-hidden pt-2">
         <MessageSection messages={messages} isTyping={isTyping} />
       </div>
       <div className="mt-auto w-full p-2">

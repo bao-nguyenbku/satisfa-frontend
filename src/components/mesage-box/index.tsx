@@ -45,8 +45,6 @@ const MessageBox = () => {
       <ChatbotProvider>
         <Chatbot />
       </ChatbotProvider>
-      {/* <div className={styles.chatbotContainer}>
-      </div> */}
     </div>
   );
 };
