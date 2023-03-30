@@ -32,7 +32,17 @@ const initialState = {
     ],
     created: {},
   },
-  order: {},
+  order: {
+    steps: [
+      {
+        id: 1,
+        text: 'First. Please choose food on the screen and check your cart. If you confirm with it, type "ok" on the message box😉',
+        isComplete: false,
+      },
+      
+    ],
+    created: {}
+  },
 };
 // export const createReservation = createAsyncThunk(
 //   "/reservations/createReservation",

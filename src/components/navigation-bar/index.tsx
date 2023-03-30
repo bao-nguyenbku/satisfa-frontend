@@ -32,19 +32,19 @@ const NavigationBar = (props: Props) => {
       <li className='mr-auto font-passions-conflict text-5xl normal-case'>
         <Link href='/'>Satisfa</Link>
       </li>
-      <li>
+      <li className='hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow'>
         <Link href="/#about-us">About us</Link>
       </li>
-      <li>
+      <li className='hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow'>
         <Link href='/menu'>Our menu</Link>
       </li>
-      <li>
+      <li className='hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow'>
         <Link href='/reservation'>Reservation</Link>
       </li>
-      <li>
+      <li className='hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow'>
         <Link href='#footer'>Contact</Link>
       </li>
-      <li>
+      <li className='hover:bg-primary-yellow hover:transition-colors p-2'>
         <Link href="/login">Sign in</Link>
       </li>
 

@@ -2,7 +2,7 @@ import React, {
   createContext,
   useState,
   useEffect,
-  // ReactElement,
+  ReactElement,
   // cloneElement,
 } from 'react';
 import {
@@ -14,7 +14,7 @@ import {
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@/hooks';
-import { selectReservationState } from '@/store/reducer/reservation';
+import { selectBotReservationState } from '@/store/reducer/chatbot';
 // import Yes from '@/components/chatbot/widgets/yes';
 
 type Props = {
@@ -59,7 +59,7 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const router = useRouter();
-  const botReservation = useAppSelector(selectReservationState);
+  const botReservation = useAppSelector(selectBotReservationState);
   const createOptions = (options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
     setTimeout(() => {
@@ -77,7 +77,7 @@ export const ChatbotProvider = ({ children }: Props) => {
       });
     }, delay);
   };
-  const createBotMessage = (message: string, options?: MessageOption) => {
+  const createBotMessage = (message: string | ReactElement, options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
     activeTyping();
     setTimeout(() => {
@@ -172,7 +172,7 @@ export const ChatbotProvider = ({ children }: Props) => {
   }, [messages]);
   const actions = {
     unhandleInput: () => {
-      createBotMessage('I can not understand. Please provide correct syntax');
+      createBotMessage(<p>I can not understand. Please provide correct syntax. If you need help, let you type <strong className='font-bold'>help</strong></p>);
     },
     askForHelp: () => {
       createBotMessage('Hi, I am Satisgi. How can I help you?');

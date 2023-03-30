@@ -1,6 +1,8 @@
+import { ReactElement } from "react";
+
 export type Message = {
   id: number;
-  text: string;
+  text: string | ReactElement;
   role: 'bot' | 'user' | 'widget';
   component?: React.ReactNode;
   isNew: boolean;

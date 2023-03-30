@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 // import UserAvatar from "./user-avatar";
 type Props = {
-  message: string;
+  message: string | ReactElement;
 };
 
 const MeMessageItem = (props: Props) => {

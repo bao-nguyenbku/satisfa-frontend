@@ -23,7 +23,7 @@ const MessageSection = (props: Props) => {
   }, [messages, sectionRef]);
   return (
     <div
-      className="w-full overflow-y-scroll flex flex-col gap-6 px-2 mt-auto"
+      className="w-full overflow-y-scroll overflow-x-hidden flex flex-col gap-6 px-2 mt-auto"
       ref={sectionRef}>
       {messages &&
         messages.map((payload) => {
@@ -37,7 +37,7 @@ const MessageSection = (props: Props) => {
                 style={{
                   originX: 0,
                 }}>
-                <MeMessageItem message={payload.text} />;
+                <MeMessageItem message={payload.text} />
               </motion.div>
             );
           }
@@ -48,8 +48,14 @@ const MessageSection = (props: Props) => {
                 key={payload.id}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
+                transition={{
+                  duration: 0.3,
+                  type: 'spring',
+                  stiffness: 100,
+                }}
                 style={{
                   originX: 0,
+                  originY: 1,
                 }}>
                 <GuestMessageItem message={payload.text} />
               </motion.div>
@@ -62,6 +68,11 @@ const MessageSection = (props: Props) => {
                 animate={{ scale: 1 }}
                 style={{
                   originX: 0,
+                }}
+                transition={{
+                  duration: 0.3,
+                  type: 'spring',
+                  stiffness: 100,
                 }}
                 key={payload.id}>
                 {cloneElement(payload?.component as ReactElement, {

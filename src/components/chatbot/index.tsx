@@ -22,69 +22,71 @@ const Chatbot = () => {
     useChatbot();
   // const [currentMessage, setCurrentMessage] = useState<string>('');
   const botReservationState = useAppSelector(selectBotReservationState);
+  const 
   const handleBotReservation = (message: string) => {
-    switch (botService) {
-      case BotService.RESERVATION: {
-        if (!botReservationState[0].isComplete) {
-          if (isValidDate(message)) {
-            dispatch(setDate(message));
-            actions.getTimePicker();
-          } else {
-            actions.sendMessage(
-              'That is not a valid day, try another answer 😔',
-            );
-            actions.getDatePicker({
-              delay: 800,
-            });
-          }
-        }
-        // New line
-        else if (!botReservationState[1].isComplete) {
-          if (isValidTime(message)) {
-            dispatch(setTime(message));
-            actions.getGuest(botReservationState[2].text);
-          } else {
-            actions.sendMessage(
-              'That time is invalid. Please type the time following my syntax: hh:mm (E.g: 14:30)',
-            );
-            actions.getTimePicker(botReservationState[1].text);
-          }
-        }
-        // New line
-        else if (!botReservationState[2].isComplete) {
-          if (isNumber(message)) {
-            dispatch(setGuest(parseInt(message, 10)));
-          } else {
-            actions.sendMessage(
-              'That is not a valid number. Please provide a number for me.',
-              {
-                delay: 400,
-              },
-            );
-            actions.getGuest(botReservationState[2].text, {
-              delay: 800,
-            });
-          }
-        }
-        // Newline
-        else {
-          actions.sendMessage('OK all fine. Please wait...', {
-            delay: 400,
-          });
-          // actions.unhandleInput();
-        }
-        break;
-      }
-
-      default: {
-        actions.unhandleInput();
+    if (!botReservationState[0].isComplete) {
+      if (isValidDate(message)) {
+        dispatch(setDate(message));
+        actions.getTimePicker();
+      } else {
+        actions.sendMessage('That is not a valid day, try another answer 😔');
+        actions.getDatePicker({
+          delay: 800,
+        });
       }
     }
+    // New line
+    else if (!botReservationState[1].isComplete) {
+      if (isValidTime(message)) {
+        dispatch(setTime(message));
+        actions.getGuest(botReservationState[2].text);
+      } 
+      
+      else {
+        actions.sendMessage(
+          'That time is invalid. Please type the time following my syntax: hh:mm (E.g: 14:30)',
+        );
+        actions.getTimePicker(botReservationState[1].text);
+      }
+    }
+    // New line
+    else if (!botReservationState[2].isComplete) {
+      if (isNumber(message)) {
+        dispatch(setGuest(parseInt(message, 10)));
+      } else {
+        actions.sendMessage(
+          'That is not a valid number. Please provide a number for me.',
+          {
+            delay: 400,
+          },
+        );
+        actions.getGuest(botReservationState[2].text, {
+          delay: 800,
+        });
+      }
+    }
+    // Newline
+    else {
+      actions.sendMessage('OK all fine. Please wait...', {
+        delay: 400,
+      });
+      // actions.unhandleInput();
+    }
   };
+  // const handleBotOrder = (message: string) => {
+    
+  // }
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
     createUserMessage(message, {});
-    handleBotReservation(message);
+    if (message.includes('help')) {
+      actions.askForHelp();
+    } else if (botService === BotService.RESERVATION) {
+      handleBotReservation(message);
+    } 
+    // else if (botService === BotService.ORDER) {
+    //   handleBotOrder(message);
+    // }
     // const rawMessage = message.toLowerCase();
   };
   useEffect(() => {
