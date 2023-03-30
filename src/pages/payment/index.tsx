@@ -22,11 +22,11 @@ export default function Menu() {
           <Grid item xs={6}>
             <Grid container>
               <Grid item xs={12} className={styles.leftColumn}>
-                <div className="bg-dark-form">
+                <div className="bg-[#2D2D2D]">
                   <Typography
                     marginLeft={4}
                     variant="h6"
-                    className="text-yellow-600">
+                    className="text-yellow-600 pt-8">
                     {' '}
                     CUSTOMER INFORMATION
                   </Typography>
@@ -94,7 +94,7 @@ export default function Menu() {
                   </Grid>
                 </div>
               </Grid>
-              <Grid item xs={12} className="bg-dark-form mt-4 w-11/12 mx-auto">
+              <Grid item xs={12} className="bg-[#2D2D2D] mt-4 w-11/12 mx-auto">
                 <Typography
                   marginTop={4}
                   marginLeft={4}
@@ -164,11 +164,17 @@ export default function Menu() {
             item
             xs={5}
             marginLeft={4}
-            className="order-detail bg-dark-form h-full p-0">
-            <Typography marginLeft={4} variant="h6" className="text-yellow-600">
+            className="order-detail bg-[#2D2D2D] h-full p-0">
+            <Typography marginLeft={4} variant="h6" className="text-yellow-600 mt-8">
               ORDER DETAIL
             </Typography>
-            <Grid container rowSpacing={4} marginTop={1}>
+            <Grid container rowSpacing={4} marginTop={1} className="h-[50vh] overflow-y-scroll">
+              <Grid item xs={12}>
+                <OrderItem />
+              </Grid>
+              <Grid item xs={12}>
+                <OrderItem />
+              </Grid>
               <Grid item xs={12}>
                 <OrderItem />
               </Grid>

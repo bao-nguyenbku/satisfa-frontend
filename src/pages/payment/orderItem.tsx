@@ -7,7 +7,7 @@ import Image from 'next/image';
 import styles from './styles.module.scss';
 
 const sampleImage =
-  'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=600';
+  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80';
 export default function OrderItem() {
   return (
     <div className={styles.orderItem}>

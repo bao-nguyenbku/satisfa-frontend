@@ -30,6 +30,7 @@ const MessageParser = (props: Props) => {
       case 'getTime': {
         if (isValidTime(message)){
           dispatch(getTime(dayjs(reserveData.date+ ' ' + message).toISOString())) 
+          console.log(dayjs(reserveData.date+ ' ' + message).toISOString())
           actions.handleShowGuestSelector();
         
         } else {

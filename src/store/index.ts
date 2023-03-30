@@ -10,17 +10,23 @@ import { authApi } from '@/service/auth';
 import { chatbotSlice } from './reducer/chatbot';
 import { tableApi } from '@/service/table';
 import { productApi } from '@/service/product';
+import { orderApi } from '@/service/order';
+import { orderSlice } from './reducer/order';
+import { cartSlice } from './reducer/cart';
 
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
   [chatbotSlice.name]: reservationSlice.reducer,
   [tableSlice.name]: tableSlice.reducer,
+  [userSlice.name]: userSlice.reducer,
+  [orderSlice.name]: orderSlice.reducer,
+  [cartSlice.name]: cartSlice.reducer,
   [tableApi.reducerPath]: tableApi.reducer,
   [reservationApi.reducerPath]: reservationApi.reducer,
-  [userSlice.name]: userSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
+  [orderApi.reducerPath]: orderApi.reducer
 };
 
 const makeStore = () =>
@@ -33,6 +39,7 @@ const makeStore = () =>
         tableApi.middleware,
         authApi.middleware,
         productApi.middleware,
+        orderApi.middleware,
         rtkQueryErrorLogger,
       ),
   });
