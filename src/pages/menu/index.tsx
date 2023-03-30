@@ -11,6 +11,8 @@ import { wrapper } from '@/store';
 import { productApi, useGetAllProductQuery } from '@/service/product';
 import { AnimatePresence, motion } from 'framer-motion';
 import Head from 'next/head';
+import { selectAllItem } from '@/store/reducer/cart';
+import { useAppSelector } from '@/hooks';
 
 const Menu: NextPageWithLayout = () => {
   const { data: productList, isLoading } = useGetAllProductQuery();

@@ -1,6 +1,8 @@
 import React, { RefObject, useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
 import SimpleBarCore from 'simplebar-core';
+import CartIconButton from '../cart/icon-button';
+
 
 type Props = {
   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
@@ -46,6 +48,9 @@ const NavigationBar = (props: Props) => {
       </li>
       <li className='hover:bg-primary-yellow hover:transition-colors p-2'>
         <Link href="/login">Sign in</Link>
+      </li>
+      <li>
+        <CartIconButton/>
       </li>
 
       {/* <li>{!isLoading && data && data.email}</li> */}

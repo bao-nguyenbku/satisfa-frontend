@@ -10,6 +10,7 @@ module.exports = {
       'primary-dark': '#212121',
       'primary-yellow': '#C49246',
       'dark-2': '#263238',
+      
     },
     extend: {
       fontFamily: {
