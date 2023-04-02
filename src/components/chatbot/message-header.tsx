@@ -6,7 +6,7 @@ import Satisgi from '@/assets/images/satisgi.jpg';
 
 const MessageHeader = () => {
   return (
-    <div className="w-full h-20 bg-dark-2 flex items-center px-3">
+    <div className="w-full h-16 bg-dark-2 flex items-center px-3">
       <div className="flex items-center gap-2">
         <div className="relative">
           <Image

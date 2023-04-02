@@ -14,10 +14,9 @@ import { orderApi } from '@/service/order';
 import { orderSlice } from './reducer/order';
 import { cartSlice } from './reducer/cart';
 
-
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
-  [chatbotSlice.name]: reservationSlice.reducer,
+  [chatbotSlice.name]: chatbotSlice.reducer,
   [tableSlice.name]: tableSlice.reducer,
   [userSlice.name]: userSlice.reducer,
   [orderSlice.name]: orderSlice.reducer,

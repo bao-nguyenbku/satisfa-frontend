@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 
 import { TableStatus } from '@/types/data-types';
 
-import { Tooltip, Popover } from '@mui/material';
+import { Popover } from '@mui/material';
 
 import BookingCard from '../booking-card';
 
@@ -51,7 +51,6 @@ const getStylesByStatus = (status: string) => {
 };
 const TableModel = (props: Props) => {
   const { table } = props;
-  console.log(table)
   const chairRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -110,9 +109,7 @@ const TableModel = (props: Props) => {
           vertical: 'center',
           horizontal: 'left',
         }}>
-        <Tooltip title="Make sure filing neccesary information before booking>">
-          <BookingCard table={table} />
-        </Tooltip>
+        <BookingCard table={table} />
       </Popover>
 
       <button

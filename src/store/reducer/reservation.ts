@@ -49,7 +49,7 @@ export const reservationSlice = createSlice({
     builder.addCase(hydrate, (state, action) => {
       return {
         ...state,
-        ...action.payload,
+        ...action.payload.reservation,
       };
     });
   },
@@ -62,3 +62,4 @@ export const { guestSelect, getTime } = reservationSlice.actions;
 export const selectReservationState = (state: RootState) => state.reservation;
 
 export default reservationSlice.reducer;
+
