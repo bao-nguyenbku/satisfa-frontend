@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTime, guestSelect } from '@/store/reducer/reseravation';
+import { getTime, guestSelect } from '@/store/reducer/reservation';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import dayjs from 'dayjs';
 import { isValidDate, isValidTime } from '@/utils';

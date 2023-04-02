@@ -27,7 +27,6 @@ const note = 'test ';
 const initialState: ReservationStateType = {
   reservationList,
   numberOfGuests,
-
   tableId,
   date,
   note,

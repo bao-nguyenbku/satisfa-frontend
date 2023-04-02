@@ -5,7 +5,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 
 import { useAppDispatch } from '@/hooks';
-import { guestSelect } from '@/store/reducer/reseravation';
+import { guestSelect } from '@/store/reducer/reservation';
 type Props = {
   amount: number;
 };

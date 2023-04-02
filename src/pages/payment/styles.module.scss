@@ -18,13 +18,6 @@
     width: 10vw;
 }
 
-.two0line{
-    border-bottom: 2px solid #c49246; 
-    padding-bottom: 15px; 
-    position: relative;
-    margin: 0 auto;
-    width: 90%;
-}
 
 .firstLine:before, .endLine:after {
     position: absolute; 
@@ -39,21 +32,8 @@
 }
 
 
-.two0line:before, 
-.two0line:after {
-    position: absolute; 
-    bottom: -6px; 
-    left: 0; 
-    height: 10px; 
-    width: 10px; 
-    background: black; 
-    content: ""; 
-    border-radius: 5px;
-    background-color: #c49246;
-}
 
-
-.firstLine:after, .endLine:after,.two0line:after {
+.firstLine:after, .endLine:after {
     right: 0; 
     left: auto;
 }
@@ -82,26 +62,4 @@
 .leftColumn input{
     color: white
 }
-
-// ORDER LIST CSS
-
-.orderItem{
-    padding: 0;
-    img{
-        height: 100%;
-        aspect-ratio: 1;
-    }
-    
-}
-
-
-.payBtn{
-    width: 80%;
-    height: 5rem;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #c49246;
-}
-
 

@@ -4,7 +4,7 @@ import TimePicker from '../time-picker';
 import GuestCounter from '../guest-counter';
 import TableModel from './table-model';
 import { useAppSelector, useAppDispatch } from '@/hooks';
-import { getTime } from '@/store/reducer/reseravation';
+import { getTime } from '@/store/reducer/reservation';
 import dayjs, { Dayjs } from 'dayjs';
 import { useGetAllTableQuery } from '@/service/table';
 
