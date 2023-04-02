@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import styles from './styles.module.scss';
 import { Grid, Button, Typography } from '@mui/material'
@@ -9,37 +9,51 @@ import {
     increaseQty,
     decreaseQty,
     removeItem,
-    setCookieToCart
+    setCookieToCart,
 } from '@/store/reducer/cart';
+
+import {
+    getItemList,
+    saveTotalCost,
+  } from '@/store/reducer/order';
 import { formatCurrency } from '@/utils/currency-format';
 import { useRouter } from 'next/router';
 import { hasCookie, getCookie } from 'cookies-next';
 
-
 export default function CartDetail(){
     const dispatch = useAppDispatch();
+    const cartItems = useAppSelector(selectAllItem)
+    const totalCost = useAppSelector(selectTotalCost)
+    const router = useRouter();
     const temp = getCookie("myCart")
+
     useEffect(()=>{
         if (hasCookie("myCart")){
             dispatch(setCookieToCart())
         }
     },[temp])
+
     
-    const cartItems = useAppSelector(selectAllItem)
-    const totalCost = useAppSelector(selectTotalCost)
-    const router = useRouter();
     const onIncrease = (id: string) => {
         dispatch(increaseQty(id));
+        dispatch(getItemList(cartItems));
     };
     const onDecrease = (id: string) => {
         dispatch(decreaseQty(id));
+        dispatch(getItemList(cartItems));
     };
     const onRemove = (id: string) => {
         dispatch(removeItem(id))
     }
     const handleOrderClick = () => {
-        router.push('/payment')
+        dispatch(getItemList(cartItems));
+        dispatch(saveTotalCost(totalCost));
+        if (cartItems.length > 0){
+            router.push('./payment')
+        }
     }
+
+
     return(
         <div className={styles.cartModule}>
             <div className='bg-gray-600/70 h-[10%] text-yellow-500 text-lg flex items-center p-4'>

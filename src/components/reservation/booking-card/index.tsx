@@ -5,7 +5,7 @@ import { useAppSelector } from '@/hooks';
 
 import { ReservationType, TableStatus } from '@/types/data-types';
 
-import { useCreateReservationMutation } from '@/service/reseravation';
+import { useCreateReservationMutation } from '@/service/reservation';
 
 
 type TableProps = {

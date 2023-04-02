@@ -2,7 +2,7 @@ import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
 import { Product, CartItem } from '@/types/data-types';
-import { getCookie, setCookie, hasCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
@@ -11,10 +11,6 @@ interface CartState {
   totalCost: number;
   totalQty: number;
 }
-
-
-const iniCart = hasCookie('myCart') ? getCookie('myCart') : '[]';
-
 // Define the initial state using that type
 const initialState: CartState = {
   itemList: [],
@@ -106,10 +102,8 @@ export const cartSlice = createSlice({
     },
     setCookieToCart: (state) => {
       const cartItems = getCookie('myCart')
-      console.log("aaaaa")
       if (cartItems){
         state.itemList = JSON.parse(cartItems);
-        console.log(state.itemList)
       }
     }
   },

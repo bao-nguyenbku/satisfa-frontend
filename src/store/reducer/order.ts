@@ -4,7 +4,8 @@ import { HYDRATE } from 'next-redux-wrapper';
 import {
   CartItem,
   ReduxDataType,
-  IReservationData
+  IReservationData,
+  OrderType
 } from '@/types/data-types';
 import { createOrderService } from '@/service/order';
 // import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
@@ -17,6 +18,7 @@ interface OrderState {
       reservation: IReservationData;
       itemList: CartItem[];
       totalCost: number;
+      type: OrderType
     };
   };
 }
@@ -28,6 +30,7 @@ const initialState: OrderState = {
       reservation: {} as IReservationData,
       itemList: [],
       totalCost: 0,
+      type: OrderType.DINE_IN
     },
     isLoading: false,
     isSuccess: false,
@@ -52,6 +55,7 @@ export const createOrderThunk = createAsyncThunk<
           totalCost: getState()?.order?.createOrder?.data?.totalCost,
         })
       ).unwrap();
+      console.log('resule:', result)
       return result;
     } catch (error) {
       return rejectWithValue(error);
@@ -71,6 +75,22 @@ export const orderSlice = createSlice({
     },
     saveTotalCost: (state, action: PayloadAction<number>) => {
       state.createOrder.data.totalCost = action.payload;
+    },
+    setOrderType: (state, action) => {
+      state.createOrder.data.type = action.payload;
+    },
+    reset: (state) => {
+      state.createOrder = {
+        data: {
+          reservation: {} as IReservationData,
+          itemList: [],
+          totalCost: 0,
+          type: OrderType.DINE_IN
+        },
+        isLoading: false,
+        isSuccess: false,
+        error: null,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -102,7 +122,7 @@ export const orderSlice = createSlice({
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
 });
 
-export const { getItemList, setReservation, saveTotalCost } =
+export const { getItemList, setReservation, saveTotalCost, reset, setOrderType } =
   orderSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

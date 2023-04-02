@@ -3,7 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { createWrapper } from 'next-redux-wrapper';
 import { reservationSlice } from './reducer/reservation';
 import { userSlice } from './reducer/user';
-import { reservationApi } from '@/service/reseravation';
+import { reservationApi } from '@/service/reservation';
 import { tableSlice } from './reducer/table';
 import { rtkQueryErrorLogger } from './error-handling';
 import { authApi } from '@/service/auth';
