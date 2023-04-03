@@ -11,6 +11,7 @@ interface CartState {
   totalCost: number;
   totalQty: number;
 }
+
 // Define the initial state using that type
 const initialState: CartState = {
   itemList: [],
@@ -26,7 +27,7 @@ export const cartSlice = createSlice({
     addItem: (state, action: PayloadAction<Product>) => {
       const cloneData = [...state.itemList];
       const foundItemIdx = cloneData.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
 
       if (foundItemIdx === -1) {
@@ -42,12 +43,12 @@ export const cartSlice = createSlice({
         payload: action.payload.price,
       });
       // cartSlice.actions.increaseTotalCost(action.payload.price);
-      setCookie('myCart', cloneData )
-      const cartItems = getCookie('myCart')
-      if (cartItems){
-        state.itemList = JSON.parse(cartItems);
+      setCookie('myCart', cloneData);
+      const cartItems = getCookie('myCart');
+      if (cartItems) {
+        state.itemList = JSON.parse(cartItems as string);
       }
-      state.totalQty +=1;
+      state.totalQty += 1;
     },
     clearAll: (state) => {
       state.itemList = [];
@@ -56,34 +57,34 @@ export const cartSlice = createSlice({
     increaseQty: (state, action: PayloadAction<string>) => {
       const cloneData = [...state.itemList];
       const foundItemIdx = cloneData.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.id === action.payload,
       );
       if (foundItemIdx === -1) {
         return;
       }
       cloneData[foundItemIdx].qty += 1;
-      setCookie('myCart', cloneData )
-      const cartItems = getCookie('myCart')
-      if (cartItems){
-        state.itemList = JSON.parse(cartItems);
+      setCookie('myCart', cloneData);
+      const cartItems = getCookie('myCart');
+      if (cartItems) {
+        state.itemList = JSON.parse(cartItems as string);
       }
-      state.totalQty +=1;
+      state.totalQty += 1;
     },
     decreaseQty: (state, action: PayloadAction<string>) => {
       const cloneData = [...state.itemList];
       const foundItemIdx = cloneData.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.id === action.payload,
       );
       if (foundItemIdx === -1) {
         return;
       }
       cloneData[foundItemIdx].qty -= cloneData[foundItemIdx].qty === 0 ? 0 : 1;
-      setCookie('myCart', cloneData )
-      const cartItems = getCookie('myCart')
-      if (cartItems){
-        state.itemList = JSON.parse(cartItems);
+      setCookie('myCart', cloneData);
+      const cartItems = getCookie('myCart');
+      if (cartItems) {
+        state.itemList = JSON.parse(cartItems as string);
       }
-      state.totalQty -=1;
+      state.totalQty -= 1;
     },
     increaseTotalCost: (state, action: PayloadAction<number>) => {
       state.totalCost += action.payload;
@@ -93,19 +94,19 @@ export const cartSlice = createSlice({
     },
     removeItem: (state, action: PayloadAction<string>) => {
       const cloneData = [...state.itemList];
-      const filterData = cloneData.filter(item => item.id != action.payload)
-      setCookie('myCart', filterData )
-      const cartItems = getCookie('myCart')
-      if (cartItems){
-        state.itemList = JSON.parse(cartItems);
+      const filterData = cloneData.filter((item) => item.id != action.payload);
+      setCookie('myCart', filterData);
+      const cartItems = getCookie('myCart');
+      if (cartItems) {
+        state.itemList = JSON.parse(cartItems as string);
       }
     },
     setCookieToCart: (state) => {
-      const cartItems = getCookie('myCart')
-      if (cartItems){
-        state.itemList = JSON.parse(cartItems);
+      const cartItems = getCookie('myCart');
+      if (cartItems) {
+        state.itemList = JSON.parse(cartItems as string);
       }
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(hydrate, (state, action) => {
@@ -118,13 +119,19 @@ export const cartSlice = createSlice({
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
 });
 
-export const { addItem, increaseQty, decreaseQty, clearAll, removeItem, setCookieToCart } =
-  cartSlice.actions;
+export const {
+  addItem,
+  increaseQty,
+  decreaseQty,
+  clearAll,
+  removeItem,
+  setCookieToCart,
+} = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCartState = (state: RootState) => state.cart;
 
-export const selectAllItem = (state: RootState) => (state.cart.itemList);
+export const selectAllItem = (state: RootState) => state.cart.itemList;
 export const selectTotalQty = (state: RootState) =>
   state.cart.itemList.reduce((prev, curr) => prev + curr.qty, 0);
 export const selectTotalCost = (state: RootState) =>

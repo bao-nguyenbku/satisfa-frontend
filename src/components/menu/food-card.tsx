@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from '@mui/material';
 
 import Image from 'next/image';
 import type { Product } from '@/types/data-types';
@@ -30,11 +29,11 @@ export default function FoodCard(props: Props) {
       </div>
       <span className="font-bold text-2xl my-6">{data.name}</span>
       <div className="flex items-center justify-between mt-10">
-        <Button 
+        <button 
         onClick={handleAddItem}
-        className="bg-primary-yellow normal-case rounded-none font-podkova text-white group-hover:bg-primary-dark">
+        className="bg-primary-yellow normal-case rounded-none text-white group-hover:bg-primary-dark p-4 px-10 font-bold">
           Add
-        </Button>
+        </button>
         <span className="text-2xl text-primary-yellow font-extrabold group-hover:text-white">
           {formatCurrency(data.price)}
         </span>

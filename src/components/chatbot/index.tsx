@@ -8,6 +8,7 @@ import { BotService } from './types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
+  // selectBotOrderState,
   setDate,
   setTime,
   setGuest,
@@ -22,7 +23,7 @@ const Chatbot = () => {
     useChatbot();
   // const [currentMessage, setCurrentMessage] = useState<string>('');
   const botReservationState = useAppSelector(selectBotReservationState);
-  const 
+  // const botOrderState = useAppSelector(selectBotOrderState);
   const handleBotReservation = (message: string) => {
     if (!botReservationState[0].isComplete) {
       if (isValidDate(message)) {
@@ -40,9 +41,7 @@ const Chatbot = () => {
       if (isValidTime(message)) {
         dispatch(setTime(message));
         actions.getGuest(botReservationState[2].text);
-      } 
-      
-      else {
+      } else {
         actions.sendMessage(
           'That time is invalid. Please type the time following my syntax: hh:mm (E.g: 14:30)',
         );
@@ -73,9 +72,7 @@ const Chatbot = () => {
       // actions.unhandleInput();
     }
   };
-  // const handleBotOrder = (message: string) => {
-    
-  // }
+
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
     createUserMessage(message, {});
@@ -83,7 +80,7 @@ const Chatbot = () => {
       actions.askForHelp();
     } else if (botService === BotService.RESERVATION) {
       handleBotReservation(message);
-    } 
+    }
     // else if (botService === BotService.ORDER) {
     //   handleBotOrder(message);
     // }

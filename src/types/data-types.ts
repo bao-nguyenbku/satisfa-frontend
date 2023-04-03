@@ -11,6 +11,7 @@ export type User = {
   id: string;
   email: string;
   fullname: string;
+  avatar: string;
 };
 
 export type CreateUser = {
@@ -61,7 +62,6 @@ export interface IProductData {
 export type ReduxDataType = {
   data: any;
   isLoading: boolean;
-
   isSuccess: boolean;
   error: ErrorType | any;
 };
