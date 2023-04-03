@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import CartItemDetail from '../cart-item';
 import {
@@ -7,7 +7,10 @@ import {
   increaseQty,
   decreaseQty,
   removeItem,
+  setCookieToCart,
 } from '@/store/reducer/cart';
+
+import { getItemList, saveTotalCost } from '@/store/reducer/order';
 import { formatCurrency } from '@/utils/currency-format';
 import { useRouter } from 'next/router';
 
@@ -50,7 +53,9 @@ export default function CartDetail() {
       <div className="mt-auto bg-primary-dark p-4 flex flex-col gap-4">
         <div className="text-white flex items-center justify-between">
           <span>Total</span>
-          <span className='text-primary-yellow text-2xl'>{formatCurrency(totalCost)}</span>
+          <span className="text-primary-yellow text-2xl">
+            {formatCurrency(totalCost)}
+          </span>
         </div>
         <button
           className="hover:bg-yellow-500 bg-yellow-600 h-16 mx-auto normal-case text-white rounded-none w-full text-2xl"

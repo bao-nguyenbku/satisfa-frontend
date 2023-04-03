@@ -27,7 +27,6 @@ const note = 'test ';
 const initialState: ReservationStateType = {
   reservationList,
   numberOfGuests,
-
   tableId,
   date,
   note,
@@ -63,3 +62,4 @@ export const { guestSelect, getTime } = reservationSlice.actions;
 export const selectReservationState = (state: RootState) => state.reservation;
 
 export default reservationSlice.reducer;
+
