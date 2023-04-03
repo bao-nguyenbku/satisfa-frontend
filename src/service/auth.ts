@@ -21,6 +21,9 @@ export const authApi = createApi({
         };
       },
     }),
+    authCurrentUserService: build.query<User, void>({
+      query: () => '/auth/me',
+    }),
   }),
   refetchOnFocus: true,
 });
