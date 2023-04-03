@@ -6,11 +6,10 @@ import PaymentType from '@/components/payment/payment-type';
 import UserPaymentInfo from '@/components/payment/user-form';
 import OrderTypePayment from '@/components/payment/order-type';
 
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppSelector } from '@/hooks';
 
 export default function Payment() {
-
-  const orderInfo = useAppSelector(state => state.order.createOrder.data)
+  const orderInfo = useAppSelector((state) => state.order.createOrder.data);
   return (
     <div className="menu-page bg-dark-theme h-full">
       <div className={styles.menuHeader}>
@@ -23,15 +22,14 @@ export default function Payment() {
           <Grid item xs={6}>
             <Grid container>
               <Grid item xs={12} className={styles.leftColumn}>
-                <UserPaymentInfo orderInfo={ orderInfo } userInfo={ '' }/>
-              </Grid>
-              <Grid item xs={12} className='bg-[#2D2D2D] mt-4 w-11/12 mx-auto'>
-                <OrderTypePayment orderType={orderInfo.type}/>
+                <UserPaymentInfo orderInfo={orderInfo} userInfo={''} />
               </Grid>
               <Grid item xs={12} className="bg-[#2D2D2D] mt-4 w-11/12 mx-auto">
-                <PaymentType/>
+                <OrderTypePayment orderType={orderInfo.type} />
               </Grid>
-              
+              <Grid item xs={12} className="bg-[#2D2D2D] mt-4 w-11/12 mx-auto">
+                <PaymentType />
+              </Grid>
             </Grid>
           </Grid>
           <Grid
@@ -39,7 +37,7 @@ export default function Payment() {
             xs={5}
             marginLeft={4}
             className="order-detail bg-[#2D2D2D] h-full p-0">
-            <OrderDetailPayment orderInfo={orderInfo}/>
+            <OrderDetailPayment orderInfo={orderInfo} />
           </Grid>
         </Grid>
       </div>

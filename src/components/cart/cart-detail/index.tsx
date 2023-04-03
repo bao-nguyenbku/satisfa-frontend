@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import CartItemDetail from '../cart-item';
 import {
@@ -7,10 +7,9 @@ import {
   increaseQty,
   decreaseQty,
   removeItem,
-  setCookieToCart,
 } from '@/store/reducer/cart';
 
-import { getItemList, saveTotalCost } from '@/store/reducer/order';
+// import { getItemList, saveTotalCost } from '@/store/reducer/order';
 import { formatCurrency } from '@/utils/currency-format';
 import { useRouter } from 'next/router';
 
