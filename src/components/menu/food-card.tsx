@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Image from 'next/image';
 import type { Product } from '@/types/data-types';
 import { formatCurrency } from '@/utils/currency-format';

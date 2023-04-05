@@ -26,12 +26,6 @@ const initialState: TableStateType = {
   code,
   status,
 };
-// export const createReservation = createAsyncThunk(
-//   "/reservations/createReservation",
-//   async (_, { rejectWithValue }) => {
-
-//   }
-// );
 
 export const tableSlice = createSlice({
   name: 'table',

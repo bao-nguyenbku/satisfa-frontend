@@ -1,11 +1,3 @@
-export type ReservationType = {
-  customerId: string;
-  tableId: string;
-  date: string;
-  numberOfGuests: number;
-  note: string
-};
-
 
 export type User = {
   id: string;
@@ -24,6 +16,18 @@ export type ChatBotType = {
   re_type: string;
 };
 
+export interface ICreateReservation {
+  customerId: IUser;
+  tableId: string;
+  date: string;
+  numberOfGuests: number;
+  note: string;
+}
+
+export type ReservationFilter = {
+  date?: string;
+  user?: string;
+};
 
 
 
@@ -83,6 +87,28 @@ export enum OrderType {
   DINE_IN = 'DINE_IN',
   TAKEAWAY = 'TAKEAWAY',
 }
+
+export enum PaymentType {
+  CASH = 'CASH',
+  CREDIT = 'CREDIT',
+  E_WALLET = 'E_WALLET',
+}
+
+export type PaymentCash = {
+  totalPay: number,
+  totalCost: number,
+}
+export type PaidOrderType = {
+  type: PaymentType,
+  info: PaymentCash
+}
+
+export type CreatedOrder = {
+  id: string,
+  type: OrderType;
+  paymentData: PaidOrderType
+}
+
 export enum OrderStatus {
   NEW = 'NEW',
   ACCEPTED = 'ACCEPTED',
