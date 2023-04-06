@@ -24,9 +24,6 @@ export type ChatBotType = {
   re_type: string;
 };
 
-
-
-
 export type TableType = {
   _id: string;
   id: string;
@@ -57,7 +54,6 @@ export interface IProductData {
   images: Array<any>;
   visible: boolean;
 }
-
 
 export type ReduxDataType = {
   data: any;

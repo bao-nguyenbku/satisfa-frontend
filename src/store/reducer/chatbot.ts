@@ -1,4 +1,9 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAction,
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { RootState } from '@/store';
 // import { ReduxDataType } from '@/types/redux-type';
 import { HYDRATE } from 'next-redux-wrapper';
@@ -56,13 +61,21 @@ const initialState = {
         text: 'Sorry, you do not have any reservation. Please make a reservation first or takeaway the order.',
         isComplete: false,
       },
+      // In casse of customer chose takeaway
       {
-        id: 4,
-        text: 'Sorry, you do not have any reservation. Please make a reservation first or takeaway the order.',
+        id: 5,
+        text: 'Ok. I am confirming your order. Now, please look at widget below on the chat area. It the order information is right, type ok',
+        isComplete: false,
+      },
+      {
+        id: 6,
+        text: 'Ok. I am confirming your order. Now, please look at widget below on the chat area. It the order information is right, type ok',
         isComplete: false,
       },
     ],
-    created: {}
+    created: {
+      
+    },
   },
 };
 // export const createReservation = createAsyncThunk(
@@ -71,6 +84,16 @@ const initialState = {
 
 //   }
 // );
+export const setOrderItems = createAsyncThunk<
+  void,
+  void,
+  {
+    state: RootState;
+  }
+>('chatbot/setOrderItems', async (_, { getState }) => {
+  console.log(getState());
+  return;
+});
 
 export const chatbotSlice = createSlice({
   name: 'chatbot',
@@ -113,5 +136,6 @@ export const { setDate, setTime, setGuest } = chatbotSlice.actions;
 export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation.steps;
 
-export const selectBotOrderState = (state: RootState) => state.chatbot.order.steps;
+export const selectBotOrderState = (state: RootState) =>
+  state.chatbot.order.steps;
 export default chatbotSlice.reducer;

@@ -7,7 +7,7 @@ import ChatbotButton from '@/components/chatbot-button';
 import { useAppDispatch } from '@/hooks';
 import { authCurrentUser } from '@/store/reducer/user';
 // import { GetServerSideProps } from 'next';
-// import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -16,13 +16,16 @@ export default function MainLayout({ children }: LayoutProps) {
   const scrollableNodeRef = useRef<SimpleBarCore>(null);
   const [propsRef, setPropsRef] = useState<RefObject<SimpleBarCore>>();
   const dispatch = useAppDispatch();
+  const { data: session, status } = useSession();
   useEffect(() => {
     if (scrollableNodeRef) {
       setPropsRef(scrollableNodeRef);
     }
   }, [scrollableNodeRef]);
   useEffect(() => {
-    dispatch(authCurrentUser());
+    if (status === 'authenticated' && session) {
+      dispatch(authCurrentUser());
+    }
   }, []);
   return (
     <SimpleBar
