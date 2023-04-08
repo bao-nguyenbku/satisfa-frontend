@@ -12,11 +12,17 @@ import {
   setDate,
   setTime,
   setGuest,
-  setOrderItems,
+  setOrderItemsThunk,
+  setOrderType,
+  setTakeawayName,
+  setTakeawayPhone,
+  setTakeawayTime,
 } from '@/store/reducer/chatbot';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
 import { isNumber, isValidDate, isValidTime } from '@/utils';
+import ShowCart from './widgets/show-cart';
+import { OrderType } from '@/types/data-types';
 
 const Chatbot = () => {
   const dispatch = useAppDispatch();
@@ -74,12 +80,61 @@ const Chatbot = () => {
     }
   };
   const handleBotOrder = async (message: string) => {
-    if (!botOrderState[0].isComplete) {
+    if (!botOrderState.steps[0].isComplete) {
       if (message.includes('ok')) {
-        const res = await dispatch(setOrderItems()).unwrap();
-        console.log('🚀 ~ file: index.tsx:80 ~ handleBotOrder ~ res:', res);
-        actions.sendMessage(botOrderState[1].text);
+        const cartRes = await dispatch(setOrderItemsThunk()).unwrap();
+        if (cartRes && cartRes.itemList.length === 0) {
+          actions.sendMessage(
+            'Your cart is empty, so I can make an order for you. Please pick some food to continue',
+          );
+        } else if (cartRes && cartRes.itemList.length > 0) {
+          actions.sendMessage('I am confirming your cart');
+          actions.sendWidget(<ShowCart data={cartRes.itemList} />);
+          actions.sendMessage(botOrderState.steps[1].text, {
+            delay: 600,
+          });
+        }
       }
+    }
+    // Choose OrderType
+    else if (!botOrderState.steps[1].isComplete) {
+      if (/^takeaway$/.test(message)) {
+        dispatch(setOrderType(OrderType.TAKEAWAY));
+        actions.sendMessage(botOrderState.steps[4].text);
+      } 
+      
+      else if (/^dine in$/.test(message)) {
+        dispatch(setOrderType(OrderType.DINE_IN));
+        actions.sendMessage(botOrderState.steps[2].text);
+      }
+    }
+    // Takeaway case, Handle getting name of tempCustomer
+    else if (
+      !botOrderState.steps[4].isComplete &&
+      botOrderState.created.type === OrderType.TAKEAWAY
+    ) {
+      dispatch(setTakeawayName(message));
+      actions.sendMessage(botOrderState.steps[5].text);
+    }
+    // Takeaway case, handle getting phone of tempCustomer
+    else if (
+      !botOrderState.steps[5].isComplete &&
+      botOrderState.created.type === OrderType.TAKEAWAY
+    ) {
+      dispatch(setTakeawayPhone(message));
+      actions.sendMessage(botOrderState.steps[6].text);
+    } 
+    
+    else if (
+      !botOrderState.steps[6].isComplete &&
+      botOrderState.created.type === OrderType.TAKEAWAY
+    ) {
+      dispatch(setTakeawayTime(message));
+      actions.sendMessage(botOrderState.steps[7].text);
+    }
+
+    else if (!botOrderState.steps[7].isComplete) {
+      actions.sendMessage('Got all takeaway info');
     }
   };
   const parseMessage = async (message: string) => {

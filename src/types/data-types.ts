@@ -3,9 +3,8 @@ export type ReservationType = {
   tableId: string;
   date: string;
   numberOfGuests: number;
-  note: string
+  note: string;
 };
-
 
 export type User = {
   id: string;
@@ -30,7 +29,7 @@ export type TableType = {
   code: string;
   numberOfSeats: number;
   status: TableStatus;
-}
+};
 
 export type Product = {
   id: string;
@@ -86,18 +85,38 @@ export enum OrderStatus {
   COMPLETE = 'COMPLETE',
 }
 export type OrderFilter = {
-  status?: OrderStatus
-}
+  status?: OrderStatus;
+};
+export type TakeawayCustomer = {
+  name: string;
+  phone: string;
+  takingTime: string;
+};
+export type CreateOrder = Omit<
+  Order,
+  | 'id'
+  | 'totalItem'
+  | 'paymentStatus'
+  | 'status'
+  | 'customerId'
+  | 'reservationId'
+  | 'createdAt'
+> & {
+  reservationId: string;
+  customerId?: string;
+  tempCustomer?: TakeawayCustomer;
+};
+
 export type Order = {
   id: string;
   totalCost: number;
+  type: OrderType;
   totalItem: number;
   paymentStatus: string;
   status: string;
   customerId: IUser;
   reservationId: IReservationData;
   items: CartItem[];
-  type: OrderType;
   createdAt: string;
 };
 

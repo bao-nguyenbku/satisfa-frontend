@@ -6,7 +6,7 @@ import { getCookie, setCookie } from 'cookies-next';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
-interface CartState {
+export interface CartState {
   itemList: CartItem[];
   totalCost: number;
   totalQty: number;

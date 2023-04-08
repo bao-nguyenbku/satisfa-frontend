@@ -14,6 +14,9 @@ export function isValidTime(inputField: string) {
   return isValid;
 }
 
+// export function isValidDatetime(datetime: string) {
+//   const pattern = /^([1-9])/
+// }
 export function isNumber(value: string) {
   return +value;
 }

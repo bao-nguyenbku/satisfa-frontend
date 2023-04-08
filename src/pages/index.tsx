@@ -11,7 +11,7 @@ export default function Home() {
       <Head>
         <title>Satisfa</title>
         <meta name="description" content="Satisfa restaurant. Elegant Services." />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
 
       <motion.main

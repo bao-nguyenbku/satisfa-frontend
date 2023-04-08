@@ -44,7 +44,8 @@ const ChatbotButton = () => {
       {!open && (
         <button
           className="fixed w-20 h-20 bottom-12 right-20 border-gray-600 bg-white/5 p-4 border rounded-full z-10 animate-pulse"
-          onClick={handleClick}>
+          onClick={handleClick}
+          >
           <div className="relative w-full h-full">
             <Image
               src={SatisgiAvatar}

@@ -5,7 +5,8 @@ import {
   CartItem,
   ReduxDataType,
   IReservationData,
-  OrderType
+  OrderType,
+  Order
 } from '@/types/data-types';
 import { createOrderService } from '@/service/order';
 // import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
@@ -39,7 +40,7 @@ const initialState: OrderState = {
 };
 
 export const createOrderThunk = createAsyncThunk<
-  any,
+  Order,
   void,
   { state: RootState }
 >(
@@ -55,7 +56,6 @@ export const createOrderThunk = createAsyncThunk<
           totalCost: getState()?.order?.createOrder?.data?.totalCost,
         })
       ).unwrap();
-      console.log('resule:', result)
       return result;
     } catch (error) {
       return rejectWithValue(error);

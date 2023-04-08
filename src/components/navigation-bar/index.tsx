@@ -36,7 +36,9 @@ const NavigationBar = (props: Props) => {
     <ul
       className={`flex items-center justify-end text-white gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 uppercase absolute`}>
       <li className="mr-auto font-passions-conflict text-5xl normal-case">
-        <Link href="/">Satisfa</Link>
+        <Link href="/" className="flex items-center gap-2">
+          Satisfa
+        </Link>
       </li>
       <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
         <Link href="/#about-us">About us</Link>

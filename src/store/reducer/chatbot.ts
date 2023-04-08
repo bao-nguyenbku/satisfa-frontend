@@ -4,16 +4,33 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
+// import * as _ from 'lodash';
 import { RootState } from '@/store';
 // import { ReduxDataType } from '@/types/redux-type';
 import { HYDRATE } from 'next-redux-wrapper';
+import { CartState } from './cart';
+import {
+  CreateOrder,
+  CartItem,
+  OrderType,
+  TakeawayCustomer,
+} from '@/types/data-types';
 // import { ChatBotType } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
-
+type ChatbotState = {
+  reservation: {
+    steps: Array<any>;
+    created: any;
+  };
+  order: {
+    steps: Array<any>;
+    created: CreateOrder;
+  };
+};
 // Define the initial state using that type
-const initialState = {
+const initialState: ChatbotState = {
   reservation: {
     steps: [
       {
@@ -46,7 +63,7 @@ const initialState = {
       },
       {
         id: 2,
-        text: 'I saw your order cart. Would you like to dine-in or takeaway?',
+        text: 'I saw your order cart. Would you like to dine-in or takeaway? (type "dine in" or "takeaway")',
         isComplete: false,
       },
       // In case of Dine-in, use this step
@@ -64,17 +81,36 @@ const initialState = {
       // In casse of customer chose takeaway
       {
         id: 5,
-        text: 'Ok. I am confirming your order. Now, please look at widget below on the chat area. It the order information is right, type ok',
+        text: 'Ok. I need some information to complete the order. What is your name?',
         isComplete: false,
       },
       {
         id: 6,
-        text: 'Ok. I am confirming your order. Now, please look at widget below on the chat area. It the order information is right, type ok',
+        text: 'What is your phone number? This will be phone number we contact you about the order',
+        isComplete: false,
+      },
+      {
+        id: 7,
+        text: 'What time can you arrive to restaurant to take order away? type the date to box following syntax: dd/mm/yyyy hh:mm (24-hour format). E.g: 25/04/2023 14:30',
+        isComplete: false,
+      },
+      {
+        id: 8,
+        text: 'Ok. I am confirming your order. Now, please look at widget below on the chat area. If the order information is right, type ok',
         isComplete: false,
       },
     ],
     created: {
-      
+      reservationId: '',
+      customerId: '',
+      items: [],
+      totalCost: 0,
+      type: OrderType.DINE_IN,
+      tempCustomer: {
+        name: '',
+        phone: '',
+        takingTime: ''
+      }
     },
   },
 };
@@ -84,15 +120,18 @@ const initialState = {
 
 //   }
 // );
-export const setOrderItems = createAsyncThunk<
-  void,
+export const setOrderItemsThunk = createAsyncThunk<
+  CartState,
   void,
   {
     state: RootState;
   }
->('chatbot/setOrderItems', async (_, { getState }) => {
-  console.log(getState());
-  return;
+>('chatbot/setOrderItems', async (_, { getState, dispatch }) => {
+  const cart = getState().cart;
+  if (cart.itemList.length > 0) {
+    dispatch(setOrderItems(cart.itemList));
+  }
+  return cart;
 });
 
 export const chatbotSlice = createSlice({
@@ -118,6 +157,30 @@ export const chatbotSlice = createSlice({
       cloneState[2].isComplete = true;
       state.reservation.steps = cloneState;
     },
+    setOrderItems: (state, action: PayloadAction<CartItem[]>) => {
+      state.order.created.items = action.payload;
+      state.order.steps[0].isComplete = true;
+    },
+    setOrderType: (state, action: PayloadAction<OrderType>) => {
+      state.order.created.type = action.payload;
+      state.order.steps[1].isComplete = true;
+    },
+    setTakeawayName: (state, action: PayloadAction<string>) => {
+      (state.order.created.tempCustomer as TakeawayCustomer)['name'] =
+        action.payload;
+      state.order.steps[4].isComplete = true;
+    },
+    setTakeawayPhone: (state, action: PayloadAction<string>) => {
+      (state.order.created.tempCustomer as TakeawayCustomer).phone =
+        action.payload;
+      state.order.steps[5].isComplete = true;
+    },
+    setTakeawayTime: (state, action: PayloadAction<string>) => {
+      console.log(action);
+      (state.order.created.tempCustomer as TakeawayCustomer).takingTime = action.payload;
+      state.order.steps[6].isComplete = true;
+    }
+
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
   extraReducers: (builder) => {
@@ -130,12 +193,20 @@ export const chatbotSlice = createSlice({
   },
 });
 
-export const { setDate, setTime, setGuest } = chatbotSlice.actions;
+export const {
+  setDate,
+  setTime,
+  setGuest,
+  setOrderItems,
+  setOrderType,
+  setTakeawayName,
+  setTakeawayPhone,
+  setTakeawayTime,
+} = chatbotSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation.steps;
 
-export const selectBotOrderState = (state: RootState) =>
-  state.chatbot.order.steps;
+export const selectBotOrderState = (state: RootState) => state.chatbot.order;
 export default chatbotSlice.reducer;

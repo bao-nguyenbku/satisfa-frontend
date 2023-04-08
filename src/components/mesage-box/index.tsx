@@ -4,7 +4,6 @@ import { ChatbotProvider } from '@/context/chatbot-context';
 /**
  * Connect websocket, for testing only
  */
-import 'react-chatbot-kit/build/main.css';
 import { io, Socket } from 'socket.io-client';
 import { BASE_URL } from '@/constants';
 

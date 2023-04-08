@@ -3,8 +3,9 @@ import React, {
   useState,
   useEffect,
   ReactElement,
-  // cloneElement,
+  cloneElement,
 } from 'react';
+// import * as _ from 'lodash';
 import {
   MessageOption,
   Message,
@@ -14,7 +15,10 @@ import {
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@/hooks';
-import { selectBotReservationState, selectBotOrderState } from '@/store/reducer/chatbot';
+import {
+  selectBotReservationState,
+  selectBotOrderState,
+} from '@/store/reducer/chatbot';
 // import Yes from '@/components/chatbot/widgets/yes';
 
 type Props = {
@@ -23,13 +27,15 @@ type Props = {
 
 interface IChatbotContext {
   messages: Message[];
-  createBotMessage: (message: string, options: MessageOption) => void;
-  createUserMessage: (message: string, options: MessageOption) => void;
-  createOptions: (options: MessageOption) => void;
+  createBotMessage: (message: string, options?: MessageOption) => void;
+  createUserMessage: (message: string, options?: MessageOption) => void;
+  createWidget: (widget: ReactElement, options?: MessageOption) => void;
   isTyping: boolean;
   activeTyping: () => void;
   disableTyping: () => void;
-  actions: any;
+  actions: {
+    [key: string]: (params?: any, options?: MessageOption) => void;
+  };
   botService: BotService;
 }
 export const ChatbotContext = createContext<IChatbotContext>({
@@ -40,7 +46,7 @@ export const ChatbotContext = createContext<IChatbotContext>({
   createUserMessage: () => {
     return;
   },
-  createOptions: () => {
+  createWidget: () => {
     return;
   },
   activeTyping: () => {
@@ -60,26 +66,12 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const router = useRouter();
   const botReservation = useAppSelector(selectBotReservationState);
-  const botOrder = useAppSelector(selectBotOrderState);
+  const botOrderState = useAppSelector(selectBotOrderState);
 
-  const createOptions = (options?: MessageOption) => {
-    const { delay = DEFAULT_DELAY } = options ? options : {};
-    setTimeout(() => {
-      setMessages((prev) => {
-        return [
-          ...prev,
-          {
-            id: Math.random(),
-            text: '',
-            role: 'widget',
-            isNew: false,
-            component: <Options actions={actions} />,
-          },
-        ];
-      });
-    }, delay);
-  };
-  const createBotMessage = (message: string | ReactElement, options?: MessageOption) => {
+  const createBotMessage = (
+    message: string | ReactElement,
+    options?: MessageOption,
+  ) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
     activeTyping();
     setTimeout(() => {
@@ -113,24 +105,25 @@ export const ChatbotProvider = ({ children }: Props) => {
       disableTyping();
     }, delay);
   };
-  // const createWidget = (widget: ReactElement) => {
-  //   setTimeout(() => {
-  //     setMessages((prev) => {
-  //       return [
-  //         ...prev,
-  //         {
-  //           id: Math.random(),
-  //           text: '',
-  //           role: 'widget',
-  //           isNew: false,
-  //           component: cloneElement(widget as ReactElement, {
-  //             actions,
-  //           }),
-  //         },
-  //       ];
-  //     });
-  //   }, DEFAULT_DELAY);
-  // };
+  const createWidget = (widget: ReactElement, options?: MessageOption) => {
+    const { delay = DEFAULT_DELAY } = options ? options : {};
+    setTimeout(() => {
+      setMessages((prev) => {
+        return [
+          ...prev,
+          {
+            id: Math.random(),
+            text: '',
+            role: 'widget',
+            isNew: false,
+            component: cloneElement(widget as ReactElement, {
+              actions,
+            }),
+          },
+        ];
+      });
+    }, delay);
+  };
   const createUserMessage = (message: string) => {
     setMessages((prev) => {
       const lastMessage = prev[prev.length - 1];
@@ -174,14 +167,21 @@ export const ChatbotProvider = ({ children }: Props) => {
   }, [messages]);
   const actions = {
     unhandleInput: () => {
-      createBotMessage(<p>I can not understand. Please provide correct syntax. If you need help, let you type <strong className='font-bold'>help</strong></p>);
+      createBotMessage(
+        <p>
+          I can not understand. Please provide correct syntax. If you need help,
+          let you type <strong className="font-bold">help</strong>
+        </p>,
+      );
     },
     askForHelp: () => {
       createBotMessage('Hi, I am Satisgi. How can I help you?');
-      createOptions();
+      createWidget(<Options actions={actions} />);
     },
     introduce: () => {
-      createBotMessage('Hi, I am Satisgi. Nice to meet you 😍. If you need some help, type help in the textbox👇');
+      createBotMessage(
+        'Hi, I am Satisgi. Nice to meet you 😍. If you need some help, type help in the textbox👇',
+      );
     },
     navigateToReservation: () => {
       router.replace('/reservation');
@@ -209,6 +209,9 @@ export const ChatbotProvider = ({ children }: Props) => {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
+    sendWidget: (widget: ReactElement, options?: MessageOption) => {
+      createWidget(widget, options);
+    },
     getTimePicker: (options?: MessageOption) => {
       createBotMessage(botReservation[1].text, {
         delay: options ? options.delay : DEFAULT_DELAY,
@@ -223,7 +226,7 @@ export const ChatbotProvider = ({ children }: Props) => {
       return;
     },
     chooseFoodFromMenu: () => {
-      createBotMessage(botOrder[0].text);
+      createBotMessage(botOrderState.steps[0].text);
     },
     handleOrder: () => {
       setBotService(BotService.ORDER);
@@ -237,7 +240,7 @@ export const ChatbotProvider = ({ children }: Props) => {
         messages,
         createBotMessage,
         createUserMessage,
-        createOptions,
+        createWidget,
         isTyping,
         activeTyping,
         disableTyping,
