@@ -12,7 +12,7 @@ const Reservation = () => {
   const dispatch = useAppDispatch();
   const { data: tables } = useGetAllTableQuery();
 
-  const bookingData = useAppSelector((state) => state.reservation);
+  const bookingData = useAppSelector((state) => state.reservation.createReservationData);
   const handleChange = (newValue: Dayjs | null) => {
     if (newValue) {
       dispatch(getTime(newValue.toISOString()));

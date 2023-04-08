@@ -4,6 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { Product, CartItem } from '@/types/data-types';
 import { getCookie, setCookie } from 'cookies-next';
 
+
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
 export interface CartState {

@@ -22,6 +22,17 @@ export const orderApi = createApi({
         };
       },
     }),
+    createPaidOrderService: build.mutation<any, any>({
+      
+      query: (body) => {
+        const { id, ...rest } = body;
+        return {
+          url: `/orders/${id}/paid`,
+          method: 'PATCH',
+          body: rest.paymentData,
+        };
+      },
+    }),
     updateOrderService: build.mutation<any, Partial<Order>>({
       invalidatesTags: ['Order'],
       query: (updateData) => {
@@ -40,7 +51,8 @@ export const orderApi = createApi({
 export const {
   useCreateOrderServiceMutation,
   useUpdateOrderServiceMutation,
+  useCreatePaidOrderServiceMutation,
   util: { getRunningQueriesThunk },
 } = orderApi;
 
-export const { createOrderService } = orderApi.endpoints;
+export const { createOrderService, createPaidOrderService } = orderApi.endpoints;
