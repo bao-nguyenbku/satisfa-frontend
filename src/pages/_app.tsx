@@ -54,13 +54,17 @@ const App = ({
               <ThemeProvider theme={theme}>
                 <SessionProvider session={session}>
                   <main className={podkova.className}>
-                    {getLayout(<Component {...props.pageProps} />)}
+                    {getLayout(
+                      <>
+                        <Component {...props.pageProps} />
+                        <ToastContainer />
+                      </>,
+                    )}
                   </main>
                 </SessionProvider>
               </ThemeProvider>
             </CacheProvider>
           </StyledEngineProvider>
-          <ToastContainer />
         </>
       </LocalizationProvider>
     </Provider>

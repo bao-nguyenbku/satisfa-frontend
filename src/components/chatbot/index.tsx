@@ -20,15 +20,30 @@ import {
 } from '@/store/reducer/chatbot';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
-import { isNumber, isValidDate, isValidTime } from '@/utils';
+import {
+  isNumber,
+  isValidDate,
+  isValidDatetime,
+  isValidPhoneNumber,
+  isValidTime,
+} from '@/utils';
+import { toast } from 'react-toastify';
 import ShowCart from './widgets/show-cart';
-import { OrderType } from '@/types/data-types';
+import { OrderType, QueryStatus } from '@/types/data-types';
+import { useCreateOrderServiceMutation } from '@/service/order';
 
-const Chatbot = () => {
+type Props = {
+  boxOpen?: boolean;
+};
+const Chatbot = (props: Props) => {
   const dispatch = useAppDispatch();
   const { messages, isTyping, createUserMessage, actions, botService } =
     useChatbot();
+
+  // RTK query
+  const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
   // const [currentMessage, setCurrentMessage] = useState<string>('');
+  // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
   const botOrderState = useAppSelector(selectBotOrderState);
   const handleBotReservation = (message: string) => {
@@ -80,7 +95,7 @@ const Chatbot = () => {
     }
   };
   const handleBotOrder = async (message: string) => {
-    if (!botOrderState.steps[0].isComplete) {
+    if (!botOrderState.steps[1].isComplete) {
       if (message.includes('ok')) {
         const cartRes = await dispatch(setOrderItemsThunk()).unwrap();
         if (cartRes && cartRes.itemList.length === 0) {
@@ -90,57 +105,74 @@ const Chatbot = () => {
         } else if (cartRes && cartRes.itemList.length > 0) {
           actions.sendMessage('I am confirming your cart');
           actions.sendWidget(<ShowCart data={cartRes.itemList} />);
-          actions.sendMessage(botOrderState.steps[1].text, {
+          actions.sendMessage(botOrderState.steps[2].text, {
             delay: 600,
           });
         }
       }
     }
     // Choose OrderType
-    else if (!botOrderState.steps[1].isComplete) {
+    else if (!botOrderState.steps[2].isComplete) {
       if (/^takeaway$/.test(message)) {
         dispatch(setOrderType(OrderType.TAKEAWAY));
-        actions.sendMessage(botOrderState.steps[4].text);
-      } 
-      
-      else if (/^dine in$/.test(message)) {
+        actions.sendMessage(botOrderState.steps[5].text);
+      } else if (/^dine in$/.test(message)) {
         dispatch(setOrderType(OrderType.DINE_IN));
-        actions.sendMessage(botOrderState.steps[2].text);
+        actions.sendMessage(botOrderState.steps[3].text);
       }
     }
     // Takeaway case, Handle getting name of tempCustomer
     else if (
-      !botOrderState.steps[4].isComplete &&
-      botOrderState.created.type === OrderType.TAKEAWAY
-    ) {
-      dispatch(setTakeawayName(message));
-      actions.sendMessage(botOrderState.steps[5].text);
-    }
-    // Takeaway case, handle getting phone of tempCustomer
-    else if (
       !botOrderState.steps[5].isComplete &&
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
-      dispatch(setTakeawayPhone(message));
+      dispatch(setTakeawayName(message));
       actions.sendMessage(botOrderState.steps[6].text);
-    } 
-    
+    }
+    // Takeaway case, handle getting phone of tempCustomer
     else if (
       !botOrderState.steps[6].isComplete &&
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
-      dispatch(setTakeawayTime(message));
-      actions.sendMessage(botOrderState.steps[7].text);
+      if (isValidPhoneNumber(message)) {
+        dispatch(setTakeawayPhone(message));
+        actions.sendMessage(botOrderState.steps[7].text);
+      } else {
+        actions.sendMessage(
+          'That is invalid phone number. Please type again😔',
+        );
+      }
+    } else if (
+      !botOrderState.steps[7].isComplete &&
+      botOrderState.created.type === OrderType.TAKEAWAY
+    ) {
+      if (isValidDatetime(message)) {
+        dispatch(setTakeawayTime(message));
+        actions.sendMessage(botOrderState.steps[8].text);
+      } else {
+        actions.sendMessage(
+          'That is invalid datetime. Please following my syntax and type again😔',
+        );
+      }
     }
-
-    else if (!botOrderState.steps[7].isComplete) {
-      actions.sendMessage('Got all takeaway info');
+    // Confirm order information
+    else if (!botOrderState.steps[8].isComplete) {
+      if (message.includes('ok')) {
+        actions.sendMessage('Got all takeaway info');
+        const createBotOrderData = { ...botOrderState.created };
+        delete createBotOrderData.reservationId;
+        delete createBotOrderData.customerId;
+        createOrder(createBotOrderData);
+      }
+    } else {
+      actions.unhandleInput();
     }
   };
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
-    const lowerCaseMessage = message.toLowerCase();
-    createUserMessage(message, {});
+    const lowerCaseMessage = message.toLowerCase().trim();
+    createUserMessage(message);
+
     if (lowerCaseMessage.includes('help')) {
       actions.askForHelp();
     }
@@ -158,6 +190,17 @@ const Chatbot = () => {
       actions.unhandleInput();
     }
   };
+
+  useEffect(() => {
+    if (
+      createOrderRes.status === QueryStatus.fulfilled &&
+      !createOrderRes.isLoading &&
+      createOrderRes.isSuccess
+    ) {
+      toast.success('Created order successfully');
+    }
+  }, [createOrderRes]);
+
   useEffect(() => {
     actions.askForHelp();
   }, []);
@@ -169,7 +212,11 @@ const Chatbot = () => {
         <MessageSection messages={messages} isTyping={isTyping} />
       </div>
       <div className="mt-auto w-full p-2">
-        <MessageInput onGetMessage={parseMessage} isTyping={isTyping} />
+        <MessageInput
+          onGetMessage={parseMessage}
+          isTyping={isTyping}
+          boxOpen={props.boxOpen}
+        />
       </div>
     </div>
   );

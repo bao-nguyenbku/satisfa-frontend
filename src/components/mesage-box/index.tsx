@@ -12,7 +12,10 @@ export interface MessagePayload {
   message: string;
 }
 
-const MessageBox = () => {
+type Props = {
+  boxOpen?: boolean;
+};
+const MessageBox = (props: Props) => {
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
     const newSocket = io(BASE_URL || '');
@@ -29,8 +32,7 @@ const MessageBox = () => {
       socket.emit('join-room', socket.id);
     }
     // socket?.on('onMessage', (payload) => {
-      
-      
+
     // });
     // socket?.on('typing', () => {
     //   setIsTyping(true);
@@ -42,7 +44,7 @@ const MessageBox = () => {
   return (
     <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col z-20">
       <ChatbotProvider>
-        <Chatbot />
+        <Chatbot {...props} />
       </ChatbotProvider>
     </div>
   );

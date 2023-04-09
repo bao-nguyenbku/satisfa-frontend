@@ -1,3 +1,7 @@
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
+
+export { QueryStatus };
+
 export type ReservationType = {
   customerId: string;
   tableId: string;
@@ -137,7 +141,7 @@ export type CreateOrder = Omit<
   | 'reservationId'
   | 'createdAt'
 > & {
-  reservationId: string;
+  reservationId?: string;
   customerId?: string;
   tempCustomer?: TakeawayCustomer;
 };
@@ -176,3 +180,10 @@ export interface IReservationData {
   numberOfGuests: number;
   note: string;
 }
+
+export type BotStep = {
+  [key: number]: {
+    text: string;
+    isComplete: boolean;
+  };
+};

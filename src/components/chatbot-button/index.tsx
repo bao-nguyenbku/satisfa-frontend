@@ -38,7 +38,7 @@ const ChatbotButton = () => {
             vertical: 'top',
             horizontal: 'right',
           }}>
-          <MessageBox />
+          <MessageBox boxOpen={open}/>
         </Popover>
       </ClickAwayListener>
       {!open && (

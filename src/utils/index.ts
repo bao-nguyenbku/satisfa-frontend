@@ -14,9 +14,24 @@ export function isValidTime(inputField: string) {
   return isValid;
 }
 
-// export function isValidDatetime(datetime: string) {
-//   const pattern = /^([1-9])/
-// }
+export function isValidDatetime(datetime: string) {
+  const temp = datetime.split(' ');
+  if (temp.length !== 2) {
+    return false;
+  }
+  const date = temp[0];
+  const time = temp[1];
+  const datePattern = /^\d{2}([./-])\d{2}\1\d{4}$/;
+  const timePattern = /^([0][8-9]|2[0-3]|1[0-9]):([0,3][0])$/;
+  if (!datePattern.test(date) || !timePattern.test(time)) {
+    return false;
+  }
+  return true;
+}
+export function isValidPhoneNumber(phone: string) {
+  const pattern = /^(\d{10})|(\d{11})$/;
+  return pattern.test(phone);
+}
 export function isNumber(value: string) {
   return +value;
 }

@@ -14,6 +14,7 @@ import {
   CartItem,
   OrderType,
   TakeawayCustomer,
+  BotStep,
 } from '@/types/data-types';
 // import { ChatBotType } from '@/types/data-types';
 
@@ -21,11 +22,12 @@ const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
 type ChatbotState = {
   reservation: {
+    // Change steps structure
     steps: Array<any>;
     created: any;
   };
   order: {
-    steps: Array<any>;
+    steps: BotStep;
     created: CreateOrder;
   };
 };
@@ -55,51 +57,40 @@ const initialState: ChatbotState = {
     created: {},
   },
   order: {
-    steps: [
-      {
-        id: 1,
+    steps: {
+      1: {
         text: 'First. Please choose food on the screen and check your cart. If you confirm with it, type "ok" on the message box😉',
         isComplete: false,
       },
-      {
-        id: 2,
+      2: {
         text: 'I saw your order cart. Would you like to dine-in or takeaway? (type "dine in" or "takeaway")',
         isComplete: false,
       },
-      // In case of Dine-in, use this step
-      {
-        id: 3,
+      3: {
         text: 'Please choose your reservation.',
         isComplete: false,
       },
-      // In case no reservation
-      {
-        id: 4,
+      4: {
         text: 'Sorry, you do not have any reservation. Please make a reservation first or takeaway the order.',
         isComplete: false,
       },
-      // In casse of customer chose takeaway
-      {
-        id: 5,
+      5: {
         text: 'Ok. I need some information to complete the order. What is your name?',
         isComplete: false,
       },
-      {
-        id: 6,
+      6: {
         text: 'What is your phone number? This will be phone number we contact you about the order',
         isComplete: false,
       },
-      {
-        id: 7,
+      7: {
         text: 'What time can you arrive to restaurant to take order away? type the date to box following syntax: dd/mm/yyyy hh:mm (24-hour format). E.g: 25/04/2023 14:30',
         isComplete: false,
       },
-      {
-        id: 8,
+      8: {
         text: 'Ok. I am confirming your order. Now, please look at widget below on the chat area. If the order information is right, type ok',
         isComplete: false,
       },
-    ],
+    },
     created: {
       reservationId: '',
       customerId: '',
@@ -109,8 +100,8 @@ const initialState: ChatbotState = {
       tempCustomer: {
         name: '',
         phone: '',
-        takingTime: ''
-      }
+        takingTime: '',
+      },
     },
   },
 };
@@ -159,28 +150,27 @@ export const chatbotSlice = createSlice({
     },
     setOrderItems: (state, action: PayloadAction<CartItem[]>) => {
       state.order.created.items = action.payload;
-      state.order.steps[0].isComplete = true;
+      state.order.steps[1].isComplete = true;
     },
     setOrderType: (state, action: PayloadAction<OrderType>) => {
       state.order.created.type = action.payload;
-      state.order.steps[1].isComplete = true;
+      state.order.steps[2].isComplete = true;
     },
     setTakeawayName: (state, action: PayloadAction<string>) => {
       (state.order.created.tempCustomer as TakeawayCustomer)['name'] =
         action.payload;
-      state.order.steps[4].isComplete = true;
+      state.order.steps[5].isComplete = true;
     },
     setTakeawayPhone: (state, action: PayloadAction<string>) => {
       (state.order.created.tempCustomer as TakeawayCustomer).phone =
         action.payload;
-      state.order.steps[5].isComplete = true;
+      state.order.steps[6].isComplete = true;
     },
     setTakeawayTime: (state, action: PayloadAction<string>) => {
-      console.log(action);
-      (state.order.created.tempCustomer as TakeawayCustomer).takingTime = action.payload;
-      state.order.steps[6].isComplete = true;
-    }
-
+      (state.order.created.tempCustomer as TakeawayCustomer).takingTime =
+        action.payload;
+      state.order.steps[7].isComplete = true;
+    },
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
   extraReducers: (builder) => {
@@ -209,4 +199,8 @@ export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation.steps;
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
+
+// export const selectTakeawayOrderCompletion = (state: RootState) => {
+  
+// };
 export default chatbotSlice.reducer;

@@ -10,11 +10,12 @@ type Props = {
   setMessagesSection?: React.Dispatch<React.SetStateAction<MessagePayload[]>>;
   onGetMessage?: (message: string) => void;
   isTyping?: boolean;
+  boxOpen?: boolean;
 };
 
 const MessageInput = (props: Props) => {
   const [text, setText] = useState('');
-  const { onGetMessage, isTyping } = props;
+  const { onGetMessage, isTyping, boxOpen } = props;
   const inputRef = useRef<HTMLInputElement>(null);
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -35,7 +36,7 @@ const MessageInput = (props: Props) => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, [text, isTyping, inputRef])
+  }, [text, isTyping, inputRef, boxOpen])
   return (
     <div className="w-full flex items-center px-3 gap-2 bg-white/10 h-14 rounded-full">
       <input

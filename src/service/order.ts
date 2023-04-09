@@ -1,4 +1,4 @@
-import { Order } from '@/types/data-types';
+import { CreateOrder, Order } from '@/types/data-types';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { baseQuery } from '@/utils/request';
@@ -13,7 +13,7 @@ export const orderApi = createApi({
   },
   tagTypes: ['Order'],
   endpoints: (build) => ({
-    createOrderService: build.mutation<any, any>({
+    createOrderService: build.mutation<Order, CreateOrder>({
       query: (body) => {
         return {
           url: '/orders/create',
@@ -23,7 +23,6 @@ export const orderApi = createApi({
       },
     }),
     createPaidOrderService: build.mutation<any, any>({
-      
       query: (body) => {
         const { id, ...rest } = body;
         return {

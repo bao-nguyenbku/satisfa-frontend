@@ -226,7 +226,7 @@ export const ChatbotProvider = ({ children }: Props) => {
       return;
     },
     chooseFoodFromMenu: () => {
-      createBotMessage(botOrderState.steps[0].text);
+      createBotMessage(botOrderState.steps[1].text);
     },
     handleOrder: () => {
       setBotService(BotService.ORDER);
