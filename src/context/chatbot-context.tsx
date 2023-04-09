@@ -5,7 +5,7 @@ import React, {
   ReactElement,
   cloneElement,
 } from 'react';
-// import * as _ from 'lodash';
+import * as _ from 'lodash';
 import {
   MessageOption,
   Message,
@@ -20,6 +20,7 @@ import {
   selectBotOrderState,
 } from '@/store/reducer/chatbot';
 // import Yes from '@/components/chatbot/widgets/yes';
+import WidgetWrapper from '@/components/chatbot/widget-wrapper';
 
 type Props = {
   children: React.ReactNode;
@@ -116,9 +117,13 @@ export const ChatbotProvider = ({ children }: Props) => {
             text: '',
             role: 'widget',
             isNew: false,
-            component: cloneElement(widget as ReactElement, {
-              actions,
-            }),
+            component: (
+              <WidgetWrapper>
+                {cloneElement(widget as ReactElement, {
+                  actions,
+                })}
+              </WidgetWrapper>
+            ),
           },
         ];
       });
@@ -205,9 +210,24 @@ export const ChatbotProvider = ({ children }: Props) => {
       });
     },
     sendMessage: (message: string, options?: MessageOption) => {
+      const widget =
+        options &&
+        _.has(options, 'widget') &&
+        !_.isEmpty(options.widget) &&
+        options.widget;
+
+      const delay =
+        options && _.has(options, 'delay') && !_.isEmpty(options.delay)
+          ? options.delay
+          : DEFAULT_DELAY;
       createBotMessage(message, {
-        delay: options ? options.delay : DEFAULT_DELAY,
+        delay,
       });
+      if (widget) {
+        createWidget(widget, {
+          delay,
+        });
+      }
     },
     sendWidget: (widget: ReactElement, options?: MessageOption) => {
       createWidget(widget, options);
@@ -232,6 +252,9 @@ export const ChatbotProvider = ({ children }: Props) => {
       setBotService(BotService.ORDER);
       actions.navigateToMenu();
       actions.chooseFoodFromMenu();
+    },
+    completeService: () => {
+      setBotService(BotService.NONE);
     },
   };
   return (

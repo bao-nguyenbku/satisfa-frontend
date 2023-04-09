@@ -1,3 +1,6 @@
+import dayjs, { Dayjs } from 'dayjs';
+import * as _ from 'lodash';
+
 export function isValidDate(date: string) {
   const temp = date.split('/');
   const d = new Date(temp[1] + '/' + temp[0] + '/' + temp[2]);
@@ -35,3 +38,16 @@ export function isValidPhoneNumber(phone: string) {
 export function isNumber(value: string) {
   return +value;
 }
+
+export const formatCurrency = (num: number) => {
+  if (typeof num === 'number') {
+    return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' VND';
+  }
+  return 0;
+};
+
+const parseOption = ['DD/MM/YYYY HH:mm', 'MM/DD/YYYY HH:mm'];
+export const formatDate = (date: string | Dayjs): string => {
+  if (_.isEmpty(date)) return '';
+  return dayjs(date, parseOption).format('DD/MM/YYYY HH:mm A');
+};

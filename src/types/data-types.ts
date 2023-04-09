@@ -1,4 +1,5 @@
 import { QueryStatus } from '@reduxjs/toolkit/dist/query';
+import { ReactNode } from 'react';
 
 export { QueryStatus };
 
@@ -183,7 +184,7 @@ export interface IReservationData {
 
 export type BotStep = {
   [key: number]: {
-    text: string;
+    text: ReactNode;
     isComplete: boolean;
   };
 };

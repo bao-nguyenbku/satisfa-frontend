@@ -17,6 +17,7 @@ import {
   setTakeawayName,
   setTakeawayPhone,
   setTakeawayTime,
+  resetCreateOrder,
 } from '@/store/reducer/chatbot';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
@@ -31,6 +32,7 @@ import { toast } from 'react-toastify';
 import ShowCart from './widgets/show-cart';
 import { OrderType, QueryStatus } from '@/types/data-types';
 import { useCreateOrderServiceMutation } from '@/service/order';
+import ShowConfirmationOrder from './widgets/show-confirmation-order';
 
 type Props = {
   boxOpen?: boolean;
@@ -148,7 +150,9 @@ const Chatbot = (props: Props) => {
     ) {
       if (isValidDatetime(message)) {
         dispatch(setTakeawayTime(message));
-        actions.sendMessage(botOrderState.steps[8].text);
+        actions.sendMessage(botOrderState.steps[8].text, {
+          widget: <ShowConfirmationOrder />,
+        });
       } else {
         actions.sendMessage(
           'That is invalid datetime. Please following my syntax and type again😔',
@@ -158,7 +162,6 @@ const Chatbot = (props: Props) => {
     // Confirm order information
     else if (!botOrderState.steps[8].isComplete) {
       if (message.includes('ok')) {
-        actions.sendMessage('Got all takeaway info');
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.reservationId;
         delete createBotOrderData.customerId;
@@ -175,8 +178,7 @@ const Chatbot = (props: Props) => {
 
     if (lowerCaseMessage.includes('help')) {
       actions.askForHelp();
-    }
-    if (lowerCaseMessage.includes('hello')) {
+    } else if (lowerCaseMessage.includes('hello')) {
       actions.introduce();
     }
     // Handle Reservation
@@ -198,11 +200,22 @@ const Chatbot = (props: Props) => {
       createOrderRes.isSuccess
     ) {
       toast.success('Created order successfully');
+      actions.completeService();
+      actions.sendMessage(
+        <p>
+          Successfully. Your order id is{' '}
+          <strong>#{createOrderRes.data.id}</strong>
+        </p>,
+      );
+      dispatch(resetCreateOrder());
     }
   }, [createOrderRes]);
 
   useEffect(() => {
     actions.askForHelp();
+    // actions.sendMessage(botOrderState.steps[8].text, {
+    //   widget: <ShowConfirmationOrder data={botOrderState.created}/>
+    // });
   }, []);
 
   return (

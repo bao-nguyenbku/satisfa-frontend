@@ -171,6 +171,20 @@ export const chatbotSlice = createSlice({
         action.payload;
       state.order.steps[7].isComplete = true;
     },
+    resetCreateOrder: (state) => {
+      state.order.created = {
+        reservationId: '',
+        customerId: '',
+        items: [],
+        totalCost: 0,
+        type: OrderType.DINE_IN,
+        tempCustomer: {
+          name: '',
+          phone: '',
+          takingTime: '',
+        },
+      };
+    },
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
   extraReducers: (builder) => {
@@ -192,6 +206,7 @@ export const {
   setTakeawayName,
   setTakeawayPhone,
   setTakeawayTime,
+  resetCreateOrder,
 } = chatbotSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
@@ -200,7 +215,8 @@ export const selectBotReservationState = (state: RootState) =>
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
 
+export const selectCreateBotOrderData = (state: RootState) => state.chatbot.order.created;
 // export const selectTakeawayOrderCompletion = (state: RootState) => {
-  
+
 // };
 export default chatbotSlice.reducer;

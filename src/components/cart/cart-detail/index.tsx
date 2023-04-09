@@ -13,7 +13,7 @@ import {
 } from '@/store/reducer/cart';
 
 import { getItemList, saveTotalCost } from '@/store/reducer/order';
-import { formatCurrency } from '@/utils/currency-format';
+import { formatCurrency } from '@/utils';
 import { useRouter } from 'next/router';
 import { hasCookie, getCookie } from 'cookies-next';
 

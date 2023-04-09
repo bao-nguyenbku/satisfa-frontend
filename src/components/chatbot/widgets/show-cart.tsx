@@ -9,7 +9,7 @@ type Props = {
 export default function ShowCart(props: Props) {
   const { data } = props;
   return (
-    <div className="bg-white flex flex-col p-2 rounded-xl gap-4">
+    <div className="flex flex-col rounded-xl gap-4">
       {data &&
         _.isArray(data) &&
         data.map((item) => {
