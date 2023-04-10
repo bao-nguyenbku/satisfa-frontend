@@ -1,8 +1,8 @@
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 // import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
-import { NEXTAUTH_URL, BASE_URL, NEXTAUTH_SECRET, DEV_MODE } from '@/constants';
+import { BASE_URL, NEXTAUTH_SECRET, DEV_MODE } from '@/constants';
 
 const providers = [
   CredentialsProvider({
@@ -23,58 +23,34 @@ const providers = [
     async authorize(credentials) {
       // Add logic here to look up the user from the credentials supplied
       const userInput = { ...credentials };
-      const response = await axios.post(
-        (NEXTAUTH_URL || BASE_URL) + '/auth/login',
+      console.log(
+        '🚀 ~ file: [...nextauth].ts:26 ~ authorize ~ userInput:',
         userInput,
       );
-      if (response) {
-        return response.data.accessToken;
+      try {
+        const response = await axios.post(BASE_URL + '/auth/login', {
+          email: userInput.email,
+          password: userInput.password,
+        });
+        console.log(
+          '🚀 ~ file: [...nextauth].ts:31 ~ authorize ~ response:',
+          response,
+        );
+        return response && response?.data?.accessToken;
+      } catch (error: any) {
+        throw new Error(JSON.stringify(error.response.data));
       }
-      return null;
     },
   }),
 ];
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers,
   secret: NEXTAUTH_SECRET,
-  logger: {
-    error(code, metadata) {
-      console.error(code, metadata);
-    },
-    warn(code) {
-      console.warn(code);
-    },
-    debug(code, metadata) {
-      console.debug(code, metadata);
-    },
-  },
   debug: DEV_MODE,
-  cookies: {
-    sessionToken: {
-      name: 'next-auth.session-token.landing',
-      options: {
-        httpOnly: true,
-        sameSite: 'none',
-        path: '/',
-        domain: NEXTAUTH_URL,
-        secure: true,
-      },
-    },
-    callbackUrl: {
-      name: 'next-auth.callback-url.landing',
-      options: {
-        httpOnly: true,
-        secure: true,
-      },
-    },
-    csrfToken: {
-      name: 'next-auth.csrf-token.landing',
-      options: {
-        httpOnly: true,
-        secure: true,
-      },
-    },
+  pages: {
+    signIn: '/login',
+    error: '/login',
   },
   callbacks: {
     jwt: async (params) => {
@@ -90,4 +66,5 @@ export default NextAuth({
       return session;
     },
   },
-});
+};
+export default NextAuth(authOptions);

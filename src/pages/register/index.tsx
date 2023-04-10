@@ -21,8 +21,7 @@ const RegisterPage = () => {
         <motion.div
           initial={{ scale: 0.3 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+          transition={{ duration: 0.5 }}>
           <SigninForm />
         </motion.div>
         <span className="text-neutral-500 mt-4 text-center">

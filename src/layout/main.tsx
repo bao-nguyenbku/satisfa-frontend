@@ -16,17 +16,17 @@ export default function MainLayout({ children }: LayoutProps) {
   const scrollableNodeRef = useRef<SimpleBarCore>(null);
   const [propsRef, setPropsRef] = useState<RefObject<SimpleBarCore>>();
   const dispatch = useAppDispatch();
-  const { data: session, status } = useSession();
+  const sessionData = useSession();
   useEffect(() => {
     if (scrollableNodeRef) {
       setPropsRef(scrollableNodeRef);
     }
   }, [scrollableNodeRef]);
   useEffect(() => {
-    if (status === 'authenticated' && session) {
+    if (sessionData.status === 'authenticated' && sessionData.data) {
       dispatch(authCurrentUser());
     }
-  }, []);
+  }, [sessionData]);
   return (
     <SimpleBar
       ref={scrollableNodeRef}
