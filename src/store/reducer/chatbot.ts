@@ -23,8 +23,8 @@ const hydrate = createAction<RootState>(HYDRATE);
 type ChatbotState = {
   reservation: {
     // Change steps structure
-    steps: Array<any>;
-    created: any;
+    steps: BotStep;
+    created: CreateOrder;
   };
   order: {
     steps: BotStep;
@@ -34,26 +34,24 @@ type ChatbotState = {
 // Define the initial state using that type
 const initialState: ChatbotState = {
   reservation: {
-    steps: [
-      {
-        id: 1,
+    steps: {
+      1: {
         text: 'First, let you pick a date for your meal. Please type with syntax: DD/MM/YYYY',
         isComplete: false,
-        value: '',
       },
-      {
-        id: 2,
+      2: {
         text: 'Second, let you pick a time. Please type with syntax: hh:mm',
         isComplete: false,
-        value: '',
       },
-      {
-        id: 3,
+      3: {
         text: 'Ok good. How many guests? Please type a number',
         isComplete: false,
-        value: 0,
       },
-    ],
+      4: {
+        text: 'Now, we will show you availables table that match your requirement on the screen, pick one table.',
+        isComplete: false,
+      },
+    },
     created: {},
   },
   order: {
@@ -96,21 +94,23 @@ export const chatbotSlice = createSlice({
   initialState,
   reducers: {
     setDate: (state, action: PayloadAction<string>) => {
-      const cloneState = [...state.reservation.steps];
-      cloneState[0].value = action.payload;
-      cloneState[0].isComplete = true;
-      state.reservation.steps = cloneState;
-    },
-    setTime: (state, action: PayloadAction<string>) => {
-      const cloneState = [...state.reservation.steps];
-      cloneState[1].value = action.payload;
+      console.log(action.payload)
+      const cloneState = state.reservation.steps;
+      console.log(cloneState)
+      cloneState[1].text = action.payload;
       cloneState[1].isComplete = true;
       state.reservation.steps = cloneState;
     },
-    setGuest: (state, action: PayloadAction<number>) => {
-      const cloneState = [...state.reservation.steps];
-      cloneState[2].value = action.payload;
+    setTime: (state, action: PayloadAction<string>) => {
+      const cloneState = state.reservation.steps;
+      cloneState[2].text = action.payload;
       cloneState[2].isComplete = true;
+      state.reservation.steps = cloneState;
+    },
+    setGuest: (state, action: PayloadAction<number>) => {
+      const cloneState = state.reservation.steps;
+      cloneState[3].text = action.payload;
+      cloneState[3].isComplete = true;
       state.reservation.steps = cloneState;
     },
     setOrderItems: (state, action: PayloadAction<CartItem[]>) => {
@@ -176,7 +176,7 @@ export const {
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBotReservationState = (state: RootState) =>
-  state.chatbot.reservation.steps;
+  state.chatbot.reservation;
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
 

@@ -55,7 +55,7 @@ const Chatbot = (props: Props) => {
   // const botOrderState = useAppSelector(selectBotOrderState);
   const botOrderState = useAppSelector(selectBotOrderState);
   const handleBotReservation = (message: string) => {
-    if (!botReservationState[0].isComplete) {
+    if (!botReservationState.steps[1].isComplete) {
       if (isValidDate(message)) {
         dispatch(setDate(message));
         dispatch(getTime(message)) 
@@ -68,23 +68,24 @@ const Chatbot = (props: Props) => {
       }
     }
     // New line
-    else if (!botReservationState[1].isComplete) {
+    else if (!botReservationState.steps[2].isComplete) {
       if (isValidTime(message)) {
         dispatch(setTime(message));
         dispatch(getTime(dayjs(reserveData.createReservationData.date + ' ' + message).toISOString())) 
-        actions.getGuest(botReservationState[2].text);
+        actions.getGuest(botReservationState.steps[3].text);
       } else {
         actions.sendMessage(
           'That time is invalid. Please type the time following my syntax: hh:mm (E.g: 14:30)',
         );
-        actions.getTimePicker(botReservationState[1].text);
+        actions.getTimePicker(botReservationState.steps[2].text);
       }
     }
     // New line
-    else if (!botReservationState[2].isComplete) {
+    else if (!botReservationState.steps[3].isComplete) {
       if (isNumber(message)) {
         dispatch(setGuest(parseInt(message, 10)));
         dispatch(guestSelect(parseInt(message, 10)))
+        actions.showTables(botReservationState.steps[4].text);
       } else {
         actions.sendMessage(
           'That is not a valid number. Please provide a number for me.',
@@ -92,7 +93,7 @@ const Chatbot = (props: Props) => {
             delay: 400,
           },
         );
-        actions.getGuest(botReservationState[2].text, {
+        actions.getGuest(botReservationState.steps[3].text, {
           delay: 800,
         });
       }

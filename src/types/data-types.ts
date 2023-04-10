@@ -44,7 +44,7 @@ export type ReservationFilter = {
 
 export type BotStep = {
   [key: number]: {
-    text: string;
+    text: ReactNode;
     isComplete: boolean;
   };
 };

@@ -205,7 +205,7 @@ export const ChatbotProvider = ({ children }: Props) => {
       });
     },
     getDatePicker: (options?: MessageOption) => {
-      createBotMessage(botReservation[0].text, {
+      createBotMessage(botReservation.steps[1].text, {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
@@ -233,12 +233,17 @@ export const ChatbotProvider = ({ children }: Props) => {
       createWidget(widget, options);
     },
     getTimePicker: (options?: MessageOption) => {
-      createBotMessage(botReservation[1].text, {
+      createBotMessage(botReservation.steps[2].text, {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
     getGuest: (options?: MessageOption) => {
-      createBotMessage(botReservation[2].text, {
+      createBotMessage(botReservation.steps[3].text, {
+        delay: options ? options.delay : DEFAULT_DELAY,
+      });
+    },
+    showTables: (options?: MessageOption) => {
+      createBotMessage(botReservation.steps[4].text, {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
