@@ -71,7 +71,8 @@ const Chatbot = (props: Props) => {
     else if (!botReservationState.steps[2].isComplete) {
       if (isValidTime(message)) {
         dispatch(setTime(message));
-        dispatch(getTime(dayjs(reserveData.createReservationData.date + ' ' + message).toISOString())) 
+        const reserveDate = (reserveData.createReservationData.data.date + ' ' + message )
+        dispatch(getTime(dayjs(reserveDate, 'DD-MM-YYYY HH:mm').toISOString())) 
         actions.getGuest(botReservationState.steps[3].text);
       } else {
         actions.sendMessage(
@@ -204,7 +205,11 @@ const Chatbot = (props: Props) => {
       actions.unhandleInput();
     }
   };
-
+  useEffect(()=>{
+    if (reserveData.createReservationData.isSuccess){
+      actions.completeBookingTable();
+    }
+  }, [reserveData.createReservationData.isSuccess])
   useEffect(() => {
     if (
       createOrderRes.status === QueryStatus.fulfilled &&

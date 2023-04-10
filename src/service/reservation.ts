@@ -51,6 +51,7 @@ export const reservationApi = tableApi.injectEndpoints({
       Omit<ICreateReservation, 'customerId'> & { customerId: string }
     >({
       query: (body) => {
+        console.log(body)
         return {
           url: `/reservations/create`,
           method: 'POST',

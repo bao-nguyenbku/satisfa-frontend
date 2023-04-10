@@ -21,6 +21,8 @@ import {
 } from '@/store/reducer/chatbot';
 // import Yes from '@/components/chatbot/widgets/yes';
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
+import { selectReservationState } from '@/store/reducer/reservation';
+import { formatDate } from '@/utils';
 
 type Props = {
   children: React.ReactNode;
@@ -68,7 +70,7 @@ export const ChatbotProvider = ({ children }: Props) => {
   const router = useRouter();
   const botReservation = useAppSelector(selectBotReservationState);
   const botOrderState = useAppSelector(selectBotOrderState);
-
+  const reservationInfo = useAppSelector(selectReservationState);
   const createBotMessage = (
     message: string | ReactElement,
     options?: MessageOption,
@@ -244,6 +246,16 @@ export const ChatbotProvider = ({ children }: Props) => {
     },
     showTables: (options?: MessageOption) => {
       createBotMessage(botReservation.steps[4].text, {
+        delay: options ? options.delay : DEFAULT_DELAY,
+      });
+    },
+    completeBookingTable: (options?: MessageOption) => {
+      console.log(formatDate(reservationInfo.createReservationData.data.tableId))
+      const message = `Congratulations! You now can come to my restaurant at ${formatDate(
+        reservationInfo.createReservationData.data.date,
+      )} 
+      on table ${reservationInfo.createReservationData.code}`;
+      createBotMessage(message, {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },

@@ -94,9 +94,7 @@ export const chatbotSlice = createSlice({
   initialState,
   reducers: {
     setDate: (state, action: PayloadAction<string>) => {
-      console.log(action.payload)
       const cloneState = state.reservation.steps;
-      console.log(cloneState)
       cloneState[1].text = action.payload;
       cloneState[1].isComplete = true;
       state.reservation.steps = cloneState;

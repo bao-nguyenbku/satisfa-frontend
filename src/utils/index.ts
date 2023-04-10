@@ -49,5 +49,8 @@ export const formatCurrency = (num: number) => {
 const parseOption = ['DD/MM/YYYY HH:mm', 'MM/DD/YYYY HH:mm'];
 export const formatDate = (date: string | Dayjs): string => {
   if (_.isEmpty(date)) return '';
+  if (dayjs(date).isValid()) {
+    return dayjs(date).format('DD/MM/YYYY HH:mm A');
+  }
   return dayjs(date, parseOption).format('DD/MM/YYYY HH:mm A');
 };
