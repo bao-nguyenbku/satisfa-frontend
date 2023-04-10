@@ -33,7 +33,8 @@ import ShowCart from './widgets/show-cart';
 import { OrderType, QueryStatus } from '@/types/data-types';
 import { useCreateOrderServiceMutation } from '@/service/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
-
+import { IntroductionIndent } from './recognition';
+const introductionIndent = new IntroductionIndent();
 type Props = {
   boxOpen?: boolean;
 };
@@ -178,7 +179,9 @@ const Chatbot = (props: Props) => {
 
     if (lowerCaseMessage.includes('help')) {
       actions.askForHelp();
-    } else if (lowerCaseMessage.includes('hello')) {
+    } 
+    
+    else if (introductionIndent.isValid(lowerCaseMessage)) {
       actions.introduce();
     }
     // Handle Reservation
@@ -221,7 +224,7 @@ const Chatbot = (props: Props) => {
   return (
     <div className="flex flex-col h-full">
       <MessageHeader />
-      <div className="flex-1 overflow-y-auto flex flex-col overflow-x-hidden pt-2">
+      <div className="flex-1 overflow-y-auto flex flex-col overflow-x-hidden">
         <MessageSection messages={messages} isTyping={isTyping} />
       </div>
       <div className="mt-auto w-full p-2">

@@ -6,7 +6,7 @@ type Props = {
 export default function WidgetWrapper(props: Props) {
   const { children } = props;
   return (
-    <div className='bg-white/20 text-white border border-white rounded-xl p-2'>
+    <div className='bg-neutral-900/40 text-white border border-gray-500 rounded-xl p-2'>
       {children}
     </div>
   )
