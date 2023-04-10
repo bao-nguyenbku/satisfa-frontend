@@ -47,26 +47,24 @@ const App = ({
     Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
   return (
     <Provider store={store}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <>
-          <StyledEngineProvider injectFirst>
-            <CacheProvider value={muiCache}>
-              <ThemeProvider theme={theme}>
-                <SessionProvider session={session}>
-                  <main className={podkova.className}>
-                    {getLayout(
-                      <>
-                        <Component {...props.pageProps} />
-                        <ToastContainer />
-                      </>,
-                    )}
-                  </main>
-                </SessionProvider>
-              </ThemeProvider>
-            </CacheProvider>
-          </StyledEngineProvider>
-        </>
-      </LocalizationProvider>
+      <StyledEngineProvider injectFirst>
+        <CacheProvider value={muiCache}>
+          <ThemeProvider theme={theme}>
+            <SessionProvider session={session} refetchOnWindowFocus={false}>
+              <main className={podkova.className}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  {getLayout(
+                    <>
+                      <Component {...props.pageProps} />
+                      <ToastContainer />
+                    </>,
+                  )}
+                </LocalizationProvider>
+              </main>
+            </SessionProvider>
+          </ThemeProvider>
+        </CacheProvider>
+      </StyledEngineProvider>
     </Provider>
   );
 };
