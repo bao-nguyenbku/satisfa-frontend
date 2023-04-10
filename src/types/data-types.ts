@@ -28,13 +28,13 @@ export type ChatBotType = {
   re_type: string;
 };
 
-export interface ICreateReservation {
-  customerId: IUser;
+export type CreateReservation = {
+  customerId: User;
   tableId: string;
   date: string;
   numberOfGuests: number;
   note: string;
-}
+};
 
 export type ReservationFilter = {
   date?: string;
@@ -62,15 +62,6 @@ export type Product = {
 export type CartItem = Product & {
   qty: number;
 };
-
-export interface IProductData {
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-  images: Array<any>;
-  visible: boolean;
-}
 
 export type ReduxDataType = {
   data: any;
@@ -154,33 +145,27 @@ export type Order = {
   totalItem: number;
   paymentStatus: string;
   status: string;
-  customerId: IUser;
-  reservationId: IReservationData;
+  customerId: User;
+  reservationId: Reservation;
   items: CartItem[];
   createdAt: string;
 };
 
-export interface ITable {
+export type Table = {
   id: string;
   code: string;
   numberOfSeat: number;
-  reservations: IReservationData[];
-}
-export interface IUser {
-  id: string;
-  fullname: string;
-  email: string;
-  avatar: string;
-}
+  reservations: Reservation[];
+};
 
-export interface IReservationData {
+export type Reservation = {
   id: string;
-  customerId: IUser;
-  tableId: ITable;
+  customerId: User;
+  tableId: Table;
   date: string;
   numberOfGuests: number;
   note: string;
-}
+};
 
 export type BotStep = {
   [key: number]: {
