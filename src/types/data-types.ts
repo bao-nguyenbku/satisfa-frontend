@@ -1,3 +1,15 @@
+import { QueryStatus } from '@reduxjs/toolkit/dist/query';
+import { ReactNode } from 'react';
+
+export { QueryStatus };
+
+export type ReservationType = {
+  customerId: string;
+  tableId: string;
+  date: string;
+  numberOfGuests: number;
+  note: string;
+};
 
 export type User = {
   id: string;
@@ -43,7 +55,7 @@ export type TableType = {
   code: string;
   numberOfSeats: number;
   status: TableStatus;
-}
+};
 
 export type TableFilter = {
   minSeat?: number;
@@ -105,19 +117,19 @@ export enum PaymentType {
 }
 
 export type PaymentCash = {
-  totalPay: number,
-  totalCost: number,
-}
+  totalPay: number;
+  totalCost: number;
+};
 export type PaidOrderType = {
-  type: PaymentType,
-  info: PaymentCash
-}
+  type: PaymentType;
+  info: PaymentCash;
+};
 
 export type CreatedOrder = {
-  id: string,
+  id: string;
   type: OrderType;
-  paymentData: PaidOrderType
-}
+  paymentData: PaidOrderType;
+};
 
 export enum OrderStatus {
   NEW = 'NEW',
@@ -126,18 +138,38 @@ export enum OrderStatus {
   COMPLETE = 'COMPLETE',
 }
 export type OrderFilter = {
-  status?: OrderStatus
-}
+  status?: OrderStatus;
+};
+export type TakeawayCustomer = {
+  name: string;
+  phone: string;
+  takingTime: string;
+};
+export type CreateOrder = Omit<
+  Order,
+  | 'id'
+  | 'totalItem'
+  | 'paymentStatus'
+  | 'status'
+  | 'customerId'
+  | 'reservationId'
+  | 'createdAt'
+> & {
+  reservationId?: string;
+  customerId?: string;
+  tempCustomer?: TakeawayCustomer;
+};
+
 export type Order = {
   id: string;
   totalCost: number;
+  type: OrderType;
   totalItem: number;
   paymentStatus: string;
   status: string;
   customerId: IUser;
   reservationId: IReservationData;
   items: CartItem[];
-  type: OrderType;
   createdAt: string;
 };
 

@@ -27,7 +27,7 @@ export const authCurrentUser = createAsyncThunk(
 );
 // Define the initial state using that type
 const initialState: ReduxDataType = {
-  data: {} as User,
+  data: {} as User | undefined,
   isLoading: false,
   isSuccess: false,
   error: null,
@@ -65,7 +65,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.error = action.payload;
-        state.data = {} as User;
+        state.data = undefined;
       });
   },
 });

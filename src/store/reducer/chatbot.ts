@@ -4,16 +4,35 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
+// import * as _ from 'lodash';
 import { RootState } from '@/store';
 // import { ReduxDataType } from '@/types/redux-type';
 import { HYDRATE } from 'next-redux-wrapper';
+import { CartState } from './cart';
+import {
+  CreateOrder,
+  CartItem,
+  OrderType,
+  TakeawayCustomer,
+  BotStep,
+} from '@/types/data-types';
 // import { ChatBotType } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
-
+type ChatbotState = {
+  reservation: {
+    // Change steps structure
+    steps: Array<any>;
+    created: any;
+  };
+  order: {
+    steps: BotStep;
+    created: CreateOrder;
+  };
+};
 // Define the initial state using that type
-const initialState = {
+const initialState: ChatbotState = {
   reservation: {
     steps: [
       {
@@ -57,15 +76,18 @@ const initialState = {
 
 //   }
 // );
-export const setOrderItems = createAsyncThunk<
-  void,
+export const setOrderItemsThunk = createAsyncThunk<
+  CartState,
   void,
   {
     state: RootState;
   }
->('chatbot/setOrderItems', async (_, { getState }) => {
-  console.log(getState());
-  return;
+>('chatbot/setOrderItems', async (_, { getState, dispatch }) => {
+  const cart = getState().cart;
+  if (cart.itemList.length > 0) {
+    dispatch(setOrderItems(cart.itemList));
+  }
+  return cart;
 });
 
 export const chatbotSlice = createSlice({
@@ -91,6 +113,43 @@ export const chatbotSlice = createSlice({
       cloneState[2].isComplete = true;
       state.reservation.steps = cloneState;
     },
+    setOrderItems: (state, action: PayloadAction<CartItem[]>) => {
+      state.order.created.items = action.payload;
+      state.order.steps[1].isComplete = true;
+    },
+    setOrderType: (state, action: PayloadAction<OrderType>) => {
+      state.order.created.type = action.payload;
+      state.order.steps[2].isComplete = true;
+    },
+    setTakeawayName: (state, action: PayloadAction<string>) => {
+      (state.order.created.tempCustomer as TakeawayCustomer)['name'] =
+        action.payload;
+      state.order.steps[5].isComplete = true;
+    },
+    setTakeawayPhone: (state, action: PayloadAction<string>) => {
+      (state.order.created.tempCustomer as TakeawayCustomer).phone =
+        action.payload;
+      state.order.steps[6].isComplete = true;
+    },
+    setTakeawayTime: (state, action: PayloadAction<string>) => {
+      (state.order.created.tempCustomer as TakeawayCustomer).takingTime =
+        action.payload;
+      state.order.steps[7].isComplete = true;
+    },
+    resetCreateOrder: (state) => {
+      state.order.created = {
+        reservationId: '',
+        customerId: '',
+        items: [],
+        totalCost: 0,
+        type: OrderType.DINE_IN,
+        tempCustomer: {
+          name: '',
+          phone: '',
+          takingTime: '',
+        },
+      };
+    },
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
   extraReducers: (builder) => {
@@ -103,12 +162,26 @@ export const chatbotSlice = createSlice({
   },
 });
 
-export const { setDate, setTime, setGuest } = chatbotSlice.actions;
+export const {
+  setDate,
+  setTime,
+  setGuest,
+  setOrderItems,
+  setOrderType,
+  setTakeawayName,
+  setTakeawayPhone,
+  setTakeawayTime,
+  resetCreateOrder,
+} = chatbotSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation.steps;
 
-export const selectBotOrderState = (state: RootState) =>
-  state.chatbot.order.steps;
+export const selectBotOrderState = (state: RootState) => state.chatbot.order;
+
+export const selectCreateBotOrderData = (state: RootState) => state.chatbot.order.created;
+// export const selectTakeawayOrderCompletion = (state: RootState) => {
+
+// };
 export default chatbotSlice.reducer;

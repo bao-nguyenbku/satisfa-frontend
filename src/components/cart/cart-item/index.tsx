@@ -5,7 +5,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import DeleteIcon from '@mui/icons-material/Delete';
 import styles from './styles.module.scss';
-import { formatCurrency } from '@/utils/currency-format';
+import { formatCurrency } from '@/utils';
 
 type Props = {
   data: CartItem;

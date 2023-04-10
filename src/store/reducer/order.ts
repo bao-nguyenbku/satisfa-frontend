@@ -11,8 +11,9 @@ import {
   ReduxDataType,
   IReservationData,
   OrderType,
+  Order,
   PaymentType,
-  CreatedOrder
+  CreatedOrder,
 } from '@/types/data-types';
 import { createOrderService } from '@/service/order';
 // import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
@@ -29,7 +30,7 @@ interface OrderState {
       paymentType: PaymentType;
     };
   };
-  createdOrder: CreatedOrder 
+  createdOrder: CreatedOrder;
 }
 
 // Define the initial state using that type
@@ -46,21 +47,21 @@ const initialState: OrderState = {
     isSuccess: false,
     error: null,
   },
-  createdOrder:  {
-      id: '',
-      type: OrderType.DINE_IN,
-      paymentData: {
-        type: PaymentType.CASH,
-        info: {
-          totalCost: 0,
-          totalPay: 0
-        }
-    }
-  }
+  createdOrder: {
+    id: '',
+    type: OrderType.DINE_IN,
+    paymentData: {
+      type: PaymentType.CASH,
+      info: {
+        totalCost: 0,
+        totalPay: 0,
+      },
+    },
+  },
 };
 
 export const createOrderThunk = createAsyncThunk<
-  any,
+  Order,
   void,
   { state: RootState }
 >(
@@ -74,7 +75,7 @@ export const createOrderThunk = createAsyncThunk<
             getState()?.order?.createOrder?.data?.reservation.customerId,
           items: getState()?.order?.createOrder?.data?.itemList,
           totalCost: getState()?.order?.createOrder?.data?.totalCost,
-          type: getState()?.order?.createOrder?.data?.type
+          type: getState()?.order?.createOrder?.data?.type,
         }),
       ).unwrap();
       return result;
@@ -139,11 +140,12 @@ export const orderSlice = createSlice({
         // data for paid order
         state.createdOrder.id = action.payload.id;
         state.createdOrder.type = action.payload.type;
-        state.createdOrder.paymentData.info.totalCost = action.payload.totalCost;
-        state.createdOrder.paymentData.info.totalCost = action.payload.totalCost;
+        state.createdOrder.paymentData.info.totalCost =
+          action.payload.totalCost;
+        state.createdOrder.paymentData.info.totalCost =
+          action.payload.totalCost;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
-        
         state.createOrder.isLoading = false;
         state.createOrder.isSuccess = false;
         state.createOrder.error = action.payload;
@@ -158,14 +160,13 @@ export const {
   saveTotalCost,
   reset,
   setOrderType,
-  setPaymentType
+  setPaymentType,
 } = orderSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCurrentReservation = (state: RootState) =>
   state.order.createOrder.data.reservation;
-export const selectCreateOrder = (state: RootState) =>
-  state.order.createOrder;
+export const selectCreateOrder = (state: RootState) => state.order.createOrder;
 export const selectCreatedOrder = (state: RootState) =>
   state.order.createdOrder;
 export default orderSlice.reducer;

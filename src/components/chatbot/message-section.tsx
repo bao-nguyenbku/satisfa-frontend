@@ -49,9 +49,9 @@ const MessageSection = (props: Props) => {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{
-                  duration: 0.3,
-                  type: 'spring',
-                  stiffness: 100,
+                  duration: 0.4,
+                  delay: 0,
+                  ease: [0, 0.71, 0.2, 1.01],
                 }}
                 style={{
                   originX: 0,
@@ -70,9 +70,9 @@ const MessageSection = (props: Props) => {
                   originX: 0,
                 }}
                 transition={{
-                  duration: 0.3,
-                  type: 'spring',
-                  stiffness: 100,
+                  duration: 0.4,
+                  delay: 0,
+                  ease: [0, 0.71, 0.2, 1.01],
                 }}
                 key={payload.id}>
                 {cloneElement(payload?.component as ReactElement, {

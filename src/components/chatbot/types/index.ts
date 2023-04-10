@@ -9,7 +9,7 @@ export type Message = {
 };
 export type MessageOption = {
   delay?: number;
-  widget?: string;
+  widget?: ReactElement;
 };
 
 export enum BotService {
