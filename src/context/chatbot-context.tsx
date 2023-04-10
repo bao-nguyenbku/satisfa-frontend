@@ -14,7 +14,7 @@ import {
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@/hooks';
-import { selectBotReservationState } from '@/store/reducer/chatbot';
+import { selectBotReservationState, selectBotOrderState } from '@/store/reducer/chatbot';
 // import Yes from '@/components/chatbot/widgets/yes';
 
 type Props = {
@@ -60,6 +60,8 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const router = useRouter();
   const botReservation = useAppSelector(selectBotReservationState);
+  const botOrder = useAppSelector(selectBotOrderState);
+
   const createOptions = (options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
     setTimeout(() => {
@@ -179,7 +181,7 @@ export const ChatbotProvider = ({ children }: Props) => {
       createOptions();
     },
     introduce: () => {
-      createBotMessage('Hi, I am Satisgi. Nice to meet you 😍');
+      createBotMessage('Hi, I am Satisgi. Nice to meet you 😍. If you need some help, type help in the textbox👇');
     },
     navigateToReservation: () => {
       router.replace('/reservation');
@@ -220,9 +222,13 @@ export const ChatbotProvider = ({ children }: Props) => {
     confirmYes: () => {
       return;
     },
+    chooseFoodFromMenu: () => {
+      createBotMessage(botOrder[0].text);
+    },
     handleOrder: () => {
       setBotService(BotService.ORDER);
       actions.navigateToMenu();
+      actions.chooseFoodFromMenu();
     },
   };
   return (

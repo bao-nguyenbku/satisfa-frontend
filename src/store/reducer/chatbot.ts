@@ -1,4 +1,9 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAction,
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { RootState } from '@/store';
 // import { ReduxDataType } from '@/types/redux-type';
 import { HYDRATE } from 'next-redux-wrapper';
@@ -52,6 +57,16 @@ const initialState = {
 
 //   }
 // );
+export const setOrderItems = createAsyncThunk<
+  void,
+  void,
+  {
+    state: RootState;
+  }
+>('chatbot/setOrderItems', async (_, { getState }) => {
+  console.log(getState());
+  return;
+});
 
 export const chatbotSlice = createSlice({
   name: 'chatbot',
@@ -94,5 +109,6 @@ export const { setDate, setTime, setGuest } = chatbotSlice.actions;
 export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation.steps;
 
-export const selectBotOrderState = (state: RootState) => state.chatbot.order.steps;
+export const selectBotOrderState = (state: RootState) =>
+  state.chatbot.order.steps;
 export default chatbotSlice.reducer;

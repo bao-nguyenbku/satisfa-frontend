@@ -8,10 +8,11 @@ import { BotService } from './types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
-  // selectBotOrderState,
+  selectBotOrderState,
   setDate,
   setTime,
   setGuest,
+  setOrderItems,
 } from '@/store/reducer/chatbot';
 
 import { guestSelect, getTime } from '@/store/reducer/reservation';
@@ -28,6 +29,7 @@ const Chatbot = () => {
   const botReservationState = useAppSelector(selectBotReservationState);
   const reserveData = useAppSelector(state=> state.reservation)
   // const botOrderState = useAppSelector(selectBotOrderState);
+  const botOrderState = useAppSelector(selectBotOrderState);
   const handleBotReservation = (message: string) => {
     if (!botReservationState[0].isComplete) {
       if (isValidDate(message)) {
@@ -79,19 +81,35 @@ const Chatbot = () => {
       // actions.unhandleInput();
     }
   };
-
+  const handleBotOrder = async (message: string) => {
+    if (!botOrderState[0].isComplete) {
+      if (message.includes('ok')) {
+        const res = await dispatch(setOrderItems()).unwrap();
+        console.log('🚀 ~ file: index.tsx:80 ~ handleBotOrder ~ res:', res);
+        actions.sendMessage(botOrderState[1].text);
+      }
+    }
+  };
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
+    const lowerCaseMessage = message.toLowerCase();
     createUserMessage(message, {});
-    if (message.includes('help')) {
+    if (lowerCaseMessage.includes('help')) {
       actions.askForHelp();
-    } else if (botService === BotService.RESERVATION) {
-      handleBotReservation(message);
     }
-    // else if (botService === BotService.ORDER) {
-    //   handleBotOrder(message);
-    // }
-    // const rawMessage = message.toLowerCase();
+    if (lowerCaseMessage.includes('hello')) {
+      actions.introduce();
+    }
+    // Handle Reservation
+    else if (botService === BotService.RESERVATION) {
+      handleBotReservation(lowerCaseMessage);
+    }
+    // Handle Order
+    else if (botService === BotService.ORDER) {
+      handleBotOrder(lowerCaseMessage);
+    } else {
+      actions.unhandleInput();
+    }
   };
   useEffect(() => {
     actions.askForHelp();

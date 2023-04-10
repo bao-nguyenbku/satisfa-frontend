@@ -73,7 +73,6 @@ export interface IProductData {
   visible: boolean;
 }
 
-
 export type ReduxDataType = {
   data: any;
   isLoading: boolean;
