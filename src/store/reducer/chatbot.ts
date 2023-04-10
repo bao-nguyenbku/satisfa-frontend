@@ -33,35 +33,16 @@ const initialState = {
     created: {},
   },
   order: {
-    steps: [
-      {
-        id: 1,
+    steps: {
+      1: {
         text: 'First. Please choose food on the screen and check your cart. If you confirm with it, type "ok" on the message box😉',
         isComplete: false,
       },
-      {
-        id: 2,
-        text: 'I saw your order cart. Would you like to dine-in or takeaway?',
+      2: {
+        text: 'I saw your order cart. Would you like to dine-in or takeaway? (type "dine in" or "takeaway")',
         isComplete: false,
       },
-      // In case of Dine-in, use this step
-      {
-        id: 3,
-        text: 'Please choose your reservation.',
-        isComplete: false,
-      },
-      // In case no reservation
-      {
-        id: 4,
-        text: 'Sorry, you do not have any reservation. Please make a reservation first or takeaway the order.',
-        isComplete: false,
-      },
-      {
-        id: 4,
-        text: 'Sorry, you do not have any reservation. Please make a reservation first or takeaway the order.',
-        isComplete: false,
-      },
-    ],
+    },
     created: {}
   },
 };

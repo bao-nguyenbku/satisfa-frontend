@@ -5,7 +5,7 @@ import { useAppSelector } from '@/hooks';
 
 import { ICreateReservation, TableStatus } from '@/types/data-types';
 
-import { useCreateReservationMutation } from '@/service/reservation';
+import { useCreateReservationServiceMutation } from '@/service/reservation';
 
 
 type TableProps = {
@@ -30,11 +30,10 @@ const BookingCard = (props: Props) => {
   const { table } = props;
   const user = useAppSelector(state => state.user.data)
   const data = useAppSelector((state) => state.reservation.createReservationData);
-  const [createReservation] = useCreateReservationMutation();
-
+  const [createReservation] = useCreateReservationServiceMutation();
   const handleClick = () => {
     if (data?.numberOfGuests > 0) {
-      reserveData.tableId = table._id;
+      reserveData.tableId = table.id;
       reserveData.date = data.date;
       reserveData.numberOfGuests = data.numberOfGuests;
       reserveData.customerId = user.id

@@ -30,6 +30,12 @@ export type ReservationFilter = {
 };
 
 
+export type BotStep = {
+  [key: number]: {
+    text: string;
+    isComplete: boolean;
+  };
+};
 
 export type TableType = {
   _id: string;
@@ -37,6 +43,11 @@ export type TableType = {
   code: string;
   numberOfSeats: number;
   status: TableStatus;
+}
+
+export type TableFilter = {
+  minSeat?: number;
+  reservationDate?: string;
 }
 
 export type Product = {

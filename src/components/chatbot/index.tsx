@@ -13,6 +13,9 @@ import {
   setTime,
   setGuest,
 } from '@/store/reducer/chatbot';
+
+import { guestSelect, getTime } from '@/store/reducer/reservation';
+import dayjs from 'dayjs';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
 import { isNumber, isValidDate, isValidTime } from '@/utils';
@@ -23,11 +26,13 @@ const Chatbot = () => {
     useChatbot();
   // const [currentMessage, setCurrentMessage] = useState<string>('');
   const botReservationState = useAppSelector(selectBotReservationState);
+  const reserveData = useAppSelector(state=> state.reservation)
   // const botOrderState = useAppSelector(selectBotOrderState);
   const handleBotReservation = (message: string) => {
     if (!botReservationState[0].isComplete) {
       if (isValidDate(message)) {
         dispatch(setDate(message));
+        dispatch(getTime(message)) 
         actions.getTimePicker();
       } else {
         actions.sendMessage('That is not a valid day, try another answer 😔');
@@ -40,6 +45,7 @@ const Chatbot = () => {
     else if (!botReservationState[1].isComplete) {
       if (isValidTime(message)) {
         dispatch(setTime(message));
+        dispatch(getTime(dayjs(reserveData.createReservationData.date + ' ' + message).toISOString())) 
         actions.getGuest(botReservationState[2].text);
       } else {
         actions.sendMessage(
@@ -52,6 +58,7 @@ const Chatbot = () => {
     else if (!botReservationState[2].isComplete) {
       if (isNumber(message)) {
         dispatch(setGuest(parseInt(message, 10)));
+        dispatch(guestSelect(parseInt(message, 10)))
       } else {
         actions.sendMessage(
           'That is not a valid number. Please provide a number for me.',
