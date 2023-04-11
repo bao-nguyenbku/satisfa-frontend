@@ -2,25 +2,29 @@ import React, {
   createContext,
   useState,
   useEffect,
+  ReactNode,
   ReactElement,
   cloneElement,
 } from 'react';
 import * as _ from 'lodash';
 import {
   MessageOption,
+  BotActions,
   Message,
   BotService,
   DEFAULT_DELAY,
 } from '@/components/chatbot/types';
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
   selectBotOrderState,
+  setReservationDinein,
 } from '@/store/reducer/chatbot';
-// import Yes from '@/components/chatbot/widgets/yes';
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
+import { Reservation } from '@/types/data-types';
+import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
 
 type Props = {
   children: React.ReactNode;
@@ -34,9 +38,7 @@ interface IChatbotContext {
   isTyping: boolean;
   activeTyping: () => void;
   disableTyping: () => void;
-  actions: {
-    [key: string]: (params?: any, options?: MessageOption) => void;
-  };
+  actions: BotActions;
   botService: BotService;
 }
 export const ChatbotContext = createContext<IChatbotContext>({
@@ -65,14 +67,12 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const botReservation = useAppSelector(selectBotReservationState);
   const botOrderState = useAppSelector(selectBotOrderState);
 
-  const createBotMessage = (
-    message: string | ReactElement,
-    options?: MessageOption,
-  ) => {
+  const createBotMessage = (message: ReactNode, options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
     activeTyping();
     setTimeout(() => {
@@ -209,7 +209,7 @@ export const ChatbotProvider = ({ children }: Props) => {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
-    sendMessage: (message: string, options?: MessageOption) => {
+    sendMessage: (message: ReactNode, options?: MessageOption) => {
       const widget =
         options &&
         _.has(options, 'widget') &&
@@ -256,7 +256,14 @@ export const ChatbotProvider = ({ children }: Props) => {
     completeService: () => {
       setBotService(BotService.NONE);
     },
+    onSelectReservation: (item: Reservation) => {
+      dispatch(setReservationDinein(item));
+      actions.sendMessage(botOrderState.steps[8].text, {
+        widget: <ShowConfirmationOrder />,
+      });
+    },
   };
+
   return (
     <ChatbotContext.Provider
       value={{

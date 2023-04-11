@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 // import { MessageOption, Message } from './types';
+import * as _ from 'lodash';
 import MessageHeader from './message-header';
 import MessageInput from './message-input';
 import MessageSection from './message-section';
@@ -18,9 +19,8 @@ import {
   setTakeawayPhone,
   setTakeawayTime,
   resetCreateOrder,
+  getReservationByUser,
 } from '@/store/reducer/chatbot';
-// import { BotService } from './types';
-// import Yes from './widgets/yes';
 import {
   isNumber,
   isValidDate,
@@ -34,6 +34,7 @@ import { OrderType, QueryStatus } from '@/types/data-types';
 import { useCreateOrderServiceMutation } from '@/service/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { IntroductionIndent } from './recognition';
+import ChooseReservation from './widgets/choose-reservation';
 const introductionIndent = new IntroductionIndent();
 type Props = {
   boxOpen?: boolean;
@@ -119,9 +120,24 @@ const Chatbot = (props: Props) => {
       if (/^takeaway$/.test(message)) {
         dispatch(setOrderType(OrderType.TAKEAWAY));
         actions.sendMessage(botOrderState.steps[5].text);
-      } else if (/^dine in$/.test(message)) {
+      }
+      // In case choose dine-in option
+      else if (/^dine in$/.test(message)) {
         dispatch(setOrderType(OrderType.DINE_IN));
-        actions.sendMessage(botOrderState.steps[3].text);
+        const reservation = await dispatch(getReservationByUser()).unwrap();
+        if (reservation && _.isArray(reservation) && reservation.length === 0) {
+          actions.sendMessage(botOrderState.steps[4].text);
+        }
+        //
+        else if (
+          reservation &&
+          _.isArray(reservation) &&
+          reservation.length > 0
+        ) {
+          actions.sendMessage(botOrderState.steps[3].text, {
+            widget: <ChooseReservation data={reservation} />,
+          });
+        }
       }
     }
     // Takeaway case, Handle getting name of tempCustomer
@@ -161,11 +177,23 @@ const Chatbot = (props: Props) => {
       }
     }
     // Confirm order information
-    else if (!botOrderState.steps[8].isComplete) {
+    else if (
+      !botOrderState.steps[8].isComplete &&
+      botOrderState.created.type === OrderType.TAKEAWAY
+    ) {
       if (message.includes('ok')) {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.reservationId;
         delete createBotOrderData.customerId;
+        createOrder(createBotOrderData);
+      }
+    } else if (
+      !botOrderState.steps[8].isComplete &&
+      botOrderState.created.type === OrderType.DINE_IN
+    ) {
+      if (message.includes('ok')) {
+        const createBotOrderData = { ...botOrderState.created };
+        delete createBotOrderData.tempCustomer;
         createOrder(createBotOrderData);
       }
     } else {
@@ -179,9 +207,7 @@ const Chatbot = (props: Props) => {
 
     if (lowerCaseMessage.includes('help')) {
       actions.askForHelp();
-    } 
-    
-    else if (introductionIndent.isValid(lowerCaseMessage)) {
+    } else if (introductionIndent.isValid(lowerCaseMessage)) {
       actions.introduce();
     }
     // Handle Reservation
@@ -216,9 +242,6 @@ const Chatbot = (props: Props) => {
 
   useEffect(() => {
     actions.askForHelp();
-    // actions.sendMessage(botOrderState.steps[8].text, {
-    //   widget: <ShowConfirmationOrder data={botOrderState.created}/>
-    // });
   }, []);
 
   return (
