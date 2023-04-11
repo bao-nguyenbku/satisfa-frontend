@@ -39,10 +39,19 @@ interface IChatbotContext {
   activeTyping: () => void;
   disableTyping: () => void;
   actions: BotActions;
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
   botService: BotService;
 }
 export const ChatbotContext = createContext<IChatbotContext>({
   messages: [{} as Message],
+  open: () => {
+    return;
+  },
+  close: () => {
+    return;
+  },
   createBotMessage: () => {
     return;
   },
@@ -59,12 +68,14 @@ export const ChatbotContext = createContext<IChatbotContext>({
     return;
   },
   isTyping: false,
+  isOpen: false,
   actions: {},
   botService: BotService.NONE,
 });
 
 export const ChatbotProvider = ({ children }: Props) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const dispatch = useAppDispatch();
@@ -163,6 +174,12 @@ export const ChatbotProvider = ({ children }: Props) => {
   };
   const disableTyping = () => {
     setIsTyping(false);
+  };
+  const open = () => {
+    setIsOpen(true);
+  };
+  const close = () => {
+    setIsOpen(false);
   };
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
@@ -276,6 +293,9 @@ export const ChatbotProvider = ({ children }: Props) => {
         disableTyping,
         actions,
         botService,
+        open,
+        isOpen,
+        close,
       }}>
       {children}
     </ChatbotContext.Provider>

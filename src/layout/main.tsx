@@ -8,6 +8,7 @@ import { useAppDispatch } from '@/hooks';
 import { authCurrentUser } from '@/store/reducer/user';
 // import { GetServerSideProps } from 'next';
 import { useSession } from 'next-auth/react';
+import { ChatbotProvider } from '@/context/chatbot-context';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -37,7 +38,9 @@ export default function MainLayout({ children }: LayoutProps) {
       <div className="px-20">
         <NavigationBar scrollableNodeRef={propsRef} />
         <>{children}</>
-        <ChatbotButton />
+        <ChatbotProvider>
+          <ChatbotButton />
+        </ChatbotProvider>
       </div>
     </SimpleBar>
   );

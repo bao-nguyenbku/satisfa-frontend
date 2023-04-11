@@ -41,9 +41,9 @@ type Props = {
 };
 const Chatbot = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { messages, isTyping, createUserMessage, actions, botService } =
+  const { messages, isTyping, createUserMessage, actions, botService, isOpen } =
     useChatbot();
-
+  console.log('🚀 ~ file: index.tsx:45 ~ Chatbot ~ isOpen:', isOpen);
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
   // const [currentMessage, setCurrentMessage] = useState<string>('');

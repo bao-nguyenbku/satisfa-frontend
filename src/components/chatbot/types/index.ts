@@ -1,8 +1,8 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 export type Message = {
   id: number;
-  text: string | ReactElement;
+  text: ReactNode;
   role: 'bot' | 'user' | 'widget';
   component?: React.ReactNode;
   isNew: boolean;

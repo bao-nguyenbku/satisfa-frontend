@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Chatbot from '../chatbot';
-import { ChatbotProvider } from '@/context/chatbot-context';
 /**
  * Connect websocket, for testing only
  */
@@ -43,9 +42,7 @@ const MessageBox = (props: Props) => {
   }, [socket]);
   return (
     <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col z-20">
-      <ChatbotProvider>
-        <Chatbot {...props} />
-      </ChatbotProvider>
+      <Chatbot {...props} />
     </div>
   );
 };
