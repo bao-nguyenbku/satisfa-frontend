@@ -6,20 +6,11 @@ import {
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { BASE_URL } from '@/constants';
+import { baseQuery } from '@/utils/request';
+import { tableApi } from './table';
 
-// import { tableApi } from './table';
-
-export const reservationApi = createApi({
-  reducerPath: 'reservationApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-  }),
-  tagTypes: ['Reservation'],
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
+export const reservationApi = tableApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (build) => ({
     getAllReservation: build.query<Reservation[], void>({
       query: () => '/reservations',
@@ -31,7 +22,6 @@ export const reservationApi = createApi({
       query(body) {
         return {
           url: '/reservations/create',
-          method: 'POST',
           body,
         };
       },
@@ -40,7 +30,7 @@ export const reservationApi = createApi({
       Reservation[],
       ReservationFilter | void
     >({
-      providesTags: ['Reservation'],
+      providesTags: ['Reservations'],
       query: (filter) => {
         return {
           url: '/reservations',
@@ -49,32 +39,11 @@ export const reservationApi = createApi({
       },
     }),
   }),
-
-  refetchOnFocus: true,
 });
 
-// export const reservationApi = tableApi.injectEndpoints({
-//   endpoints: (build) => ({
-//     getAllReservation: build.query<any, void>({
-//       query: () => '/reservations',
-//     }),
-//     createReservation: build.mutation<any, ReservationType>({
-
-//       query(body) {
-//         console.log(body)
-//         return {
-//           url: '/reservations/create',
-//           method: 'POST',
-//           body,
-//         };
-//       }
-//     }),
-//   }),
-// });
-
 export const {
-  useGetAllReservationQuery,
   useCreateReservationMutation,
+  useGetAllReservationQuery,
   useGetReservationByFilterQuery,
   util: { getRunningQueriesThunk },
 } = reservationApi;

@@ -14,7 +14,10 @@ const hydrate = createAction<RootState>(HYDRATE);
 
 interface ReservationState {
   reservationListByFilter: ReduxDataType;
-  createReservationData: Omit<ICreateReservation, 'customerId'> & { customerId: string };
+  createReservationData: Omit<ReduxDataType, 'data'> & {
+    data: Omit<ICreateReservation, 'customerId'> & { customerId: string },
+    code: string;
+  };
 }
 
 
@@ -27,11 +30,17 @@ const initialState: ReservationState = {
     error: null,
   },
   createReservationData: {
-    numberOfGuests: 0,
-    tableId: '',
-    date: '',
-    note: '',
-    customerId: ''
+    data: {
+      numberOfGuests: 0,
+      tableId: '',
+      date: '',
+      note: '',
+      customerId: ''
+    }, 
+    isLoading: false,
+    isSuccess: false,
+    error: null,
+    code: ''
   }
 };
 export const getReservationByFilter = createAsyncThunk(
@@ -53,12 +62,18 @@ export const reservationSlice = createSlice({
   initialState,
   reducers: {
     guestSelect: (initialState, action: PayloadAction<number>) => {
-      initialState.createReservationData.numberOfGuests = action.payload;
+      initialState.createReservationData.data.numberOfGuests = action.payload;
     },
 
     getTime: (initialState, action: PayloadAction<string>) => {
-      initialState.createReservationData.date = action.payload;
+      initialState.createReservationData.data.date = action.payload;
     },
+    setCreateSuccess: (initialState) => {
+      initialState.createReservationData.isSuccess = true;
+    },
+    getTableCode: (initialState, action: PayloadAction<string>) => {
+      initialState.createReservationData.code = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -85,7 +100,7 @@ export const reservationSlice = createSlice({
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
 });
 
-export const { guestSelect, getTime } = reservationSlice.actions;
+export const { guestSelect, getTime, setCreateSuccess, getTableCode } = reservationSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectReservationState = (state: RootState) => state.reservation;

@@ -26,8 +26,8 @@ const hydrate = createAction<RootState>(HYDRATE);
 type ChatbotState = {
   reservation: {
     // Change steps structure
-    steps: Array<any>;
-    created: any;
+    steps: BotStep;
+    created: CreateOrder;
   };
   order: {
     steps: BotStep;
@@ -37,26 +37,24 @@ type ChatbotState = {
 // Define the initial state using that type
 const initialState: ChatbotState = {
   reservation: {
-    steps: [
-      {
-        id: 1,
+    steps: {
+      1: {
         text: 'First, let you pick a date for your meal. Please type with syntax: DD/MM/YYYY',
         isComplete: false,
-        value: '',
       },
-      {
-        id: 2,
+      2: {
         text: 'Second, let you pick a time. Please type with syntax: hh:mm',
         isComplete: false,
-        value: '',
       },
-      {
-        id: 3,
+      3: {
         text: 'Ok good. How many guests? Please type a number',
         isComplete: false,
-        value: 0,
       },
-    ],
+      4: {
+        text: 'Now, we will show you availables table that match your requirement on the screen, pick one table.',
+        isComplete: false,
+      },
+    },
     created: {},
   },
   order: {
@@ -69,43 +67,8 @@ const initialState: ChatbotState = {
         text: 'I saw your order cart. Would you like to dine-in or takeaway? (type "dine in" or "takeaway")',
         isComplete: false,
       },
-      3: {
-        text: 'Please choose your reservation.',
-        isComplete: false,
-      },
-      4: {
-        text: 'Sorry, you do not have any reservation. Please make a reservation first or takeaway the order.',
-        isComplete: false,
-      },
-      5: {
-        text: 'Ok. I need some information to complete the order. What is your name?',
-        isComplete: false,
-      },
-      6: {
-        text: 'What is your phone number? This will be phone number we contact you about the order',
-        isComplete: false,
-      },
-      7: {
-        text: 'What time can you arrive to restaurant to take order away? type the date to box following syntax: dd/mm/yyyy hh:mm (24-hour format). E.g: 25/04/2023 14:30',
-        isComplete: false,
-      },
-      8: {
-        text: 'Ok. I am confirming your order. Now, please look at widget below on the chat area. If the order information is right, type ok',
-        isComplete: false,
-      },
     },
-    created: {
-      reservationId: '',
-      customerId: '',
-      items: [],
-      totalCost: 0,
-      type: OrderType.DINE_IN,
-      tempCustomer: {
-        name: '',
-        phone: '',
-        takingTime: '',
-      },
-    },
+    created: {}
   },
 };
 // export const createReservation = createAsyncThunk(
@@ -158,21 +121,21 @@ export const chatbotSlice = createSlice({
   initialState,
   reducers: {
     setDate: (state, action: PayloadAction<string>) => {
-      const cloneState = [...state.reservation.steps];
-      cloneState[0].value = action.payload;
-      cloneState[0].isComplete = true;
-      state.reservation.steps = cloneState;
-    },
-    setTime: (state, action: PayloadAction<string>) => {
-      const cloneState = [...state.reservation.steps];
-      cloneState[1].value = action.payload;
+      const cloneState = state.reservation.steps;
+      cloneState[1].text = action.payload;
       cloneState[1].isComplete = true;
       state.reservation.steps = cloneState;
     },
-    setGuest: (state, action: PayloadAction<number>) => {
-      const cloneState = [...state.reservation.steps];
-      cloneState[2].value = action.payload;
+    setTime: (state, action: PayloadAction<string>) => {
+      const cloneState = state.reservation.steps;
+      cloneState[2].text = action.payload;
       cloneState[2].isComplete = true;
+      state.reservation.steps = cloneState;
+    },
+    setGuest: (state, action: PayloadAction<number>) => {
+      const cloneState = state.reservation.steps;
+      cloneState[3].text = action.payload;
+      cloneState[3].isComplete = true;
       state.reservation.steps = cloneState;
     },
     setOrderItems: (state, action: PayloadAction<CartItem[]>) => {
@@ -246,7 +209,7 @@ export const {
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBotReservationState = (state: RootState) =>
-  state.chatbot.reservation.steps;
+  state.chatbot.reservation;
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
 

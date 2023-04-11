@@ -3,7 +3,6 @@ import { ReactNode } from 'react';
 
 export { QueryStatus };
 
-
 export type ReservationType = {
   customerId: string;
   tableId: string;
@@ -48,6 +47,11 @@ export type TableType = {
   code: string;
   numberOfSeats: number;
   status: TableStatus;
+};
+
+export type TableFilter = {
+  minSeat?: number;
+  reservationDate?: string;
 };
 
 export type Product = {

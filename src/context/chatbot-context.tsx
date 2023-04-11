@@ -25,6 +25,8 @@ import {
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
 import { Reservation } from '@/types/data-types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
+import { selectReservationState } from '@/store/reducer/reservation';
+import { formatDate } from '@/utils';
 
 type Props = {
   children: React.ReactNode;
@@ -82,6 +84,7 @@ export const ChatbotProvider = ({ children }: Props) => {
   const router = useRouter();
   const botReservation = useAppSelector(selectBotReservationState);
   const botOrderState = useAppSelector(selectBotOrderState);
+  const reservationInfo = useAppSelector(selectReservationState);
 
   const createBotMessage = (message: ReactNode, options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
@@ -222,7 +225,7 @@ export const ChatbotProvider = ({ children }: Props) => {
       });
     },
     getDatePicker: (options?: MessageOption) => {
-      createBotMessage(botReservation[0].text, {
+      createBotMessage(botReservation.steps[1].text, {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
@@ -250,12 +253,29 @@ export const ChatbotProvider = ({ children }: Props) => {
       createWidget(widget, options);
     },
     getTimePicker: (options?: MessageOption) => {
-      createBotMessage(botReservation[1].text, {
+      createBotMessage(botReservation.steps[2].text, {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
     getGuest: (options?: MessageOption) => {
-      createBotMessage(botReservation[2].text, {
+      createBotMessage(botReservation.steps[3].text, {
+        delay: options ? options.delay : DEFAULT_DELAY,
+      });
+    },
+    showTables: (options?: MessageOption) => {
+      createBotMessage(botReservation.steps[4].text, {
+        delay: options ? options.delay : DEFAULT_DELAY,
+      });
+    },
+    completeBookingTable: (options?: MessageOption) => {
+      console.log(
+        formatDate(reservationInfo.createReservationData.data.tableId),
+      );
+      const message = `Congratulations! You now can come to my restaurant at ${formatDate(
+        reservationInfo.createReservationData.data.date,
+      )} 
+      on table ${reservationInfo.createReservationData.code}`;
+      createBotMessage(message, {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
