@@ -1,65 +1,35 @@
-import { ICreateReservation, ReservationFilter } from '@/types/data-types';
-
+import {
+  CreateReservation,
+  Reservation,
+  ReservationFilter,
+} from '@/types/data-types';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
+import { BASE_URL } from '@/constants';
+import { baseQuery } from '@/utils/request';
 import { tableApi } from './table';
 
-// export const reservationApi = createApi({
-//     reducerPath: "reservationApi",
-//     baseQuery: fetchBaseQuery({
-//         baseUrl: BASE_URL,
-//     }),
-//     tagTypes: ['Reservation'],
-//     extractRehydrationInfo(action, { reducerPath }) {
-//         if (action.type === HYDRATE) {
-//           return action.payload[reducerPath];
-//         }
-//       },
-//       endpoints: (build) => ({
-// getAllReservation: build.query<any, void>({
-//   query: () => "/reservations",
-// }),
-//         createReservation: build.mutation<any, Omit<ICreateReservation, 'customerId'> & { customerId: string }>({
-//           query(body) {
-//             console.log(body)
-//             return {
-//               url: '/reservations/create',
-//               method: 'POST',
-//               body
-//             }
-//           }
-//         }),
-//         getReservationByFilter: build.query<any, ReservationFilter | void>({
-//           providesTags: ['Reservation'],
-//           query: (filter) => {
-//             return {
-//               url: '/reservations',
-//               params: filter || {},
-//             };
-//           },
-//         }),
-//       }),
-
-//       refetchOnFocus: true,
-// })
-
 export const reservationApi = tableApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (build) => ({
-    getAllReservation: build.query<any, void>({
+    getAllReservation: build.query<Reservation[], void>({
       query: () => '/reservations',
     }),
-    createReservationService: build.mutation<
-      any,
-      Omit<ICreateReservation, 'customerId'> & { customerId: string }
+    createReservation: build.mutation<
+      Reservation,
+      Omit<CreateReservation, 'customerId'> & { customerId: string }
     >({
-      query: (body) => {
-        console.log(body)
+      query(body) {
         return {
-          url: `/reservations/create`,
-          method: 'POST',
+          url: '/reservations/create',
           body,
         };
       },
     }),
-    getReservationByFilter: build.query<any, ReservationFilter | void>({
+    getReservationByFilter: build.query<
+      Reservation[],
+      ReservationFilter | void
+    >({
       providesTags: ['Reservations'],
       query: (filter) => {
         return {
@@ -72,10 +42,11 @@ export const reservationApi = tableApi.injectEndpoints({
 });
 
 export const {
+  useCreateReservationMutation,
   useGetAllReservationQuery,
-  useCreateReservationServiceMutation,
   useGetReservationByFilterQuery,
   util: { getRunningQueriesThunk },
 } = reservationApi;
 
-export const { getReservationByFilter } = reservationApi.endpoints;
+export const { getAllReservation, createReservation, getReservationByFilter } =
+  reservationApi.endpoints;

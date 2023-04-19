@@ -5,6 +5,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 // import * as _ from 'lodash';
+
 import { RootState } from '@/store';
 // import { ReduxDataType } from '@/types/redux-type';
 import { HYDRATE } from 'next-redux-wrapper';
@@ -15,7 +16,9 @@ import {
   OrderType,
   TakeawayCustomer,
   BotStep,
+  Reservation,
 } from '@/types/data-types';
+import { reservationApi } from '@/service/reservation';
 // import { ChatBotType } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);
@@ -74,13 +77,37 @@ const initialState: ChatbotState = {
 
 //   }
 // );
+export const getReservationByUser = createAsyncThunk<
+  Reservation[] | undefined,
+  void,
+  {
+    state: RootState;
+  }
+>(
+  'chatbot/getReservationByUser',
+  async (un, { getState, dispatch, rejectWithValue }) => {
+    const user = getState().user;
+    try {
+      const response = await dispatch(
+        reservationApi.endpoints.getReservationByFilter.initiate({
+          user: user.data.id,
+        }),
+      );
+      if (!response.isLoading && response.isSuccess && response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 export const setOrderItemsThunk = createAsyncThunk<
   CartState,
   void,
   {
     state: RootState;
   }
->('chatbot/setOrderItems', async (_, { getState, dispatch }) => {
+>('chatbot/setOrderItems', async (un, { getState, dispatch }) => {
   const cart = getState().cart;
   if (cart.itemList.length > 0) {
     dispatch(setOrderItems(cart.itemList));
@@ -134,6 +161,13 @@ export const chatbotSlice = createSlice({
         action.payload;
       state.order.steps[7].isComplete = true;
     },
+    setReservationDinein: (state, action: PayloadAction<Reservation>) => {
+      if (state.order.created.type == OrderType.DINE_IN) {
+        state.order.created.reservationId = action.payload.id;
+        state.order.created.customerId = action.payload.customerId.id;
+        state.order.steps[3].isComplete = true;
+      }
+    },
     resetCreateOrder: (state) => {
       state.order.created = {
         reservationId: '',
@@ -170,6 +204,7 @@ export const {
   setTakeawayPhone,
   setTakeawayTime,
   resetCreateOrder,
+  setReservationDinein,
 } = chatbotSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
@@ -178,7 +213,8 @@ export const selectBotReservationState = (state: RootState) =>
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
 
-export const selectCreateBotOrderData = (state: RootState) => state.chatbot.order.created;
+export const selectCreateBotOrderData = (state: RootState) =>
+  state.chatbot.order.created;
 // export const selectTakeawayOrderCompletion = (state: RootState) => {
 
 // };

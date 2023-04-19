@@ -1,8 +1,8 @@
-import { ReactElement } from "react";
+import { ReactElement, ReactNode } from 'react';
 
 export type Message = {
   id: number;
-  text: string | ReactElement;
+  text: ReactNode;
   role: 'bot' | 'user' | 'widget';
   component?: React.ReactNode;
   isNew: boolean;
@@ -10,6 +10,9 @@ export type Message = {
 export type MessageOption = {
   delay?: number;
   widget?: ReactElement;
+};
+export type BotActions = {
+  [key: string]: (params?: any, options?: MessageOption) => void;
 };
 
 export enum BotService {

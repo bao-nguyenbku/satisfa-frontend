@@ -2,25 +2,29 @@ import React, {
   createContext,
   useState,
   useEffect,
+  ReactNode,
   ReactElement,
   cloneElement,
 } from 'react';
 import * as _ from 'lodash';
 import {
   MessageOption,
+  BotActions,
   Message,
   BotService,
   DEFAULT_DELAY,
 } from '@/components/chatbot/types';
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
   selectBotOrderState,
+  setReservationDinein,
 } from '@/store/reducer/chatbot';
-// import Yes from '@/components/chatbot/widgets/yes';
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
+import { Reservation } from '@/types/data-types';
+import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
 import { selectReservationState } from '@/store/reducer/reservation';
 import { formatDate } from '@/utils';
 
@@ -36,13 +40,20 @@ interface IChatbotContext {
   isTyping: boolean;
   activeTyping: () => void;
   disableTyping: () => void;
-  actions: {
-    [key: string]: (params?: any, options?: MessageOption) => void;
-  };
+  actions: BotActions;
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
   botService: BotService;
 }
 export const ChatbotContext = createContext<IChatbotContext>({
   messages: [{} as Message],
+  open: () => {
+    return;
+  },
+  close: () => {
+    return;
+  },
   createBotMessage: () => {
     return;
   },
@@ -59,22 +70,23 @@ export const ChatbotContext = createContext<IChatbotContext>({
     return;
   },
   isTyping: false,
+  isOpen: false,
   actions: {},
   botService: BotService.NONE,
 });
 
 export const ChatbotProvider = ({ children }: Props) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const botReservation = useAppSelector(selectBotReservationState);
   const botOrderState = useAppSelector(selectBotOrderState);
   const reservationInfo = useAppSelector(selectReservationState);
-  const createBotMessage = (
-    message: string | ReactElement,
-    options?: MessageOption,
-  ) => {
+
+  const createBotMessage = (message: ReactNode, options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
     activeTyping();
     setTimeout(() => {
@@ -166,6 +178,12 @@ export const ChatbotProvider = ({ children }: Props) => {
   const disableTyping = () => {
     setIsTyping(false);
   };
+  const open = () => {
+    setIsOpen(true);
+  };
+  const close = () => {
+    setIsOpen(false);
+  };
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
     if (lastMessage?.role === 'bot' && lastMessage?.isNew) {
@@ -211,7 +229,7 @@ export const ChatbotProvider = ({ children }: Props) => {
         delay: options ? options.delay : DEFAULT_DELAY,
       });
     },
-    sendMessage: (message: string, options?: MessageOption) => {
+    sendMessage: (message: ReactNode, options?: MessageOption) => {
       const widget =
         options &&
         _.has(options, 'widget') &&
@@ -250,7 +268,9 @@ export const ChatbotProvider = ({ children }: Props) => {
       });
     },
     completeBookingTable: (options?: MessageOption) => {
-      console.log(formatDate(reservationInfo.createReservationData.data.tableId))
+      console.log(
+        formatDate(reservationInfo.createReservationData.data.tableId),
+      );
       const message = `Congratulations! You now can come to my restaurant at ${formatDate(
         reservationInfo.createReservationData.data.date,
       )} 
@@ -273,7 +293,14 @@ export const ChatbotProvider = ({ children }: Props) => {
     completeService: () => {
       setBotService(BotService.NONE);
     },
+    onSelectReservation: (item: Reservation) => {
+      dispatch(setReservationDinein(item));
+      actions.sendMessage(botOrderState.steps[8].text, {
+        widget: <ShowConfirmationOrder />,
+      });
+    },
   };
+
   return (
     <ChatbotContext.Provider
       value={{
@@ -286,6 +313,9 @@ export const ChatbotProvider = ({ children }: Props) => {
         disableTyping,
         actions,
         botService,
+        open,
+        isOpen,
+        close,
       }}>
       {children}
     </ChatbotContext.Provider>
