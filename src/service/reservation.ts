@@ -3,10 +3,6 @@ import {
   Reservation,
   ReservationFilter,
 } from '@/types/data-types';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { HYDRATE } from 'next-redux-wrapper';
-import { BASE_URL } from '@/constants';
-import { baseQuery } from '@/utils/request';
 import { tableApi } from './table';
 
 export const reservationApi = tableApi.injectEndpoints({

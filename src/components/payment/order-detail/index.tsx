@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Button } from '@mui/material';
 import OrderItem from './order-item';
 import styles from './styles.module.scss';
-import { formatCurrency } from '@/utils/currency-format';
+import { formatCurrency } from '@/utils';
 
 type Props = {
   orderInfo: any;

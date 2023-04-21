@@ -10,9 +10,9 @@ import bgImage from '@/assets/images/contact-background.jpg';
 
 const FooterSection = () => {
   return (
-    <div className="h-screen w-screen relative -left-20 top-0" id='footer'>
+    <div className="h-screen w-screen relative -left-20 top-0" id="footer">
       <Image
-        className="object-cover absolute top-0 left-0 -z-10 brightness-50"
+        className="object-cover absolute top-0 left-0 brightness-50 z-10"
         src={bgImage}
         alt="contact"
         fill
@@ -25,14 +25,14 @@ const FooterSection = () => {
           <span className="text-8xl">Get in touch</span>
         </div>
         <div className="mt-auto flex flex-col gap-6">
-          <div className='flex items-center mx-auto gap-6'>
-            <IconButton className='bg-white/20 border border-slate-600 border-solid p-4'>
+          <div className="flex items-center mx-auto gap-6">
+            <IconButton className="bg-white/20 border border-slate-600 border-solid p-4">
               <FacebookRoundedIcon className="text-white" />
             </IconButton>
-            <IconButton className='bg-white/20 border border-slate-600 border-solid p-4'>
+            <IconButton className="bg-white/20 border border-slate-600 border-solid p-4">
               <YouTubeIcon className="text-white" />
             </IconButton>
-            <IconButton className='bg-white/20 border border-slate-600 border-solid p-4'>
+            <IconButton className="bg-white/20 border border-slate-600 border-solid p-4">
               <InstagramIcon className="text-white" />
             </IconButton>
           </div>
