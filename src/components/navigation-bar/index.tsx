@@ -1,6 +1,5 @@
-import React, { RefObject } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import SimpleBarCore from 'simplebar-core';
 import * as _ from 'lodash';
 import Image from 'next/image';
 import CartIconButton from '../cart/icon-button';
