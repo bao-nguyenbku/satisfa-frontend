@@ -41,7 +41,7 @@ const MessageBox = (props: Props) => {
     // });
   }, [socket]);
   return (
-    <div className="w-[500px] h-[600px] rounded-3xl overflow-hidden flex flex-col z-20">
+    <div className="w-100 h-128 rounded-none overflow-hidden flex flex-col z-20">
       <Chatbot {...props} />
     </div>
   );

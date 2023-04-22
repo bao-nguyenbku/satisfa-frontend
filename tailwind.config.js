@@ -29,6 +29,10 @@ module.exports = {
           'item-background': '#1F1F1F',
         },
       },
+      spacing: {
+        '100': '25rem',
+        '128': '32rem'
+      }
     },
     plugins: [],
   },

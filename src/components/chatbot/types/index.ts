@@ -1,5 +1,10 @@
 import { ReactElement, ReactNode } from 'react';
 
+export enum WidgetType {
+  WIDGET = 'WIDGET',
+  SELECTION = 'SELECTION',
+}
+
 export type Message = {
   id: number;
   text: ReactNode;
@@ -10,6 +15,7 @@ export type Message = {
 export type MessageOption = {
   delay?: number;
   widget?: ReactElement;
+  widgetType?: WidgetType;
 };
 export type BotActions = {
   [key: string]: (params?: any, options?: MessageOption) => void;

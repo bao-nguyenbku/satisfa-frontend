@@ -8,31 +8,24 @@ export default function Options(props: any) {
   const { actions } = props;
   const options = [
     {
-      text: 'Booking table',
+      text: 'I want to book table',
       handler: actions.handleReservation,
       id: 0,
-      // icon: <TableRestaurantIcon />
     },
-    // {
-    //   text: 'Dine in',
-    //   handler: props.actions.handleDineIn,
-    //   id: 1,
-    //   icon: <RestaurantMenuIcon />,
-    // },
     {
-      text: 'Order',
+      text: 'I want to order some food',
       handler: actions.handleOrder,
       id: 2,
     },
   ];
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col gap-2 justify-end items-end">
       {options.map((option) => (
         <Button
           key={option.id}
           variant="outlined"
           onClick={option.handler}
-          className="bg-white hover:bg-white/70 rounded-full border-none normal-case hover:border-none text-black">
+          className="bg-white/20 hover:bg-white/30 p-3 text-white rounded-lg normal-case border-none hover:border-none">
           {option.text}
         </Button>
       ))}
