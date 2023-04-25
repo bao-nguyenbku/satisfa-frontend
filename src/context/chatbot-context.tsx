@@ -268,9 +268,7 @@ export const ChatbotProvider = ({ children }: Props) => {
       });
     },
     completeBookingTable: (options?: MessageOption) => {
-      console.log(
-        formatDate(reservationInfo.createReservationData.data.tableId),
-      );
+      open();
       const message = `Congratulations! You now can come to my restaurant at ${formatDate(
         reservationInfo.createReservationData.data.date,
       )} 

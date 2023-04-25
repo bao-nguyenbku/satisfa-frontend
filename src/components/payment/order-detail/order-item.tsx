@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import Image from 'next/image';
 import styles from './styles.module.scss';
 import { CartItem } from '@/types/data-types';
-import { formatCurrency } from '@/utils/currency-format';
+import { formatCurrency } from '@/utils';
 
 type Props = {
     item: CartItem;

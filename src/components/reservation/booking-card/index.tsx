@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import { ICreateReservation, TableStatus } from '@/types/data-types';
+import { CreateReservation, TableStatus } from '@/types/data-types';
 
-import { useCreateReservationServiceMutation } from '@/service/reservation';
+import { useCreateReservationMutation } from '@/service/reservation';
 import { toast } from 'react-toastify';
 import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
 
@@ -21,7 +21,7 @@ type TableProps = {
 type Props = {
   table: TableProps;
 };
-const reserveData: Omit<ICreateReservation, 'customerId'> & {customerId: string} = {
+const reserveData: Omit<CreateReservation, 'customerId'> & {customerId: string} = {
   tableId: '63fb319e765710c5bae252f0',
   date: new Date().toString(),
   note: 'tran chau duong den',
@@ -32,7 +32,7 @@ const BookingCard = (props: Props) => {
   const { table } = props;
   const user = useAppSelector(state => state.user.data)
   const data = useAppSelector((state) => state.reservation.createReservationData);
-  const [createReservation, result] = useCreateReservationServiceMutation();
+  const [createReservation, result] = useCreateReservationMutation();
   const dispatch = useAppDispatch();
   const handleClick = () => {
     if (data?.data.numberOfGuests > 0) {

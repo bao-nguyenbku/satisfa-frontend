@@ -172,6 +172,24 @@ export type Reservation = {
   note: string;
 };
 
+export type CreatePayment = {
+  orderId: string;
+  info: PaymentCash;
+  type: PaymentType;
+};
+
+export type PaypalUnit = {
+  reference_id: string;
+  description: string;
+  amount: PaypalAmount;
+}
+
+
+export type PaypalAmount = {
+  currency_code: string;
+  value: number; 
+}
+
 export type BotStep = {
   [key: number]: {
     text: ReactNode;
