@@ -13,6 +13,7 @@ import {
   Message,
   BotService,
   DEFAULT_DELAY,
+  WidgetType,
 } from '@/components/chatbot/types';
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
@@ -122,6 +123,7 @@ export const ChatbotProvider = ({ children }: Props) => {
   };
   const createWidget = (widget: ReactElement, options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
+    const { widgetType = WidgetType.WIDGET } = options ? options : {};
     setTimeout(() => {
       setMessages((prev) => {
         return [
@@ -130,9 +132,9 @@ export const ChatbotProvider = ({ children }: Props) => {
             id: Math.random(),
             text: '',
             role: 'widget',
-            isNew: false,
+            isNew: true,
             component: (
-              <WidgetWrapper>
+              <WidgetWrapper option={widgetType}>
                 {cloneElement(widget as ReactElement, {
                   actions,
                 })}
@@ -201,7 +203,9 @@ export const ChatbotProvider = ({ children }: Props) => {
     },
     askForHelp: () => {
       createBotMessage('Hi, I am Satisgi. How can I help you?');
-      createWidget(<Options actions={actions} />);
+      createWidget(<Options actions={actions} />, {
+        widgetType: WidgetType.SELECTION,
+      });
     },
     introduce: () => {
       createBotMessage(

@@ -1,11 +1,11 @@
 .popover {
-  position: fixed;
-  width: 500px;
-  height: 600px;
-  right: 80px;
-  left: auto;
+  @apply fixed;
+  @apply w-100;
+  @apply h-128;
+  right: var(--chatbot-right);
+  @apply left-auto;
   @apply top-auto;
-  bottom: 20px;
+  bottom: var(--chatbot-bottom);
   :global {
     .MuiPaper-root {
       @apply bg-white/5;

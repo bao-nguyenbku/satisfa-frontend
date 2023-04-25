@@ -4,37 +4,37 @@ Not supports in Firefox and IE */
 
 /* total width */
 *::-webkit-scrollbar {
-  background-color: rgba(0, 0, 0, 0);
-  width: 10px;
-  height: 10px;
+  @apply bg-transparent;
+  @apply w-2;
+  @apply h-2;
   z-index: 999999;
 }
 
 /* background of the scrollbar except button or resizer */
 *::-webkit-scrollbar-track {
-  background-color: rgba(0, 0, 0, 0);
+  @apply bg-transparent;
 }
 
 /* scrollbar itself */
 *::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0);
-  border-radius: 16px;
-  border: 0px solid transparent;
+  @apply bg-transparent;
+  @apply rounded-2xl;
+  @apply border-none;
 }
 
 /* set button(top and bottom of the scrollbar) */
 *::-webkit-scrollbar-button {
-  display: none;
+  @apply hidden;
 }
 
 /* scrollbar when element is hovered */
 *:hover::-webkit-scrollbar-thumb {
-  background-color: #a0a0a5;
-  border: 4px solid transparent;
+  @apply bg-zinc-800;
+  @apply border-4;
+  @apply border-transparent;
 }
 
 /* scrollbar when scrollbar is hovered */
 *::-webkit-scrollbar-thumb:hover {
-  background-color: #a0a0a5;
-  border: 4px solid transparent;
+  @apply bg-zinc-700;
 }

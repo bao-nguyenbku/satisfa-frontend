@@ -1,10 +1,10 @@
 import React from 'react';
-import { Grid, IconButton, Button, Typography } from '@mui/material';
+import { IconButton } from '@mui/material';
+import Button from '@/components/common/button';
 import { CartItem } from '@/types/data-types';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import DeleteIcon from '@mui/icons-material/Delete';
-import styles from './styles.module.scss';
 import { formatCurrency } from '@/utils';
 
 type Props = {
@@ -24,91 +24,47 @@ import Image from 'next/image';
 const QuantityButton = (props: BtnProps) => {
   const { data, onIncrease, onDecrease } = props;
   return (
-    <Grid container alignContent={'center'}>
-      <Grid item xs={4}>
-        <Typography
-          variant="body1"
-          className="leading-10 text-gray-300 text-center bg-gray-500"
-          align="center">
-          {data.qty}
-        </Typography>
-      </Grid>
-      <Grid item xs={4}>
-        <IconButton
-          className={styles.iconButton}
-          onClick={() => onDecrease(data.id)}>
-          <KeyboardArrowLeftIcon className="text-gray-300 text-center " />
-        </IconButton>
-      </Grid>
-      <Grid item xs={4}>
-        <IconButton
-          className={styles.iconButton}
-          onClick={() => onIncrease(data.id)}>
-          <KeyboardArrowRightIcon className="text-gray-300 text-center" />
-        </IconButton>
-      </Grid>
-    </Grid>
+    <div className="bg-white/5 w-max text-white flex h-12 items-center">
+      <span className="w-12 text-center">{data.qty}</span>
+      <IconButton
+        onClick={() => onDecrease(data.id)}
+        className="bg-white/20 h-full rounded-none w-14">
+        <KeyboardArrowLeftIcon className="text-center text-white" />
+      </IconButton>
+      <IconButton
+        onClick={() => onIncrease(data.id)}
+        className="bg-white/20 h-full rounded-none w-12">
+        <KeyboardArrowRightIcon className="text-center text-white" />
+      </IconButton>
+    </div>
   );
 };
 export default function CartItemDetail(props: Props) {
   const { data, onIncrease, onDecrease, onRemove } = props;
   return (
-    <Grid container rowGap={1}>
-      <Grid item xs={3}>
-        <Image src={data.images[0]} alt={data.name} height={300} width={300} />
-      </Grid>
-      <Grid item xs={9}>
-        <Grid container rowGap={1}>
-          <Grid item xs={12}>
-            <Grid container justifyContent={'space-around'}>
-              <Grid item xs={7}>
-                <Grid container rowGap={1}>
-                  <Grid item xs={12}>
-                    <Typography className="text-white" variant="body1">
-                      {data.name}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography className="text-white" variant="body2">
-                      {data.qty}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography className="text-yellow-500" variant="body2">
-                      {formatCurrency(data.price)}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography className="text-yellow-500" variant="body1">
-                  {formatCurrency(data.qty * data.price)}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container justifyContent={'space-between'}>
-              <Grid item xs={5}>
-                <QuantityButton
-                  data={data}
-                  onIncrease={onIncrease}
-                  onDecrease={onDecrease}
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <Button
-                  onClick={() => onRemove(data.id)}
-                  className="text-white bg-red-500 hover:bg-red-400 rounded-none"
-                  variant="contained"
-                  startIcon={<DeleteIcon />}>
-                  Remove
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
+    <div className="flex">
+      <div className="relative">
+        <Image src={data.images[0]} alt={data.name} height={100} width={100} />
+      </div>
+      <div className="text-white flex flex-col">
+        <span>{data.name}</span>
+        <span>{formatCurrency(data.price)}</span>
+        <QuantityButton
+          data={data}
+          onIncrease={onIncrease}
+          onDecrease={onDecrease}
+        />
+      </div>
+      <div className='text-primary-yellow h-full flex flex-col justify-between ml-auto items-end'>
+        <span className='text-lg'>{formatCurrency(data.price * data.qty)}</span>
+        <Button
+          onClick={() => onRemove(data.id)}
+          className="text-white bg-red-500 hover:bg-red-400 rounded-none"
+          variant="contained"
+          startIcon={<DeleteIcon />}>
+          Remove
+        </Button>
+      </div>
+    </div>
   );
 }

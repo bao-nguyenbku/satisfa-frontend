@@ -262,7 +262,7 @@ const Chatbot = (props: Props) => {
   return (
     <div className="flex flex-col h-full">
       <MessageHeader />
-      <div className="flex-1 overflow-y-auto flex flex-col overflow-x-hidden">
+      <div className="flex-1 overflow-y-auto flex flex-col overflow-x-hidden text-sm">
         <MessageSection messages={messages} isTyping={isTyping} />
       </div>
       <div className="mt-auto w-full p-2">

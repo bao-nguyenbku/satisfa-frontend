@@ -1,34 +1,33 @@
-import React, { RefObject, useEffect, useCallback, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import SimpleBarCore from 'simplebar-core';
 import * as _ from 'lodash';
 import Image from 'next/image';
 import CartIconButton from '../cart/icon-button';
 import { useAppSelector } from '@/hooks';
 import { selectUserState } from '@/store/reducer/user';
 
-type Props = {
-  scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
-};
+// type Props = {
+//   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
+// };
 
-const NavigationBar = (props: Props) => {
-  const { scrollableNodeRef } = props;
+const NavigationBar = () => {
+  // const { scrollableNodeRef } = props;
   const user = useAppSelector(selectUserState);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [scrollTop, setScrollTop] = useState<number>(0);
-  const handleScroll = useCallback((event: any) => {
-    setScrollTop(event.target.scrollTop);
-  }, []);
+  // const [scrollTop, setScrollTop] = useState<number>(0);
+  // const handleScroll = useCallback((event: any) => {
+  //   setScrollTop(event.target.scrollTop);
+  // }, []);
   // const isShowBackground = scrollTop > 200;
-  useEffect(() => {
-    const div = scrollableNodeRef?.current;
-    div?.getScrollElement()?.addEventListener('scroll', handleScroll, true);
-    return () => {
-      div
-        ?.getScrollElement()
-        ?.removeEventListener('scroll', handleScroll, true);
-    };
-  }, [scrollableNodeRef, handleScroll]);
+  // useEffect(() => {
+  //   const div = scrollableNodeRef?.current;
+  //   div?.getScrollElement()?.addEventListener('scroll', handleScroll, true);
+  //   return () => {
+  //     div
+  //       ?.getScrollElement()
+  //       ?.removeEventListener('scroll', handleScroll, true);
+  //   };
+  // }, [scrollableNodeRef, handleScroll]);
   // const scrolledClass = isShowBackground
   //   ? 'fixed bg-white/10 backdrop-blur-lg'
   //   : 'absolute';

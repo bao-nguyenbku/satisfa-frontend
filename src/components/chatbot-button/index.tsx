@@ -25,6 +25,11 @@ const ChatbotButton = () => {
           // anchorEl={anchorEl}
           onClose={handleClose}
           className={styles.popover}
+          PaperProps={{
+            style: {
+              borderRadius: 12
+            }
+          }}
           keepMounted
           disablePortal
           hideBackdrop
