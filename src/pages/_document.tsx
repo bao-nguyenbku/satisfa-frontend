@@ -6,7 +6,7 @@ export default function Document() {
     <Html>
       <Head>
         <link rel="icon" type="image/png" href="/logo.png" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        {/* <meta name="viewport" content="initial-scale=1.0, width=device-width" /> */}
         <meta charSet="utf-8" />
         <meta name="description" content="Satisfa Restaurant. Luxury services" />
       </Head>

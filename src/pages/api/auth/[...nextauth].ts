@@ -62,26 +62,38 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     jwt: async (params) => {
-      const { token, user, account } = params;
+      const { token, account } = params;
       if (account) {
-        token.accessToken = account.access_token;
-        return token;
+        token.provider = account.provider;
       }
-      if (user) {
-        token.jwt = user;
+      const response = await axios.post(BASE_URL + '/auth/google', {
+        ...token,
+        avatar: token.picture,
+        id: token.sub,
+      });
+      if (response) {
+        return {
+          ...token,
+          accessToken: response.data.accessToken,
+        }
       }
+      
       return token;
     },
     session: async (params) => {
       const { session, token } = params;
-      session.accessToken = token.accessToken;
-      session.user.jwtToken = token.jwt as string;
+      // console.log('Session: ', {
+      //   session,
+      //   token,
+      //   user,
+      // });
+      session.token = token.accessToken as string;
       return session;
     },
-    // signIn: async (params) => {
-    //   // console.log('🚀 ~ file: [...nextauth].ts:82 ~ signIn: ~ params:', params);
-    //   return false;
-    // },
+    signIn: async () => {
+      // console.log('🚀 ~ file: [...nextauth].ts:82 ~ signIn: ~ params:', params);
+      return true;
+    },
   },
 };
 export default NextAuth(authOptions);
