@@ -1,5 +1,5 @@
 import React from 'react';
-import background from '@/assets/images/login-background.jpg';
+import background from '@/assets/images/banner-1.jpg';
 import Image from 'next/image';
 // import MainLayout from '@/layout/main';
 // Example usage of redux

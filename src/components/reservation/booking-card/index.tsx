@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { ICreateReservation, TableStatus } from '@/types/data-types';
 
-import { useCreateReservationServiceMutation } from '@/service/reservation';
+import { useCreateReservationMutation } from '@/service/reservation';
 import { toast } from 'react-toastify';
 import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
 
@@ -32,7 +32,7 @@ const BookingCard = (props: Props) => {
   const { table } = props;
   const user = useAppSelector(state => state.user.data)
   const data = useAppSelector((state) => state.reservation.createReservationData);
-  const [createReservation, result] = useCreateReservationServiceMutation();
+  const [createReservation, result] = useCreateReservationMutation();
   const dispatch = useAppDispatch();
   const handleClick = () => {
     if (data?.data.numberOfGuests > 0) {

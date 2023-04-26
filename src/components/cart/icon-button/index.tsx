@@ -4,7 +4,7 @@ import { Badge, IconButton, Drawer } from '@mui/material';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import CartDetail from '../cart-detail';
 import { selectTotalQty, setCookieToCart } from '@/store/reducer/cart';
-import { podkova } from '@/constants';
+import { primaryFont } from '@/constants';
 
 const CartIconButton = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ const CartIconButton = () => {
           className: 'w-1/4',
         }}
         onClose={handleToggleDrawer}>
-        <div className={podkova.className}>
+        <div className={primaryFont.className}>
           <CartDetail />
         </div>
       </Drawer>

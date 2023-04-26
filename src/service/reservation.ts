@@ -18,6 +18,7 @@ export const reservationApi = tableApi.injectEndpoints({
       query(body) {
         return {
           url: '/reservations/create',
+          method: 'POST',
           body,
         };
       },

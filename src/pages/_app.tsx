@@ -16,7 +16,7 @@ import { SessionProvider } from 'next-auth/react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import MainLayout from '@/layout/main';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { podkova } from '@/constants';
+import { primaryFont } from '@/constants';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
@@ -51,7 +51,7 @@ const App = ({
         <CacheProvider value={muiCache}>
           <ThemeProvider theme={theme}>
             <SessionProvider session={session} refetchOnWindowFocus={false}>
-              <main className={podkova.className}>
+              <main className={primaryFont.className}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   {getLayout(
                     <>
