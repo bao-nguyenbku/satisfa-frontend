@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@date-io/dayjs": "2.16.0",
@@ -53,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "5.54.1",
     "@typescript-eslint/parser": "5.54.1",
     "autoprefixer": "10.4.14",
+    "cypress": "^12.9.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.32.2",

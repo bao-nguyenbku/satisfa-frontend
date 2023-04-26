@@ -6,6 +6,8 @@ import { HYDRATE } from 'next-redux-wrapper';
 export const tableApi = createApi({
   reducerPath: 'tableApi',
   baseQuery,
+  refetchOnReconnect: true,
+  refetchOnFocus: true,
   tagTypes: ['Reservations'],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
@@ -15,7 +17,6 @@ export const tableApi = createApi({
   endpoints: (build) => ({
     getAllTable: build.query<TableType[], void>({
       query: () => '/tables',
-      providesTags: ['Reservations'],
     }),
     getTableByFilter: build.query<any, TableFilter | void>({
       query: (filter) => {
@@ -24,7 +25,6 @@ export const tableApi = createApi({
           params: filter || {},
         };
       },
-      providesTags: ['Reservations'],
     }),
     updateTable: build.mutation<void, { _id: string; body: TableType }>({
       query({ _id, body }) {
@@ -38,7 +38,6 @@ export const tableApi = createApi({
     }),
   
   }),
-  refetchOnFocus: true,
 });
 
 export const {

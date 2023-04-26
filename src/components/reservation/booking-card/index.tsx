@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import { ICreateReservation, TableStatus } from '@/types/data-types';
+import { CreateReservation, TableStatus } from '@/types/data-types';
 
 import { useCreateReservationMutation } from '@/service/reservation';
 import { toast } from 'react-toastify';
@@ -21,7 +21,7 @@ type TableProps = {
 type Props = {
   table: TableProps;
 };
-const reserveData: Omit<ICreateReservation, 'customerId'> & {customerId: string} = {
+const reserveData: Omit<CreateReservation, 'customerId'> & {customerId: string} = {
   tableId: '63fb319e765710c5bae252f0',
   date: new Date().toString(),
   note: 'tran chau duong den',
