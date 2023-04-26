@@ -13,6 +13,7 @@ import {
   OrderType,
   Order,
   PaymentType,
+  PaymentStatus,
   CreatedOrder,
 } from '@/types/data-types';
 import { createOrderService } from '@/service/order';
@@ -50,6 +51,7 @@ const initialState: OrderState = {
   createdOrder: {
     id: '',
     type: OrderType.DINE_IN,
+    paymentStatus: PaymentStatus.UNPAID,
     paymentData: {
       type: PaymentType.CASH,
       info: {

@@ -3,21 +3,24 @@ import { Typography, Button } from '@mui/material';
 import OrderItem from './order-item';
 import styles from './styles.module.scss';
 import { formatCurrency } from '@/utils';
+import { PaymentType } from '@/types/data-types';
+import Checkout from '../paypal';
 
 type Props = {
   orderInfo: any;
+  isCreated: boolean;
   onPlaceOrder: (data: any) => void;
 };
 
 export default function OrderDetailPayment(props: Props) {
-  const { orderInfo, onPlaceOrder } = props;
+  const { orderInfo, onPlaceOrder, isCreated } = props;
   return (
     <div className="order-detail bg-[#2D2D2D] h-full p-0">
       <Typography marginLeft={4} variant="h6" className="text-yellow-600 mt-8">
         ORDER DETAIL
       </Typography>
       <div className="flex flex-col gap-6 mt-4">
-        {orderInfo.itemList.map((item: any) => (
+        {orderInfo.data.itemList.map((item: any) => (
           <OrderItem item={item} key={item.name} />
         ))}
       </div>
@@ -29,7 +32,7 @@ export default function OrderDetailPayment(props: Props) {
             variant="h4"
             style={{ color: '#CA8A04' }}
             textAlign={'right'}>
-            {formatCurrency(orderInfo.totalCost)}
+            {formatCurrency(orderInfo.data.totalCost)}
           </Typography>
         </div>
         <div className="flex flex-row justify-between">
@@ -47,7 +50,7 @@ export default function OrderDetailPayment(props: Props) {
             variant="h4"
             style={{ color: '#CA8A04' }}
             textAlign={'right'}>
-            {formatCurrency(orderInfo.totalCost)}
+            {formatCurrency(orderInfo.data.totalCost)}
           </Typography>
         </div>
       </div>
@@ -60,23 +63,30 @@ export default function OrderDetailPayment(props: Props) {
           variant="h4"
           style={{ color: '#CA8A04' }}
           textAlign={'right'}>
-          {formatCurrency(orderInfo.totalCost)}
+          {formatCurrency(orderInfo.data.totalCost)}
         </Typography>
       </div>
-      <div className="flex justify-center items-center mt-4 mb-8">
-        <Button
-          onClick={onPlaceOrder}
-          variant="contained"
-          className={styles.payBtn}
-          sx={{
-            ml: 1,
-            '&.MuiButtonBase-root:hover': {
-              bgcolor: '#c49246',
-            },
-          }}>
-          <Typography variant="h5"> PAYMENT </Typography>
-        </Button>
-      </div>
+      {orderInfo.data.paymentType == PaymentType.CASH && !isCreated && (
+        <div className="flex justify-center items-center mt-4 mb-8">
+          <Button
+            onClick={onPlaceOrder}
+            variant="contained"
+            className={styles.payBtn}
+            sx={{
+              ml: 1,
+              '&.MuiButtonBase-root:hover': {
+                bgcolor: '#c49246',
+              },
+            }}>
+            <Typography variant="h5"> PAYMENT </Typography>
+          </Button>
+        </div>
+      )}
+      {orderInfo.data.paymentType == PaymentType.CREDIT && !isCreated && (
+        <div className="mt-4 w-9/12 mx-auto">
+          <Checkout order={orderInfo} />
+        </div>
+      )}
     </div>
   );
 }

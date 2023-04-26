@@ -31,7 +31,7 @@ export default function Payment() {
   });
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
-
+  console.log(orderInfo);
 
   const [createPaidOrder] = useCreatePaidOrderServiceMutation();
 
@@ -90,7 +90,7 @@ export default function Payment() {
             xs={5}
             marginLeft={4}
             className="order-detail bg-[#2D2D2D] h-full p-0">
-            <OrderDetailPayment orderInfo={orderInfo} onPlaceOrder={handlePlaceOrder}/>
+            <OrderDetailPayment orderInfo={createOrder} onPlaceOrder={handlePlaceOrder} isCreated={createOrder.isSuccess}/>
           </Grid>
         </Grid>
       </div>

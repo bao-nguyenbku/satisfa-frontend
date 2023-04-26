@@ -93,6 +93,10 @@ export enum OrderType {
   TAKEAWAY = 'TAKEAWAY',
 }
 
+export enum PaymentStatus {
+  PAID = 'PAID',
+  UNPAID = 'UNPAID',
+}
 export enum PaymentType {
   CASH = 'CASH',
   CREDIT = 'CREDIT',
@@ -111,6 +115,7 @@ export type PaidOrderType = {
 export type CreatedOrder = {
   id: string;
   type: OrderType;
+  paymentStatus: PaymentStatus;
   paymentData: PaidOrderType;
 };
 
@@ -190,6 +195,35 @@ export type PaypalAmount = {
   value: number; 
 }
 
+interface PayPalScriptQueryParameters {
+  'client-id': string;
+  'merchant-id'?: string;
+  currency?: string;
+  intent?: string;
+  commit?: boolean;
+  vault?: boolean | string;
+  components?: string;
+  'disable-funding'?: string;
+  'enable-funding'?: string;
+  'disable-card'?: string;
+  'integration-date'?: string;
+  debug?: boolean | string;
+  'buyer-country'?: string;
+  locale?: string;
+}
+
+interface PayPalScriptDataAttributes {
+  'data-partner-attribution-id'?: string;
+  'data-csp-nonce'?: string;
+  'data-order-id'?: string;
+  'data-page-type'?: string;
+  'data-client-token'?: string;
+}
+
+export interface PayPalScriptOptions extends PayPalScriptQueryParameters, PayPalScriptDataAttributes {
+  [key: string]: string | boolean | undefined;
+  sdkBaseURL?: string;
+}
 export type BotStep = {
   [key: number]: {
     text: ReactNode;
