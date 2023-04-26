@@ -1,26 +1,31 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { createWrapper } from 'next-redux-wrapper';
-import { reservationSlice } from './reducer/reseravation';
+import { reservationSlice } from './reducer/reservation';
 import { userSlice } from './reducer/user';
-import { reservationApi } from '@/service/reseravation';
+import { reservationApi } from '@/service/reservation';
 import { tableSlice } from './reducer/table';
 import { rtkQueryErrorLogger } from './error-handling';
 import { authApi } from '@/service/auth';
 import { chatbotSlice } from './reducer/chatbot';
 import { tableApi } from '@/service/table';
 import { productApi } from '@/service/product';
-
+import { orderApi } from '@/service/order';
+import { orderSlice } from './reducer/order';
+import { cartSlice } from './reducer/cart';
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
-  [chatbotSlice.name]: reservationSlice.reducer,
+  [chatbotSlice.name]: chatbotSlice.reducer,
   [tableSlice.name]: tableSlice.reducer,
+  [userSlice.name]: userSlice.reducer,
+  [orderSlice.name]: orderSlice.reducer,
+  [cartSlice.name]: cartSlice.reducer,
   [tableApi.reducerPath]: tableApi.reducer,
   [reservationApi.reducerPath]: reservationApi.reducer,
-  [userSlice.name]: userSlice.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
+  [orderApi.reducerPath]: orderApi.reducer
 };
 
 const makeStore = () =>
@@ -33,6 +38,7 @@ const makeStore = () =>
         tableApi.middleware,
         authApi.middleware,
         productApi.middleware,
+        orderApi.middleware,
         rtkQueryErrorLogger,
       ),
   });

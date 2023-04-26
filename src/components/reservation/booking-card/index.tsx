@@ -1,11 +1,13 @@
 import { Button } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { useAppSelector } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import { ReservationType, TableStatus } from '@/types/data-types';
+import { CreateReservation, TableStatus } from '@/types/data-types';
 
-import { useCreateReservationMutation } from '@/service/reseravation';
+import { useCreateReservationMutation } from '@/service/reservation';
+import { toast } from 'react-toastify';
+import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
 
 
 type TableProps = {
@@ -19,7 +21,7 @@ type TableProps = {
 type Props = {
   table: TableProps;
 };
-const reserveData: ReservationType = {
+const reserveData: Omit<CreateReservation, 'customerId'> & {customerId: string} = {
   tableId: '63fb319e765710c5bae252f0',
   date: new Date().toString(),
   note: 'tran chau duong den',
@@ -28,31 +30,35 @@ const reserveData: ReservationType = {
 };
 const BookingCard = (props: Props) => {
   const { table } = props;
-  const user = useAppSelector(state => state.user)
-  console.log(user)
-  const data = useAppSelector((state) => state.reservation);
-  const [createReservation] = useCreateReservationMutation();
-
+  const user = useAppSelector(state => state.user.data)
+  const data = useAppSelector((state) => state.reservation.createReservationData);
+  const [createReservation, result] = useCreateReservationMutation();
+  const dispatch = useAppDispatch();
   const handleClick = () => {
-    if (data?.numberOfGuests > 0) {
+    if (data?.data.numberOfGuests > 0) {
       reserveData.tableId = table.id;
-      reserveData.date = data.date;
-      reserveData.numberOfGuests = data.numberOfGuests;
+      reserveData.date = data.data.date;
+      reserveData.numberOfGuests = data.data.numberOfGuests;
+      reserveData.customerId = user.id
+      dispatch(getTableCode(table.code))
       createReservation(reserveData);
     }
   };
+  useEffect(()=>{
+    if (!result.isLoading && !result.error && result.isSuccess){
+      toast.success('Booking table successfully!')
+      dispatch(setCreateSuccess());
+    }
+
+  }, [result])
   return (
     <div className="bg-primary-dark text-white rounded-none p-3 border border-gray-600">
       <h1>Confirm reservation</h1>
       <Button
-        disabled={table.status != TableStatus.FREE || !(data.date || data.numberOfGuests)}
+        disabled={!(data.data?.date || data.data?.numberOfGuests)}
         onClick={handleClick}
         className="bg-primary-yellow text-white normal-case hover:bg-primary-dark rounded-none">
-        {table.status == TableStatus.CHECKED_IN
-          ? 'Checked-in'
-          : table.status == TableStatus.FREE
-          ? 'Booking'
-          : 'Reservered'}
+          Booking
       </Button>
     </div>
   );

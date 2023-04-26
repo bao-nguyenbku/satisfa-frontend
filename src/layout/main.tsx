@@ -1,36 +1,32 @@
-import React, { useRef, useEffect, useState, RefObject } from 'react';
+import React, { useEffect } from 'react';
 import NavigationBar from '@/components/navigation-bar';
-import SimpleBar from 'simplebar-react';
-import SimpleBarCore from 'simplebar-core';
-import 'simplebar-react/dist/simplebar.min.css';
 import ChatbotButton from '@/components/chatbot-button';
+import { useAppDispatch } from '@/hooks';
+import { authCurrentUser } from '@/store/reducer/user';
 // import { GetServerSideProps } from 'next';
-// import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import { ChatbotProvider } from '@/context/chatbot-context';
+import FooterSection from '@/components/footer';
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 export default function MainLayout({ children }: LayoutProps) {
-  const scrollableNodeRef = useRef<SimpleBarCore>(null);
-
-  const [propsRef, setPropsRef] = useState<RefObject<SimpleBarCore>>();
+  const dispatch = useAppDispatch();
+  const sessionData = useSession();
   useEffect(() => {
-    if (scrollableNodeRef) {
-      setPropsRef(scrollableNodeRef);
+    if (sessionData.status === 'authenticated' && sessionData.data) {
+      dispatch(authCurrentUser());
     }
-  }, [scrollableNodeRef]);
+  }, [sessionData]);
   return (
-    <SimpleBar
-      ref={scrollableNodeRef}
-      className='bg-primary-dark'
-      style={{
-        maxHeight: '100vh',
-      }}>
-        <div className='px-20'>
-        <NavigationBar scrollableNodeRef={propsRef} />
-        <>{children}</>
+    <div className="px-20 overflow-y-auto overflow-x-hidden bg-primary-dark">
+      <NavigationBar />
+      <>{children}</>
+      <ChatbotProvider>
         <ChatbotButton />
-        </div>
-    </SimpleBar>
+      </ChatbotProvider>
+      <FooterSection />
+    </div>
   );
 }

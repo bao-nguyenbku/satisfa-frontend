@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 const AboutUsSection = () => {
   return (
     <div
-      className="h-screen bg-primary-dark flex flex-col items-center p-8"
+      className="h-screen bg-primary-dark flex flex-col items-center p-8 w-full"
       id="about-us">
       <h2 className="text-primary-yellow text-6xl">About us</h2>
       <div className="flex z-10 relative w-full h-full items-center">

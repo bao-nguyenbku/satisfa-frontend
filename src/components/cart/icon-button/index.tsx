@@ -1,0 +1,51 @@
+import React, { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { Badge, IconButton, Drawer } from '@mui/material';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import CartDetail from '../cart-detail';
+import { selectTotalQty, setCookieToCart } from '@/store/reducer/cart';
+import { podkova } from '@/constants';
+
+const CartIconButton = () => {
+  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
+  const totalQty = useAppSelector(selectTotalQty);
+  const handleToggleDrawer = () => {
+    setOpen((prev) => !prev);
+  };
+  useEffect(() => {
+    dispatch(setCookieToCart());
+  }, []);
+
+  return (
+    <>
+      <Drawer
+        anchor="right"
+        open={open}
+        keepMounted
+        PaperProps={{
+          className: 'w-1/4',
+        }}
+        onClose={handleToggleDrawer}>
+        <div className={podkova.className}>
+          <CartDetail />
+        </div>
+      </Drawer>
+
+      <Badge
+        overlap="circular"
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        badgeContent={
+          <div className="text-whit bg-yellow-600 w-4 h-4 p-1 rounded-xl flex items-center">
+            {totalQty}
+          </div>
+        }>
+        <IconButton onClick={handleToggleDrawer}>
+          <LocalMallOutlinedIcon className="text-white" />
+        </IconButton>
+      </Badge>
+    </>
+  );
+};
+
+export default CartIconButton;

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Grid, Typography, Button } from '@mui/material';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import { useGetAllTableQuery } from '@/service/table';
-import { useCreateReservationMutation } from '@/service/reseravation';
+import { useCreateReservationMutation } from '@/service/reservation';
 import { useAppSelector } from '@/hooks';
 import { ReservationType, TableStatus } from '@/types/data-types';
 import { toast } from 'react-toastify';

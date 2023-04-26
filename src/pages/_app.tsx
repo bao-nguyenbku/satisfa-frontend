@@ -27,7 +27,7 @@ const theme = createTheme({});
 // });
 
 const muiCache = createCache({
-  key: 'mui',
+  key: 'css',
   prepend: true,
 });
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
@@ -46,24 +46,26 @@ const App = ({
   const getLayout =
     Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <main className={podkova.className}>
-        <>
-          <StyledEngineProvider injectFirst>
-            <CacheProvider value={muiCache}>
-              <ThemeProvider theme={theme}>
-                <SessionProvider session={session}>
-                  <Provider store={store}>
-                    {getLayout(<Component {...props.pageProps} />)}
-                  </Provider>
-                </SessionProvider>
-              </ThemeProvider>
-            </CacheProvider>
-          </StyledEngineProvider>
-          <ToastContainer />
-        </>
-      </main>
-    </LocalizationProvider>
+    <Provider store={store}>
+      <StyledEngineProvider injectFirst>
+        <CacheProvider value={muiCache}>
+          <ThemeProvider theme={theme}>
+            <SessionProvider session={session} refetchOnWindowFocus={false}>
+              <main className={podkova.className}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  {getLayout(
+                    <>
+                      <Component {...props.pageProps} />
+                      <ToastContainer />
+                    </>,
+                  )}
+                </LocalizationProvider>
+              </main>
+            </SessionProvider>
+          </ThemeProvider>
+        </CacheProvider>
+      </StyledEngineProvider>
+    </Provider>
   );
 };
 

@@ -8,6 +8,7 @@ import Image from 'next/image';
 // import { useSession } from 'next-auth/react';
 import type { NextPageWithLayout } from '../../pages/_app';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 // type Props = {};
 
 const HomePage: NextPageWithLayout = () => {
@@ -24,14 +25,28 @@ const HomePage: NextPageWithLayout = () => {
           alt="banner"
         />
       </div>
-      <motion.h1
+      <motion.div
+        className="flex flex-col"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5, ease: 'easeOut' }}
-        className="text-white z-10 text-7xl leading-[100px]">
-        We serve <br /> your high expectation <br />
-        Of delicious taste of food
-      </motion.h1>
+        transition={{ delay: 1, duration: 0.5, ease: 'easeOut' }}>
+        <h1 className="text-white z-10 text-7xl leading-[100px] mx-auto uppercase">
+          We serve <br /> your high expectation <br />
+          Of delicious taste of food
+        </h1>
+        <div className='flex gap-4'>
+          <Link
+            href="/reservation"
+            className="text-white text-2xl z-10 p-6 w-max bg-primary-yellow">
+            Reservation now
+          </Link>
+          <Link
+            href="/menu"
+            className="text-white text-2xl z-10 p-6 w-max">
+              See our menu
+          </Link>
+        </div>
+      </motion.div>
     </header>
   );
 };

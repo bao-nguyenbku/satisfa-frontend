@@ -1,47 +1,34 @@
 import React from 'react';
-import { Typography, Grid, Button } from '@mui/material';
+import Button from '@/components/common/button';
+// import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
+// import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+// import MenuBookIcon from '@mui/icons-material/MenuBook';
 
-
-import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
-import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-
-export default function Optons(props: any) {
+export default function Options(props: any) {
+  const { actions } = props;
   const options = [
     {
-      text: 'booking table',
-      handler: props.actionProvider.handleShowDatePicker,
+      text: 'I want to book table',
+      handler: actions.handleReservation,
       id: 0,
-      icon: <TableRestaurantIcon />
     },
     {
-      text: 'dine in',
-      handler: props.actionProvider.handleDineIn,
-      id: 1,
-      icon: <RestaurantMenuIcon />,
-    },
-    {
-      text: 'get menu',
-      handler: props.actionProvider.handleDineIn,
+      text: 'I want to order some food',
+      handler: actions.handleOrder,
       id: 2,
-      icon: <MenuBookIcon />,
     },
   ];
   return (
-    <div className="options-container ml-8">
-      <Grid container columnGap={1}>
-        {options.map((option) => (
-            <Grid item xs={12} style={{ marginBottom: '1vh' }} key={option.id}>
-              <Button
-                startIcon={option.icon}
-                variant="outlined"
-                onClick={option.handler}
-                className="text-black option-button rounded border-slate-300 hover:border-slate-600 hover:bg-white bg-white">
-                <Typography variant="body1">{option.text}</Typography>
-              </Button>
-            </Grid>
-        ))}
-      </Grid>
+    <div className="flex flex-col gap-2 justify-end items-end">
+      {options.map((option) => (
+        <Button
+          key={option.id}
+          variant="outlined"
+          onClick={option.handler}
+          className="bg-white/20 hover:bg-white/30 p-3 text-white rounded-lg normal-case border-none hover:border-none">
+          {option.text}
+        </Button>
+      ))}
     </div>
   );
 }

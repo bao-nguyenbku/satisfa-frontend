@@ -22,20 +22,26 @@ const Menu: NextPageWithLayout = () => {
       <Head>
         <title>Menu | Satisfa</title>
       </Head>
-      <AnimatePresence initial={false} mode="wait">
-        <motion.div
-          className="bg-primary-dark min-h-screen w-full flex flex-col items-center px-24"
-          key="menu"
-          exit={{ x: 400 }}>
+      <AnimatePresence initial mode="wait">
+        <div className="bg-primary-dark min-h-screen w-full flex flex-col items-center px-24">
           <span className="text-primary-yellow text-7xl mt-16">Menu</span>
-
-          <div className="mt-12 flex flex-wrap gap-2 w-full">
+          <div className="mt-12 flex flex-wrap gap-2 w-full justify-center">
             {productList &&
               productList.map((item) => {
-                return <FoodCard key={item.id} data={item} />;
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ y: 100 }}
+                    animate={{ y: 0 }}
+                    transition={{
+                      duration: (Math.random() * 0.3 + 0.3),
+                    }}>
+                    <FoodCard data={item} />
+                  </motion.div>
+                );
               })}
           </div>
-        </motion.div>
+        </div>
       </AnimatePresence>
     </>
   );
