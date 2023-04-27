@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import HeadChefSection from '@/components/landing/head-chef';
 import { useSession } from 'next-auth/react';
 import MenuBanner from '@/components/landing/menu-banner';
+import ReservationSection from '@/components/landing/reservation';
 
 export default function Home() {
   const sessionData = useSession();
@@ -26,6 +27,7 @@ export default function Home() {
         <HomePage />
         <MenuBanner />
         <HeadChefSection />
+        <ReservationSection />
         <AboutUsSection />
       </motion.div>
     </>

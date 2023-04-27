@@ -7,7 +7,7 @@ import aboutUsImg from '@/assets/images/about-us.png';
 const AboutUsSection = () => {
   return (
     <section
-      className="h-[1300px] bg-primary-dark flex flex-col items-center p-8 w-full relative"
+      className="h-[1300px] bg-primary-dark flex flex-col items-center p-8 w-screen -ml-20 relative px-20"
       id="about-us">
       <h1 className="text-7xl mb-24 text-primary-yellow">About us</h1>
       <div className="flex h-full w-full relative items-center text-white">

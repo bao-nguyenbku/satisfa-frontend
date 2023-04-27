@@ -115,12 +115,12 @@ export const nunito = localFont({
   ],
 });
 
-// export const pacifico = localFont({
-//   src: [
-//     {
-//       path: '../assets/fonts/Pacifico-Regular.ttf',
-//       weight: '400',
-//       style: 'normal',
-//     },
-//   ],
-// });
+export const pacifico = localFont({
+  src: [
+    {
+      path: '../assets/fonts/Pacifico-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+});
