@@ -12,11 +12,12 @@ export default function ReservationSection() {
   });
   const y = useTransform(scrollYProgress, [0, 1], [-400, 400]);
   return (
-    <div className="relative bg-zinc-800">
-      <motion.div className="relative w-screen h-screen -left-20" style={{ y }}>
+    <div className="relative bg-zinc-800 w-screen -ml-20">
+      <motion.div className="relative w-screen h-screen z-0" style={{ y }}>
         <Image
           src={banner6}
           alt="reserve-background"
+          fill
           className="-z-30 brightness-50"
         />
       </motion.div>
