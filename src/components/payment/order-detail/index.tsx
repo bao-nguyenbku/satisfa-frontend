@@ -66,7 +66,7 @@ export default function OrderDetailPayment(props: Props) {
           {formatCurrency(orderInfo.data.totalCost)}
         </Typography>
       </div>
-      {orderInfo.data.paymentType == PaymentType.CASH && !isCreated && (
+      {orderInfo.data.paymentType == PaymentType.CASH && (
         <div className="flex justify-center items-center mt-4 mb-8">
           <Button
             onClick={onPlaceOrder}
@@ -82,7 +82,7 @@ export default function OrderDetailPayment(props: Props) {
           </Button>
         </div>
       )}
-      {orderInfo.data.paymentType == PaymentType.CREDIT && !isCreated && (
+      {orderInfo.data.paymentType == PaymentType.CREDIT && (
         <div className="mt-4 w-9/12 mx-auto">
           <Checkout order={orderInfo} />
         </div>

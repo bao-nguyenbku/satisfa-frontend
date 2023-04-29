@@ -2,7 +2,7 @@ import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
 import { Product, CartItem } from '@/types/data-types';
-import { getCookie, setCookie } from 'cookies-next';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
 
 const hydrate = createAction<RootState>(HYDRATE);
@@ -108,6 +108,13 @@ export const cartSlice = createSlice({
         state.itemList = JSON.parse(cartItems as string);
       }
     },
+    deleteCookieInCart: (state) => {
+      const cartItems = getCookie('myCart');
+      if (cartItems) {
+        deleteCookie('myCart');
+        state.itemList = [];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(hydrate, (state, action) => {
@@ -127,6 +134,7 @@ export const {
   clearAll,
   removeItem,
   setCookieToCart,
+  deleteCookieInCart
 } = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

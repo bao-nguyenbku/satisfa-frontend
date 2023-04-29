@@ -17,7 +17,7 @@ import {
   selectCreatedOrder,
 } from '@/store/reducer/order';
 import { useCreatePaidOrderServiceMutation } from '@/service/order';
-import {  IReservationData, PaymentType } from '@/types/data-types';
+import {  Reservation, PaymentType } from '@/types/data-types';
 import { selectAllItem, selectTotalCost } from '@/store/reducer/cart';
 
 export default function Payment() {
@@ -31,11 +31,10 @@ export default function Payment() {
   });
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
-  console.log(orderInfo);
 
   const [createPaidOrder] = useCreatePaidOrderServiceMutation();
 
-  const handleSetReservation = (reservation: IReservationData) => {
+  const handleSetReservation = (reservation: Reservation) => {
     dispatch(setReservation(reservation));
   };
   const handleSetPaymentType = (type: PaymentType) => {
@@ -50,8 +49,11 @@ export default function Payment() {
     dispatch(createOrderThunk());
   };
   useEffect(() => {
-    if (createOrder.isSuccess && !createOrder.isLoading && !createOrder.error) {
+    if (createOrder.isSuccess && !createOrder.isLoading && !createOrder.error && (createOrder.data.paymentType != PaymentType.CREDIT)) {
+
       createPaidOrder(createdOrder);
+      window.location.href = '/payment-success';
+
     }
   }, [createOrder])
 

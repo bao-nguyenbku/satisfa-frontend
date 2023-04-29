@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { PayPalButtons } from '@paypal/react-paypal-js';
-import { CreatePayment, PaymentType, PaypalUnit } from '@/types/data-types';
+import { CreatedOrder, PaymentStatus, PaymentType, PaypalUnit } from '@/types/data-types';
 import { toast } from 'react-toastify';
 import { useCreatePaidOrderServiceMutation } from '@/service/order';
+import { useAppDispatch , useAppSelector} from '@/hooks';
+import { selectCreatedOrder, createOrderThunk, reset, setPaymentType } from '@/store/reducer/order';
+
 type Props = {
   order: any;
 };
@@ -10,9 +13,10 @@ const Checkout = (props: Props) => {
   const [success, setSuccess] = useState(false);
   const [orderID, setOrderID] = useState(false);
   const { order } = props;
-  const [paidOrder] = useCreatePaidOrderServiceMutation();
+  const createdOrder = useAppSelector(selectCreatedOrder);
+  const [paidOrder, paidRes] = useCreatePaidOrderServiceMutation();
   // creates a paypal order
-  
+  const dispatch = useAppDispatch();
   const createOrder = (data: any, actions: any) => {
     const paypalUnit : PaypalUnit[] = [];
     if (order.data.itemList){
@@ -28,6 +32,8 @@ const Checkout = (props: Props) => {
       })
       
     }
+    dispatch(setPaymentType(PaymentType.CREDIT));
+    dispatch(createOrderThunk());
     return actions.order
       .create({
         purchase_units: paypalUnit,
@@ -44,9 +50,8 @@ const Checkout = (props: Props) => {
   // check Approval
   const onApprove = (data: any, actions: any) => {
     return actions.order.capture().then(function (details: any) {
-      const { payer } = details;
+      console.log(order);
       console.log(details)
-      console.log(payer);
       setSuccess(true);
     });
   };
@@ -59,16 +64,23 @@ const Checkout = (props: Props) => {
   useEffect(() => {
     if (success) {
       toast.success('Payment with Paypal successfully!')
-      const payment : CreatePayment = {
-        orderId: order.data.id,
-        type: PaymentType.CREDIT,
-        info: {
-          totalCost: order.data.totalCost,
-          totalPay: order.data.totalCost
+      console.log(createdOrder);
+      const payment : CreatedOrder = {
+        id: createdOrder.id,
+        type: order.data.type,
+        paymentStatus: PaymentStatus.PAID,
+        paymentData: {
+          type: PaymentType.CREDIT,
+          info: {
+            totalCost: order.data.totalCost,
+            totalPay: order.data.totalCost,
+          }
         }
       }
       paidOrder(payment)
-      console.log('Order successful . Your order id is--', orderID);
+      console.log(paidRes);
+      console.log('Order successful . Your order id is--', createdOrder.id);
+      window.location.href = '/payment-success';
     }
   }, [success]);
 

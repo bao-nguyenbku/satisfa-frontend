@@ -142,9 +142,10 @@ export const orderSlice = createSlice({
         // data for paid order
         state.createdOrder.id = action.payload.id;
         state.createdOrder.type = action.payload.type;
+        state.createdOrder.paymentStatus = PaymentStatus.PAID;
         state.createdOrder.paymentData.info.totalCost =
           action.payload.totalCost;
-        state.createdOrder.paymentData.info.totalCost =
+        state.createdOrder.paymentData.info.totalPay =
           action.payload.totalCost;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
