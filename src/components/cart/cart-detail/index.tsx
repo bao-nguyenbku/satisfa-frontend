@@ -25,7 +25,6 @@ const isCartEmpty = (cartItems: CartItem[]) => {
 export default function CartDetail() {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectAllItem);
-  console.log('🚀 ~ file: index.tsx:22 ~ CartDetail ~ cartItems:', cartItems);
   const totalCost = useAppSelector(selectTotalCost);
   const router = useRouter();
   const temp = getCookie('myCart');

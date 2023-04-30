@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { PayPalButtons } from '@paypal/react-paypal-js';
-import { CreatedOrder, PaymentStatus, PaymentType, PaypalUnit } from '@/types/data-types';
+import {
+  CreatedOrder,
+  PaymentStatus,
+  PaymentType,
+  PaypalUnit,
+} from '@/types/data-types';
 import { toast } from 'react-toastify';
 import { useCreatePaidOrderServiceMutation } from '@/service/order';
-import { useAppDispatch , useAppSelector} from '@/hooks';
-import { selectCreatedOrder, createOrderThunk, reset, setPaymentType } from '@/store/reducer/order';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import {
+  selectCreatedOrder,
+  createOrderThunk,
+  setPaymentType,
+} from '@/store/reducer/order';
 
 type Props = {
   order: any;
@@ -18,19 +27,18 @@ const Checkout = (props: Props) => {
   // creates a paypal order
   const dispatch = useAppDispatch();
   const createOrder = (data: any, actions: any) => {
-    const paypalUnit : PaypalUnit[] = [];
-    if (order.data.itemList){
-      order.data.itemList.forEach(item => {
+    const paypalUnit: PaypalUnit[] = [];
+    if (order.data.itemList) {
+      order.data.itemList.forEach((item) => {
         paypalUnit.push({
           reference_id: item.id,
           description: item.name,
           amount: {
-            currency_code: "USD",
-            value: item.price/20000
-          }
-        })
-      })
-      
+            currency_code: 'USD',
+            value: item.price / 20000,
+          },
+        });
+      });
     }
     dispatch(setPaymentType(PaymentType.CREDIT));
     dispatch(createOrderThunk());
@@ -38,8 +46,8 @@ const Checkout = (props: Props) => {
       .create({
         purchase_units: paypalUnit,
         application_context: {
-          shipping_preference: "NO_SHIPPING"
-        }
+          shipping_preference: 'NO_SHIPPING',
+        },
       })
       .then((orderID: any) => {
         setOrderID(orderID);
@@ -51,7 +59,7 @@ const Checkout = (props: Props) => {
   const onApprove = (data: any, actions: any) => {
     return actions.order.capture().then(function (details: any) {
       console.log(order);
-      console.log(details)
+      console.log(details);
       setSuccess(true);
     });
   };
@@ -63,9 +71,9 @@ const Checkout = (props: Props) => {
 
   useEffect(() => {
     if (success) {
-      toast.success('Payment with Paypal successfully!')
+      toast.success('Payment with Paypal successfully!');
       console.log(createdOrder);
-      const payment : CreatedOrder = {
+      const payment: CreatedOrder = {
         id: createdOrder.id,
         type: order.data.type,
         paymentStatus: PaymentStatus.PAID,
@@ -74,10 +82,10 @@ const Checkout = (props: Props) => {
           info: {
             totalCost: order.data.totalCost,
             totalPay: order.data.totalCost,
-          }
-        }
-      }
-      paidOrder(payment)
+          },
+        },
+      };
+      paidOrder(payment);
       console.log(paidRes);
       console.log('Order successful . Your order id is--', createdOrder.id);
       window.location.href = '/payment-success';
@@ -86,13 +94,12 @@ const Checkout = (props: Props) => {
 
   return (
     <div className="paypal-button">
-      
-        <PayPalButtons
-          style={{ layout: 'vertical' }}
-          createOrder={createOrder}
-          onApprove={onApprove}
-          onError={onError}
-        />
+      <PayPalButtons
+        style={{ layout: 'vertical' }}
+        createOrder={createOrder}
+        onApprove={onApprove}
+        onError={onError}
+      />
     </div>
   );
 };

@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function OrderDetailPayment(props: Props) {
-  const { orderInfo, onPlaceOrder, isCreated } = props;
+  const { orderInfo, onPlaceOrder } = props;
   return (
     <div className="order-detail bg-[#2D2D2D] h-full p-0">
       <Typography marginLeft={4} variant="h6" className="text-yellow-600 mt-8">
