@@ -192,7 +192,12 @@ export type PaypalAmount = {
 
 export type BotStep = {
   [key: number]: {
-    text: ReactNode;
     isComplete: boolean;
   };
 };
+
+export type BotMessage = {
+  [key: number]: {
+    text: ReactNode
+  }
+}

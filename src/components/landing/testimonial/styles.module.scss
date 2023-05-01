@@ -1,0 +1,12 @@
+.customSlick {
+  @apply flex items-center h-10 w-4/5 absolute border border-white -translate-x-1/2 left-1/2;
+  
+  :global {
+    .slick-list {
+      @apply w-full;
+    }
+    // .slick-slide {
+    //   @apply h-;
+    // }
+  }
+}

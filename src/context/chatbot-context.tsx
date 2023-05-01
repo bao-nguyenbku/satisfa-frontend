@@ -20,9 +20,9 @@ import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
-  selectBotOrderState,
   setReservationDinein,
 } from '@/store/reducer/chatbot';
+import { botOrderMessage } from '@/components/chatbot/steps/order';
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
 import { Reservation } from '@/types/data-types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
@@ -84,7 +84,6 @@ export const ChatbotProvider = ({ children }: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const botReservation = useAppSelector(selectBotReservationState);
-  const botOrderState = useAppSelector(selectBotOrderState);
   const reservationInfo = useAppSelector(selectReservationState);
 
   const createBotMessage = (message: ReactNode, options?: MessageOption) => {
@@ -285,7 +284,7 @@ export const ChatbotProvider = ({ children }: Props) => {
       return;
     },
     chooseFoodFromMenu: () => {
-      createBotMessage(botOrderState.steps[1].text);
+      createBotMessage(botOrderMessage[1].text);
     },
     handleOrder: () => {
       setBotService(BotService.ORDER);
@@ -297,7 +296,7 @@ export const ChatbotProvider = ({ children }: Props) => {
     },
     onSelectReservation: (item: Reservation) => {
       dispatch(setReservationDinein(item));
-      actions.sendMessage(botOrderState.steps[8].text, {
+      actions.sendMessage(botOrderMessage[8].text, {
         widget: <ShowConfirmationOrder />,
       });
     },

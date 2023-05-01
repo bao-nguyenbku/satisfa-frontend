@@ -31,6 +31,7 @@ export const podkova = localFont({
   ],
   variable: '--font-podkova',
   display: 'swap',
+  preload: true,
 });
 // export const playfair_display = Playfair_Display({
 //   subsets: ['latin'],
@@ -113,6 +114,8 @@ export const nunito = localFont({
       style: 'italic',
     },
   ],
+  preload: true,
+  display: 'swap',
 });
 
 export const pacifico = localFont({

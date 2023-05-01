@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultColors = require('tailwindcss/colors');
-const { fontFamily } = require('tailwindcss/defaultTheme');
+const { fontFamily, screens } = require('tailwindcss/defaultTheme');
 module.exports = {
   important: [
     '#__next',
@@ -17,6 +17,10 @@ module.exports = {
       'primary-dark': '#212121',
       'primary-yellow': '#C49246',
       'dark-2': '#263238',
+    },
+    screens: {
+      'xs': '475px',
+      ...screens,
     },
     extend: {
       fontFamily: {

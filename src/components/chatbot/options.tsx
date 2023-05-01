@@ -13,7 +13,7 @@ export default function Options(props: any) {
       id: 0,
     },
     {
-      text: 'I want to order some food',
+      text: 'I want to see the menu',
       handler: actions.handleOrder,
       id: 2,
     },

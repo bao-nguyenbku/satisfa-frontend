@@ -60,6 +60,34 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
     error: '/login',
   },
+  cookies: {
+    sessionToken: {
+      name: `next-auth-landing.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+    callbackUrl: {
+      name: `next-auth-landing.callback-url`,
+      options: {
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+    csrfToken: {
+      name: `next-auth-landing.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+  },
   callbacks: {
     jwt: async (params) => {
       const { token, account } = params;
@@ -75,9 +103,9 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           accessToken: response.data.accessToken,
-        }
+        };
       }
-      
+
       return token;
     },
     session: async (params) => {

@@ -9,7 +9,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import {
   CartItem,
   ReduxDataType,
-  IReservationData,
+  Reservation,
   OrderType,
   Order,
   PaymentType,
@@ -23,7 +23,7 @@ const hydrate = createAction<RootState>(HYDRATE);
 interface OrderState {
   createOrder: Omit<ReduxDataType, 'data'> & {
     data: {
-      reservation: IReservationData;
+      reservation: Reservation;
       itemList: CartItem[];
       totalCost: number;
       type: OrderType;
@@ -37,7 +37,7 @@ interface OrderState {
 const initialState: OrderState = {
   createOrder: {
     data: {
-      reservation: {} as IReservationData,
+      reservation: {} as Reservation,
       itemList: [],
       totalCost: 0,
       type: OrderType.DINE_IN,
@@ -72,7 +72,7 @@ export const createOrderThunk = createAsyncThunk<
         createOrderService.initiate({
           reservationId: getState()?.order?.createOrder?.data.reservation.id,
           customerId:
-            getState()?.order?.createOrder?.data?.reservation.customerId,
+            getState()?.order?.createOrder?.data?.reservation.customerId?.id,
           items: getState()?.order?.createOrder?.data?.itemList,
           totalCost: getState()?.order?.createOrder?.data?.totalCost,
           type: getState()?.order?.createOrder?.data?.type,
@@ -108,7 +108,7 @@ export const orderSlice = createSlice({
     reset: (state) => {
       state.createOrder = {
         data: {
-          reservation: {} as IReservationData,
+          reservation: {} as Reservation,
           itemList: [],
           totalCost: 0,
           type: OrderType.DINE_IN,
