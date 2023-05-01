@@ -1,12 +1,29 @@
 .customSlick {
-  @apply flex items-center h-10 w-4/5 absolute border border-white -translate-x-1/2 left-1/2;
-  
+  @apply flex items-center w-full absolute -translate-x-1/2 left-1/2;
+
   :global {
     .slick-list {
       @apply w-full;
     }
-    // .slick-slide {
-    //   @apply h-;
-    // }
+    .slick-arrow {
+      display: none !important;
+    }
+    .slick-dots {
+      @apply text-white w-full m-0 p-0 text-center block list-none -top-7 absolute h-2;
+      li {
+        @apply w-10 h-2;
+        @apply bg-zinc-700;
+        button {
+          @apply -translate-y-1/2  w-full h-full p-5;
+          &::before {
+            content: '';
+            @apply hidden;
+          }
+        }
+      }
+      li.slick-active {
+        @apply bg-primary-yellow;
+      }
+    }
   }
 }

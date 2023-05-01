@@ -3,19 +3,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import styles from './styles.module.scss';
-
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  arrows: true,
-  slidesToShow: 1,
-  slidesPerRow: 1,
-  slidesToScroll: 1,
-  vertical: false,
-  autoplay: true,
-  autoplaySpeed: 5000,
-};
+import SingleItem from './single-item';
+import { useGetReviewsServiceQuery } from '@/service/review';
+import Loading from '@/components/common/loading';
 
 // const data = [
 //   {
@@ -61,17 +51,40 @@ const settings = {
 //     updatedAt: '2023-05-01T08:41:51.617Z',
 //   },
 // ];
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  arrows: true,
+  slidesToShow: 1,
+  slidesPerRow: 1,
+  slidesToScroll: 1,
+  vertical: false,
+  autoplay: true,
+  autoplaySpeed: 5000,
+};
+
 export default function TestimonalSection() {
+  const { data, isLoading } = useGetReviewsServiceQuery({
+    limit: 8,
+  });
   return (
     <div className="h-[1000px] bg-transparent flex flex-col items-center py-20">
       <h1 className="text-7xl mb-24 text-primary-yellow">
         What customers say about Satisfa?
       </h1>
-      <div className="relative z-20 w-screen h-20 px-20">
-        <Slider className={styles.customSlick} {...settings}>
-         
-        </Slider>
-      </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="relative z-20 w-full max-w-7xl px-20">
+          <Slider className={styles.customSlick} {...settings}>
+            {data &&
+              data.map((item) => {
+                return <SingleItem key={item.id} data={item} />;
+              })}
+          </Slider>
+        </div>
+      )}
     </div>
   );
 }

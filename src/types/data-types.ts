@@ -75,6 +75,16 @@ export type ReduxDataType = {
   error: ErrorType | any;
 };
 
+export type Review = {
+  id: string;
+  customerId: Omit<User, 'id' | 'email'>;
+  foodRating: number;
+  serviceRating: number;
+  review: string;
+};
+export type ReviewFilter = {
+  limit?: number;
+};
 export type ErrorType = {
   statusCode: number;
   message: string;
@@ -182,13 +192,12 @@ export type PaypalUnit = {
   reference_id: string;
   description: string;
   amount: PaypalAmount;
-}
-
+};
 
 export type PaypalAmount = {
   currency_code: string;
-  value: number; 
-}
+  value: number;
+};
 
 export type BotStep = {
   [key: number]: {
@@ -198,6 +207,6 @@ export type BotStep = {
 
 export type BotMessage = {
   [key: number]: {
-    text: ReactNode
-  }
-}
+    text: ReactNode;
+  };
+};
