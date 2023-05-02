@@ -19,7 +19,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { primaryFont } from '@/constants';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { PayPalScriptOptions } from '@/types/data-types';
+const paypalScriptOptions: PayPalScriptOptions = {
+  'client-id': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+  currency: 'USD',
+};
 const theme = createTheme({});
 // const emotionCache = createCache({
 //   key: 'css',
@@ -53,12 +58,14 @@ const App = ({
             <SessionProvider session={session} refetchOnWindowFocus={false}>
               <main className={primaryFont.className}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  {getLayout(
-                    <>
-                      <Component {...props.pageProps} />
-                      <ToastContainer />
-                    </>,
-                  )}
+                  <PayPalScriptProvider options={paypalScriptOptions}>
+                    {getLayout(
+                      <>
+                        <Component {...props.pageProps} />
+                        <ToastContainer />
+                      </>,
+                    )}
+                  </PayPalScriptProvider>
                 </LocalizationProvider>
               </main>
             </SessionProvider>

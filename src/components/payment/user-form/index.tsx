@@ -1,11 +1,11 @@
 import React from 'react';
 import { TextField, Typography, Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 
-import { OrderType, IReservationData, CartItem } from '@/types/data-types';
-import { formatDate } from '@/utils/currency-format';
+import { OrderType, Reservation, CartItem } from '@/types/data-types';
+import { formatDate } from '@/utils';
 
 interface IOrderInfo {
-  reservation: IReservationData;
+  reservation: Reservation;
   itemList: CartItem[];
   type: OrderType;
   totalCost: number;
@@ -14,8 +14,8 @@ interface IOrderInfo {
 type Props = {
   orderInfo: IOrderInfo;
   userInfo: any;
-  reservationList: IReservationData[];
-  onReservationChange: (value: IReservationData) => void;
+  reservationList: Reservation[];
+  onReservationChange: (value: Reservation) => void;
 };
 
 

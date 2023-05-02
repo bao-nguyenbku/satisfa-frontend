@@ -24,6 +24,7 @@ export const orderApi = createApi({
     }),
     createPaidOrderService: build.mutation<any, any>({
       query: (body) => {
+        console.log(body)
         const { id, ...rest } = body;
         return {
           url: `/orders/${id}/paid`,
