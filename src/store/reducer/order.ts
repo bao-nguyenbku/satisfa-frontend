@@ -13,6 +13,7 @@ import {
   OrderType,
   Order,
   PaymentType,
+  PaymentStatus,
   CreatedOrder,
 } from '@/types/data-types';
 import { createOrderService } from '@/service/order';
@@ -50,6 +51,7 @@ const initialState: OrderState = {
   createdOrder: {
     id: '',
     type: OrderType.DINE_IN,
+    paymentStatus: PaymentStatus.UNPAID,
     paymentData: {
       type: PaymentType.CASH,
       info: {
@@ -140,9 +142,10 @@ export const orderSlice = createSlice({
         // data for paid order
         state.createdOrder.id = action.payload.id;
         state.createdOrder.type = action.payload.type;
+        state.createdOrder.paymentStatus = PaymentStatus.PAID;
         state.createdOrder.paymentData.info.totalCost =
           action.payload.totalCost;
-        state.createdOrder.paymentData.info.totalCost =
+        state.createdOrder.paymentData.info.totalPay =
           action.payload.totalCost;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
