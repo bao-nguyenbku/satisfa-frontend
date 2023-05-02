@@ -1,16 +1,18 @@
 import React from 'react';
 import Head from 'next/head';
-import HomePage from '@/components/banner';
-import AboutUsSection from '@/components/about-us';
+import HomePage from '@/components/landing/banner';
+import AboutUsSection from '@/components/landing/about-us';
 import { motion } from 'framer-motion';
+import HeadChefSection from '@/components/landing/head-chef';
+import MenuBanner from '@/components/landing/menu-banner';
+import ReservationSection from '@/components/landing/reservation';
+import TestimonalSection from '@/components/landing/testimonial';
 
 export default function Home() {
   return (
     <>
       <Head>
         <title>Satisfa</title>
-        <meta name="description" content="Satisfa restaurant. Elegant Services." />
-        <link rel="icon" href="/logo.png" />
       </Head>
 
       <motion.div
@@ -18,6 +20,10 @@ export default function Home() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}>
         <HomePage />
+        <MenuBanner />
+        <HeadChefSection />
+        <TestimonalSection />
+        <ReservationSection />
         <AboutUsSection />
       </motion.div>
     </>

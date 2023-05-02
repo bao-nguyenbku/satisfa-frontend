@@ -1,9 +1,13 @@
 import React from 'react';
 import BotAvatar from '../common/bot-avatar/avatar';
+import useChatbot from '@/hooks/useChatbot';
+import { IconButton } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const MessageHeader = () => {
+  const { close } = useChatbot();
   return (
-    <div className="w-full h-16 bg-primary-dark flex items-center px-3">
+    <div className="w-full h-16 bg-primary-dark flex items-center justify-between px-3">
       <div className="flex items-center gap-2">
         <div className="relative">
           <BotAvatar />
@@ -14,6 +18,7 @@ const MessageHeader = () => {
         </div>
         <span className="text-white font-bold">Satisgi</span>
       </div>
+      <IconButton className='hover:bg-white/20' onClick={close}><KeyboardArrowDownIcon className='text-white'/></IconButton>
     </div>
   );
 };

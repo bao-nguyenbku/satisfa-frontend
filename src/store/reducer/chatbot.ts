@@ -4,8 +4,7 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-// import * as _ from 'lodash';
-
+import * as _ from 'lodash';
 import { RootState } from '@/store';
 // import { ReduxDataType } from '@/types/redux-type';
 import { HYDRATE } from 'next-redux-wrapper';
@@ -17,6 +16,7 @@ import {
   TakeawayCustomer,
   BotStep,
   Reservation,
+  ErrorType,
 } from '@/types/data-types';
 import { reservationApi } from '@/service/reservation';
 // import { ChatBotType } from '@/types/data-types';
@@ -60,15 +60,42 @@ const initialState: ChatbotState = {
   order: {
     steps: {
       1: {
-        text: 'First. Please choose food on the screen and check your cart. If you confirm with it, type "ok" on the message box😉',
         isComplete: false,
       },
       2: {
-        text: 'I saw your order cart. Would you like to dine-in or takeaway? (type "dine in" or "takeaway")',
+        isComplete: false,
+      },
+      3: {
+        isComplete: false,
+      },
+      4: {
+        isComplete: false,
+      },
+      5: {
+        isComplete: false,
+      },
+      6: {
+        isComplete: false,
+      },
+      7: {
+        isComplete: false,
+      },
+      8: {
         isComplete: false,
       },
     },
-    created: {}
+    created: {
+      reservationId: '',
+      customerId: '',
+      items: [],
+      totalCost: 0,
+      type: OrderType.DINE_IN,
+      tempCustomer: {
+        name: '',
+        phone: '',
+        takingTime: '',
+      },
+    },
   },
 };
 // export const createReservation = createAsyncThunk(
@@ -78,7 +105,7 @@ const initialState: ChatbotState = {
 //   }
 // );
 export const getReservationByUser = createAsyncThunk<
-  Reservation[] | undefined,
+  Reservation[] | ErrorType,
   void,
   {
     state: RootState;
@@ -87,6 +114,12 @@ export const getReservationByUser = createAsyncThunk<
   'chatbot/getReservationByUser',
   async (un, { getState, dispatch, rejectWithValue }) => {
     const user = getState().user;
+    if (_.isEmpty(user.data)) {
+      return rejectWithValue({
+        statusCode: 401,
+        message: 'You must sign in to book a table',
+      });
+    }
     try {
       const response = await dispatch(
         reservationApi.endpoints.getReservationByFilter.initiate({
@@ -96,6 +129,7 @@ export const getReservationByUser = createAsyncThunk<
       if (!response.isLoading && response.isSuccess && response.data) {
         return response.data;
       }
+      return [];
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -138,6 +172,7 @@ export const chatbotSlice = createSlice({
       cloneState[3].isComplete = true;
       state.reservation.steps = cloneState;
     },
+    // For Order feature
     setOrderItems: (state, action: PayloadAction<CartItem[]>) => {
       state.order.created.items = action.payload;
       state.order.steps[1].isComplete = true;

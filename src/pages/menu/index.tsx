@@ -8,7 +8,7 @@ import MainLayout from '@/layout/main';
 import FoodCard from '@/components/menu/food-card';
 import Loading from '@/components/common/loading';
 import { wrapper } from '@/store';
-import { productApi, useGetAllProductQuery } from '@/service/product';
+import { useGetAllProductQuery, productApi } from '@/service/product';
 import { AnimatePresence, motion } from 'framer-motion';
 import Head from 'next/head';
 
@@ -47,11 +47,14 @@ const Menu: NextPageWithLayout = () => {
   );
 };
 
+// !Warning: Error when use server side render
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  store.dispatch(productApi.endpoints.getAllProduct.initiate());
+  const response = await store.dispatch(productApi.endpoints.getAllProduct.initiate());
   await Promise.all(store.dispatch(productApi.util.getRunningQueriesThunk()));
   return {
-    props: {},
+    props: {
+      data: response.data,
+    },
   };
 });
 Menu.getLayout = (page: ReactElement) => {

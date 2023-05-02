@@ -8,7 +8,7 @@ export const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: async (headers) => {
     const session = await getSession();
-    const token = session?.user?.jwtToken;
+    const token = session?.token;
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
@@ -29,7 +29,7 @@ instance.interceptors.request.use(
     const session = await getSession();
     (config.headers as AxiosHeaders).set(
       'Authorization',
-      `Bearer ${session?.user?.jwtToken}`,
+      `Bearer ${session?.token}`,
     );
     return config;
   },
