@@ -3,14 +3,6 @@ import { ReactNode } from 'react';
 
 export { QueryStatus };
 
-export type ReservationType = {
-  customerId: string;
-  tableId: string;
-  date: string;
-  numberOfGuests: number;
-  note: string;
-};
-
 export type User = {
   id: string;
   email: string;
@@ -28,9 +20,14 @@ export type ChatBotType = {
   re_type: string;
 };
 
-export type CreateReservation = {
-  customerId: User;
+export type CreateReservation = Omit<Reservation, 'id' | 'customerId' | 'tableId'> & {
+  customerId: string;
   tableId: string;
+}
+export type Reservation = {
+  id: string;
+  customerId: User;
+  tableId: Table;
   date: string;
   numberOfGuests: number;
   note: string;
@@ -176,15 +173,6 @@ export type Table = {
   code: string;
   numberOfSeat: number;
   reservations: Reservation[];
-};
-
-export type Reservation = {
-  id: string;
-  customerId: User;
-  tableId: Table;
-  date: string;
-  numberOfGuests: number;
-  note: string;
 };
 
 export type CreatePayment = {

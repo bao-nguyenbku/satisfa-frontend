@@ -19,15 +19,18 @@ import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
-  selectBotReservationState,
+  resetCreateOrder,
+  resetCreateReservation,
+  // selectBotReservationState,
   setReservationDinein,
 } from '@/store/reducer/chatbot';
-import { botOrderMessage } from '@/components/chatbot/steps/order';
+import { botOrderMessage, botReserveMessage } from '@/components/chatbot/steps';
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
 import { Reservation } from '@/types/data-types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
 import { selectReservationState } from '@/store/reducer/reservation';
 import { formatDate } from '@/utils';
+import ShowTables from '@/components/chatbot/widgets/show-tables';
 
 type Props = {
   children: React.ReactNode;
@@ -83,7 +86,6 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const botReservation = useAppSelector(selectBotReservationState);
   const reservationInfo = useAppSelector(selectReservationState);
 
   const createBotMessage = (message: ReactNode, options?: MessageOption) => {
@@ -220,17 +222,13 @@ export const ChatbotProvider = ({ children }: Props) => {
     handleReservation: () => {
       setBotService(BotService.RESERVATION);
       actions.navigateToReservation();
-      createBotMessage(
-        'Of course! I navigated you to reservation page, do you see it😉',
-      );
-      actions.getDatePicker({
-        delay: 600,
+      createBotMessage('I navigated you to reservation page, do you see it😉');
+      createBotMessage(botReserveMessage[1].text, {
+        delay: 500,
       });
     },
     getDatePicker: (options?: MessageOption) => {
-      createBotMessage(botReservation.steps[1].text, {
-        delay: options ? options.delay : DEFAULT_DELAY,
-      });
+      createBotMessage(botReserveMessage[1].text, options);
     },
     sendMessage: (message: ReactNode, options?: MessageOption) => {
       const widget =
@@ -256,18 +254,15 @@ export const ChatbotProvider = ({ children }: Props) => {
       createWidget(widget, options);
     },
     getTimePicker: (options?: MessageOption) => {
-      createBotMessage(botReservation.steps[2].text, {
-        delay: options ? options.delay : DEFAULT_DELAY,
-      });
+      createBotMessage(botReserveMessage[2].text, options);
     },
-    getGuest: (options?: MessageOption) => {
-      createBotMessage(botReservation.steps[3].text, {
-        delay: options ? options.delay : DEFAULT_DELAY,
-      });
+    getGuestPicker: (options?: MessageOption) => {
+      createBotMessage(botReserveMessage[3].text, options);
     },
     showTables: (options?: MessageOption) => {
-      createBotMessage(botReservation.steps[4].text, {
-        delay: options ? options.delay : DEFAULT_DELAY,
+      createBotMessage(botReserveMessage[4].text, options);
+      createWidget(<ShowTables />, {
+        delay: 500,
       });
     },
     completeBookingTable: (options?: MessageOption) => {
@@ -276,9 +271,8 @@ export const ChatbotProvider = ({ children }: Props) => {
         reservationInfo.createReservationData.data.date,
       )} 
       on table ${reservationInfo.createReservationData.code}`;
-      createBotMessage(message, {
-        delay: options ? options.delay : DEFAULT_DELAY,
-      });
+      createBotMessage(message, options);
+      actions.completeService();
     },
     confirmYes: () => {
       return;
@@ -300,6 +294,10 @@ export const ChatbotProvider = ({ children }: Props) => {
         widget: <ShowConfirmationOrder />,
       });
     },
+    resetService: () => {
+      dispatch(resetCreateOrder());
+      dispatch(resetCreateReservation());
+    }
   };
 
   return (

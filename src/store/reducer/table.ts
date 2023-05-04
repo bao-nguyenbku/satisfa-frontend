@@ -31,7 +31,7 @@ export const getTablesByFilter = createAsyncThunk(
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
       const { data } = await dispatch(
-        tableApi.endpoints.getTableByFilter.initiate({
+        tableApi.endpoints.getTablesByFilter.initiate({
           minSeat: getState()?.reservation?.createReservationData?.data.numberOfGuests,
           reservationDate: getState()?.reservation?.createReservationData?.data.date
         })

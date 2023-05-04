@@ -10,18 +10,17 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
   selectBotOrderState,
-  setDate,
-  setTime,
-  setGuest,
+  setReservationDate,
+  setReservationTime,
+  setReservationGuest,
   setOrderItemsThunk,
   setOrderType,
   setTakeawayName,
   setTakeawayPhone,
   setTakeawayTime,
-  resetCreateOrder,
   getReservationByUser,
 } from '@/store/reducer/chatbot';
-import { guestSelect, getTime } from '@/store/reducer/reservation';
+import { getTime, guestSelect } from '@/store/reducer/reservation';
 import dayjs from 'dayjs';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
@@ -56,52 +55,51 @@ const Chatbot = (props: Props) => {
   const botReservationState = useAppSelector(selectBotReservationState);
   const reserveData = useAppSelector((state) => state.reservation);
   const botOrderState = useAppSelector(selectBotOrderState);
+
+  // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
     if (!botReservationState.steps[1].isComplete) {
       if (isValidDate(message)) {
-        dispatch(setDate(message));
+        dispatch(setReservationDate(message));
         dispatch(getTime(message));
         actions.getTimePicker();
       } else {
-        actions.sendMessage('That is not a valid day, try another answer 😔');
-        actions.getDatePicker({
-          delay: 800,
-        });
+        actions.sendMessage(
+          'That is not a valid day, please type following our syntax 😔',
+        );
+        actions.getDatePicker();
       }
     }
-    // New line
+    // Get time
     else if (!botReservationState.steps[2].isComplete) {
       if (isValidTime(message)) {
-        dispatch(setTime(message));
-        const reserveDate =
-          reserveData.createReservationData.data.date + ' ' + message;
-        dispatch(getTime(dayjs(reserveDate, 'DD-MM-YYYY HH:mm').toISOString()));
-        actions.getGuest(botReservationState.steps[3].text);
+        dispatch(setReservationTime(message));
+        const date = botReservationState.created.date;
+        dispatch(getTime(dayjs(`${date} ${message}`).toISOString()));
+        actions.getGuestPicker();
       } else {
         actions.sendMessage(
-          'That time is invalid. Please type the time following my syntax: hh:mm (E.g: 14:30)',
+          'That time is invalid. Please type the time following our syntax: hh:mm (E.g: 14:30)',
         );
-        actions.getTimePicker(botReservationState.steps[2].text);
+        actions.getTimePicker();
       }
     }
-    // New line
+    // Get number of guest
     else if (!botReservationState.steps[3].isComplete) {
       if (isNumber(message)) {
-        dispatch(setGuest(parseInt(message, 10)));
-        dispatch(guestSelect(parseInt(message, 10)));
-        actions.showTables(botReservationState.steps[4].text);
+        dispatch(setReservationGuest(+message));
+        dispatch(guestSelect(+message));
+        actions.showTables();
       } else {
         actions.sendMessage(
-          'That is not a valid number. Please provide a number for me.',
-          {
-            delay: 400,
-          },
+          'That is not a valid number. Please provide a positive number for me.',
         );
-        actions.getGuest(botReservationState.steps[3].text, {
-          delay: 800,
-        });
+        actions.getReservationGuest();
       }
     }
+    // else if (!botReservationState.steps[4].isComplete) {
+
+    // }
     // Newline
     else {
       actions.sendMessage('OK all fine. Please wait...', {
@@ -110,6 +108,8 @@ const Chatbot = (props: Props) => {
       // actions.unhandleInput();
     }
   };
+
+  // !! HANDLE ORDER FOOD SERVICE !!
   const handleBotOrder = async (message: string) => {
     if (!botOrderState.steps[1].isComplete) {
       if (!message.includes('ok')) {
@@ -225,10 +225,12 @@ const Chatbot = (props: Props) => {
 
     if (lowerCaseMessage.includes('help')) {
       actions.askForHelp();
+      actions.resetService();
     } 
-    
+    // Say Hello
     else if (introductionIndent.isValid(lowerCaseMessage)) {
       actions.introduce();
+      actions.resetService();
     }
     // Handle Reservation
     else if (botService === BotService.RESERVATION) {
@@ -260,7 +262,7 @@ const Chatbot = (props: Props) => {
           <strong>#{createOrderRes.data.id}</strong>
         </p>,
       );
-      dispatch(resetCreateOrder());
+      // dispatch(resetCreateOrder());
     }
   }, [createOrderRes]);
 
