@@ -7,6 +7,7 @@ import { useAppSelector } from '@/hooks';
 import { selectUserState } from '@/store/reducer/user';
 import { podkova } from '@/constants/font';
 import logo from '../../../public/logo.png';
+import AccountMenu from './account-menu';
 
 // type Props = {
 //   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
@@ -64,22 +65,7 @@ const NavigationBar = () => {
         <CartIconButton />
       </li>
       {!user.isLoading && user.isSuccess && !_.isEmpty(user.data) ? (
-        <li className="flex items-center gap-2 hover:bg-primary-yellow hover:transition-colors p-2 cursor-pointer">
-          <Image
-            src={user.data.avatar}
-            alt="user-avatar"
-            className="object-cover rounded-full w-12 h-12"
-            quality={70}
-            width={70}
-            height={70}
-          />
-          <span>
-            {!user.isLoading &&
-              user.isSuccess &&
-              user.data &&
-              user.data.fullname}
-          </span>
-        </li>
+        <AccountMenu data={user.data}/>
       ) : (
         <li className="hover:bg-primary-yellow hover:transition-colors p-2">
           <Link href="/login">Sign in</Link>

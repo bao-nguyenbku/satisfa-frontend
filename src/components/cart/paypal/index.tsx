@@ -7,7 +7,7 @@ import {
   PaypalUnit,
 } from '@/types/data-types';
 import { toast } from 'react-toastify';
-import { usePaidOrderServiceMutation } from '@/services/order';
+import { useCreateOrderServiceMutation } from '@/service/order';
 type Props = {
   order: Order;
 };
@@ -18,7 +18,7 @@ const Checkout = (props: Props) => {
   // const [orderID, setOrderID] = useState(false);
   const { order } = props;
   // const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-  const [paidOrder] = usePaidOrderServiceMutation();
+  const [paidOrder] = useCreateOrderServiceMutation();
 
   // creates a paypal order
 
@@ -57,7 +57,7 @@ const Checkout = (props: Props) => {
     });
   };
 
-  //capture likely error
+  // capture likely error
   const onError = (error: any) => {
     // setErrorMessage('An Error occured with your payment ');
     toast.error(error);
@@ -79,7 +79,7 @@ const Checkout = (props: Props) => {
   }, [success]);
 
   return (
-    <div className='paypal-button'>
+    <div className="paypal-button">
       <PayPalButtons
         style={{ layout: 'vertical' }}
         createOrder={createOrder}
