@@ -33,7 +33,6 @@ type Props = {
 };
 export const ModalContextProvider = ({ children }: Props) => {
   const [isShow, setIsShow] = useState<boolean>(false);
-  const [component, setComponent] = useState<React.ReactNode>(null);
   const [modalConfig, setModalConfig] = useState<ModalProps>({
     title: '',
     cancelText: '',
@@ -47,7 +46,7 @@ export const ModalContextProvider = ({ children }: Props) => {
     setIsShow(false);
   };
   const getComponent = (_comp: React.ReactNode) => {
-    setComponent(_comp);
+    return _comp;
   };
   const getModalConfig = (modalProps: ModalProps) => {
     setModalConfig(modalProps);
