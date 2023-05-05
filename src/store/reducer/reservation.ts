@@ -4,7 +4,7 @@ import {
   PayloadAction,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import { reservationApi } from '@/service/reservation';
+import { reservationApi } from '@/services/reservation';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
 import { ReduxDataType, ICreateReservation } from '@/types/data-types';

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Chatbot from '../chatbot';
+import Chatbot from '@/components/chatbot';
+import { nunito } from '@/constants/font';
 /**
  * Connect websocket, for testing only
  */
@@ -41,7 +42,8 @@ const MessageBox = (props: Props) => {
     // });
   }, [socket]);
   return (
-    <div className="w-100 h-128 rounded-none overflow-hidden flex flex-col z-20">
+    <div
+      className={`w-100 h-128 rounded-none overflow-hidden flex flex-col z-20 ${nunito.className}`}>
       <Chatbot {...props} />
     </div>
   );

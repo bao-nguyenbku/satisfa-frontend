@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import styles from './styles.module.scss';
 import SingleItem from './single-item';
-import { useGetReviewsServiceQuery } from '@/service/review';
+import { useGetReviewsServiceQuery } from '@/services/review';
 import Loading from '@/components/common/loading';
 
 // const data = [

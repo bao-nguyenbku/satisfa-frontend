@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import NavigationBar from '@/components/navigation-bar';
-import ChatbotButton from '@/components/chatbot-button';
 import { useAppDispatch } from '@/hooks';
 import { authCurrentUser } from '@/store/reducer/user';
 // import { GetServerSideProps } from 'next';
 import { useSession } from 'next-auth/react';
-import { ChatbotProvider } from '@/context/chatbot-context';
 import FooterSection from '@/components/landing/footer';
+import FloatMenu from '@/components/float';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -23,9 +22,7 @@ export default function MainLayout({ children }: LayoutProps) {
     <div className="px-20 overflow-y-auto overflow-x-hidden bg-primary-dark">
       <NavigationBar />
       <>{children}</>
-      <ChatbotProvider>
-        <ChatbotButton />
-      </ChatbotProvider>
+      <FloatMenu />
       <FooterSection />
     </div>
   );

@@ -7,7 +7,7 @@ import {
   PaypalUnit,
 } from '@/types/data-types';
 import { toast } from 'react-toastify';
-import { useCreatePaidOrderServiceMutation } from '@/service/order';
+import { useCreatePaidOrderServiceMutation } from '@/services/order';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectCreatedOrder,

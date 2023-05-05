@@ -8,7 +8,7 @@ import MainLayout from '@/layout/main';
 import FoodCard from '@/components/menu/food-card';
 import Loading from '@/components/common/loading';
 import { wrapper } from '@/store';
-import { useGetAllProductQuery, productApi } from '@/service/product';
+import { useGetAllProductQuery, productApi } from '@/services/product';
 import { AnimatePresence, motion } from 'framer-motion';
 import Head from 'next/head';
 

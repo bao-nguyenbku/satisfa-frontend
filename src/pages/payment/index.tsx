@@ -5,7 +5,7 @@ import OrderDetailPayment from '@/components/payment/order-detail';
 import PaymentTypeSelect from '@/components/payment/payment-type';
 import UserPaymentInfo from '@/components/payment/user-form';
 import OrderTypePayment from '@/components/payment/order-type';
-import { useGetReservationByFilterQuery } from '@/service/reservation';
+import { useGetReservationByFilterQuery } from '@/services/reservation';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import {
   selectCreateOrder,
@@ -16,7 +16,7 @@ import {
   createOrderThunk,
   selectCreatedOrder,
 } from '@/store/reducer/order';
-import { useCreatePaidOrderServiceMutation } from '@/service/order';
+import { useCreatePaidOrderServiceMutation } from '@/services/order';
 import {  Reservation, PaymentType } from '@/types/data-types';
 import { selectAllItem, selectTotalCost } from '@/store/reducer/cart';
 

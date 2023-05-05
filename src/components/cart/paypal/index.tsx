@@ -7,7 +7,7 @@ import {
   PaypalUnit,
 } from '@/types/data-types';
 import { toast } from 'react-toastify';
-import { useCreateOrderServiceMutation } from '@/service/order';
+import { useCreateOrderServiceMutation } from '@/services/order';
 type Props = {
   order: Order;
 };

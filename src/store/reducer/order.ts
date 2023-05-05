@@ -16,7 +16,7 @@ import {
   PaymentStatus,
   CreatedOrder,
 } from '@/types/data-types';
-import { createOrderService } from '@/service/order';
+import { createOrderService } from '@/services/order';
 // import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 // import { store } from '@/store';
 const hydrate = createAction<RootState>(HYDRATE);

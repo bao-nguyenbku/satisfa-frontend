@@ -1,5 +1,6 @@
 import React from 'react';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -17,22 +18,39 @@ export default function AccountMenu(props: Props) {
   const { data } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const menu = [
+    {
+      title: 'My orders',
+      icon: <PersonAdd />,
+      link: '/me/orders',
+    },
+    {
+      title: 'My reservations',
+      icon: <Settings />,
+      link: '/me/orders',
+    },
+    {
+      title: 'Sign out',
+      icon: <Logout />,
+      link: '/api/auth/signout',
+    },
+  ];
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleSignOut = () => {
     signOut({
-      callbackUrl: '/'
-    })
+      callbackUrl: '/',
+    });
     handleClose();
-  }
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
   return (
     <React.Fragment>
       <li
-        onClick={handleClick}
+        onClick={handleOpenMenu}
         className="flex items-center gap-2 hover:bg-primary-yellow hover:transition-colors p-2 cursor-pointer">
         <Image
           src={data?.avatar}
@@ -55,24 +73,24 @@ export default function AccountMenu(props: Props) {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          My orders
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          My reservations
-        </MenuItem>
-        <MenuItem onClick={handleSignOut} className='text-red-600'>
-          <ListItemIcon className='text-inherit'>
-            <Logout fontSize="small" className='text-inherit'/>
-          </ListItemIcon>
-          Logout
-        </MenuItem>
+        {menu.map((item) => {
+          if (item.title === 'Sign out') {
+            return (
+              <MenuItem onClick={handleSignOut} key={item.title} className='text-red-600'>
+                <ListItemIcon className='text-inherit'>{item.icon}</ListItemIcon>
+                {item.title}
+              </MenuItem>
+            );
+          }
+          return (
+            <MenuItem onClick={handleClose} key={item.title}>
+              <Link href={item.link} className="flex items-center">
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                {item.title}
+              </Link>
+            </MenuItem>
+          );
+        })}
       </Menu>
     </React.Fragment>
   );

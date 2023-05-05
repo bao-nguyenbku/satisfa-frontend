@@ -6,7 +6,7 @@ import TableModel from './table-model';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { getTime } from '@/store/reducer/reservation';
 import dayjs, { Dayjs } from 'dayjs';
-import { useGetAllTableQuery } from '@/service/table';
+import { useGetAllTableQuery } from '@/services/table';
 import { getTablesByFilter } from '@/store/reducer/table';
 import { TableType } from '@/types/data-types';
 

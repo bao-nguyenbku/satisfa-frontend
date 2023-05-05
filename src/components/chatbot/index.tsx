@@ -34,7 +34,7 @@ import {
 import { toast } from 'react-toastify';
 import ShowCart from './widgets/show-cart';
 import { OrderType, QueryStatus } from '@/types/data-types';
-import { useCreateOrderServiceMutation } from '@/service/order';
+import { useCreateOrderServiceMutation } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { IntroductionIndent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
