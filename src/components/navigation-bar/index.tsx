@@ -5,6 +5,8 @@ import Image from 'next/image';
 import CartIconButton from '../cart/icon-button';
 import { useAppSelector } from '@/hooks';
 import { selectUserState } from '@/store/reducer/user';
+import { podkova } from '@/constants/font';
+import logo from '../../../public/logo.png';
 
 // type Props = {
 //   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
@@ -34,8 +36,15 @@ const NavigationBar = () => {
   return (
     <ul
       className={`flex items-center justify-end text-white gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 uppercase absolute`}>
-      <li className="mr-auto font-passions-conflict text-5xl normal-case">
-        <Link href="/" className="flex items-center gap-2">
+      <li className="mr-auto text-5xl normal-case">
+        <Link
+          href="/"
+          className={`flex items-center gap-2 ${podkova.className}`}>
+          <Image
+            src={logo}
+            alt="satisfa-logo"
+            className="rounded-ful w-20 h-20"
+          />
           Satisfa
         </Link>
       </li>

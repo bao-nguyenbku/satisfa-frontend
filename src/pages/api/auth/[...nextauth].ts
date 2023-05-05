@@ -1,6 +1,7 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 // import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import axios from 'axios';
 import { BASE_URL, NEXTAUTH_SECRET, DEV_MODE } from '@/constants';
 
@@ -23,10 +24,6 @@ const providers = [
     async authorize(credentials) {
       // Add logic here to look up the user from the credentials supplied
       const userInput = { ...credentials };
-      console.log(
-        '🚀 ~ file: [...nextauth].ts:26 ~ authorize ~ userInput:',
-        userInput,
-      );
       try {
         const response = await axios.post(BASE_URL + '/auth/login', {
           email: userInput.email,
@@ -42,6 +39,17 @@ const providers = [
       }
     },
   }),
+  GoogleProvider({
+    clientId: process.env.GOOGLE_CLIENT_ID as string,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    authorization: {
+      params: {
+        prompt: 'consent',
+        access_type: 'offline',
+        response_type: 'code',
+      },
+    },
+  }),
 ];
 
 export const authOptions: NextAuthOptions = {
@@ -52,19 +60,65 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
     error: '/login',
   },
+  cookies: {
+    sessionToken: {
+      name: `next-auth-landing.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+    callbackUrl: {
+      name: `next-auth-landing.callback-url`,
+      options: {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+    csrfToken: {
+      name: `next-auth-landing.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+  },
   callbacks: {
     jwt: async (params) => {
-      const { token, user } = params;
-      if (user) {
-        token.jwt = user;
+      const { token, account } = params;
+      if (account) {
+        token.provider = account.provider;
+      }
+
+      const response = await axios.post(BASE_URL + '/auth/google', {
+        email: token.email,
+        fullname: token.name,
+        avatar: token.picture,
+        id: token.sub,
+      });
+      if (response && response.status === 201) {
+        return {
+          ...token,
+          accessToken: response?.data?.accessToken,
+        };
       }
       return token;
     },
     session: async (params) => {
       const { session, token } = params;
-      session.user.jwtToken = token.jwt as string;
+      session.token = token.accessToken as string;
       return session;
     },
+    // signIn: async () => {
+    //   // console.log('🚀 ~ file: [...nextauth].ts:82 ~ signIn: ~ params:', params);
+    //   return true;
+    // },
   },
 };
 export default NextAuth(authOptions);

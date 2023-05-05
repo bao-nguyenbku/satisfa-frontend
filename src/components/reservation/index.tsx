@@ -22,21 +22,26 @@ const Reservation = () => {
   useEffect(() => {
     dispatch(getTablesByFilter());
   }, [bookingData.data.date, bookingData.data.numberOfGuests]);
-  
+
   const handleChange = (newValue: Dayjs | null) => {
     if (newValue) {
       dispatch(getTime(newValue.toISOString()));
     }
   };
   if (tables && tables.length < 1) {
-    return <div>No table available!</div>;
+    return <div className='text-white'>No table available!</div>;
   }
-  console.log(bookingData.data.date)
   return (
     <div className="flex flex-col w-full gap-10 px-32">
       <div className="flex w-full justify-center gap-6 mt-10">
-        <DatePicker value={dayjs(bookingData.data.date)} onChange={handleChange} />
-        <TimePicker value={dayjs(bookingData.data.date)} onChange={handleChange} />
+        <DatePicker
+          value={dayjs(bookingData.data.date)}
+          onChange={handleChange}
+        />
+        <TimePicker
+          value={dayjs(bookingData.data.date)}
+          onChange={handleChange}
+        />
         <GuestCounter amount={bookingData.data.numberOfGuests} />
       </div>
       <div className="pt-10 flex gap-36 flex-wrap items-center justify-center overflow-hidden">

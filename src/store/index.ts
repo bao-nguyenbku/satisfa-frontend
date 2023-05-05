@@ -13,6 +13,7 @@ import { productApi } from '@/service/product';
 import { orderApi } from '@/service/order';
 import { orderSlice } from './reducer/order';
 import { cartSlice } from './reducer/cart';
+import { reviewApi } from '@/service/review';
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
@@ -25,7 +26,8 @@ const reducer = {
   [reservationApi.reducerPath]: reservationApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
-  [orderApi.reducerPath]: orderApi.reducer
+  [orderApi.reducerPath]: orderApi.reducer,
+  [reviewApi.reducerPath]: reviewApi.reducer,
 };
 
 const makeStore = () =>
@@ -39,6 +41,7 @@ const makeStore = () =>
         authApi.middleware,
         productApi.middleware,
         orderApi.middleware,
+        reviewApi.middleware,
         rtkQueryErrorLogger,
       ),
   });

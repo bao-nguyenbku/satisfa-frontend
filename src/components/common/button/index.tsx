@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button as Btn, ButtonProps } from '@mui/material';
-import { podkova } from '@/constants';
+import { primaryFont } from '@/constants';
 type Props = ButtonProps;
 
 const Button = (props: Props) => {
@@ -9,9 +9,9 @@ const Button = (props: Props) => {
     <Btn
       {...props}
       style={{
-        fontFamily: podkova.style.fontFamily,
-        fontWeight: podkova.style.fontWeight,
-        fontSize: podkova.style.fontStyle,
+        fontFamily: primaryFont.style.fontFamily,
+        fontWeight: primaryFont.style.fontWeight,
+        fontSize: primaryFont.style.fontStyle,
         textTransform: 'none',
         paddingLeft: 8,
         paddingRight: 8

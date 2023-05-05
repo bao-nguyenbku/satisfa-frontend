@@ -3,14 +3,6 @@ import { ReactNode } from 'react';
 
 export { QueryStatus };
 
-export type ReservationType = {
-  customerId: string;
-  tableId: string;
-  date: string;
-  numberOfGuests: number;
-  note: string;
-};
-
 export type User = {
   id: string;
   email: string;
@@ -28,9 +20,14 @@ export type ChatBotType = {
   re_type: string;
 };
 
-export type CreateReservation = {
-  customerId: User;
+export type CreateReservation = Omit<Reservation, 'id' | 'customerId' | 'tableId'> & {
+  customerId: string;
   tableId: string;
+}
+export type Reservation = {
+  id: string;
+  customerId: User;
+  tableId: Table;
   date: string;
   numberOfGuests: number;
   note: string;
@@ -75,6 +72,16 @@ export type ReduxDataType = {
   error: ErrorType | any;
 };
 
+export type Review = {
+  id: string;
+  customerId: Omit<User, 'id' | 'email'>;
+  foodRating: number;
+  serviceRating: number;
+  review: string;
+};
+export type ReviewFilter = {
+  limit?: number;
+};
 export type ErrorType = {
   statusCode: number;
   message: string;
@@ -93,6 +100,10 @@ export enum OrderType {
   TAKEAWAY = 'TAKEAWAY',
 }
 
+export enum PaymentStatus {
+  PAID = 'PAID',
+  UNPAID = 'UNPAID',
+}
 export enum PaymentType {
   CASH = 'CASH',
   CREDIT = 'CREDIT',
@@ -111,6 +122,7 @@ export type PaidOrderType = {
 export type CreatedOrder = {
   id: string;
   type: OrderType;
+  paymentStatus: PaymentStatus;
   paymentData: PaidOrderType;
 };
 
@@ -163,15 +175,6 @@ export type Table = {
   reservations: Reservation[];
 };
 
-export type Reservation = {
-  id: string;
-  customerId: User;
-  tableId: Table;
-  date: string;
-  numberOfGuests: number;
-  note: string;
-};
-
 export type CreatePayment = {
   orderId: string;
   info: PaymentCash;
@@ -182,17 +185,50 @@ export type PaypalUnit = {
   reference_id: string;
   description: string;
   amount: PaypalAmount;
-}
-
+};
 
 export type PaypalAmount = {
   currency_code: string;
-  value: number; 
+  value: number;
+};
+
+interface PayPalScriptQueryParameters {
+  'client-id': string;
+  'merchant-id'?: string;
+  currency?: string;
+  intent?: string;
+  commit?: boolean;
+  vault?: boolean | string;
+  components?: string;
+  'disable-funding'?: string;
+  'enable-funding'?: string;
+  'disable-card'?: string;
+  'integration-date'?: string;
+  debug?: boolean | string;
+  'buyer-country'?: string;
+  locale?: string;
 }
 
+interface PayPalScriptDataAttributes {
+  'data-partner-attribution-id'?: string;
+  'data-csp-nonce'?: string;
+  'data-order-id'?: string;
+  'data-page-type'?: string;
+  'data-client-token'?: string;
+}
+
+export interface PayPalScriptOptions extends PayPalScriptQueryParameters, PayPalScriptDataAttributes {
+  [key: string]: string | boolean | undefined;
+  sdkBaseURL?: string;
+}
 export type BotStep = {
   [key: number]: {
-    text: ReactNode;
     isComplete: boolean;
+  };
+};
+
+export type BotMessage = {
+  [key: number]: {
+    text: ReactNode;
   };
 };

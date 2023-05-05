@@ -1,0 +1,35 @@
+#footer {
+  @apply h-[60vh] relative bg-dark-2 text-white flex justify-between items-center w-screen -left-20 p-20;
+  background-image: url('../../../assets/images/footer.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    &::before {
+        content: "";
+        position: absolute;
+        width: 100vw;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(0,0,0, 0.5);
+    }
+}
+
+.bgImage {
+  position: absolute;
+  filter: brightness(60%);
+}
+
+.footerContent {
+  position: absolute;
+  z-index: 1;
+  :global button {
+    text-transform: none !important;
+    border: solid white 1px;
+  }
+  :global button:hover {
+    text-transform: none !important;
+    border: solid white 1px;
+  }
+}

@@ -9,10 +9,11 @@ import { HYDRATE } from 'next-redux-wrapper';
 import {
   CartItem,
   ReduxDataType,
-  IReservationData,
+  Reservation,
   OrderType,
   Order,
   PaymentType,
+  PaymentStatus,
   CreatedOrder,
 } from '@/types/data-types';
 import { createOrderService } from '@/service/order';
@@ -23,7 +24,7 @@ const hydrate = createAction<RootState>(HYDRATE);
 interface OrderState {
   createOrder: Omit<ReduxDataType, 'data'> & {
     data: {
-      reservation: IReservationData;
+      reservation: Reservation;
       itemList: CartItem[];
       totalCost: number;
       type: OrderType;
@@ -37,7 +38,7 @@ interface OrderState {
 const initialState: OrderState = {
   createOrder: {
     data: {
-      reservation: {} as IReservationData,
+      reservation: {} as Reservation,
       itemList: [],
       totalCost: 0,
       type: OrderType.DINE_IN,
@@ -50,6 +51,7 @@ const initialState: OrderState = {
   createdOrder: {
     id: '',
     type: OrderType.DINE_IN,
+    paymentStatus: PaymentStatus.UNPAID,
     paymentData: {
       type: PaymentType.CASH,
       info: {
@@ -72,7 +74,7 @@ export const createOrderThunk = createAsyncThunk<
         createOrderService.initiate({
           reservationId: getState()?.order?.createOrder?.data.reservation.id,
           customerId:
-            getState()?.order?.createOrder?.data?.reservation.customerId,
+            getState()?.order?.createOrder?.data?.reservation.customerId?.id,
           items: getState()?.order?.createOrder?.data?.itemList,
           totalCost: getState()?.order?.createOrder?.data?.totalCost,
           type: getState()?.order?.createOrder?.data?.type,
@@ -108,7 +110,7 @@ export const orderSlice = createSlice({
     reset: (state) => {
       state.createOrder = {
         data: {
-          reservation: {} as IReservationData,
+          reservation: {} as Reservation,
           itemList: [],
           totalCost: 0,
           type: OrderType.DINE_IN,
@@ -140,9 +142,10 @@ export const orderSlice = createSlice({
         // data for paid order
         state.createdOrder.id = action.payload.id;
         state.createdOrder.type = action.payload.type;
+        state.createdOrder.paymentStatus = PaymentStatus.PAID;
         state.createdOrder.paymentData.info.totalCost =
           action.payload.totalCost;
-        state.createdOrder.paymentData.info.totalCost =
+        state.createdOrder.paymentData.info.totalPay =
           action.payload.totalCost;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {

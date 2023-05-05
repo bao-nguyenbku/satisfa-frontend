@@ -1,11 +1,21 @@
 import React from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
+import googleImg from '@/assets/images/google.png';
 import ReviewSection from '@/components/login/review-section';
 import SigninForm from '@/components/login/signin-form';
 import SigninLayout from '@/layout/signin';
 import Link from 'next/link';
+import Button from '@/components/common/button';
+import { signIn } from 'next-auth/react';
+import { Divider } from '@mui/material';
 
 const LoginPage = () => {
+  const handleSignInWithGoogle = () => {
+    signIn('google', {
+      callbackUrl: '/',
+    });
+  };
   return (
     <>
       <Head>
@@ -26,6 +36,13 @@ const LoginPage = () => {
             </span>
           </div>
           <SigninForm />
+          <Divider className='text-white my-4'>Or</Divider>
+          <Button
+            onClick={handleSignInWithGoogle}
+            className="bg-white text-black gap-8 rounded-none py-3 hover:bg-white/80">
+            <Image src={googleImg} alt="google-img" className="w-10 h-10" />
+            Sign in with google
+          </Button>
           <span className="text-neutral-500 mt-4 text-center">
             Don&apos;t have an account?&nbsp;
             <Link

@@ -6,7 +6,7 @@ import { authCurrentUser } from '@/store/reducer/user';
 // import { GetServerSideProps } from 'next';
 import { useSession } from 'next-auth/react';
 import { ChatbotProvider } from '@/context/chatbot-context';
-import FooterSection from '@/components/footer';
+import FooterSection from '@/components/landing/footer';
 
 type LayoutProps = {
   children: React.ReactNode;
