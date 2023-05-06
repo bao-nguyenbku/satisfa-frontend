@@ -54,12 +54,6 @@ export default function PaymentTypeSelect(props: Props) {
                     />
                     <CreditCardIcon fontSize="large" style={{ color: '#c49246' }} />
                 </div>
-                <FormControlLabel
-                    className="text-white"
-                    value={PaymentType.E_WALLET}
-                    control={<Radio disableRipple style={{ color: '#c49246' }} />}
-                    label="Pay via momo"
-                />
             </div>
         </RadioGroup>
       </FormControl>

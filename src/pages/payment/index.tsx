@@ -15,9 +15,10 @@ import {
   setPaymentType,
   createOrderThunk,
   selectCreatedOrder,
+  setTakeawayInformation
 } from '@/store/reducer/order';
-import { useCreatePaidOrderServiceMutation } from '@/services/order';
-import {  Reservation, PaymentType } from '@/types/data-types';
+import { useCreatePaidOrderServiceMutation } from '@/service/order';
+import {  Reservation, PaymentType, TakeawayCustomer } from '@/types/data-types';
 import { selectAllItem, selectTotalCost } from '@/store/reducer/cart';
 
 export default function Payment() {
@@ -44,7 +45,9 @@ export default function Payment() {
     dispatch(getItemList(cartItems));
     dispatch(saveTotalCost(totalCost));
   });
-
+  const handleTakeawayInformation = (data: TakeawayCustomer) => {
+    dispatch(setTakeawayInformation(data));
+  };
   const handlePlaceOrder = () => {
     dispatch(createOrderThunk());
   };
@@ -72,8 +75,9 @@ export default function Payment() {
                 <UserPaymentInfo
                   orderInfo={orderInfo}
                   userInfo={userInfo}
-                  reservationList={filterReservation.data}
+                  reservationList={filterReservation?.data}
                   onReservationChange={handleSetReservation}
+                  onTakeawayChange={handleTakeawayInformation}
                 />
               </Grid>
               <Grid item xs={12} className="bg-[#2D2D2D] mt-4 w-11/12 mx-auto">
