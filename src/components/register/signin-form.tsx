@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import * as _ from 'lodash';
-import { useRegisterMutation } from '@/service/auth';
+import { useRegisterMutation } from '@/services/auth';
 import Button from '../common/button';
 
 interface IUserInputData {

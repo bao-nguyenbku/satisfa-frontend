@@ -20,9 +20,9 @@ import {
   CreateReservation,
   Table,
 } from '@/types/data-types';
-import { reservationApi } from '@/service/reservation';
+import { reservationApi } from '@/services/reservation';
 import dayjs from 'dayjs';
-import { getTablesByFilter } from '@/service/table';
+import { getTablesByFilter } from '@/services/table';
 // import { ChatBotType } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);

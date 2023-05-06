@@ -2,7 +2,7 @@ import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
 import {  ReduxDataType } from '@/types/data-types';
-import { tableApi } from '@/service/table';
+import { tableApi } from '@/services/table';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state

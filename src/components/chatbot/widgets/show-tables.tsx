@@ -1,6 +1,6 @@
 import React from 'react';
 // import { useAppDispatch } from '@/hooks';
-import { useGetTablesByFilterQuery } from '@/service/table';
+import { useGetTablesByFilterQuery } from '@/services/table';
 import Loading from '@/components/common/loading';
 import { useAppSelector } from '@/hooks';
 import { selectBotReservationState } from '@/store/reducer/chatbot';

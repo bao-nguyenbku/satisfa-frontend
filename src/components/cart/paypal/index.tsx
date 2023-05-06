@@ -64,7 +64,7 @@ const Checkout = (props: Props) => {
     });
   };
 
-  //capture likely error
+  // capture likely error
   const onError = (error: any) => {
     toast.error(error);
   };
@@ -93,7 +93,7 @@ const Checkout = (props: Props) => {
   }, [success]);
 
   return (
-    <div className='paypal-button'>
+    <div className="paypal-button">
       <PayPalButtons
         style={{ layout: 'vertical' }}
         createOrder={createOrder}

@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { CreateReservation, TableStatus } from '@/types/data-types';
 
-import { useCreateReservationMutation } from '@/service/reservation';
+import { useCreateReservationMutation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
 

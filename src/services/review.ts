@@ -22,11 +22,21 @@ export const reviewApi = createApi({
         };
       },
     }),
+    createReviewService: build.mutation<Review, any>({
+      query: (body) => {
+        return {
+          url: '/reviews/create',
+          method: 'POST',
+          body,
+        };
+      },
+    }),
   }),
 });
 
 export const {
   useGetReviewsServiceQuery,
+  useCreateReviewServiceMutation,
   util: { getRunningQueriesThunk },
 } = reviewApi;
 

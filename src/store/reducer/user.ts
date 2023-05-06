@@ -5,7 +5,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
-import { authApi } from '@/service/auth';
+import { authApi } from '@/services/auth';
 import { HYDRATE } from 'next-redux-wrapper';
 import { User, ReduxDataType } from '@/types/data-types';
 
