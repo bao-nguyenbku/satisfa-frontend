@@ -23,13 +23,14 @@ const Checkout = (props: Props) => {
   const [orderId, setOrderID] = useState(false);
   const { order } = props;
   const createdOrder = useAppSelector(selectCreatedOrder);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [paidOrder, paidRes] = useCreatePaidOrderServiceMutation();
   // creates a paypal order
   const dispatch = useAppDispatch();
   const createOrder = (data: any, actions: any) => {
     const paypalUnit: PaypalUnit[] = [];
     if (order.data.itemList) {
-      order.data.itemList.forEach((item) => {
+      order.data.itemList.forEach((item: any) => {
         paypalUnit.push({
           reference_id: item.id,
           description: item.name,
@@ -57,14 +58,12 @@ const Checkout = (props: Props) => {
 
   // check Approval
   const onApprove = (data: any, actions: any) => {
-    return actions.order.capture().then(function (details: any) {
-      console.log(order);
-      console.log(details);
+    return actions.order.capture().then(function () {
       setSuccess(true);
     });
   };
 
-  //capture likely error
+  // capture likely error
   const onError = (error: any) => {
     toast.error(error);
   };
@@ -72,7 +71,6 @@ const Checkout = (props: Props) => {
   useEffect(() => {
     if (success) {
       toast.success('Payment with Paypal successfully!');
-      console.log(createdOrder);
       const payment: CreatedOrder = {
         id: createdOrder.id,
         type: order.data.type,
@@ -86,8 +84,6 @@ const Checkout = (props: Props) => {
         },
       };
       paidOrder(payment);
-      console.log(paidRes);
-      console.log('Order successful . Your order id is--', createdOrder.id);
       window.location.href = '/payment-success';
     }
   }, [success]);

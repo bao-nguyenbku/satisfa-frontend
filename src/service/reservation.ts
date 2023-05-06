@@ -17,13 +17,9 @@ export const reservationApi = tableApi.injectEndpoints({
     getAllReservation: build.query<Reservation[], void>({
       query: () => '/reservations',
     }),
-    createReservation: build.mutation<
-      Reservation,
-      Omit<CreateReservation, 'customerId'> & { customerId: string }
-    >({
+    createReservation: build.mutation<Reservation, CreateReservation>({
       // invalidatesTags: ['Reservations'],
       query(body) {
-        console.log(body)
         return {
           url: '/reservations/create',
           method: 'POST',

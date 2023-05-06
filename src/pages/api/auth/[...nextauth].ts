@@ -60,40 +60,65 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
     error: '/login',
   },
+  cookies: {
+    sessionToken: {
+      name: `next-auth-landing.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+    callbackUrl: {
+      name: `next-auth-landing.callback-url`,
+      options: {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+    csrfToken: {
+      name: `next-auth-landing.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'strict',
+        path: '/',
+        secure: true,
+      },
+    },
+  },
   callbacks: {
     jwt: async (params) => {
       const { token, account } = params;
       if (account) {
         token.provider = account.provider;
       }
+
       const response = await axios.post(BASE_URL + '/auth/google', {
-        ...token,
+        email: token.email,
+        fullname: token.name,
         avatar: token.picture,
         id: token.sub,
       });
-      if (response) {
+      if (response && response.status === 201) {
         return {
           ...token,
-          accessToken: response.data.accessToken,
-        }
+          accessToken: response?.data?.accessToken,
+        };
       }
-      
       return token;
     },
     session: async (params) => {
       const { session, token } = params;
-      // console.log('Session: ', {
-      //   session,
-      //   token,
-      //   user,
-      // });
       session.token = token.accessToken as string;
       return session;
     },
-    signIn: async () => {
-      // console.log('🚀 ~ file: [...nextauth].ts:82 ~ signIn: ~ params:', params);
-      return true;
-    },
+    // signIn: async () => {
+    //   // console.log('🚀 ~ file: [...nextauth].ts:82 ~ signIn: ~ params:', params);
+    //   return true;
+    // },
   },
 };
 export default NextAuth(authOptions);

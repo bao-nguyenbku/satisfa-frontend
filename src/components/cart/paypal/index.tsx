@@ -93,7 +93,7 @@ const Checkout = (props: Props) => {
   }, [success]);
 
   return (
-    <div className="paypal-button">
+    <div className='paypal-button'>
       <PayPalButtons
         style={{ layout: 'vertical' }}
         createOrder={createOrder}

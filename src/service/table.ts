@@ -1,4 +1,4 @@
-import { TableFilter, TableType } from '@/types/data-types';
+import { Table, TableFilter, TableType } from '@/types/data-types';
 import { baseQuery } from '@/utils/request';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
@@ -18,7 +18,7 @@ export const tableApi = createApi({
     getAllTable: build.query<TableType[], void>({
       query: () => '/tables',
     }),
-    getTableByFilter: build.query<any, TableFilter | void>({
+    getTablesByFilter: build.query<Table[], TableFilter | void>({
       query: (filter) => {
         return {
           url: '/tables',
@@ -43,8 +43,8 @@ export const tableApi = createApi({
 export const {
   useGetAllTableQuery,
   useUpdateTableMutation,
-  useGetTableByFilterQuery,
+  useGetTablesByFilterQuery,
   util: { getRunningQueriesThunk },
 } = tableApi;
 
-export const { getAllTable, updateTable, getTableByFilter } = tableApi.endpoints;
+export const { getAllTable, updateTable, getTablesByFilter } = tableApi.endpoints;

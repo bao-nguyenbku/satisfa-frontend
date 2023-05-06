@@ -10,18 +10,17 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
   selectBotOrderState,
-  setDate,
-  setTime,
-  setGuest,
+  setReservationDate,
+  setReservationTime,
+  setReservationGuest,
   setOrderItemsThunk,
   setOrderType,
   setTakeawayName,
   setTakeawayPhone,
   setTakeawayTime,
-  resetCreateOrder,
   getReservationByUser,
 } from '@/store/reducer/chatbot';
-import { guestSelect, getTime } from '@/store/reducer/reservation';
+import { getTime, guestSelect } from '@/store/reducer/reservation';
 import dayjs from 'dayjs';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
@@ -39,6 +38,8 @@ import { useCreateOrderServiceMutation } from '@/service/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { IntroductionIndent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
+import { botOrderMessage } from './steps/order';
+
 const introductionIndent = new IntroductionIndent();
 type Props = {
   boxOpen?: boolean;
@@ -53,54 +54,52 @@ const Chatbot = (props: Props) => {
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
   const reserveData = useAppSelector((state) => state.reservation);
-  // const botOrderState = useAppSelector(selectBotOrderState);
   const botOrderState = useAppSelector(selectBotOrderState);
+
+  // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
     if (!botReservationState.steps[1].isComplete) {
       if (isValidDate(message)) {
-        dispatch(setDate(message));
+        dispatch(setReservationDate(message));
         dispatch(getTime(message));
         actions.getTimePicker();
       } else {
-        actions.sendMessage('That is not a valid day, try another answer 😔');
-        actions.getDatePicker({
-          delay: 800,
-        });
+        actions.sendMessage(
+          'That is not a valid day, please type following our syntax 😔',
+        );
+        actions.getDatePicker();
       }
     }
-    // New line
+    // Get time
     else if (!botReservationState.steps[2].isComplete) {
       if (isValidTime(message)) {
-        dispatch(setTime(message));
-        const reserveDate =
-          reserveData.createReservationData.data.date + ' ' + message;
-        dispatch(getTime(dayjs(reserveDate, 'DD-MM-YYYY HH:mm').toISOString()));
-        actions.getGuest(botReservationState.steps[3].text);
+        dispatch(setReservationTime(message));
+        const date = botReservationState.created.date;
+        dispatch(getTime(dayjs(`${date} ${message}`).toISOString()));
+        actions.getGuestPicker();
       } else {
         actions.sendMessage(
-          'That time is invalid. Please type the time following my syntax: hh:mm (E.g: 14:30)',
+          'That time is invalid. Please type the time following our syntax: hh:mm (E.g: 14:30)',
         );
-        actions.getTimePicker(botReservationState.steps[2].text);
+        actions.getTimePicker();
       }
     }
-    // New line
+    // Get number of guest
     else if (!botReservationState.steps[3].isComplete) {
       if (isNumber(message)) {
-        dispatch(setGuest(parseInt(message, 10)));
-        dispatch(guestSelect(parseInt(message, 10)));
-        actions.showTables(botReservationState.steps[4].text);
+        dispatch(setReservationGuest(+message));
+        dispatch(guestSelect(+message));
+        actions.showTables();
       } else {
         actions.sendMessage(
-          'That is not a valid number. Please provide a number for me.',
-          {
-            delay: 400,
-          },
+          'That is not a valid number. Please provide a positive number for me.',
         );
-        actions.getGuest(botReservationState.steps[3].text, {
-          delay: 800,
-        });
+        actions.getReservationGuest();
       }
     }
+    // else if (!botReservationState.steps[4].isComplete) {
+
+    // }
     // Newline
     else {
       actions.sendMessage('OK all fine. Please wait...', {
@@ -109,43 +108,49 @@ const Chatbot = (props: Props) => {
       // actions.unhandleInput();
     }
   };
+
+  // !! HANDLE ORDER FOOD SERVICE !!
   const handleBotOrder = async (message: string) => {
     if (!botOrderState.steps[1].isComplete) {
-      if (message.includes('ok')) {
-        const cartRes = await dispatch(setOrderItemsThunk()).unwrap();
-        if (cartRes && cartRes.itemList.length === 0) {
-          actions.sendMessage(
-            'Your cart is empty, so I can make an order for you. Please pick some food to continue',
-          );
-        } else if (cartRes && cartRes.itemList.length > 0) {
-          actions.sendMessage('I am confirming your cart');
-          actions.sendWidget(<ShowCart data={cartRes.itemList} />);
-          actions.sendMessage(botOrderState.steps[2].text, {
-            delay: 600,
-          });
-        }
+      if (!message.includes('ok')) {
+        actions.unhandleInput();
+        return;
+      }
+      const cartRes = await dispatch(setOrderItemsThunk()).unwrap();
+      if (cartRes && cartRes.itemList.length === 0) {
+        actions.sendMessage(
+          'Your cart is empty, so I can make an order for you. Please pick some food to continue',
+        );
+      } else if (cartRes && cartRes.itemList.length > 0) {
+        actions.sendMessage('I am confirming your cart');
+        actions.sendWidget(<ShowCart data={cartRes.itemList} />);
+        actions.sendMessage(botOrderMessage[2].text, {
+          delay: 600,
+        });
       }
     }
     // Choose OrderType
     else if (!botOrderState.steps[2].isComplete) {
+      if (!/^takeaway$/.test(message) && !/^dine in$/.test(message)) {
+        actions.unhandleInput();
+        return;
+      }
       if (/^takeaway$/.test(message)) {
         dispatch(setOrderType(OrderType.TAKEAWAY));
-        actions.sendMessage(botOrderState.steps[5].text);
+        actions.sendMessage(botOrderMessage[5].text);
       }
       // In case choose dine-in option
       else if (/^dine in$/.test(message)) {
         dispatch(setOrderType(OrderType.DINE_IN));
         const reservation = await dispatch(getReservationByUser()).unwrap();
         if (reservation && _.isArray(reservation) && reservation.length === 0) {
-          actions.sendMessage(botOrderState.steps[4].text);
-        }
-        //
-        else if (
+          actions.sendMessage(botOrderMessage[4].text);
+        } else if (
           reservation &&
           _.isArray(reservation) &&
           reservation.length > 0
         ) {
-          actions.sendMessage(botOrderState.steps[3].text, {
+          actions.sendMessage(botOrderMessage[3].text, {
             widget: <ChooseReservation data={reservation} />,
           });
         }
@@ -157,7 +162,7 @@ const Chatbot = (props: Props) => {
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
       dispatch(setTakeawayName(message));
-      actions.sendMessage(botOrderState.steps[6].text);
+      actions.sendMessage(botOrderMessage[6].text);
     }
     // Takeaway case, handle getting phone of tempCustomer
     else if (
@@ -166,7 +171,7 @@ const Chatbot = (props: Props) => {
     ) {
       if (isValidPhoneNumber(message)) {
         dispatch(setTakeawayPhone(message));
-        actions.sendMessage(botOrderState.steps[7].text);
+        actions.sendMessage(botOrderMessage[7].text);
       } else {
         actions.sendMessage(
           'That is invalid phone number. Please type again😔',
@@ -178,7 +183,7 @@ const Chatbot = (props: Props) => {
     ) {
       if (isValidDatetime(message)) {
         dispatch(setTakeawayTime(message));
-        actions.sendMessage(botOrderState.steps[8].text, {
+        actions.sendMessage(botOrderMessage[8].text, {
           widget: <ShowConfirmationOrder />,
         });
       } else {
@@ -187,7 +192,7 @@ const Chatbot = (props: Props) => {
         );
       }
     }
-    // Confirm order information
+    // Confirm order Takeaway
     else if (
       !botOrderState.steps[8].isComplete &&
       botOrderState.created.type === OrderType.TAKEAWAY
@@ -198,7 +203,9 @@ const Chatbot = (props: Props) => {
         delete createBotOrderData.customerId;
         createOrder(createBotOrderData);
       }
-    } else if (
+    }
+    // Confirm Order dine-in
+    else if (
       !botOrderState.steps[8].isComplete &&
       botOrderState.created.type === OrderType.DINE_IN
     ) {
@@ -218,8 +225,12 @@ const Chatbot = (props: Props) => {
 
     if (lowerCaseMessage.includes('help')) {
       actions.askForHelp();
-    } else if (introductionIndent.isValid(lowerCaseMessage)) {
+      actions.resetService();
+    } 
+    // Say Hello
+    else if (introductionIndent.isValid(lowerCaseMessage)) {
       actions.introduce();
+      actions.resetService();
     }
     // Handle Reservation
     else if (botService === BotService.RESERVATION) {
@@ -251,7 +262,7 @@ const Chatbot = (props: Props) => {
           <strong>#{createOrderRes.data.id}</strong>
         </p>,
       );
-      dispatch(resetCreateOrder());
+      // dispatch(resetCreateOrder());
     }
   }, [createOrderRes]);
 
