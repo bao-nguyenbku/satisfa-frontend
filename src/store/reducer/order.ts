@@ -9,12 +9,14 @@ import { HYDRATE } from 'next-redux-wrapper';
 import {
   CartItem,
   ReduxDataType,
-  IReservationData,
+  Reservation,
   OrderType,
   Order,
   PaymentType,
   PaymentStatus,
   CreatedOrder,
+  TakeawayCustomer,
+  CreateOrder
 } from '@/types/data-types';
 import { createOrderService } from '@/service/order';
 // import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
@@ -24,11 +26,12 @@ const hydrate = createAction<RootState>(HYDRATE);
 interface OrderState {
   createOrder: Omit<ReduxDataType, 'data'> & {
     data: {
-      reservation: IReservationData;
+      reservation: Reservation;
       itemList: CartItem[];
       totalCost: number;
       type: OrderType;
       paymentType: PaymentType;
+      customerId?: TakeawayCustomer | string;
     };
   };
   createdOrder: CreatedOrder;
@@ -38,11 +41,12 @@ interface OrderState {
 const initialState: OrderState = {
   createOrder: {
     data: {
-      reservation: {} as IReservationData,
+      reservation: {} as Reservation,
       itemList: [],
       totalCost: 0,
       type: OrderType.DINE_IN,
       paymentType: PaymentType.CASH,
+      customerId: {} as TakeawayCustomer,
     },
     isLoading: false,
     isSuccess: false,
@@ -70,15 +74,20 @@ export const createOrderThunk = createAsyncThunk<
   'order/createOrderThunk',
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
+      const data = getState()?.order?.createOrder.data;
+      const createOrderData: CreateOrder = {
+        reservationId: data.reservation?.id,
+        items: data?.itemList,
+        totalCost: data?.totalCost,
+        type: data?.type,
+      };
+      if (data.type === OrderType.TAKEAWAY) {
+        createOrderData.tempCustomer = data.customerId as TakeawayCustomer;
+      } else if (data.type === OrderType.DINE_IN) {
+        createOrderData.customerId = data?.reservation.customerId?.id;
+      }
       const result = await dispatch(
-        createOrderService.initiate({
-          reservationId: getState()?.order?.createOrder?.data.reservation.id,
-          customerId:
-            getState()?.order?.createOrder?.data?.reservation.customerId,
-          items: getState()?.order?.createOrder?.data?.itemList,
-          totalCost: getState()?.order?.createOrder?.data?.totalCost,
-          type: getState()?.order?.createOrder?.data?.type,
-        }),
+        createOrderService.initiate(createOrderData)
       ).unwrap();
       return result;
     } catch (error) {
@@ -107,10 +116,18 @@ export const orderSlice = createSlice({
     setPaymentType: (state, action) => {
       state.createOrder.data.paymentType = action.payload;
     },
+    setTakeawayInformation: (
+      state,
+      action: PayloadAction<TakeawayCustomer>
+    ) => {
+      if (state.createOrder.data.type === OrderType.TAKEAWAY) {
+        state.createOrder.data.customerId = action.payload;
+      }
+    },
     reset: (state) => {
       state.createOrder = {
         data: {
-          reservation: {} as IReservationData,
+          reservation: {} as Reservation,
           itemList: [],
           totalCost: 0,
           type: OrderType.DINE_IN,
@@ -145,8 +162,7 @@ export const orderSlice = createSlice({
         state.createdOrder.paymentStatus = PaymentStatus.PAID;
         state.createdOrder.paymentData.info.totalCost =
           action.payload.totalCost;
-        state.createdOrder.paymentData.info.totalPay =
-          action.payload.totalCost;
+        state.createdOrder.paymentData.info.totalPay = action.payload.totalCost;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
         state.createOrder.isLoading = false;
@@ -164,6 +180,7 @@ export const {
   reset,
   setOrderType,
   setPaymentType,
+  setTakeawayInformation
 } = orderSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

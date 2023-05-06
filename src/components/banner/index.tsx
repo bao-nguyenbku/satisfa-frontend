@@ -30,7 +30,7 @@ const HomePage: NextPageWithLayout = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 0.5, ease: 'easeOut' }}>
-        <h1 className="text-white z-10 text-7xl leading-[100px] mx-auto uppercase">
+        <h1 className="text-white z-10 text-7xl lg:text-7xl leading-[100px] lg:leading-[120px] mx-auto uppercase">
           We serve <br /> your high expectation <br />
           Of delicious taste of food
         </h1>

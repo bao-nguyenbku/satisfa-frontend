@@ -130,7 +130,7 @@ export type OrderFilter = {
 };
 export type TakeawayCustomer = {
   name: string;
-  phone: string;
+  phone: number;
   takingTime: string;
 };
 export type CreateOrder = Omit<
@@ -146,6 +146,7 @@ export type CreateOrder = Omit<
   reservationId?: string;
   customerId?: string;
   tempCustomer?: TakeawayCustomer;
+  type: OrderType;
 };
 
 export type Order = {
@@ -176,6 +177,7 @@ export type Reservation = {
   numberOfGuests: number;
   note: string;
 };
+
 
 export type CreatePayment = {
   orderId: string;
