@@ -17,7 +17,7 @@ import {
   selectCreatedOrder,
   setTakeawayInformation
 } from '@/store/reducer/order';
-import { useCreatePaidOrderServiceMutation } from '@/service/order';
+import { useCreatePaidOrderServiceMutation } from '@/services/order';
 import {  Reservation, PaymentType, TakeawayCustomer } from '@/types/data-types';
 import { selectAllItem, selectTotalCost } from '@/store/reducer/cart';
 
