@@ -24,14 +24,7 @@ export type CreateReservation = Omit<Reservation, 'id' | 'customerId' | 'tableId
   customerId: string;
   tableId: string;
 }
-export type Reservation = {
-  id: string;
-  customerId: User;
-  tableId: Table;
-  date: string;
-  numberOfGuests: number;
-  note: string;
-};
+
 
 export type ReservationFilter = {
   date?: string;
@@ -137,7 +130,7 @@ export type OrderFilter = {
 };
 export type TakeawayCustomer = {
   name: string;
-  phone: string;
+  phone: number;
   takingTime: string;
 };
 export type CreateOrder = Omit<
@@ -153,6 +146,7 @@ export type CreateOrder = Omit<
   reservationId?: string;
   customerId?: string;
   tempCustomer?: TakeawayCustomer;
+  type: OrderType;
 };
 
 export type Order = {
@@ -174,6 +168,16 @@ export type Table = {
   numberOfSeat: number;
   reservations: Reservation[];
 };
+
+export type Reservation = {
+  id: string;
+  customerId: User;
+  tableId: Table;
+  date: string;
+  numberOfGuests: number;
+  note: string;
+};
+
 
 export type CreatePayment = {
   orderId: string;
