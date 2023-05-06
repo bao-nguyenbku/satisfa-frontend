@@ -49,7 +49,7 @@ const MessageInput = (props: Props) => {
       <input
         className={`flex-1 focus:outline-none h-full text-white bg-transparent ${
           isDisaleInput(isTyping) ? 'placeholder:text-gray-700' : 'placeholder:text-white/60'
-        } text-xl`}
+        }`}
         placeholder="Aa"
         autoFocus
         disabled={isDisaleInput(isTyping)}

@@ -67,8 +67,43 @@ const initialState: ChatbotState = {
         text: 'I saw your order cart. Would you like to dine-in or takeaway? (type "dine in" or "takeaway")',
         isComplete: false,
       },
+      3: {
+        text: 'Please choose your reservation.',
+        isComplete: false,
+      },
+      4: {
+        text: 'Sorry, you do not have any reservation. Please make a reservation first or takeaway the order.',
+        isComplete: false,
+      },
+      5: {
+        text: 'Ok. I need some information to complete the order. What is your name?',
+        isComplete: false,
+      },
+      6: {
+        text: 'What is your phone number? This will be phone number we contact you about the order',
+        isComplete: false,
+      },
+      7: {
+        text: 'What time can you arrive to restaurant to take order away? type the date to box following syntax: dd/mm/yyyy hh:mm (24-hour format). E.g: 25/04/2023 14:30',
+        isComplete: false,
+      },
+      8: {
+        text: 'Ok. I am confirming your order. Now, please look at widget below on the chat area. If the order information is right, type ok',
+        isComplete: false,
+      },
     },
-    created: {}
+    created: {
+      reservationId: '',
+      customerId: '',
+      items: [],
+      totalCost: 0,
+      type: OrderType.DINE_IN,
+      tempCustomer: {
+        name: '',
+        phone: '',
+        takingTime: '',
+      },
+    },
   },
 };
 // export const createReservation = createAsyncThunk(
