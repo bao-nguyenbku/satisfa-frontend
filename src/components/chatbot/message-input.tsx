@@ -13,8 +13,8 @@ type Props = {
   boxOpen?: boolean;
 };
 
-const isDisaleInput = (...condition: [boolean | undefined]) => {
-  if (condition.some((cond) => cond === true)) return true;
+const isDisaleInput = (...condition: any[]) => {
+  if (condition.some((cond) => Boolean(cond) === true)) return true;
   return false;
 };
 const MessageInput = (props: Props) => {
@@ -32,6 +32,7 @@ const MessageInput = (props: Props) => {
   };
 
   const handleKeyPress = (e: KeyDownEvent) => {
+    if (text === '') return;
     if (e.key === 'Enter') {
       onSubmit();
     }
@@ -48,7 +49,9 @@ const MessageInput = (props: Props) => {
       } h-14 rounded-full`}>
       <input
         className={`flex-1 focus:outline-none h-full text-white bg-transparent ${
-          isDisaleInput(isTyping) ? 'placeholder:text-gray-700' : 'placeholder:text-white/60'
+          isDisaleInput(isTyping)
+            ? 'placeholder:text-gray-700'
+            : 'placeholder:text-white/60'
         }`}
         placeholder="Aa"
         autoFocus
@@ -61,7 +64,7 @@ const MessageInput = (props: Props) => {
       <IconButton
         className="hover:bg-white/30 disabled:text-gray-700 text-white"
         onClick={onSubmit}
-        disabled={isDisaleInput(isTyping)}>
+        disabled={isDisaleInput(isTyping) || text === ''}>
         <SendIcon className="text-inherit" />
       </IconButton>
     </div>

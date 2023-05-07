@@ -1,10 +1,7 @@
 import { Button } from '@mui/material';
 import React, { useEffect } from 'react';
-
 import { useAppDispatch, useAppSelector } from '@/hooks';
-
 import { CreateReservation, TableStatus } from '@/types/data-types';
-
 import { useCreateReservationMutation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
@@ -24,7 +21,7 @@ type Props = {
 const reserveData: Omit<CreateReservation, 'customerId'> & {customerId: string} = {
   tableId: '63fb319e765710c5bae252f0',
   date: new Date().toString(),
-  note: 'tran chau duong den',
+  note: '',
   numberOfGuests: 0,
   customerId: '63d8a95cf26dede7b8ee5030',
 };

@@ -6,6 +6,7 @@ import { baseQuery } from '@/utils/request';
 export const orderApi = createApi({
   reducerPath: 'orderApi',
   baseQuery,
+  refetchOnFocus: true,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
@@ -13,6 +14,13 @@ export const orderApi = createApi({
   },
   tagTypes: ['Order'],
   endpoints: (build) => ({
+    getAllOrderByCurrentUser: build.query<Order[], void>({
+      query: () => {
+        return {
+          url: '/orders/current-user',
+        };
+      },
+    }),
     createOrderService: build.mutation<Order, CreateOrder>({
       query: (body) => {
         return {
@@ -24,7 +32,6 @@ export const orderApi = createApi({
     }),
     createPaidOrderService: build.mutation<any, any>({
       query: (body) => {
-        console.log(body)
         const { id, ...rest } = body;
         return {
           url: `/orders/${id}/paid`,
@@ -45,14 +52,15 @@ export const orderApi = createApi({
       },
     }),
   }),
-  refetchOnFocus: true,
 });
 
 export const {
   useCreateOrderServiceMutation,
   useUpdateOrderServiceMutation,
+  useGetAllOrderByCurrentUserQuery,
   useCreatePaidOrderServiceMutation,
   util: { getRunningQueriesThunk },
 } = orderApi;
 
-export const { createOrderService, createPaidOrderService } = orderApi.endpoints;
+export const { createOrderService, createPaidOrderService } =
+  orderApi.endpoints;

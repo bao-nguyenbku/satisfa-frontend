@@ -20,6 +20,7 @@ export default function DatePicker(props: Props) {
   }, [inputReference]);
 
   const handleChange = (newValue: Dayjs | null) => {
+    if (!dayjs(newValue).isValid()) return;
     onChange(dayjs(newValue));
   };
 
