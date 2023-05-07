@@ -9,6 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useGetAllTableQuery } from '@/services/table';
 import { getTablesByFilter } from '@/store/reducer/table';
 import { TableType } from '@/types/data-types';
+import { toast } from 'react-toastify';
 
 const Reservation = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +25,14 @@ const Reservation = () => {
   }, [bookingData.data.date, bookingData.data.numberOfGuests]);
 
   const handleChange = (newValue: Dayjs | null) => {
-    if (newValue) {
+    //  check if time is a vailable
+    const currentDate = new Date();
+    if (newValue && (newValue < dayjs(currentDate))){
+      toast.warning('You are picking a Date that not available. Time will be set to Today');
+      dispatch(getTime(currentDate.toISOString()))
+      return;
+    }
+    if (newValue && (newValue >= dayjs(currentDate))) {
       dispatch(getTime(newValue.toISOString()));
     }
   };

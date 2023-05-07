@@ -59,9 +59,19 @@ const Chatbot = (props: Props) => {
   // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
     if (!botReservationState.steps[1].isComplete) {
+      const currentDate = new Date();
       if (isValidDate(message)) {
-        dispatch(setReservationDate(message));
-        dispatch(getTime(message));
+        if (dayjs(message) && dayjs(message) < dayjs(currentDate)) {
+          toast.warning(
+            'You are picking a Date that not available. Time will be set to Today',
+          );
+          dispatch(getTime(currentDate.toISOString()));
+          dispatch(setReservationDate(currentDate.toISOString()));
+        } else {
+          dispatch(setReservationDate(message));
+          dispatch(getTime(dayjs(message, 'DD/MM/YYYY').toISOString()));
+        }
+
         actions.getTimePicker();
       } else {
         actions.sendMessage(
@@ -73,10 +83,17 @@ const Chatbot = (props: Props) => {
     // Get time
     else if (!botReservationState.steps[2].isComplete) {
       if (isValidTime(message)) {
-        dispatch(setReservationTime(message));
-        const date = botReservationState.created.date;
-        dispatch(getTime(dayjs(`${date} ${message}`).toISOString()));
-        actions.getGuestPicker();
+        if (message >= '22:00' || message < '08:00') {
+          toast.warning('Please choose time from 08:00 AM to 22:00 PM');
+          actions.getTimePicker();
+        } else {
+          dispatch(setReservationTime(message));
+          const date = botReservationState.created.date;
+          dispatch(
+            getTime(dayjs(`${date} ${message}`, 'DD/MM/YYYY').toISOString()),
+          );
+          actions.getGuestPicker();
+        }
       } else {
         actions.sendMessage(
           'That time is invalid. Please type the time following our syntax: hh:mm (E.g: 14:30)',
@@ -94,7 +111,7 @@ const Chatbot = (props: Props) => {
         actions.sendMessage(
           'That is not a valid number. Please provide a positive number for me.',
         );
-        actions.getReservationGuest();
+        actions.getGuestPicker();
       }
     }
     // else if (!botReservationState.steps[4].isComplete) {
@@ -226,7 +243,7 @@ const Chatbot = (props: Props) => {
     if (lowerCaseMessage.includes('help')) {
       actions.askForHelp();
       actions.resetService();
-    } 
+    }
     // Say Hello
     else if (introductionIndent.isValid(lowerCaseMessage)) {
       actions.introduce();

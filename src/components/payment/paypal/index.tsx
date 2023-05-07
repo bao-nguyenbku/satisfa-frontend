@@ -70,6 +70,7 @@ const Checkout = (props: Props) => {
        */
     return actions.order.capture().then(function (details: any) {
       const { payer } = details
+      console.log(payer)
       setSuccess(true);
     });
   };

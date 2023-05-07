@@ -7,7 +7,7 @@ import {
 import { reservationApi } from '@/services/reservation';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
-import { ReduxDataType, ICreateReservation } from '@/types/data-types';
+import { ReduxDataType, CreateReservation } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
@@ -15,7 +15,7 @@ const hydrate = createAction<RootState>(HYDRATE);
 interface ReservationState {
   reservationListByFilter: ReduxDataType;
   createReservationData: Omit<ReduxDataType, 'data'> & {
-    data: Omit<ICreateReservation, 'customerId'> & { customerId: string };
+    data: CreateReservation;
     code: string;
   };
 }
