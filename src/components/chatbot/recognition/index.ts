@@ -41,6 +41,7 @@ class Indent {
           'watch menu',
           'today menu',
           'show menu',
+          'see menu'
         ],
         action: actions.suggestMenu,
       },

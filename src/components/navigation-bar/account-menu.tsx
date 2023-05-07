@@ -27,7 +27,7 @@ export default function AccountMenu(props: Props) {
     {
       title: 'My reservations',
       icon: <Settings />,
-      link: '/me/orders',
+      link: '/me/reservations',
     },
     {
       title: 'Sign out',

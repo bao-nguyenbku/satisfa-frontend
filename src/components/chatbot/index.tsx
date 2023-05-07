@@ -143,15 +143,17 @@ const Chatbot = (props: Props) => {
       }
       // In case choose dine-in option
       else if (/^dine in$/.test(message)) {
-        dispatch(setOrderType(OrderType.DINE_IN));
         const reservation = await dispatch(getReservationByUser()).unwrap();
         if (reservation && _.isArray(reservation) && reservation.length === 0) {
           actions.sendMessage(botOrderMessage[4].text);
-        } else if (
+        } 
+        
+        else if (
           reservation &&
           _.isArray(reservation) &&
           reservation.length > 0
-        ) {
+          ) {
+          dispatch(setOrderType(OrderType.DINE_IN));
           actions.sendMessage(botOrderMessage[3].text, {
             widget: <ChooseReservation data={reservation} />,
           });

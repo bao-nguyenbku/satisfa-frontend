@@ -3,7 +3,6 @@ import React, { useRef, useEffect } from 'react';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TextField } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
-
 import styles from '@/components/reservation/styles.module.scss';
 
 type Props = {
@@ -14,7 +13,6 @@ type Props = {
 export default function DatePicker(props: Props) {
   const inputReference = useRef<HTMLInputElement>(null);
   const { value, onChange } = props;
-
   useEffect(() => {
     inputReference.current?.focus();
   }, [inputReference]);

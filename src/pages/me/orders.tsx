@@ -1,5 +1,4 @@
 import React from 'react';
-import MainLayout from '@/layout/main';
 import { useGetAllOrderByCurrentUserQuery } from '@/services/order';
 import Loading from '@/components/common/loading';
 
@@ -15,4 +14,4 @@ export default function MyOrdersPage() {
   );
 }
 
-MyOrdersPage.getLayout = (page: any) => <MainLayout>{page}</MainLayout>;
+// MyOrdersPage.getLayout = (page: any) => <MainLayout>{page}</MainLayout>;
