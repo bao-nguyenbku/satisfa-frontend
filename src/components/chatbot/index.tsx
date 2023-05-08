@@ -163,13 +163,11 @@ const Chatbot = (props: Props) => {
         const reservation = await dispatch(getReservationByUser()).unwrap();
         if (reservation && _.isArray(reservation) && reservation.length === 0) {
           actions.sendMessage(botOrderMessage[4].text);
-        } 
-        
-        else if (
+        } else if (
           reservation &&
           _.isArray(reservation) &&
           reservation.length > 0
-          ) {
+        ) {
           dispatch(setOrderType(OrderType.DINE_IN));
           actions.sendMessage(botOrderMessage[3].text, {
             widget: <ChooseReservation data={reservation} />,
@@ -198,7 +196,9 @@ const Chatbot = (props: Props) => {
           'That is invalid phone number. Please type again😔',
         );
       }
-    } else if (
+    }
+    // Takeaway case, handle getting taking time of tempCustomer
+    else if (
       !botOrderState.steps[7].isComplete &&
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
@@ -234,6 +234,8 @@ const Chatbot = (props: Props) => {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.tempCustomer;
         createOrder(createBotOrderData);
+      } else {
+        actions.unhandleInput();
       }
     } else {
       actions.unhandleInput();

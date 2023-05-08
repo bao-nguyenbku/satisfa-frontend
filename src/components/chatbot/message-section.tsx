@@ -20,7 +20,7 @@ const MessageSection = (props: Props) => {
         behavior: 'smooth',
       });
     }
-  }, [messages, sectionRef]);
+  }, [messages, sectionRef, isTyping]);
   return (
     <div
       className="w-full overflow-y-scroll overflow-x-hidden flex flex-col gap-6 px-2 mt-auto"

@@ -15,7 +15,11 @@ const hydrate = createAction<RootState>(HYDRATE);
 interface ReservationState {
   reservationListByFilter: ReduxDataType;
   createReservationData: Omit<ReduxDataType, 'data'> & {
+<<<<<<< HEAD
     data: CreateReservation;
+=======
+    data: Omit<CreateReservation, 'customerId'> & { customerId: string };
+>>>>>>> 4aa73fa51164b4296de95a2d6daa36dc374c4742
     code: string;
   };
 }
@@ -47,7 +51,7 @@ export const getReservationByFilter = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await dispatch(
-        reservationApi.endpoints.getReservationByFilter.initiate(),
+        reservationApi.endpoints.getReservationByFilter.initiate({}),
       );
       return data;
     } catch (error) {

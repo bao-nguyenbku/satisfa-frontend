@@ -14,7 +14,6 @@ import {
 import { getItemList, saveTotalCost } from '@/store/reducer/order';
 import { formatCurrency } from '@/utils';
 import { useRouter } from 'next/router';
-import { hasCookie, getCookie } from 'cookies-next';
 import { CartItem } from '@/types/data-types';
 
 const isCartEmpty = (cartItems: CartItem[]) => {
@@ -27,13 +26,10 @@ export default function CartDetail() {
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
   const router = useRouter();
-  const temp = getCookie('myCart');
 
   useEffect(() => {
-    if (hasCookie('myCart')) {
-      dispatch(setCookieToCart());
-    }
-  }, [temp]);
+    dispatch(setCookieToCart());
+  }, []);
 
   const onIncrease = (id: string) => {
     dispatch(increaseQty(id));
