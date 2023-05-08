@@ -1,21 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-import { TableStatus } from '@/types/data-types';
+import { Table, TableStatus } from '@/types/data-types';
 
 import { Popover } from '@mui/material';
 
 import BookingCard from '../booking-card';
 
-type TableProps = {
-  code: string;
-  status: TableStatus;
-  numberOfSeats: number;
-  id: string;
-  _id: string;
-};
-
 type Props = {
-  table: TableProps;
+  table: Table;
 };
 
 const getStylesByStatus = (status: string) => {
@@ -120,7 +112,7 @@ const TableModel = (props: Props) => {
             <div
               key={item}
               className={`${
-                getStylesByStatus(table.status).bg
+                getStylesByStatus(TableStatus.FREE).bg
               } w-16 h-16 bg-green-500 rounded-full`}></div>
           ))}
         </div>
@@ -131,7 +123,7 @@ const TableModel = (props: Props) => {
             {table.code}
           </h2>
           <h1 className="text-white font-bold text-center normal-case">
-            {getStylesByStatus(table.status).title}
+            {getStylesByStatus(TableStatus.FREE).title}
           </h1>
         </div>
       </button>

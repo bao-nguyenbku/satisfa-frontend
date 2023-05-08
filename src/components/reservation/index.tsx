@@ -8,7 +8,7 @@ import { getTime } from '@/store/reducer/reservation';
 import dayjs, { Dayjs } from 'dayjs';
 import { useGetAllTableQuery } from '@/services/table';
 import { getTablesByFilter } from '@/store/reducer/table';
-import { TableType } from '@/types/data-types';
+import { Table } from '@/types/data-types';
 import { toast } from 'react-toastify';
 
 const Reservation = () => {
@@ -53,7 +53,7 @@ const Reservation = () => {
         <GuestCounter amount={bookingData.data.numberOfGuests} />
       </div>
       <div className="pt-10 flex gap-36 flex-wrap items-center justify-center overflow-hidden">
-        {filterTables?.map((table: TableType) => (
+        {filterTables?.map((table: Table) => (
           <TableModel table={table} key={table.id} />
         ))}
       </div>
