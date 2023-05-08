@@ -40,6 +40,7 @@ const ReserveInformation = (props: Props) => {
       </div>
     );
   }
+  return <></>;
 };
 export default function ShowConfirmationOrder() {
   const createOrderData = useAppSelector(selectCreateBotOrderData);
@@ -58,7 +59,7 @@ export default function ShowConfirmationOrder() {
           );
         })}
       </div>
-      {<ReserveInformation data={data} />}
+      <ReserveInformation data={data} />
     </div>
   );
 }

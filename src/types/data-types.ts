@@ -20,11 +20,13 @@ export type ChatBotType = {
   re_type: string;
 };
 
-export type CreateReservation = Omit<Reservation, 'id' | 'customerId' | 'tableId'> & {
+export type CreateReservation = Omit<
+  Reservation,
+  'id' | 'customerId' | 'tableId'
+> & {
   customerId: string;
   tableId: string;
-}
-
+};
 
 export type ReservationFilter = {
   date?: string;
@@ -32,7 +34,6 @@ export type ReservationFilter = {
   currentDate?: boolean;
   currentUser?: boolean;
 };
-
 
 export type TableFilter = {
   minSeat?: number;
@@ -52,7 +53,6 @@ export type Product = {
 export type CartItem = Product & {
   qty: number;
 };
-
 
 export type Review = {
   id: string;
@@ -119,7 +119,7 @@ export type OrderFilter = {
 };
 export type TakeawayCustomer = {
   name: string;
-  phone: number;
+  phone: number | string;
   takingTime: string;
 };
 export type CreateOrder = Omit<
@@ -167,7 +167,6 @@ export type Reservation = {
   note: string;
 };
 
-
 export type CreatePayment = {
   orderId: string;
   info: PaymentCash;
@@ -210,7 +209,9 @@ interface PayPalScriptDataAttributes {
   'data-client-token'?: string;
 }
 
-export interface PayPalScriptOptions extends PayPalScriptQueryParameters, PayPalScriptDataAttributes {
+export interface PayPalScriptOptions
+  extends PayPalScriptQueryParameters,
+    PayPalScriptDataAttributes {
   [key: string]: string | boolean | undefined;
   sdkBaseURL?: string;
 }

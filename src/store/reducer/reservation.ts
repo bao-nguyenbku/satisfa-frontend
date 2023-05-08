@@ -91,7 +91,7 @@ export const reservationSlice = createSlice({
       })
       .addCase(getReservationByFilter.rejected, (state, action) => {
         state.reservationListByFilter.isLoading = false;
-        state.reservationListByFilter.error = action.payload;
+        state.reservationListByFilter.error = action.payload as any;
       });
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper

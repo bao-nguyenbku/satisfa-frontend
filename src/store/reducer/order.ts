@@ -167,7 +167,7 @@ export const orderSlice = createSlice({
       .addCase(createOrderThunk.rejected, (state, action) => {
         state.createOrder.isLoading = false;
         state.createOrder.isSuccess = false;
-        state.createOrder.error = action.payload;
+        state.createOrder.error = action.payload as any;
       });
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper

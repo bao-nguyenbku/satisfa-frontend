@@ -15,7 +15,7 @@ export const tableApi = createApi({
     }
   },
   endpoints: (build) => ({
-    getAllTable: build.query<Tabl[], void>({
+    getAllTable: build.query<Table[], void>({
       query: () => '/tables',
     }),
     getTablesByFilter: build.query<Table[], TableFilter | void>({

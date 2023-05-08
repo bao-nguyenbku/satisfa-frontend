@@ -15,16 +15,16 @@ import {
   setPaymentType,
   createOrderThunk,
   selectCreatedOrder,
-  setTakeawayInformation
+  setTakeawayInformation,
 } from '@/store/reducer/order';
 import { useCreatePaidOrderServiceMutation } from '@/services/order';
-import {  Reservation, PaymentType, TakeawayCustomer } from '@/types';
+import { Reservation, PaymentType, TakeawayCustomer } from '@/types';
 import { selectAllItem, selectTotalCost } from '@/store/reducer/cart';
 
 export default function Payment() {
   const dispatch = useAppDispatch();
   const createOrder = useAppSelector(selectCreateOrder);
-  const createdOrder = useAppSelector(selectCreatedOrder)
+  const createdOrder = useAppSelector(selectCreatedOrder);
   const orderInfo = createOrder.data;
   const userInfo = useAppSelector((state) => state.user.data);
   const filterReservation = useGetReservationByFilterQuery({
@@ -52,13 +52,16 @@ export default function Payment() {
     dispatch(createOrderThunk());
   };
   useEffect(() => {
-    if (createOrder.isSuccess && !createOrder.isLoading && !createOrder.error && (createOrder.data.paymentType != PaymentType.CREDIT)) {
-
+    if (
+      createOrder.isSuccess &&
+      !createOrder.isLoading &&
+      !createOrder.error &&
+      createOrder.data.paymentType != PaymentType.CREDIT
+    ) {
       createPaidOrder(createdOrder);
       window.location.href = '/payment-success';
-
     }
-  }, [createOrder])
+  }, [createOrder]);
 
   return (
     <div className="menu-page bg-dark-theme h-full">
@@ -75,7 +78,7 @@ export default function Payment() {
                 <UserPaymentInfo
                   orderInfo={orderInfo}
                   userInfo={userInfo}
-                  reservationList={filterReservation?.data}
+                  reservationList={filterReservation?.data as Reservation[]}
                   onReservationChange={handleSetReservation}
                   onTakeawayChange={handleTakeawayInformation}
                 />
@@ -96,7 +99,11 @@ export default function Payment() {
             xs={5}
             marginLeft={4}
             className="order-detail bg-[#2D2D2D] h-full p-0">
-            <OrderDetailPayment orderInfo={createOrder} onPlaceOrder={handlePlaceOrder} isCreated={createOrder.isSuccess}/>
+            <OrderDetailPayment
+              orderInfo={createOrder}
+              onPlaceOrder={handlePlaceOrder}
+              isCreated={createOrder.isSuccess as boolean}
+            />
           </Grid>
         </Grid>
       </div>

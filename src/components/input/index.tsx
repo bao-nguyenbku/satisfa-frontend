@@ -35,6 +35,7 @@ const Input = (props: Props) => {
       <input
         type={type}
         name={name}
+        autoComplete="new-password"
         className={`${defaultClasses} ${
           error ? errorClasses : 'border-gray-600'
         }`}
