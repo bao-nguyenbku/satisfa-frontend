@@ -18,7 +18,6 @@ const Button = (props: Props) => {
         fontWeight: primaryFont.style.fontWeight,
         fontSize: primaryFont.style.fontStyle,
         textTransform: 'none',
-        borderRadius: 0,
         paddingLeft: 8,
         paddingRight: 8,
       }}>

@@ -36,7 +36,6 @@ export const tableApi = createApi({
       },
       invalidatesTags: ['Reservations'],
     }),
-  
   }),
 });
 
@@ -47,4 +46,5 @@ export const {
   util: { getRunningQueriesThunk },
 } = tableApi;
 
-export const { getAllTable, updateTable, getTablesByFilter } = tableApi.endpoints;
+export const { getAllTable, updateTable, getTablesByFilter } =
+  tableApi.endpoints;

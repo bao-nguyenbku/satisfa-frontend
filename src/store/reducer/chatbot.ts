@@ -19,6 +19,7 @@ import {
   ErrorType,
   CreateReservation,
   Table,
+  DATE_INPUT_FORMAT,
 } from '@/types';
 import { reservationApi } from '@/services/reservation';
 import dayjs from 'dayjs';
@@ -191,6 +192,7 @@ export const chatbotSlice = createSlice({
       const date = state.reservation.created.date;
       state.reservation.created.date = dayjs(
         `${date} ${action.payload}`,
+        DATE_INPUT_FORMAT,
       ).toISOString();
       state.reservation.steps[2].isComplete = true;
     },

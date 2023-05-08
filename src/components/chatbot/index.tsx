@@ -33,7 +33,7 @@ import {
 } from '@/utils';
 import { toast } from 'react-toastify';
 import ShowCart from './widgets/show-cart';
-import { OrderType, QueryStatus } from '@/types';
+import { DATE_INPUT_FORMAT, OrderType, QueryStatus } from '@/types';
 import { useCreateOrderServiceMutation } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { Indent } from './recognition';
@@ -52,7 +52,6 @@ const Chatbot = (props: Props) => {
   }, [actions]);
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
-  // const [currentMessage, setCurrentMessage] = useState<string>('');
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
   const reserveData = useAppSelector((state) => state.reservation);
@@ -64,14 +63,14 @@ const Chatbot = (props: Props) => {
       const currentDate = new Date();
       if (isValidDate(message)) {
         if (dayjs(message) && dayjs(message) < dayjs(currentDate)) {
-          toast.warning(
-            'You are picking a Date that not available. Time will be set to Today',
+          actions.sendMessage(
+            'You can not book a date in the past. I will set the date to today for you',
           );
           dispatch(getTime(currentDate.toISOString()));
           dispatch(setReservationDate(currentDate.toISOString()));
         } else {
           dispatch(setReservationDate(message));
-          dispatch(getTime(dayjs(message, 'DD/MM/YYYY').toISOString()));
+          dispatch(getTime(dayjs(message, DATE_INPUT_FORMAT).toISOString()));
         }
 
         actions.getTimePicker();
@@ -92,7 +91,9 @@ const Chatbot = (props: Props) => {
           dispatch(setReservationTime(message));
           const date = botReservationState.created.date;
           dispatch(
-            getTime(dayjs(`${date} ${message}`, 'DD/MM/YYYY').toISOString()),
+            getTime(
+              dayjs(`${date} ${message}`, DATE_INPUT_FORMAT).toISOString(),
+            ),
           );
           actions.getGuestPicker();
         }
@@ -281,7 +282,7 @@ const Chatbot = (props: Props) => {
 
   useEffect(() => {
     actions.askForHelp();
-    console.log(dayjs('20/05/2023 11:00'));
+    console.log(dayjs('23/5/2023 00:00', DATE_INPUT_FORMAT).toISOString());
   }, []);
 
   return (
