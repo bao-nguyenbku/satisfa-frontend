@@ -5,7 +5,7 @@ import {
   PaymentStatus,
   PaymentType,
   PaypalUnit,
-} from '@/types/data-types';
+} from '@/types';
 import { toast } from 'react-toastify';
 import { useCreatePaidOrderServiceMutation } from '@/services/order';
 import { useAppDispatch, useAppSelector } from '@/hooks';

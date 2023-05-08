@@ -1,4 +1,4 @@
-import { CreateOrder, Order } from '@/types/data-types';
+import { CreateOrder, Order } from '@/types';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { baseQuery } from '@/utils/request';

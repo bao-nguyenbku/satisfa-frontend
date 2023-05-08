@@ -3,7 +3,7 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
 import styles from './styles.module.scss';
-import { CartItem } from '@/types/data-types';
+import { CartItem } from '@/types';
 import { formatCurrency } from '@/utils';
 
 type Props = {

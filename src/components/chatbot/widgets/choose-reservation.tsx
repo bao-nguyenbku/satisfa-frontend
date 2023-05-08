@@ -1,4 +1,4 @@
-import { Reservation } from '@/types/data-types';
+import { Reservation } from '@/types';
 import React from 'react';
 import Button from '@/components/common/button';
 import { BotActions } from '../types';

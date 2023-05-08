@@ -26,7 +26,7 @@ import {
 } from '@/store/reducer/chatbot';
 import { botOrderMessage, botReserveMessage } from '@/components/chatbot/steps';
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
-import { Reservation } from '@/types/data-types';
+import { Reservation } from '@/types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
 import { selectReservationState } from '@/store/reducer/reservation';
 import { formatDate } from '@/utils';

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-import { TableStatus } from '@/types/data-types';
+import { TableStatus } from '@/types';
 
 import { Popover } from '@mui/material';
 

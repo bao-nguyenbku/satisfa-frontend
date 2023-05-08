@@ -5,7 +5,7 @@ import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import { useGetAllTableQuery } from '@/services/table';
 import { useCreateReservationMutation } from '@/services/reservation';
 import { useAppSelector } from '@/hooks';
-import { ReservationType, TableStatus } from '@/types/data-types';
+import { ReservationType, TableStatus } from '@/types';
 import { toast } from 'react-toastify';
 
 // type Table = {};

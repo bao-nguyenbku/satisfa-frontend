@@ -19,11 +19,10 @@ import {
   ErrorType,
   CreateReservation,
   Table,
-} from '@/types/data-types';
+} from '@/types';
 import { reservationApi } from '@/services/reservation';
 import dayjs from 'dayjs';
 import { getTablesByFilter } from '@/services/table';
-// import { ChatBotType } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state

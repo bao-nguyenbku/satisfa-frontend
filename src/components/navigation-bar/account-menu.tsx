@@ -8,7 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { User } from '@/types/data-types';
+import { User } from '@/types';
 import Image from '@/components/common/image';
 
 type Props = {

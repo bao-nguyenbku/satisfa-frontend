@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '@/hooks';
 import { selectCreateBotOrderData } from '@/store/reducer/chatbot';
-import { CreateOrder, OrderType } from '@/types/data-types';
+import { CreateOrder, OrderType } from '@/types';
 import { formatCurrency, formatDate } from '@/utils';
 
 type Props = {

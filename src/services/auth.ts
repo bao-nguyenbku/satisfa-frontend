@@ -1,4 +1,4 @@
-import { CreateUser, User } from '@/types/data-types';
+import { CreateUser, User } from '@/types';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { baseQuery } from '@/utils/request';

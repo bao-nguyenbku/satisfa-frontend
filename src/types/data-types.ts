@@ -53,12 +53,6 @@ export type CartItem = Product & {
   qty: number;
 };
 
-export type ReduxDataType = {
-  data: any;
-  isLoading: boolean;
-  isSuccess: boolean;
-  error: ErrorType | any;
-};
 
 export type Review = {
   id: string;

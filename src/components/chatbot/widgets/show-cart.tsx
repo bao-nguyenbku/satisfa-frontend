@@ -1,4 +1,4 @@
-import { CartItem } from '@/types/data-types';
+import { CartItem } from '@/types';
 import React from 'react';
 import * as _ from 'lodash';
 

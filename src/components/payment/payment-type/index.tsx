@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
-import { PaymentType } from '@/types/data-types';
+import { PaymentType } from '@/types';
 
 type Props = {
   paymentType: PaymentType;

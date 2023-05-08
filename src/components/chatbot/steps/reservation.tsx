@@ -1,5 +1,5 @@
 import React from 'react';
-import { BotMessage } from '@/types/data-types';
+import { BotMessage } from '@/types';
 
 export const botReserveMessage: BotMessage = {
   1: {

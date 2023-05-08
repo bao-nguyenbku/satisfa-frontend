@@ -33,7 +33,7 @@ import {
 } from '@/utils';
 import { toast } from 'react-toastify';
 import ShowCart from './widgets/show-cart';
-import { OrderType, QueryStatus } from '@/types/data-types';
+import { OrderType, QueryStatus } from '@/types';
 import { useCreateOrderServiceMutation } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { Indent } from './recognition';
@@ -281,6 +281,7 @@ const Chatbot = (props: Props) => {
 
   useEffect(() => {
     actions.askForHelp();
+    console.log(dayjs('20/05/2023 11:00'));
   }, []);
 
   return (

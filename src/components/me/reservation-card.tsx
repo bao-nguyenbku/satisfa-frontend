@@ -1,4 +1,4 @@
-import { Reservation } from '@/types/data-types';
+import { Reservation } from '@/types';
 import { formatDate } from '@/utils';
 import React, { useRef, useState, useEffect } from 'react';
 

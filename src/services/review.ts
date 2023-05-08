@@ -1,4 +1,4 @@
-import { Review, ReviewFilter } from '@/types/data-types';
+import { Review, ReviewFilter } from '@/types';
 import { baseQuery } from '@/utils/request';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';

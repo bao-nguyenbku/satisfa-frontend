@@ -13,7 +13,7 @@ import {
   Reservation,
   CartItem,
   TakeawayCustomer,
-} from '@/types/data-types';
+} from '@/types';
 import { formatDate } from '@/utils';
 import dayjs, { Dayjs } from 'dayjs';
 import { InputChangeEvent } from '@/types/event-types';

@@ -2,7 +2,7 @@ import React from 'react';
 import { IconButton } from '@mui/material';
 import Image from '@/components/common/image';
 import Button from '@/components/common/button';
-import { CartItem } from '@/types/data-types';
+import { CartItem } from '@/types';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import DeleteIcon from '@mui/icons-material/Delete';

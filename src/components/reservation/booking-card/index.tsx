@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { CreateReservation, TableStatus } from '@/types/data-types';
+import { CreateReservation, TableStatus } from '@/types';
 import { useCreateReservationMutation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
