@@ -19,11 +19,11 @@ type Props = {
   table: TableProps;
 };
 const reserveData: Omit<CreateReservation, 'customerId'> & {customerId: string} = {
-  tableId: '63fb319e765710c5bae252f0',
+  tableId: '',
   date: new Date().toString(),
   note: '',
   numberOfGuests: 0,
-  customerId: '63d8a95cf26dede7b8ee5030',
+  customerId: '',
 };
 const BookingCard = (props: Props) => {
   const { table } = props;

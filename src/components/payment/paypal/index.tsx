@@ -20,7 +20,7 @@ type Props = {
 };
 const Checkout = (props: Props) => {
   const [success, setSuccess] = useState(false);
-  const [orderId, setOrderID] = useState(false);
+  const [orderId, setOrderId] = useState(false);
   const { order } = props;
   const createdOrder = useAppSelector(selectCreatedOrder);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -51,14 +51,26 @@ const Checkout = (props: Props) => {
         },
       })
       .then((orderID: any) => {
-        setOrderID(orderID);
-        return orderId;
+        setOrderId(orderID);
+        console.log(orderId);
+        return orderID;
       });
   };
 
   // check Approval
   const onApprove = (data: any, actions: any) => {
-    return actions.order.capture().then(function () {
+     /**
+       * data: {
+       *   orderID: string;
+       *   payerID: string;
+       *   paymentID: string | null;
+       *   billingToken: string | null;
+       *   facilitatorAccesstoken: string;
+       * }
+       */
+    return actions.order.capture().then(function (details: any) {
+      const { payer } = details
+      console.log(payer)
       setSuccess(true);
     });
   };
@@ -71,6 +83,7 @@ const Checkout = (props: Props) => {
   useEffect(() => {
     if (success) {
       toast.success('Payment with Paypal successfully!');
+      console.log('created order', createdOrder.id)
       const payment: CreatedOrder = {
         id: createdOrder.id,
         type: order.data.type,

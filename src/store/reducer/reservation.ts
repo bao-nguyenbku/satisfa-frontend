@@ -47,7 +47,7 @@ export const getReservationByFilter = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await dispatch(
-        reservationApi.endpoints.getReservationByFilter.initiate(),
+        reservationApi.endpoints.getReservationByFilter.initiate({}),
       );
       return data;
     } catch (error) {
