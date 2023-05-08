@@ -15,7 +15,7 @@ const hydrate = createAction<RootState>(HYDRATE);
 interface ReservationState {
   reservationListByFilter: ReduxDataType;
   createReservationData: Omit<ReduxDataType, 'data'> & {
-    data: Omit<CreateReservation, 'customerId'> & { customerId: string };
+    data: CreateReservation;
     code: string;
   };
 }
