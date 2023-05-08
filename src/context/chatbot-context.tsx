@@ -208,6 +208,34 @@ export const ChatbotProvider = ({ children }: Props) => {
         widgetType: WidgetType.SELECTION,
       });
     },
+    showLocation: () => {
+      createBotMessage(
+        <ul>
+          <li>
+            👉Satisfa restaurant is place at{' '}
+            <strong>
+              122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh
+              City
+            </strong>
+          </li>
+          <li>
+            👉We serve from <strong>8:00am</strong> to <strong>10:00pm</strong>{' '}
+            everyday
+          </li>
+        </ul>,
+      );
+    },
+    // checkOrder: () => {
+
+    // },
+    suggestMenu: () => {
+      createBotMessage(
+        <span>
+          We think you may like these <br />
+          Do any of them make you fancy?
+        </span>,
+      );
+    },
     introduce: () => {
       createBotMessage(
         'Hi, I am Satisgi. Nice to meet you 😍. If you need some help, type help in the textbox👇',
@@ -297,7 +325,7 @@ export const ChatbotProvider = ({ children }: Props) => {
     resetService: () => {
       dispatch(resetCreateOrder());
       dispatch(resetCreateReservation());
-    }
+    },
   };
 
   return (

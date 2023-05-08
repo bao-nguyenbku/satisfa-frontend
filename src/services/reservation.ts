@@ -27,10 +27,7 @@ export const reservationApi = tableApi.injectEndpoints({
         };
       },
     }),
-    getReservationByFilter: build.query<
-      Reservation[],
-      ReservationFilter | void
-    >({
+    getReservationByFilter: build.query<Reservation[], ReservationFilter>({
       providesTags: ['Reservations'],
       query: (filter) => {
         return {

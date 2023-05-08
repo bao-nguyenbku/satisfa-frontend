@@ -29,15 +29,10 @@ export type CreateReservation = Omit<Reservation, 'id' | 'customerId' | 'tableId
 export type ReservationFilter = {
   date?: string;
   user?: string;
+  currentDate?: boolean;
+  currentUser?: boolean;
 };
 
-export type TableType = {
-  _id: string;
-  id: string;
-  code: string;
-  numberOfSeats: number;
-  status: TableStatus;
-};
 
 export type TableFilter = {
   minSeat?: number;
@@ -165,7 +160,7 @@ export type Order = {
 export type Table = {
   id: string;
   code: string;
-  numberOfSeat: number;
+  numberOfSeats: number;
   reservations: Reservation[];
 };
 

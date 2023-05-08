@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 // import { MessageOption, Message } from './types';
 import * as _ from 'lodash';
 import MessageHeader from './message-header';
@@ -36,11 +36,10 @@ import ShowCart from './widgets/show-cart';
 import { OrderType, QueryStatus } from '@/types/data-types';
 import { useCreateOrderServiceMutation } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
-import { IntroductionIndent } from './recognition';
+import { Indent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
 
-const introductionIndent = new IntroductionIndent();
 type Props = {
   boxOpen?: boolean;
 };
@@ -48,6 +47,9 @@ const Chatbot = (props: Props) => {
   const dispatch = useAppDispatch();
   const { messages, isTyping, createUserMessage, actions, botService } =
     useChatbot();
+  const indent = useMemo(() => {
+    return new Indent(actions);
+  }, [actions]);
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
   // const [currentMessage, setCurrentMessage] = useState<string>('');
@@ -158,15 +160,17 @@ const Chatbot = (props: Props) => {
       }
       // In case choose dine-in option
       else if (/^dine in$/.test(message)) {
-        dispatch(setOrderType(OrderType.DINE_IN));
         const reservation = await dispatch(getReservationByUser()).unwrap();
         if (reservation && _.isArray(reservation) && reservation.length === 0) {
           actions.sendMessage(botOrderMessage[4].text);
-        } else if (
+        } 
+        
+        else if (
           reservation &&
           _.isArray(reservation) &&
           reservation.length > 0
-        ) {
+          ) {
+          dispatch(setOrderType(OrderType.DINE_IN));
           actions.sendMessage(botOrderMessage[3].text, {
             widget: <ChooseReservation data={reservation} />,
           });
@@ -240,24 +244,15 @@ const Chatbot = (props: Props) => {
     const lowerCaseMessage = message.toLowerCase().trim();
     createUserMessage(message);
 
-    if (lowerCaseMessage.includes('help')) {
-      actions.askForHelp();
-      actions.resetService();
-    }
-    // Say Hello
-    else if (introductionIndent.isValid(lowerCaseMessage)) {
-      actions.introduce();
-      actions.resetService();
-    }
+    if (indent.parse(lowerCaseMessage)) return;
+
     // Handle Reservation
-    else if (botService === BotService.RESERVATION) {
+    if (botService === BotService.RESERVATION) {
       handleBotReservation(lowerCaseMessage);
     }
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(lowerCaseMessage);
-    } else {
-      actions.unhandleInput();
     }
   };
   useEffect(() => {
@@ -279,7 +274,6 @@ const Chatbot = (props: Props) => {
           <strong>#{createOrderRes.data.id}</strong>
         </p>,
       );
-      // dispatch(resetCreateOrder());
     }
   }, [createOrderRes]);
 
