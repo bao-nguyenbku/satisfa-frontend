@@ -14,7 +14,6 @@ import {
 import { getItemList, saveTotalCost } from '@/store/reducer/order';
 import { formatCurrency } from '@/utils';
 import { useRouter } from 'next/router';
-import { hasCookie, getCookie } from 'cookies-next';
 import { CartItem } from '@/types/data-types';
 
 const isCartEmpty = (cartItems: CartItem[]) => {
@@ -27,13 +26,10 @@ export default function CartDetail() {
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
   const router = useRouter();
-  const temp = getCookie('myCart');
 
   useEffect(() => {
-    if (hasCookie('myCart')) {
-      dispatch(setCookieToCart());
-    }
-  }, [temp]);
+    dispatch(setCookieToCart());
+  }, []);
 
   const onIncrease = (id: string) => {
     dispatch(increaseQty(id));
@@ -57,42 +53,6 @@ export default function CartDetail() {
       <h2 className="text-yellow-500 text-xl flex items-center pb-4">
         Your Cart
       </h2>
-      {/* {[
-        {
-          name: 'Pizza Tôm Cocktail',
-          category: 'Món bánh',
-          description: '<p>Mô tả cho món bánh pizza này tại đây</p>',
-          images: [
-            'http://localhost:5000/uploads/e3722b99-2d6d-4609-b969-eceab1919b35.png',
-          ],
-          price: 150000,
-          visible: true,
-          id: '63f0cb4f376b3f549ea067cc',
-          qty: 1,
-        },
-        {
-          name: 'Bít tết úc thượng hạng',
-          category: 'Món chính',
-          description: '<p>Đây là mô tả của món ăn này</p>',
-          images: [
-            'http://localhost:5000/uploads/1c8f07a0-308c-4375-90b1-ba19e9b43d5e.png',
-          ],
-          price: 600000,
-          visible: true,
-          id: '63ede3652ec016926c0fc600',
-          qty: 1,
-        },
-      ].map((item) => {
-        return (
-          <CartItemDetail
-            key={item.id}
-            data={item}
-            onIncrease={onIncrease}
-            onDecrease={onDecrease}
-            onRemove={onRemove}
-          />
-        );
-      })} */}
       <div className="flex flex-col gap-6">
         {isCartEmpty(cartItems) ? (
           cartItems.map((item) => {

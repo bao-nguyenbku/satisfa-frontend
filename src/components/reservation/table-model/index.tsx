@@ -87,7 +87,7 @@ const TableModel = (props: Props) => {
       setChairSize((prev) => {
         return {
           ...prev,
-          width: width * 1.1,
+          width: width * 1.3,
           height: height * 0.7,
         };
       });
@@ -121,13 +121,11 @@ const TableModel = (props: Props) => {
               key={item}
               className={`${
                 getStylesByStatus(table.status).bg
-              } w-16 h-16 rounded-full`}></div>
+              } w-16 h-16 bg-green-500 rounded-full`}></div>
           ))}
         </div>
         <div
-          className={`bg-white/20 backdrop-blur-sm absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] ${
-            getStylesByStatus(table.status).border
-          } p-2`}
+          className={`bg-zinc-600/30 backdrop-blur-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] border-l-green-500 p-2`}
           ref={tableRef}>
           <h2 className="text-white text-end font-playfair normal-case">
             {table.code}

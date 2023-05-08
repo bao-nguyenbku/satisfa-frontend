@@ -37,7 +37,7 @@ const Reservation = () => {
     }
   };
   if (tables && tables.length < 1) {
-    return <div className='text-white'>No table available!</div>;
+    return <div className="text-white">No table available!</div>;
   }
   return (
     <div className="flex flex-col w-full gap-10 px-32">

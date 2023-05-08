@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 // import Avatar from './avatar';
 import BotAvatar from '../common/bot-avatar/avatar';
 type Props = {
-  message: string | ReactElement;
+  message: ReactNode;
 };
 
 const GuestMessageItem = (props: Props) => {

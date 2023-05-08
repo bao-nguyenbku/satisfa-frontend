@@ -17,7 +17,7 @@ export default function FeedbacksButton() {
   return (
     <Wrapper>
       <button onClick={handleClick}>
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center text-white">
           <FeedbackIcon />
         </div>
       </button>
