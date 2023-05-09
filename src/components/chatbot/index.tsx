@@ -92,7 +92,11 @@ const Chatbot = (props: Props) => {
           const date = botReservationState.created.date;
           dispatch(
             getTime(
-              dayjs(`${date} ${message}`, DATE_INPUT_FORMAT).toISOString(),
+              dayjs(
+                `${date} ${message}`,
+                DATE_INPUT_FORMAT,
+                true,
+              ).toISOString(),
             ),
           );
           actions.getGuestPicker();
@@ -116,16 +120,6 @@ const Chatbot = (props: Props) => {
         );
         actions.getGuestPicker();
       }
-    }
-    // else if (!botReservationState.steps[4].isComplete) {
-
-    // }
-    // Newline
-    else {
-      actions.sendMessage('OK all fine. Please wait...', {
-        delay: 400,
-      });
-      // actions.unhandleInput();
     }
   };
 
@@ -282,7 +276,6 @@ const Chatbot = (props: Props) => {
 
   useEffect(() => {
     actions.askForHelp();
-    console.log(dayjs('23/5/2023 00:00', DATE_INPUT_FORMAT).toISOString());
   }, []);
 
   return (

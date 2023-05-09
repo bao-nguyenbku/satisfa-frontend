@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import Image from '@/components/common/image';
 import type { Product } from '@/types';
 import { formatCurrency } from '@/utils';
 import { addItem } from '@/store/reducer/cart';

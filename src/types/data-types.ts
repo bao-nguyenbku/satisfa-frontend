@@ -50,6 +50,10 @@ export type Product = {
   visible: boolean;
 };
 
+export type Category = {
+  id: string;
+  name: string;
+}
 export type CartItem = Product & {
   qty: number;
 };
