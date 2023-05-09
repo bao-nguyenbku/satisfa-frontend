@@ -57,7 +57,7 @@ import styles from './styles.module.scss';
 export default function FooterSection() {
   return (
     <footer id={styles.footer}>
-      <div className="flex flex-col gap-4 z-10 max-w-md">
+      <div className="flex flex-col lg:gap-2 xl:gap-4 z-10 xl:max-w-md lg:max-w-sm">
         <h2 className='text-xl font-bold'>Contact</h2>
         <span>0123 456 789</span>
         <span>122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh City</span>
@@ -74,7 +74,7 @@ export default function FooterSection() {
       </div>
       <div className="flex flex-col gap-4 z-10">
         <h2 className='text-xl font-bold'>Hours</h2>
-        <span>Monday - Sunday <br /> 8:00am - 22:00am</span>
+        <span>Monday - Sunday <br /> 8:00am - 22:00pm</span>
       </div>
     </footer>
   );

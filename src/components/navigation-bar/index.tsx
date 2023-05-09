@@ -37,7 +37,7 @@ const NavigationBar = () => {
   return (
     <ul
 
-      className={`flex items-center justify-end text-white gap-8 md:text-sm md:gap-4 lg:text-base lg:gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 uppercase absolute`}>
+      className={`flex items-center justify-end text-white gap-8 md:text-sm md:gap-4 lg:text-sm lg:gap-6 xl:text-base xl:gap-8 right-0 py-6 px-20 w-full z-50 transition-all duration-700 uppercase absolute`}>
       <li className="mr-auto text-5xl normal-case">
         <Link
           href="/"

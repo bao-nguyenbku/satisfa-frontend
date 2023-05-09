@@ -11,9 +11,10 @@ export default function HeadChefSection() {
           fill
           alt="chef-portrait"
           className="object-cover"
+          // className="absolute top-0 left-0 w-full"
         />
       </div>
-      <div className='max-w-2xl flex flex-col gap-6'>
+      <div className='xl:max-w-2xl lg:max-w-[30vw]  flex flex-col gap-6'>
         <h2 className='uppercase text-primary-yellow text-xl'>Head chef</h2>
         <h2 className='uppercase text-3xl font-bold'>Carl Schmidt</h2>
         <p className='tracking-widest'>

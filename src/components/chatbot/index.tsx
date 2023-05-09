@@ -92,7 +92,7 @@ const Chatbot = (props: Props) => {
           dispatch(setReservationTime(message));
           const date = botReservationState.created.date;
           dispatch(
-            getTime(dayjs(`${date} ${message}`, 'DD/MM/YYYY').toISOString()),
+            getTime(dayjs(`${date} ${message}`, 'DD/MM/YYYY HH:mm').toISOString()),
           );
           actions.getGuestPicker();
         }
