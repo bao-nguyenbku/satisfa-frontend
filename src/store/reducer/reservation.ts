@@ -78,7 +78,7 @@ export const reservationSlice = createSlice({
       .addCase(hydrate, (state, action) => {
         return {
           ...state,
-          ...action.payload.reservation,
+          ...action.payload,
         };
       })
       .addCase(getReservationByFilter.pending, (state) => {

@@ -284,6 +284,17 @@ export const ChatbotProvider = ({ children }: Props) => {
     getTimePicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[2].text, options);
     },
+    checkMyReservations: (options?: MessageOption) => {
+      createBotMessage(
+        'We show you all your reservations on the screen. Let check it out🥰',
+        options,
+      );
+      router.push('/me/reservations');
+    },
+    checkMyOrders: (options?: MessageOption) => {
+      createBotMessage('We navigate you to your history orders. Let check out the screen😘', options);
+      router.push('/me/orders');
+    },
     getGuestPicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[3].text, options);
     },

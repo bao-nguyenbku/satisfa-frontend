@@ -40,30 +40,34 @@ export default function ReservationCard(props: Props) {
     }
   }, [chairRef]);
   return (
-    <button className="relative cursor-pointer tracking-wide overflow-hidden w-max px-16">
-      <div className={`grid w-fit gap-4`} ref={chairRef}>
-        {Array.from(Array(data?.tableId?.numberOfSeats).keys()).map((item) => (
-          <div key={item} className={`w-20 h-20 bg-yellow-600 rounded-full`} />
-        ))}
-      </div>
-      <div
-        className={`bg-zinc-600/30 backdrop-blur-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] p-2`}
-        ref={tableRef}>
-        <h2 className="text-white text-end normal-case text-2xl font-bold">
-          T2
-        </h2>
-        <div className="absolute top-1/2 -translate-y-1/2 flex flex-col items-start">
-          <span>
-            Arrive time: <strong>{formatDate(data.date)}</strong>
-          </span>
-          <span>
-            Guests: <strong>{data.numberOfGuests}</strong>
-          </span>
+    <div className="flex">
+      <button className="relative cursor-pointer tracking-wide overflow-hidden w-max px-16">
+        <div className={`grid w-fit gap-4`} ref={chairRef}>
+          {Array.from(Array(data?.tableId?.numberOfSeats).keys()).map(
+            (item) => (
+              <div
+                key={item}
+                className={`w-20 h-20 bg-yellow-600 rounded-full`}
+              />
+            ),
+          )}
         </div>
+        <div
+          className={`bg-zinc-600/30 backdrop-blur-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] p-2`}
+          ref={tableRef}>
+          <h2 className="text-white text-end normal-case text-2xl font-bold">
+            {data.tableId.code}
+          </h2>
+        </div>
+      </button>
+      <div className="-ml-4 border border-slate-600 p-4 flex flex-col items-start justify-center bg-zinc-800 shadow-2xl">
+        <span>
+          Arrive time: <strong>{formatDate(data.date)}</strong>
+        </span>
+        <span>
+          Guests: <strong>{data.numberOfGuests}</strong>
+        </span>
       </div>
-      {/* <div className='absolute top-0 right-0'>
-          <ReservationCard />
-        </div> */}
-    </button>
+    </div>
   );
 }

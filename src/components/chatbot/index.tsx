@@ -125,17 +125,20 @@ const Chatbot = (props: Props) => {
 
   // !! HANDLE ORDER FOOD SERVICE !!
   const handleBotOrder = async (message: string) => {
+    const lowCaseMessage = message.toLowerCase().trim();
     if (!botOrderState.steps[1].isComplete) {
-      if (!message.includes('ok')) {
+      if (!lowCaseMessage.includes('ok')) {
         actions.unhandleInput();
         return;
       }
       const cartRes = await dispatch(setOrderItemsThunk()).unwrap();
       if (cartRes && cartRes.itemList.length === 0) {
         actions.sendMessage(
-          'Your cart is empty, so I can make an order for you. Please pick some food to continue',
+          'Your cart is empty, so I can not make an order for you. Please pick some food to continue',
         );
-      } else if (cartRes && cartRes.itemList.length > 0) {
+      } 
+      
+      else if (cartRes && cartRes.itemList.length > 0) {
         actions.sendMessage('I am confirming your cart');
         actions.sendWidget(<ShowCart data={cartRes.itemList} />);
         actions.sendMessage(botOrderMessage[2].text, {
@@ -145,16 +148,16 @@ const Chatbot = (props: Props) => {
     }
     // Choose OrderType
     else if (!botOrderState.steps[2].isComplete) {
-      if (!/^takeaway$/.test(message) && !/^dine in$/.test(message)) {
+      if (!/^takeaway$/.test(lowCaseMessage) && !/^dine in$/.test(lowCaseMessage)) {
         actions.unhandleInput();
         return;
       }
-      if (/^takeaway$/.test(message)) {
+      if (/^takeaway$/.test(lowCaseMessage)) {
         dispatch(setOrderType(OrderType.TAKEAWAY));
         actions.sendMessage(botOrderMessage[5].text);
       }
       // In case choose dine-in option
-      else if (/^dine in$/.test(message)) {
+      else if (/^dine in$/.test(lowCaseMessage)) {
         const reservation = await dispatch(getReservationByUser()).unwrap();
         if (reservation && _.isArray(reservation) && reservation.length === 0) {
           actions.sendMessage(botOrderMessage[4].text);
@@ -183,8 +186,8 @@ const Chatbot = (props: Props) => {
       !botOrderState.steps[6].isComplete &&
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
-      if (isValidPhoneNumber(message)) {
-        dispatch(setTakeawayPhone(message));
+      if (isValidPhoneNumber(lowCaseMessage)) {
+        dispatch(setTakeawayPhone(lowCaseMessage));
         actions.sendMessage(botOrderMessage[7].text);
       } else {
         actions.sendMessage(
@@ -197,8 +200,8 @@ const Chatbot = (props: Props) => {
       !botOrderState.steps[7].isComplete &&
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
-      if (isValidDatetime(message)) {
-        dispatch(setTakeawayTime(message));
+      if (isValidDatetime(lowCaseMessage)) {
+        dispatch(setTakeawayTime(lowCaseMessage));
         actions.sendMessage(botOrderMessage[8].text, {
           widget: <ShowConfirmationOrder />,
         });
@@ -213,7 +216,7 @@ const Chatbot = (props: Props) => {
       !botOrderState.steps[8].isComplete &&
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
-      if (message.includes('ok')) {
+      if (lowCaseMessage.includes('ok')) {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.reservationId;
         delete createBotOrderData.customerId;
@@ -225,7 +228,7 @@ const Chatbot = (props: Props) => {
       !botOrderState.steps[8].isComplete &&
       botOrderState.created.type === OrderType.DINE_IN
     ) {
-      if (message.includes('ok')) {
+      if (lowCaseMessage.includes('ok')) {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.tempCustomer;
         createOrder(createBotOrderData);
@@ -238,18 +241,17 @@ const Chatbot = (props: Props) => {
   };
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
-    const lowerCaseMessage = message.toLowerCase().trim();
     createUserMessage(message);
 
-    if (indent.parse(lowerCaseMessage)) return;
+    if (indent.parse(message)) return;
 
     // Handle Reservation
     if (botService === BotService.RESERVATION) {
-      handleBotReservation(lowerCaseMessage);
+      handleBotReservation(message);
     }
     // Handle Order
     else if (botService === BotService.ORDER) {
-      handleBotOrder(lowerCaseMessage);
+      handleBotOrder(message);
     }
   };
   useEffect(() => {

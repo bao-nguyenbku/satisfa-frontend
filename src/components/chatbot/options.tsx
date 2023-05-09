@@ -1,8 +1,5 @@
 import React from 'react';
 import Button from '@/components/common/button';
-// import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
-// import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-// import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export default function Options(props: any) {
   const { actions } = props;
@@ -13,9 +10,19 @@ export default function Options(props: any) {
       id: 0,
     },
     {
-      text: 'I want to see the menu',
+      text: 'I want to order',
       handler: actions.handleOrder,
       id: 2,
+    },
+    {
+      text: 'Check my reservations',
+      handler: actions.checkMyReservations,
+      id: 3,
+    },
+    {
+      text: 'Check my orders',
+      handler: actions.checkMyOrders,
+      id: 4,
     },
   ];
   return (

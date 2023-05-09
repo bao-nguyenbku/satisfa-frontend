@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import Button from '@/components/common/button';
 import CartItemDetail from '../cart-item';
@@ -8,7 +8,6 @@ import {
   increaseQty,
   decreaseQty,
   removeItem,
-  setCookieToCart,
 } from '@/store/reducer/cart';
 
 import { getItemList, saveTotalCost } from '@/store/reducer/order';
@@ -26,10 +25,6 @@ export default function CartDetail() {
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
   const router = useRouter();
-
-  useEffect(() => {
-    dispatch(setCookieToCart());
-  }, []);
 
   const onIncrease = (id: string) => {
     dispatch(increaseQty(id));
