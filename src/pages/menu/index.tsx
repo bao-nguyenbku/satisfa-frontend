@@ -5,12 +5,14 @@ import React, { ReactElement } from 'react';
 // import BasicTabs from '../../components/menu/category';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/layout/main';
-import FoodCard from '@/components/menu/food-card';
+
 import Loading from '@/components/common/loading';
 import { wrapper } from '@/store';
 import { useGetAllProductQuery, productApi } from '@/services/product';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import Head from 'next/head';
+import CategoryTab from '@/components/menu/category';
+import { Product } from '@/types';
 
 const Menu: NextPageWithLayout = () => {
   const { data: productList, isLoading } = useGetAllProductQuery();
@@ -26,20 +28,7 @@ const Menu: NextPageWithLayout = () => {
         <div className="bg-primary-dark min-h-screen w-full flex flex-col items-center px-24">
           <span className="text-primary-yellow text-7xl mt-16">Menu</span>
           <div className="mt-12 flex flex-wrap gap-2 w-full justify-center">
-            {productList &&
-              productList.map((item) => {
-                return (
-                  <motion.div
-                    key={item.id}
-                    initial={{ y: 100 }}
-                    animate={{ y: 0 }}
-                    transition={{
-                      duration: (Math.random() * 0.3 + 0.3),
-                    }}>
-                    <FoodCard data={item} />
-                  </motion.div>
-                );
-              })}
+            <CategoryTab data={productList as Product[]}/>
           </div>
         </div>
       </AnimatePresence>

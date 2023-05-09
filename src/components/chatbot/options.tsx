@@ -25,7 +25,7 @@ export default function Options(props: any) {
           key={option.id}
           variant="outlined"
           onClick={option.handler}
-          className="bg-white/20 hover:bg-white/30 p-3 text-white rounded-lg normal-case border-none hover:border-none">
+          className="bg-white/20 hover:bg-white/30 p-3 text-white normal-case border-none hover:border-none rounded-xl">
           {option.text}
         </Button>
       ))}

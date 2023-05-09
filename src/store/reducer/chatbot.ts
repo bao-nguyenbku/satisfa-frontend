@@ -19,11 +19,11 @@ import {
   ErrorType,
   CreateReservation,
   Table,
-} from '@/types/data-types';
+  DATE_INPUT_FORMAT,
+} from '@/types';
 import { reservationApi } from '@/services/reservation';
 import dayjs from 'dayjs';
 import { getTablesByFilter } from '@/services/table';
-// import { ChatBotType } from '@/types/data-types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
@@ -192,6 +192,7 @@ export const chatbotSlice = createSlice({
       const date = state.reservation.created.date;
       state.reservation.created.date = dayjs(
         `${date} ${action.payload}`,
+        DATE_INPUT_FORMAT,
       ).toISOString();
       state.reservation.steps[2].isComplete = true;
     },

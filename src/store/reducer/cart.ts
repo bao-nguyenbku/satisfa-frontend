@@ -1,7 +1,7 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
-import { Product, CartItem } from '@/types/data-types';
+import { Product, CartItem } from '@/types';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
 

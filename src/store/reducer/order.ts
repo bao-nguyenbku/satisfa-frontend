@@ -8,7 +8,6 @@ import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
 import {
   CartItem,
-  ReduxDataType,
   Reservation,
   OrderType,
   Order,
@@ -16,8 +15,9 @@ import {
   PaymentStatus,
   CreatedOrder,
   TakeawayCustomer,
-  CreateOrder
-} from '@/types/data-types';
+  CreateOrder,
+  ReduxDataType
+} from '@/types';
 import { createOrderService } from '@/services/order';
 // import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 // import { store } from '@/store';
@@ -87,7 +87,7 @@ export const createOrderThunk = createAsyncThunk<
         createOrderData.customerId = data?.reservation.customerId?.id;
       }
       const result = await dispatch(
-        createOrderService.initiate(createOrderData)
+        createOrderService.initiate(createOrderData),
       ).unwrap();
       return result;
     } catch (error) {
@@ -118,7 +118,7 @@ export const orderSlice = createSlice({
     },
     setTakeawayInformation: (
       state,
-      action: PayloadAction<TakeawayCustomer>
+      action: PayloadAction<TakeawayCustomer>,
     ) => {
       if (state.createOrder.data.type === OrderType.TAKEAWAY) {
         state.createOrder.data.customerId = action.payload;
@@ -167,7 +167,7 @@ export const orderSlice = createSlice({
       .addCase(createOrderThunk.rejected, (state, action) => {
         state.createOrder.isLoading = false;
         state.createOrder.isSuccess = false;
-        state.createOrder.error = action.payload;
+        state.createOrder.error = action.payload as any;
       });
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
@@ -180,7 +180,7 @@ export const {
   reset,
   setOrderType,
   setPaymentType,
-  setTakeawayInformation
+  setTakeawayInformation,
 } = orderSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

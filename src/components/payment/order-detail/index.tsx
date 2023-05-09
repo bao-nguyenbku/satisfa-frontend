@@ -3,7 +3,7 @@ import { Typography, Button } from '@mui/material';
 import OrderItem from './order-item';
 import styles from './styles.module.scss';
 import { formatCurrency } from '@/utils';
-import { PaymentType } from '@/types/data-types';
+import { PaymentType } from '@/types';
 import Checkout from '../paypal';
 
 type Props = {

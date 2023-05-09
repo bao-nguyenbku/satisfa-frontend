@@ -1,4 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
+import customeParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customeParseFormat);
+
 import * as _ from 'lodash';
 
 export function isValidDate(date: string) {

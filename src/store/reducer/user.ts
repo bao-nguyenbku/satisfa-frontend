@@ -7,7 +7,7 @@ import {
 import type { RootState } from '@/store';
 import { authApi } from '@/services/auth';
 import { HYDRATE } from 'next-redux-wrapper';
-import { User, ReduxDataType } from '@/types/data-types';
+import { User, ReduxDataType } from '@/types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 
@@ -64,7 +64,7 @@ export const userSlice = createSlice({
       .addCase(authCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = action.payload;
+        state.error = action.payload as any;
         state.data = undefined;
       });
   },

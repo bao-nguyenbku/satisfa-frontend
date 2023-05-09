@@ -1,6 +1,6 @@
 import React from 'react';
-import Image from 'next/image';
-import type { Product } from '@/types/data-types';
+import Image from '@/components/common/image';
+import type { Product } from '@/types';
 import { formatCurrency } from '@/utils';
 import { addItem } from '@/store/reducer/cart';
 import { useAppDispatch } from '@/hooks';

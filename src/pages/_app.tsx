@@ -20,7 +20,7 @@ import { primaryFont } from '@/constants';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { PayPalScriptOptions } from '@/types/data-types';
+import { PayPalScriptOptions } from '@/types';
 import { ModalContextProvider } from '@/context/modal-context';
 const paypalScriptOptions: PayPalScriptOptions = {
   'client-id': process.env.NEXT_PUBLIC_CLIENT_ID as string,

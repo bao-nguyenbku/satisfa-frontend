@@ -8,12 +8,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
-import {
-  OrderType,
-  Reservation,
-  CartItem,
-  TakeawayCustomer,
-} from '@/types/data-types';
+import { OrderType, Reservation, CartItem, TakeawayCustomer } from '@/types';
 import { formatDate } from '@/utils';
 import dayjs, { Dayjs } from 'dayjs';
 import { InputChangeEvent } from '@/types/event-types';
@@ -42,7 +37,7 @@ export default function UserPaymentInfo(props: Props) {
     onTakeawayChange,
   } = props;
   const [values, setValues] = useState<TakeawayCustomer>({
-    name: userInfo?.fullname ? userInfo?.fullname : '' ,
+    name: userInfo?.fullname ? userInfo?.fullname : '',
     phone: 0,
     takingTime: '',
   });
@@ -62,7 +57,6 @@ export default function UserPaymentInfo(props: Props) {
   useEffect(() => {
     onTakeawayChange(values);
   }, [values]);
-
 
   return (
     <div className="bg-[#2D2D2D] p-4">
@@ -105,7 +99,6 @@ export default function UserPaymentInfo(props: Props) {
               };
             });
           }}
-          
         />
         {orderInfo?.type == OrderType.DINE_IN ? (
           <div className="flex flex-row justify-between">
@@ -120,11 +113,11 @@ export default function UserPaymentInfo(props: Props) {
                 onChange={handleChange}>
                 {reservationList &&
                   reservationList.map((item) => (
-                    <MenuItem value={item} key={item.id}>
-                      <div className="flex flex-row gap-4">
-                        <Typography>Table {item.tableId?.code}</Typography>
-                        <Typography>{formatDate(item.date)}</Typography>
-                        <Typography>{item.numberOfGuests} people</Typography>
+                    <MenuItem value={item.tableId.code} key={item.id}>
+                      <div>
+                        <span>Table {item.tableId.code}</span>
+                        <span>{formatDate(item.date)}</span>
+                        <span>{item.numberOfGuests}</span>
                       </div>
                     </MenuItem>
                   ))}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from '@/components/common/image';
-import { Review } from '@/types/data-types';
+import { Review } from '@/types';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 
 type Props = {

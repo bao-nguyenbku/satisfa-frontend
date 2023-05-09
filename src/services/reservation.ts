@@ -2,7 +2,7 @@ import {
   CreateReservation,
   Reservation,
   ReservationFilter,
-} from '@/types/data-types';
+} from '@/types';
 
 // import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // import { HYDRATE } from 'next-redux-wrapper';

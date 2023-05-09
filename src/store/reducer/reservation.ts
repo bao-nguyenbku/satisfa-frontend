@@ -7,7 +7,7 @@ import {
 import { reservationApi } from '@/services/reservation';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
-import { ReduxDataType, CreateReservation } from '@/types/data-types';
+import { CreateReservation, ReduxDataType } from '@/types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
@@ -91,7 +91,7 @@ export const reservationSlice = createSlice({
       })
       .addCase(getReservationByFilter.rejected, (state, action) => {
         state.reservationListByFilter.isLoading = false;
-        state.reservationListByFilter.error = action.payload;
+        state.reservationListByFilter.error = action.payload as any;
       });
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper

@@ -1,4 +1,4 @@
-import { Table, TableFilter, TableType } from '@/types/data-types';
+import { Table, TableFilter } from '@/types';
 import { baseQuery } from '@/utils/request';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
@@ -15,7 +15,7 @@ export const tableApi = createApi({
     }
   },
   endpoints: (build) => ({
-    getAllTable: build.query<TableType[], void>({
+    getAllTable: build.query<Table[], void>({
       query: () => '/tables',
     }),
     getTablesByFilter: build.query<Table[], TableFilter | void>({
@@ -26,7 +26,7 @@ export const tableApi = createApi({
         };
       },
     }),
-    updateTable: build.mutation<void, { _id: string; body: TableType }>({
+    updateTable: build.mutation<void, { _id: string; body: Table }>({
       query({ _id, body }) {
         return {
           url: `/tables/${_id}`,
@@ -36,7 +36,6 @@ export const tableApi = createApi({
       },
       invalidatesTags: ['Reservations'],
     }),
-  
   }),
 });
 
@@ -47,4 +46,5 @@ export const {
   util: { getRunningQueriesThunk },
 } = tableApi;
 
-export const { getAllTable, updateTable, getTablesByFilter } = tableApi.endpoints;
+export const { getAllTable, updateTable, getTablesByFilter } =
+  tableApi.endpoints;

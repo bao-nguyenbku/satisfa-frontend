@@ -8,7 +8,7 @@ import { getTime } from '@/store/reducer/reservation';
 import dayjs, { Dayjs } from 'dayjs';
 import { useGetAllTableQuery } from '@/services/table';
 import { getTablesByFilter } from '@/store/reducer/table';
-import { Table } from '@/types/data-types';
+import { Table } from '@/types';
 import { toast } from 'react-toastify';
 
 const Reservation = () => {

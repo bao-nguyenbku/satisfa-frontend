@@ -23,7 +23,6 @@ const ChatbotButton = () => {
       <ClickAwayListener onClickAway={handleClose}>
         <Popover
           open={isOpen}
-          // anchorEl={anchorEl}
           onClose={handleClose}
           className={styles.popover}
           PaperProps={{

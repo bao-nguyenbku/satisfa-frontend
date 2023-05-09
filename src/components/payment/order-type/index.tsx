@@ -2,7 +2,7 @@ import React from "react";
 import { useAppDispatch } from "@/hooks";
 import { setOrderType } from "@/store/reducer/order";
 import { Typography, FormControl, FormControlLabel, RadioGroup, Radio } from "@mui/material";
-import { OrderType } from "@/types/data-types";
+import { OrderType } from "@/types";
 
 type Props = {
     orderType: OrderType;

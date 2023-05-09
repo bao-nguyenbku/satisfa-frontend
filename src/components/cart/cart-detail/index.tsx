@@ -14,7 +14,7 @@ import {
 import { getItemList, saveTotalCost } from '@/store/reducer/order';
 import { formatCurrency } from '@/utils';
 import { useRouter } from 'next/router';
-import { CartItem } from '@/types/data-types';
+import { CartItem } from '@/types';
 
 const isCartEmpty = (cartItems: CartItem[]) => {
   if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0)

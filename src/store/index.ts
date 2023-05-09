@@ -14,6 +14,7 @@ import { orderApi } from '@/services/order';
 import { orderSlice } from './reducer/order';
 import { cartSlice } from './reducer/cart';
 import { reviewApi } from '@/services/review';
+import { categoryApi } from '@/services/category';
 
 const reducer = {
   [reservationSlice.name]: reservationSlice.reducer,
@@ -27,6 +28,7 @@ const reducer = {
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
   [orderApi.reducerPath]: orderApi.reducer,
+  [categoryApi.reducerPath]: categoryApi.reducer,
   [reviewApi.reducerPath]: reviewApi.reducer,
 };
 
@@ -41,6 +43,7 @@ const makeStore = () =>
         authApi.middleware,
         productApi.middleware,
         orderApi.middleware,
+        categoryApi.middleware,
         reviewApi.middleware,
         rtkQueryErrorLogger,
       ),
