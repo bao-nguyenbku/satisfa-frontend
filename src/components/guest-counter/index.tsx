@@ -25,7 +25,7 @@ const GuestCounter = (props: Props) => {
     setValue((prev) => (prev === 0 ? 0 : prev - 1));
   };
   return (
-    <div className="text-white bg-neutral-800 border-gray-600 border flex items-center">
+    <div className="text-white bg-neutral-800 border-gray-600 border flex items-center w-fit">
       <span className='px-6'>{amount}</span>
       <IconButton onClick={onDecrease}
         className='bg-white/20 rounded-none hover:bg-white/30 h-20 w-20'

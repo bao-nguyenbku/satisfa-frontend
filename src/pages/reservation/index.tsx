@@ -9,10 +9,10 @@ const ReservationPage = () => {
         <title>Reservation | Satisfa</title>
       </Head>
       <div
-        className="h-screen bg-primary-dark flex flex-col items-center p-8 mt-28"
+        className=" bg-primary-dark min-h-screen flex flex-col items-center p-8 mt-28"
         id="about-us">
         <h2 className="text-primary-yellow text-6xl">Reservation</h2>
-        <div className="flex z-10 relative w-full h-full items-start mt-10">
+        <div className="flex z-10 relative w-full  items-start mt-10">
           <Reservation />
         </div>
       </div>

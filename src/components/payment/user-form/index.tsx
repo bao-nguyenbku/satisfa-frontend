@@ -109,13 +109,13 @@ export default function UserPaymentInfo(props: Props) {
                 id="reservation-select"
                 label="Reservations"
                 className="text-white"
-                value={orderInfo.reservation.tableId?.code}
+                value={orderInfo?.reservation?.tableId?.code}
                 onChange={handleChange}>
                 {reservationList &&
                   reservationList.map((item) => (
-                    <MenuItem value={item.tableId.code} key={item.id}>
+                    <MenuItem value={item?.tableId?.code} key={item.id}>
                       <div>
-                        <span>Table {item.tableId.code}</span>
+                        <span>Table {item?.tableId?.code}</span>
                         <span>{formatDate(item.date)}</span>
                         <span>{item.numberOfGuests}</span>
                       </div>

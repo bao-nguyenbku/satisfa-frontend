@@ -30,7 +30,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
       className={`${
-        value !== index ? 'hidden' : 'flex gap-4 flex-wrap'
+        value !== index ? 'hidden' : 'flex gap-4 flex-wrap w-11/12'
       } mt-12`}>
       {data.map((item) => {
         return (

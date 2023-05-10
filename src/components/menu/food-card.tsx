@@ -17,7 +17,7 @@ export default function FoodCard(props: Props) {
   }
   return (
     <div className="bg-neutral-900/50 p-3 text-white flex flex-col hover:bg-primary-yellow hover:ease-out duration-300 hover:scale-105 group cursor-pointer">
-      <div className='relative w-96 h-96'>
+      <div className='relative w-80 h-80'>
         <Image
           src={data.images[0]}
           sizes="100%"

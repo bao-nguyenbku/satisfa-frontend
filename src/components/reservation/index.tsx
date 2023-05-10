@@ -40,8 +40,8 @@ const Reservation = () => {
     return <div className="text-white">No table available!</div>;
   }
   return (
-    <div className="flex flex-col w-full gap-10 px-32">
-      <div className="flex w-full justify-center gap-6 mt-10">
+    <div className="flex flex-col w-full gap-10 px-2 md:px-32">
+      <div className="flex flex-col md:flex-row w-full justify-center gap-6 mt-10">
         <DatePicker
           value={dayjs(bookingData.data.date)}
           onChange={handleChange}

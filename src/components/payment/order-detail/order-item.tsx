@@ -18,7 +18,7 @@ export default function OrderItem(props: Props) {
     <div className={styles.orderItem}>
       <div style={{ width: '90%' }} className="mx-auto flex justify-between">
           <div className='w-1/6 p-0'>
-            <Image src={sampleImage} alt="Cake" width={100} height={100} />
+            <Image src={item.images[0]} alt="Cake" width={100} height={100} />
           </div>
           <div className="flex flex-col gap-4 mx-0 my-auto w-7/12">
             <Typography variant="h5" style={{ color: 'white' }}>

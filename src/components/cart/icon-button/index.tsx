@@ -24,11 +24,11 @@ const CartIconButton = () => {
         open={open}
         keepMounted
         PaperProps={{
-          className: 'min-w-[400px]',
+          className: 'min-w-[300px] md:min-w-[400px] ',
         }}
         onClose={handleToggleDrawer}>
         <div className={primaryFont.className}>
-          <CartDetail />
+          <CartDetail handleClose={handleToggleDrawer}/>
         </div>
       </Drawer>
 
