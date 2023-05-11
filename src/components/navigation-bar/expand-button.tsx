@@ -4,9 +4,10 @@ import * as _ from 'lodash';
 import { useAppSelector } from '@/hooks';
 import { selectUserState } from '@/store/reducer/user';
 import { podkova } from '@/constants/font';
-import AccountMenu from './account-menu';
+// import AccountMenu from './account-menu';
 import { Drawer, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountMenuResponsive from './account-menu-res';
 
 const ExpandButton = () => {
   const user = useAppSelector(selectUserState);
@@ -41,7 +42,7 @@ const ExpandButton = () => {
           <hr className='flex mx-auto w-9/12'/>
           {!user.isLoading && user.isSuccess && !_.isEmpty(user.data) ? (
             <li>
-                <AccountMenu data={user.data} />
+                <AccountMenuResponsive data={user.data} />
             </li>
           ) : (
             <li className="hover:bg-primary-yellow hover:transition-colors p-2">

@@ -62,6 +62,7 @@ export default function AccountMenu(props: Props) {
         />
         <span>{data?.fullname}</span>
       </li>
+
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
@@ -76,8 +77,13 @@ export default function AccountMenu(props: Props) {
         {menu.map((item) => {
           if (item.title === 'Sign out') {
             return (
-              <MenuItem onClick={handleSignOut} key={item.title} className='text-red-600'>
-                <ListItemIcon className='text-inherit'>{item.icon}</ListItemIcon>
+              <MenuItem
+                onClick={handleSignOut}
+                key={item.title}
+                className="text-red-600">
+                <ListItemIcon className="text-inherit">
+                  {item.icon}
+                </ListItemIcon>
                 {item.title}
               </MenuItem>
             );
