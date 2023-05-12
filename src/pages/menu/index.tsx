@@ -26,7 +26,7 @@ const Menu: NextPageWithLayout = () => {
       </Head>
       <AnimatePresence initial mode="wait">
         <div className="bg-primary-dark min-h-screen w-full flex flex-col items-center px-2 md:px-24">
-          <span className="text-primary-yellow text-7xl mt-16">Menu</span>
+          <span className="text-primary-yellow text-7xl mt-20">Menu</span>
           <div className="mt-12 flex flex-wrap gap-2 w-full justify-center">
             <CategoryTab data={productList as Product[]}/>
           </div>
