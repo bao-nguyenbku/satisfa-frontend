@@ -80,10 +80,7 @@ export default function AccountMenu(props: Props) {
               <MenuItem
                 onClick={handleSignOut}
                 key={item.title}
-                className="text-red-600">
-                <ListItemIcon className="text-inherit">
-                  {item.icon}
-                </ListItemIcon>
+                className="text-red-600 hover:bg-white/10">
                 {item.title}
               </MenuItem>
             );
