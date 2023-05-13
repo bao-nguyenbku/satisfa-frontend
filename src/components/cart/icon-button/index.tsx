@@ -3,7 +3,10 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Badge, IconButton, Drawer } from '@mui/material';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import CartDetail from '../cart-detail';
-import { selectTotalQty, setCookieToCart } from '@/store/reducer/cart';
+import {
+  recoverCartFromCookie,
+  selectTotalQty,
+} from '@/store/reducer/cart';
 import { primaryFont } from '@/constants';
 
 const CartIconButton = () => {
@@ -14,9 +17,8 @@ const CartIconButton = () => {
     setOpen((prev) => !prev);
   };
   useEffect(() => {
-    dispatch(setCookieToCart());
+    dispatch(recoverCartFromCookie());
   }, []);
-
   return (
     <>
       <Drawer

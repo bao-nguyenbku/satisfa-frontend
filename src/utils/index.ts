@@ -1,8 +1,21 @@
 import dayjs, { Dayjs } from 'dayjs';
 import customeParseFormat from 'dayjs/plugin/customParseFormat';
+import { hasCookie, getCookie } from 'cookies-next';
 dayjs.extend(customeParseFormat);
 
 import * as _ from 'lodash';
+
+export const getDataFromCookie = (key: string) => {
+  if (hasCookie(key)) {
+    try {
+      const data = getCookie(key);
+      return JSON.parse(data as string);
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+  return;
+};
 
 export function isValidDate(date: string) {
   const temp = date.split('/');

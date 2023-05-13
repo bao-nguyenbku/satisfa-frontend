@@ -41,7 +41,7 @@ class Indent {
           'watch menu',
           'today menu',
           'show menu',
-          'see menu'
+          'see menu',
         ],
         action: actions.suggestMenu,
       },
@@ -59,11 +59,16 @@ class Indent {
   // }
   parse(message: string) {
     const rawMessage = this.simlify(message);
+    const parseToWordMessages = rawMessage.split(' ');
     let isSupport = false;
     Object.keys(this.data).forEach((key) => {
-      const isValid = this.data[key].texts.some((sentence) =>
-        rawMessage.includes(sentence),
-      );
+      const isValid = this.data[key].texts.some((sentence) => {
+        return (
+          rawMessage === sentence ||
+          parseToWordMessages.some((word) => word === sentence)
+        );
+      });
+
       if (isValid) {
         this.data[key].action();
         isSupport = true;

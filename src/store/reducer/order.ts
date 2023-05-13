@@ -144,7 +144,7 @@ export const orderSlice = createSlice({
       .addCase(hydrate, (state, action) => {
         return {
           ...state,
-          ...action.payload.order,
+          ...action.payload,
         };
       })
       .addCase(createOrderThunk.pending, (state) => {

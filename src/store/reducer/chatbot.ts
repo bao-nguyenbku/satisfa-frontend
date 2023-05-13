@@ -236,8 +236,11 @@ export const chatbotSlice = createSlice({
       state.order.steps[6].isComplete = true;
     },
     setTakeawayTime: (state, action: PayloadAction<string>) => {
-      (state.order.created.tempCustomer as TakeawayCustomer).takingTime =
-        action.payload;
+      (state.order.created.tempCustomer as TakeawayCustomer).takingTime = dayjs(
+        action.payload,
+        DATE_INPUT_FORMAT,
+        true,
+      ).toISOString();
       state.order.steps[7].isComplete = true;
     },
     setReservationDinein: (state, action: PayloadAction<Reservation>) => {

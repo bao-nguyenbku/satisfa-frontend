@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-import { TableStatus, Table } from '@/types';
+import { Table } from '@/types';
 
 import { Popover } from '@mui/material';
 
@@ -10,37 +10,6 @@ type Props = {
   table: Table;
 };
 
-const getStylesByStatus = (status: string) => {
-  switch (status) {
-    case TableStatus.CHECKED_IN: {
-      return {
-        bg: 'bg-red-500',
-        border: 'border-l-red-500',
-        title: 'Checked-in',
-      };
-    }
-    case TableStatus.FREE: {
-      return {
-        bg: 'bg-green-500',
-        border: 'border-l-green-500',
-        title: 'Free',
-      };
-    }
-    case TableStatus.RESERVED: {
-      return {
-        bg: 'bg-yellow-500',
-        border: 'border-l-yellow-500',
-        title: 'Reserved',
-      };
-    }
-    default: {
-      return {
-        bg: 'bg-gray-500',
-        border: 'border-l-gray-500',
-      };
-    }
-  }
-};
 const TableModel = (props: Props) => {
   const { table } = props;
   const chairRef = useRef<HTMLDivElement>(null);
@@ -111,9 +80,7 @@ const TableModel = (props: Props) => {
           {Array.from(Array(table.numberOfSeats).keys()).map((item) => (
             <div
               key={item}
-              className={`${
-                getStylesByStatus(TableStatus.FREE).bg
-              } w-16 h-16 bg-green-500 rounded-full`}></div>
+              className={`w-16 h-16 bg-green-500 rounded-full`}></div>
           ))}
         </div>
         <div
@@ -122,9 +89,6 @@ const TableModel = (props: Props) => {
           <h2 className="text-white text-end font-playfair normal-case">
             {table.code}
           </h2>
-          <h1 className="text-white font-bold text-center normal-case">
-            {getStylesByStatus(TableStatus.FREE).title}
-          </h1>
         </div>
       </button>
     </>

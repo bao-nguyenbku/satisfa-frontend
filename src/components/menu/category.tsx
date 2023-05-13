@@ -76,8 +76,7 @@ export default function CategoryTab(props: Props) {
         onChange={handleChange}
         scrollButtons="auto"
         variant="scrollable"
-        className={styles.tabs}
-        centered>
+        className={styles.tabs}>
         {categories &&
           categories.map((category) => {
             return <Tab key={category.id} label={category.name} />;

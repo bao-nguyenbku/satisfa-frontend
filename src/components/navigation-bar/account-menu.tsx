@@ -3,7 +3,6 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 // import Divider from '@mui/material/Divider';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
@@ -71,6 +70,7 @@ export default function AccountMenu(props: Props) {
         onClick={handleClose}
         PaperProps={{
           elevation: 0,
+          className: 'bg-zinc-800 border border-slate-600 text-white'
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
@@ -89,9 +89,10 @@ export default function AccountMenu(props: Props) {
             );
           }
           return (
-            <MenuItem onClick={handleClose} key={item.title}>
+            <MenuItem onClick={handleClose} key={item.title}
+              className='hover:bg-white/10'
+            >
               <Link href={item.link} className="flex items-center">
-                <ListItemIcon>{item.icon}</ListItemIcon>
                 {item.title}
               </Link>
             </MenuItem>

@@ -1,13 +1,10 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:3000',
+    experimentalStudio: true,
   },
-  component: {
-    devServer: {
-      framework: "next",
-      bundler: "webpack",
-    },
-  },
+  viewportWidth: 1280,
+  viewportHeight: 768,
+  watchForFileChanges: false,
 });
