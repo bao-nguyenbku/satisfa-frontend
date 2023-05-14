@@ -9,7 +9,7 @@ const AboutUsSection = () => {
     <section
       className="h-[1300px] bg-primary-dark flex flex-col items-center md:p-8 w-screen ml-0 md:-ml-20 mt-4 relative"
       id="about-us">
-      <h1 className=" text-4xl md:text-7xl  mb-0 md:mb-24 text-primary-yellow">About us</h1>
+      <h1 className=" text-4xl md:text-7xl mb-0 md:mb-24 text-primary-yellow">About us</h1>
       <div className="flex flex-col md:flex-row gap-8 md:gap-0 h-full w-full relative items-center text-white ">
         <p className="lg:text-xl xl:text-2xl leading-relaxed tracking-widest max-w-xs md:max-w-xl xl:max-w-3xl lg:leading-[50px]">
           Le Laurie Raphaël est une plateforme pour la mise en valeur du travail

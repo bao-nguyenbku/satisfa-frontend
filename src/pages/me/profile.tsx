@@ -8,6 +8,7 @@ import AccountInfo from '@/components/my-account/account-info';
 const PaymentSuccess = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUserData);
+  console.log('🚀 ~ file: profile.tsx:11 ~ PaymentSuccess ~ user:', user);
   useEffect(() => {
     dispatch(reset());
     dispatch(clearAll());
@@ -15,12 +16,11 @@ const PaymentSuccess = () => {
   return (
     <>
       <Head>
-        <title> My Account | Satisfa</title>
+        <title> {user?.fullname} | Satisfa</title>
       </Head>
-      <div className='w-11/12 mx-auto mt-40'>
-        <AccountInfo user={user}/>
+      <div className="my-40 flex w-full items-center justify-center">
+        <AccountInfo user={user} />
       </div>
-      
     </>
   );
 };

@@ -18,30 +18,30 @@ const StatCard = (props: Props) => {
     switch (name) {
       case 'orders': {
         return {
-          bg: 'bg-gradient-to-tr from-teal-800 to-teal-500',
+          bg: 'bg-teal-800/20 border-teal-800 border text-teal-500',
           title: 'Orders',
-          icon: <AttachMoneyIcon fontSize="large" />,
+          icon: <AttachMoneyIcon fontSize="medium" />,
         };
       }
       case 'spent': {
         return {
           bg: 'bg-gradient-to-tr from-violet-900 to-violet-600',
           title: 'Spent',
-          icon: <DiningOutlinedIcon fontSize="large" />,
+          icon: <DiningOutlinedIcon fontSize="medium" />,
         };
       }
       case 'reservations': {
         return {
-          bg: 'bg-gradient-to-tr from-sky-800 to-sky-500',
+          bg: 'bg-sky-800/20 border border-sky-800 text-sky-500',
           title: 'Reservations',
-          icon: <TableRestaurantIcon fontSize="large" />,
+          icon: <TableRestaurantIcon fontSize="medium" />,
         };
       }
       case 'join': {
         return {
-          bg: 'bg-gradient-to-tr from-orange-600 to-orange-400',
+          bg: 'bg-orange-800/20 border border-orange-800 text-orange-500',
           title: 'Join In',
-          icon: <HourglassEmptyRoundedIcon fontSize="large" />,
+          icon: <HourglassEmptyRoundedIcon fontSize="medium" />,
         };
       }
     }
@@ -49,10 +49,10 @@ const StatCard = (props: Props) => {
   
   return (
     <div
-      className={`card-props flex flex-col gap-4 cursor-pointer ${
+      className={`card-props flex flex-col gap-4 ${
         '' || getStylesByName(name)?.bg
-      } rounded-none min-w-[350px] w-80 p-4 text-white`}>
-      <h1 className="font-bold text-3xl">{getStylesByName(name)?.title}</h1>
+      } rounded-none min-w-[200px] flex-1 p-4 text-white`}>
+      <h1 className="font-bold text-xl">{getStylesByName(name)?.title}</h1>
       <div className="flex gap-4 items-center">
         {getStylesByName(name)?.icon}
         <p className="font-bold text-xl">{name == 'spent' ? formatCurrency(data as number) : data}</p>

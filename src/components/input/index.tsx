@@ -30,7 +30,7 @@ const Input = (props: Props) => {
     errorClasses = 'border-red-500';
   }
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 w-full">
       <label className="text-zinc-400 font-bold">{label}</label>
       <input
         type={type}

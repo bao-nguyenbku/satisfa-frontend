@@ -19,7 +19,7 @@ const NavigationBar = () => {
   return (
     <>
       <ul
-        className={`hidden px-2 py-2 md:flex md:flex-row items-center justify-end text-white gap-8 md:text-sm md:gap-4 lg:text-sm lg:gap-6 xl:text-base xl:gap-8 right-0 md:py-6 md:px-20 w-full z-50 transition-all duration-700 uppercase absolute`}>
+        className={`hidden px-2 py-2 xl:flex xl:flex-row items-center justify-end text-white gap-8 xl:gap-4 lg:text-sm lg:gap-6 xl:text-base right-0 xl:py-6 xl:px-20 w-full z-50 transition-all duration-700 uppercase absolute`}>
         <li className="mr-auto text-5xl normal-case">
           <Link
             href="/"
@@ -57,7 +57,7 @@ const NavigationBar = () => {
 
         {/* <li className='hover:underline cursor-pointer' onClick={() => signOut()}>{!isLoading && data && data.email}</li> */}
       </ul>
-      <ul className="flex flex-row px-2 py-2 w-full z-50 items-center justify-end text-white transition-all duration-700 uppercase absolute right-0 md:hidden">
+      <ul className="flex flex-row px-2 py-2 w-full z-50 items-center justify-end text-white transition-all duration-700 uppercase absolute right-0 xl:hidden">
         <li className="mr-auto text-5xl normal-case">
           <Link
             href="/"
@@ -65,7 +65,7 @@ const NavigationBar = () => {
             <Image
               src={logo}
               alt="satisfa-logo"
-              className="rounded-ful w-10 h-10  md:w-20 m:h-20 "
+              className="rounded-ful w-10 h-10 md:w-20 md:h-20"
             />
             Satisfa
           </Link>
