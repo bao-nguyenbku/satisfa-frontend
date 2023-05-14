@@ -1,0 +1,19 @@
+.userForm {
+  :global .MuiOutlinedInput-notchedOutline {
+    @apply border-white text-white;
+    @apply rounded-none;
+    @apply hover:border-white
+  }
+  :global .MuiInputBase-root.Mui-focused fieldset {
+    @apply border-white text-white;
+    @apply border;
+    @apply hover:border-white
+  }
+  :global	.MuiInputBase-input{
+    @apply text-trueGray-400;
+    @apply border;
+    @apply hover:border-white
+  }
+
+  }
+  

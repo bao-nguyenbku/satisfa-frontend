@@ -14,13 +14,19 @@ import { getItemList, saveTotalCost } from '@/store/reducer/order';
 import { formatCurrency } from '@/utils';
 import { useRouter } from 'next/router';
 import { CartItem } from '@/types';
+import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from '@mui/material/IconButton';
 
+type Props = {
+  handleClose: () => void;
+};
 const isCartEmpty = (cartItems: CartItem[]) => {
   if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0)
     return false;
   return true;
 };
-export default function CartDetail() {
+export default function CartDetail(props: Props) {
+  const { handleClose } = props;
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
@@ -42,13 +48,22 @@ export default function CartDetail() {
       router.push('/payment');
     }
   };
+  const handleCloseCart = () => {
+    handleClose();
+  };
 
   return (
-    <div className="h-screen w-full bg-primary-dark p-4 flex flex-col">
-      <h2 className="text-yellow-500 text-xl flex items-center pb-4">
-        Your Cart
-      </h2>
-      <div className="flex flex-col gap-6">
+    <div className="h-screen w-full  bg-primary-dark p-4 flex flex-col ">
+      <div className="flex justify-between">
+        <h2 className="text-yellow-500 text-xl flex items-center pb-4">
+          Your Cart
+        </h2>
+        <IconButton aria-label="close" onClick={handleCloseCart}>
+          <ClearIcon className="text-white" />
+        </IconButton>
+      </div>
+
+      <div className="flex flex-col gap-6 pt-2 h-9/12 overflow-y-scroll">
         {isCartEmpty(cartItems) ? (
           cartItems.map((item) => {
             return (

@@ -12,7 +12,7 @@ export default function ReservationSection() {
   });
   const y = useTransform(scrollYProgress, [0, 1], [-400, 400]);
   return (
-    <div className="relative bg-zinc-800 w-screen -ml-20">
+    <div className="relative bg-zinc-800 w-screen md:-ml-20">
       <motion.div className="relative w-screen h-screen z-0" style={{ y }}>
         <Image
           src={banner6}
@@ -22,8 +22,8 @@ export default function ReservationSection() {
         />
       </motion.div>
       <div className='z-10 absolute top-0 left-0 text-white w-full h-full flex flex-col items-center justify-center gap-6'>
-        <h1 className='text-7xl font-bold text-primary-yellow'>Eat Together</h1>
-        <p className='text-xl'>
+        <h1 className= ' text-4xl md:text-7xl font-bold text-primary-yellow'>Eat Together</h1>
+        <p className='text-xl p-2 md:p-0'>
           Every plate achieves that elusive, cuisine-defining balance of sweet,
           salty, and sour — even dessert.
         </p>

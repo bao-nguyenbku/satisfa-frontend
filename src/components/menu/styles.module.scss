@@ -1,9 +1,16 @@
 .tabs {
   :global .MuiTabs-indicator {
-    @apply bg-primary-yellow h-1;
+    @apply hidden md:block bg-primary-yellow h-2;
   }
   :global .MuiTab-root {
     @apply text-white normal-case;
   }
+  :global .MuiTabs-flexContainer {
+    @apply flex flex-wrap md:flex-row text-sm
+  }
+  :global .Mui-selected{
+    @apply text-primary-yellow
+  }
   @apply text-white;
+  
 }

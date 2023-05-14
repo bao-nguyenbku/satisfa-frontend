@@ -57,24 +57,24 @@ import styles from './styles.module.scss';
 export default function FooterSection() {
   return (
     <footer id={styles.footer}>
-      <div className="flex flex-col gap-4 z-10 max-w-md">
-        <h2 className='text-xl font-bold'>Contact</h2>
-        <span>0123 456 789</span>
-        <span>122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh City</span>
-        <span>customer@satisfa.com</span>
+      <div className="flex flex-col lg:gap-2 xl:gap-4 z-10 max-w-[200px] md:max-w-md lg:max-w-sm">
+        <h2 className='text-lg md:text-xl font-bold'>Contact</h2>
+        <span className='text-sm md:text-base'>0123 456 789</span>
+        <span className='text-sm md:text-base'>122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh City</span>
+        <span className='text-sm md:text-base'>customer@satisfa.com</span>
       </div>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/4 flex flex-col items-center gap-6 z-10">
-        <h2 className={`text-6xl ${podkova.className}`}>Satisfa Restaurant</h2>
+      <div className="absolute left-1/2 top-1/6 md:top-1/2 -translate-x-1/2 -translate-y-1/4 flex flex-col items-center gap-6 z-10">
+        <h2 className={`text-xl md:text-6xl ${podkova.className}`}>Satisfa Restaurant</h2>
         <div className="flex items-center gap-3">
           <InstagramIcon className="text-3xl" />
           <FacebookRoundedIcon className="text-3xl" />
           <YouTubeIcon className="text-3xl" />
         </div>
-        <span className="mt-44">©2023 Satisfa</span>
+        <span className="mt-52 md:mt-44">©2023 Satisfa</span>
       </div>
-      <div className="flex flex-col gap-4 z-10">
+      <div className="flex flex-col gap-2 md:gap-4 z-10">
         <h2 className='text-xl font-bold'>Hours</h2>
-        <span>Monday - Sunday <br /> 8:00am - 22:00am</span>
+        <span className='text-sm md:text-base'>Monday - Sunday <br /> 8:00am - 22:00pm</span>
       </div>
     </footer>
   );

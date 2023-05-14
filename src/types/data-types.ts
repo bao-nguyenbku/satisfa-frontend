@@ -8,6 +8,7 @@ export type User = {
   email: string;
   fullname: string;
   avatar: string;
+  phone?:string;
 };
 
 export type CreateUser = {

@@ -74,5 +74,6 @@ export const userSlice = createSlice({
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUserState = (state: RootState) => state.user;
+export const selectUserData = (state: RootState) => state.user.data;
 
 export default userSlice.reducer;

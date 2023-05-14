@@ -19,7 +19,7 @@ export default function OrderDetailPayment(props: Props) {
       <Typography marginLeft={4} variant="h6" className="text-yellow-600 mt-8">
         ORDER DETAIL
       </Typography>
-      <div className="flex flex-col gap-6 mt-4">
+      <div className="flex flex-col gap-6 mt-4 h-[400px] overflow-y-scroll ">
         {orderInfo.data.itemList.map((item: any) => (
           <OrderItem item={item} key={item.name} />
         ))}

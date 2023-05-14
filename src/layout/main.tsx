@@ -19,7 +19,7 @@ export default function MainLayout({ children }: LayoutProps) {
     }
   }, [sessionData]);
   return (
-    <div className="px-20 overflow-y-auto overflow-x-hidden bg-primary-dark">
+    <div className="px-0 md:px-20 overflow-y-auto overflow-x-hidden bg-primary-dark">
       <NavigationBar />
       <>{children}</>
       <FloatMenu />

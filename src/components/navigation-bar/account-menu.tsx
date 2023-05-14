@@ -61,6 +61,7 @@ export default function AccountMenu(props: Props) {
         />
         <span>{data?.fullname}</span>
       </li>
+
       <Menu
         anchorEl={anchorEl}
         id="account-menu"

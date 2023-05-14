@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@mui/material';
 import styles from './styles.module.scss';
 import OrderDetailPayment from '@/components/payment/order-detail';
 import PaymentTypeSelect from '@/components/payment/payment-type';
@@ -70,42 +69,35 @@ export default function Payment() {
         Payment{' '}
         <div style={{ marginLeft: '30px' }} className={styles.endLine} />
       </div>
-      <div className="mx-auto mt-8 menu-content" style={{ width: '95vw' }}>
-        <Grid container>
-          <Grid item xs={6}>
-            <Grid container>
-              <Grid item xs={12} className={styles.leftColumn}>
-                <UserPaymentInfo
-                  orderInfo={orderInfo}
-                  userInfo={userInfo}
-                  reservationList={filterReservation?.data as Reservation[]}
-                  onReservationChange={handleSetReservation}
-                  onTakeawayChange={handleTakeawayInformation}
-                />
-              </Grid>
-              <Grid item xs={12} className="bg-[#2D2D2D] mt-4 w-11/12 mx-auto">
-                <OrderTypePayment orderType={orderInfo.type} />
-              </Grid>
-              <Grid item xs={12} className="bg-[#2D2D2D] mt-4 w-11/12 mx-auto">
-                <PaymentTypeSelect
-                  paymentType={orderInfo.paymentType}
-                  onPaymentTypeChange={handleSetPaymentType}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            xs={5}
-            marginLeft={4}
-            className="order-detail bg-[#2D2D2D] h-full p-0">
-            <OrderDetailPayment
-              orderInfo={createOrder}
-              onPlaceOrder={handlePlaceOrder}
-              isCreated={createOrder.isSuccess as boolean}
+      <div className="mx-2 mt-8 menu-content w-[100vw] flex flex-col md:flex-row">
+        <div className='w-full md:w-3/6 px-0 md:px-2'>
+          <div className={`${styles.leftColumn}`}>
+            <UserPaymentInfo
+              orderInfo={orderInfo}
+              userInfo={userInfo}
+              reservationList={filterReservation?.data as Reservation[]}
+              onReservationChange={handleSetReservation}
+              onTakeawayChange={handleTakeawayInformation}
             />
-          </Grid>
-        </Grid>
+          </div>
+          <div className="bg-[#2D2D2D] mt-4  ">
+            <OrderTypePayment orderType={orderInfo.type} />
+          </div>
+          <div className="bg-[#2D2D2D] mt-4 ">
+            <PaymentTypeSelect
+              paymentType={orderInfo.paymentType}
+              onPaymentTypeChange={handleSetPaymentType}
+            />
+          </div>
+        </div>
+
+        <div className="order-detail bg-[#2D2D2D] h-full w-full md:w-2/5  pl-0 md:pl-2">
+          <OrderDetailPayment
+            orderInfo={createOrder}
+            onPlaceOrder={handlePlaceOrder}
+            isCreated={createOrder.isSuccess as boolean}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 #footer {
-  @apply h-[60vh] relative bg-dark-2 text-white flex justify-between items-center w-screen -left-20 p-20;
+  @apply h-[70vh] md:h-[60vh] relative bg-dark-2 text-white flex justify-between items-center w-screen left-0  md:-left-20 p-4 md:p-20;
   background-image: url('../../../assets/images/footer.jpg');
   background-attachment: fixed;
   background-position: center;

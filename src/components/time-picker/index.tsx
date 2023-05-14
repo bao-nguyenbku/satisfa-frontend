@@ -21,17 +21,19 @@ const TimePicker = (props: Props) => {
     onChange(dayjs(newValue));
   };
   return (
-    <TimePicker_
-      className={styles.pickerContainer}
-      ampm
-      orientation="landscape"
-      openTo="hours"
-      value={value}
-      minutesStep={30}
-      closeOnSelect={false}
-      onChange={handleChange}
-      renderInput={(params) => <TextField {...params} />}
-    />
+    <>
+      <TimePicker_
+        className={styles.pickerContainer}
+        ampm
+        orientation="portrait"
+        openTo="hours"
+        value={value}
+        minutesStep={30}
+        closeOnSelect={false}
+        onChange={handleChange}
+        renderInput={(params) => <TextField {...params} />}
+      />
+    </>
   );
 };
 
