@@ -18,9 +18,10 @@ export default function OrderCard(props: Props) {
             <Image
               src={item.images[0]}
               alt="food-image"
-              className="object-cover"
+              className="object-cover aspect-square"
               width={80}
               height={80}
+              quality={75}
             />
             <div className="flex flex-col gap-4 ml-2 w-full">
               <div className="flex gap-4 w-full">
