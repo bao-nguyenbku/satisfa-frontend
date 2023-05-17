@@ -19,7 +19,7 @@ const NavigationBar = () => {
   return (
     <>
       <ul
-        className={`hidden px-2 py-2 xl:flex xl:flex-row items-center justify-end text-white gap-8 xl:gap-4 lg:text-sm lg:gap-6 xl:text-base right-0 xl:py-6 xl:px-20 w-full z-50 transition-all duration-700 uppercase absolute`}>
+        className={`px-20 py-6 flex flex-row items-center justify-end text-white right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 transition-all duration-700 uppercase absolute`}>
         <li className="mr-auto text-5xl normal-case">
           <Link
             href="/"
@@ -32,50 +32,31 @@ const NavigationBar = () => {
             Satisfa
           </Link>
         </li>
-        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
+        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
           <Link href="/#about-us">About us</Link>
         </li>
-        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
+        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
           <Link href="/menu">Our menu</Link>
         </li>
-        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
+        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
           <Link href="/reservation">Reservation</Link>
         </li>
-        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
+        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
           <Link href="#footer">Contact</Link>
         </li>
         <li className="hover:bg-white/40 rounded-full">
           <CartIconButton />
         </li>
+        <li className="hover:bg-white/40 rounded-full lg:hidden block">
+          <ExpandButton />
+        </li>
         {!user.isLoading && user.isSuccess && !_.isEmpty(user.data) ? (
           <AccountMenu data={user.data} />
         ) : (
-          <li className="hover:bg-primary-yellow hover:transition-colors p-2">
+          <li className="hover:bg-primary-yellow hover:transition-colors p-2 lg:block hidden">
             <Link href="/login">Sign in</Link>
           </li>
         )}
-
-        {/* <li className='hover:underline cursor-pointer' onClick={() => signOut()}>{!isLoading && data && data.email}</li> */}
-      </ul>
-      <ul className="flex flex-row px-2 py-2 w-full z-50 items-center justify-end text-white transition-all duration-700 uppercase absolute right-0 xl:hidden">
-        <li className="mr-auto text-5xl normal-case">
-          <Link
-            href="/"
-            className={`flex items-center text-2xl md:text-5xl gap-2 ${podkova.className}`}>
-            <Image
-              src={logo}
-              alt="satisfa-logo"
-              className="rounded-ful w-10 h-10 md:w-20 md:h-20"
-            />
-            Satisfa
-          </Link>
-        </li>
-        <li className="hover:bg-white/40 rounded-full pr-2">
-          <CartIconButton />
-        </li>
-        <li className="hover:bg-white/40 rounded-full">
-          <ExpandButton />
-        </li>
       </ul>
     </>
   );

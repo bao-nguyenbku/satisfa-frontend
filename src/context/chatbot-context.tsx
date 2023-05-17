@@ -26,7 +26,7 @@ import {
 } from '@/store/reducer/chatbot';
 import { botOrderMessage, botReserveMessage } from '@/components/chatbot/steps';
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
-import { Reservation } from '@/types';
+import { CreateReservation, Reservation } from '@/types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
 import { selectReservationState } from '@/store/reducer/reservation';
 import { formatDate } from '@/utils';
@@ -306,12 +306,18 @@ export const ChatbotProvider = ({ children }: Props) => {
         delay: 500,
       });
     },
-    completeBookingTable: (options?: MessageOption) => {
+    completeBookingTable: (
+      reservation?: Reservation,
+      options?: MessageOption,
+    ) => {
       open();
       const message = `Congratulations! You now can come to my restaurant at ${formatDate(
-        reservationInfo.createReservationData.data.date,
+        reservationInfo.createReservationData.data.date ||
+          (reservation?.date as string),
       )} 
-      on table ${reservationInfo.createReservationData.code}`;
+      on table ${
+        reservationInfo.createReservationData.code || reservation?.tableId?.code
+      }`;
       createBotMessage(message, options);
       actions.completeService();
     },

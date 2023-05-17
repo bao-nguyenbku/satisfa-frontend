@@ -5,6 +5,7 @@ import { CreateReservation, Table } from '@/types';
 import { useCreateReservationMutation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
+import { selectUserData } from '@/store/reducer/user';
 
 type Props = {
   table: Table;
@@ -20,7 +21,7 @@ const reserveData: Omit<CreateReservation, 'customerId'> & {
 };
 const BookingCard = (props: Props) => {
   const { table } = props;
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector(selectUserData);
   const data = useAppSelector(
     (state) => state.reservation.createReservationData,
   );

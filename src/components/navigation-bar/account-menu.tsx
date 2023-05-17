@@ -47,7 +47,7 @@ export default function AccountMenu(props: Props) {
     <React.Fragment>
       <li
         onClick={handleOpenMenu}
-        className="flex items-center gap-2 hover:bg-primary-yellow hover:transition-colors p-2 cursor-pointer">
+        className="items-center gap-2 hover:bg-primary-yellow hover:transition-colors p-2 cursor-pointer lg:flex hidden">
         <Image
           src={data?.avatar}
           alt="user-avatar"

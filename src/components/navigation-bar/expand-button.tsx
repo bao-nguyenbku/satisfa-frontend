@@ -22,10 +22,11 @@ const ExpandButton = () => {
         open={open}
         keepMounted
         PaperProps={{
-          className: 'w-2/4',
+          className: 'w-2/4 bg-transparent',
         }}
+        className='bg-transparent'
         onClose={handleToggleDrawer}>
-        <ul className='flex flex-col justify-start py-4 gap-6 text-center bg-dark-2 h-full text-white'>
+        <ul className='flex flex-col justify-start py-4 gap-6 text-center bg-zinc-800/50 backdrop-blur-lg h-full text-white'>
           <li className={`flex items-center justify-center text-2xl ${podkova.className} text-center`}>SATISFA</li>
           <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
             <Link href="/#about-us">About us</Link>
@@ -52,12 +53,10 @@ const ExpandButton = () => {
         </ul>
       </Drawer>
       <IconButton
-        size="large"
         onClick={handleToggleDrawer}
-        edge="start"
         color="inherit"
         aria-label="menu"
-        sx={{ mr: 2 }}>
+        >
         <MenuIcon />
       </IconButton>
     </>

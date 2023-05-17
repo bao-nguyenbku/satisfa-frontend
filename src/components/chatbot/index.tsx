@@ -74,8 +74,6 @@ const Chatbot = (props: Props) => {
             'You can not book a date in the past. Please choose other day',
           );
           return;
-          // dispatch(getTime(currentDate));
-          // dispatch(setReservationDate(currentDate));
         } else {
           dispatch(setReservationDate(message));
           dispatch(getTime(dayjs(message, DATE_INPUT_FORMAT).toISOString()));

@@ -193,6 +193,7 @@ export const chatbotSlice = createSlice({
       state.reservation.created.date = dayjs(
         `${date} ${action.payload}`,
         DATE_INPUT_FORMAT,
+        true,
       ).toISOString();
       state.reservation.steps[2].isComplete = true;
     },
@@ -290,6 +291,7 @@ export const {
   setTakeawayTime,
   resetCreateOrder,
   resetCreateReservation,
+  setSelectTable,
   setReservationDinein,
 } = chatbotSlice.actions;
 
