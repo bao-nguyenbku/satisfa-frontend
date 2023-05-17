@@ -1,18 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
-import { reset } from '@/store/reducer/order';
-import { clearAll } from '@/store/reducer/cart';
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppSelector } from '@/hooks';
 import { selectUserData } from '@/store/reducer/user';
 import AccountInfo from '@/components/my-account/account-info';
-const PaymentSuccess = () => {
-  const dispatch = useAppDispatch();
+export default function Profile() {
   const user = useAppSelector(selectUserData);
-  console.log('🚀 ~ file: profile.tsx:11 ~ PaymentSuccess ~ user:', user);
-  useEffect(() => {
-    dispatch(reset());
-    dispatch(clearAll());
-  });
   return (
     <>
       <Head>
@@ -23,6 +15,4 @@ const PaymentSuccess = () => {
       </div>
     </>
   );
-};
-
-export default PaymentSuccess;
+}

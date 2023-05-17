@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from '@/components/common/image';
+import Button from '../common/button';
 import type { Product } from '@/types';
 import { formatCurrency } from '@/utils';
 import { addItem } from '@/store/reducer/cart';
@@ -28,11 +29,11 @@ export default function FoodCard(props: Props) {
       </div>
       <span className="font-bold text-2xl my-6">{data.name}</span>
       <div className="flex items-center justify-between mt-10">
-        <button 
+        <Button 
         onClick={handleAddItem}
         className="bg-primary-yellow normal-case rounded-none text-white group-hover:bg-primary-dark p-4 px-10 font-bold">
           Add
-        </button>
+        </Button>
         <span className="text-2xl text-primary-yellow font-extrabold group-hover:text-white">
           {formatCurrency(data.price)}
         </span>

@@ -21,11 +21,11 @@ const LoginPage = () => {
       <Head>
         <title>Sign in | Satisfa</title>
       </Head>
-      <div className="flex h-screen">
-        <div className="w-2/3">
+      <div className="flex h-screen w-screen">
+        <div className="lg:flex-1 w-2/3 md:block hidden">
           <ReviewSection />
         </div>
-        <div className="flex-1 bg-primary-dark pt-32 px-28 flex flex-col">
+        <div className="bg-primary-dark pt-32 w-full lg:w-128 md:w-100 lg:px-16 px-8 flex flex-col">
           <div className="mb-16">
             <h2 className="text-white uppercase text-5xl font-bold mb-4">
               Sign in.
@@ -36,7 +36,7 @@ const LoginPage = () => {
             </span>
           </div>
           <SigninForm />
-          <Divider className='text-white my-4'>Or</Divider>
+          <Divider className="text-white my-4">Or</Divider>
           <Button
             onClick={handleSignInWithGoogle}
             className="bg-white text-black gap-8 rounded-none py-3 hover:bg-white/80">

@@ -14,7 +14,7 @@ export const botOrderMessage: BotMessage = {
   2: {
     text: (
       <span>
-        I saw your order cart. Would you like to dine-in or takeaway? Type{' '}
+        Would you like to dine-in or takeaway? Type{' '}
         <strong>dine in</strong> or <strong>takeaway</strong>
       </span>
     ),

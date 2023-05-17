@@ -6,7 +6,7 @@ import CartIconButton from '../cart/icon-button';
 import { useAppSelector } from '@/hooks';
 import { selectUserState } from '@/store/reducer/user';
 import { podkova } from '@/constants/font';
-import logo from '../../../public/logo.png';
+import logo from '../../../public/logo-2.png';
 import AccountMenu from './account-menu';
 import ExpandButton from './expand-button';
 
@@ -23,11 +23,11 @@ const NavigationBar = () => {
         <li className="mr-auto text-5xl normal-case">
           <Link
             href="/"
-            className={`flex items-center text-2xl md:text-5xl gap-2 ${podkova.className}`}>
+            className={`flex items-center text-2xl gap-2 ${podkova.className}`}>
             <Image
               src={logo}
               alt="satisfa-logo"
-              className="rounded-ful w-10 h-10  md:w-20 md:h-20 "
+              className="rounded-ful w-8 h-8"
             />
             Satisfa
           </Link>

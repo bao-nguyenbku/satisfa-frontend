@@ -14,10 +14,11 @@ export default function SingleItem(props: Props) {
   }
   return (
     <div className="flex gap-10 items-center relative my-8 text-white">
-      <figure className="relative w-100 h-100">
+      <figure className="relative w-44 h-44">
         <Image
           src={data?.customerId?.avatar}
           alt="testimonial-avatar"
+          quality={75}
           fill
           className="object-cover rounded-t-full rounded-r-full -z-10"
         />

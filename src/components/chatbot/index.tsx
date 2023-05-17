@@ -25,6 +25,7 @@ import dayjs from 'dayjs';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
 import {
+  compareDate,
   isNumber,
   isValidDate,
   isValidDatetime,
@@ -39,6 +40,7 @@ import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { Indent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
+import { selectUserData } from '@/store/reducer/user';
 
 type Props = {
   boxOpen?: boolean;
@@ -55,19 +57,25 @@ const Chatbot = (props: Props) => {
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
   const reserveData = useAppSelector((state) => state.reservation);
+  const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
 
   // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
+    if (!user) {
+      actions.sendMessage('You must sign in to make a reservation');
+      return;
+    }
     if (!botReservationState.steps[1].isComplete) {
-      const currentDate = new Date();
+      const currentDate = new Date().toISOString();
       if (isValidDate(message)) {
-        if (dayjs(message) && dayjs(message) < dayjs(currentDate)) {
+        if (!compareDate(message, currentDate)) {
           actions.sendMessage(
-            'You can not book a date in the past. I will set the date to today for you',
+            'You can not book a date in the past. Please choose other day',
           );
-          dispatch(getTime(currentDate.toISOString()));
-          dispatch(setReservationDate(currentDate.toISOString()));
+          return;
+          // dispatch(getTime(currentDate));
+          // dispatch(setReservationDate(currentDate));
         } else {
           dispatch(setReservationDate(message));
           dispatch(getTime(dayjs(message, DATE_INPUT_FORMAT).toISOString()));
@@ -116,7 +124,7 @@ const Chatbot = (props: Props) => {
         actions.showTables();
       } else {
         actions.sendMessage(
-          'That is not a valid number. Please provide a positive number for me.',
+          'That is not a valid number. Please provide a positive number',
         );
         actions.getGuestPicker();
       }
@@ -136,19 +144,20 @@ const Chatbot = (props: Props) => {
         actions.sendMessage(
           'Your cart is empty, so I can not make an order for you. Please pick some food to continue',
         );
-      } 
-      
-      else if (cartRes && cartRes.itemList.length > 0) {
-        actions.sendMessage('I am confirming your cart');
-        actions.sendWidget(<ShowCart data={cartRes.itemList} />);
-        actions.sendMessage(botOrderMessage[2].text, {
-          delay: 600,
+      } else if (cartRes && cartRes.itemList.length > 0) {
+        actions.sendMessage('Your cart is showing below', {
+          widget: <ShowCart data={cartRes.itemList} />,
         });
+
+        actions.chooseDineInOrTakeaway();
       }
     }
     // Choose OrderType
     else if (!botOrderState.steps[2].isComplete) {
-      if (!/^takeaway$/.test(lowCaseMessage) && !/^dine in$/.test(lowCaseMessage)) {
+      if (
+        !/^takeaway$/.test(lowCaseMessage) &&
+        !/^dine in$/.test(lowCaseMessage)
+      ) {
         actions.unhandleInput();
         return;
       }
@@ -158,6 +167,10 @@ const Chatbot = (props: Props) => {
       }
       // In case choose dine-in option
       else if (/^dine in$/.test(lowCaseMessage)) {
+        if (!user) {
+          actions.sendMessage('You must sign in to book a table');
+          return;
+        }
         const reservation = await dispatch(getReservationByUser()).unwrap();
         if (reservation && _.isArray(reservation) && reservation.length === 0) {
           actions.sendMessage(botOrderMessage[4].text);
@@ -252,6 +265,8 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
+    } else {
+      actions.unhandleInput();
     }
   };
   useEffect(() => {

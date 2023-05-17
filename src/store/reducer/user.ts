@@ -48,7 +48,7 @@ export const userSlice = createSlice({
       })
       .addCase(authCurrentUser.pending, (state) => {
         state.isLoading = true;
-        state.data = {} as User;
+        state.data = undefined;
         state.isSuccess = false;
         state.error = null;
       })

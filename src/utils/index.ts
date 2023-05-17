@@ -1,5 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import customeParseFormat from 'dayjs/plugin/customParseFormat';
+import { DATE_INPUT_FORMAT } from '@/types';
 import { hasCookie, getCookie } from 'cookies-next';
 dayjs.extend(customeParseFormat);
 
@@ -16,7 +17,19 @@ export const getDataFromCookie = (key: string) => {
   }
   return;
 };
-
+export const compareDate = (date_1: string | Dayjs, date_2: string | Dayjs) => {
+  const _date_1 = dayjs(date_1, DATE_INPUT_FORMAT).isValid()
+    ? dayjs(date_1, DATE_INPUT_FORMAT)
+    : undefined;
+  const _date_2 = dayjs(date_2).isValid() ? dayjs(date_2) : undefined;
+  if (!_date_1 || !_date_2) {
+    return;
+  }
+  if (_date_1.diff(_date_2) < 0) {
+    return false;
+  }
+  return true;
+};
 export function isValidDate(date: string) {
   const temp = date.split('/');
   const d = new Date(temp[1] + '/' + temp[0] + '/' + temp[2]);
