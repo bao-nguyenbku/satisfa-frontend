@@ -1,49 +1,54 @@
 import React from 'react';
 import Link from 'next/link';
 import * as _ from 'lodash';
-import Image from 'next/image';
 import CartIconButton from '../cart/icon-button';
 import { useAppSelector } from '@/hooks';
 import { selectUserState } from '@/store/reducer/user';
-import { podkova } from '@/constants/font';
-import logo from '../../../public/logo-2.png';
 import AccountMenu from './account-menu';
 import ExpandButton from './expand-button';
+import Logo from './logo';
 
 // type Props = {
 //   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
 // };
+export const navigation = [
+  {
+    title: 'About us',
+    href: '/#about-us',
+  },
+  {
+    title: 'Our menu',
+    href: '/menu',
+  },
+  {
+    title: 'Reservation',
+    href: '/reservation',
+  },
+  {
+    title: 'Contact',
+    href: '/#footer',
+  },
+];
 
 const NavigationBar = () => {
   const user = useAppSelector(selectUserState);
   return (
     <>
       <ul
-        className={`px-20 py-6 flex flex-row items-center justify-end text-white right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 transition-all duration-700 uppercase absolute`}>
+        className={`lg:px-20 px-6 py-6 flex flex-row items-center justify-end text-white right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 transition-all duration-700 uppercase absolute`}>
         <li className="mr-auto text-5xl normal-case">
-          <Link
-            href="/"
-            className={`flex items-center text-2xl gap-2 ${podkova.className}`}>
-            <Image
-              src={logo}
-              alt="satisfa-logo"
-              className="rounded-ful w-8 h-8"
-            />
-            Satisfa
-          </Link>
+          <Logo />
         </li>
-        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
-          <Link href="/#about-us">About us</Link>
-        </li>
-        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
-          <Link href="/menu">Our menu</Link>
-        </li>
-        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
-          <Link href="/reservation">Reservation</Link>
-        </li>
-        <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
-          <Link href="#footer">Contact</Link>
-        </li>
+        {navigation.map((item) => {
+          return (
+            <li
+              key={item.href}
+              className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
+              <Link href={item.href}>{item.title}</Link>
+            </li>
+          );
+        })}
+
         <li className="hover:bg-white/40 rounded-full">
           <CartIconButton />
         </li>

@@ -24,9 +24,8 @@ export const SocketProvider = ({ children }: Props) => {
     };
   }, []);
   useEffect(() => {
-    if (socket) {
-      console.log('Connected: ', socket.id);
-      socket.emit('join-room', socket.id);
+    if (socket?.connected) {
+      console.log('Connected from Landing: ', socket.id);
     }
   }, [socket]);
   return (

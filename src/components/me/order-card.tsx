@@ -39,7 +39,7 @@ export default function OrderCard(props: Props) {
       })}
 
       <Divider className="border-slate-600" />
-      <div>
+      <div className='mt-auto'>
         <span className="flex justify-between">
           <span>Type:</span>
           <span>{data.type}</span>
@@ -58,7 +58,7 @@ export default function OrderCard(props: Props) {
           <span className="font-bold">{formatCurrency(data.totalCost)}</span>
         </span>
       </div>
-      <div className="absolute -top-12 -right-12 bg-teal-600 rounded-full w-20 h-20 flex items-center justify-center font-bold -rotate-12">
+      <div className="absolute -top-10 -right-10 bg-teal-600 rounded-full w-16 h-16 flex items-center justify-center font-bold -rotate-12">
         {data.status}
       </div>
     </div>

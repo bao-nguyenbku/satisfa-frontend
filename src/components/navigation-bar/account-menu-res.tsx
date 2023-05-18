@@ -70,11 +70,8 @@ export default function AccountMenuResponsive(props: Props) {
     },
   };
   return (
-    <React.Fragment>
-      <li
-        // onClick={handleOpenMenu}
-        // onClick={openMenu}
-        className="flex justify-between items-center gap-2 hover:bg-primary-yellow hover:transition-colors p-2 cursor-pointer">
+    <div className='flex flex-col'>
+      <div className='flex justify-between items-center gap-2 hover:bg-primary-yellow hover:transition-colors p-2 cursor-pointer' onClick={openMenu}>
         <div className="flex items-center gap-2">
           <Image
             src={data?.avatar}
@@ -86,51 +83,15 @@ export default function AccountMenuResponsive(props: Props) {
           />
           <span>{data?.fullname}</span>
         </div>
-        <motion.div className="menu-item" onClick={openMenu}>
+        <motion.div className="menu-item">
           <ExpandMoreIcon />
         </motion.div>
-      </li>
+      </div>
       <motion.div
         className="sub-menu"
         initial="exit"
         animate={isOpen ? 'enter' : 'exit'}
         variants={subMenuAnimate}>
-        {/* <Menu
-          anchorEl={anchorEl}
-          id="account-menu"
-          open={open}
-          onClose={handleClose}
-          className="bg-transparent"
-          //   onClick={handleClose}
-          //   PaperProps={{
-          //     elevation: 0,
-          //   }}
-          //   transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-          {menu.map((item) => {
-            if (item.title === 'Sign out') {
-              return (
-                <MenuItem
-                  onClick={handleSignOut}
-                  key={item.title}
-                  className="text-red-600">
-                  <ListItemIcon className="text-inherit">
-                    {item.icon}
-                  </ListItemIcon>
-                  {item.title}
-                </MenuItem>
-              );
-            }
-            return (
-              <MenuItem onClick={handleClose} key={item.title}>
-                <Link href={item.link} className="flex items-center">
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  {item.title}
-                </Link>
-              </MenuItem>
-            );
-          })}
-        </Menu> */}
         {isOpen && (
           <ul className="flex flex-col items-start gap-2 p-2">
             {menu.map((item) => {
@@ -139,14 +100,14 @@ export default function AccountMenuResponsive(props: Props) {
                   <li
                     onClick={handleSignOut}
                     key={item.title}
-                    className="text-red-600 flex gap-0">
+                    className="text-red-600 hover:bg-zinc-700 py-2 w-full first-letter:gap-0 text-center cursor-pointer">
                     {item.title}
                   </li>
                 );
               }
               return (
-                <li onClick={openMenu} key={item.title}>
-                  <Link href={item.link} className="flex gap-0">
+                <li onClick={openMenu} key={item.title} className='flex w-full'>
+                  <Link href={item.link} className="hover:bg-zinc-700 py-2 w-full">
                     {item.title}
                   </Link>
                 </li>
@@ -155,6 +116,6 @@ export default function AccountMenuResponsive(props: Props) {
           </ul>
         )}
       </motion.div>
-    </React.Fragment>
+    </div>
   );
 }

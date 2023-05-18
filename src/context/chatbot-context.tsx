@@ -31,7 +31,6 @@ import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmatio
 import { selectReservationState } from '@/store/reducer/reservation';
 import { formatDate } from '@/utils';
 import ShowTables from '@/components/chatbot/widgets/show-tables';
-import useSocket from '@/hooks/useSocket';
 
 type Props = {
   children: React.ReactNode;
@@ -86,7 +85,6 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const dispatch = useAppDispatch();
-  const { socket } = useSocket();
   const router = useRouter();
   const reservationInfo = useAppSelector(selectReservationState);
 
@@ -207,8 +205,8 @@ export const ChatbotProvider = ({ children }: Props) => {
     },
     callWaiter: () => {
       createBotMessage('I called watier for you. Please wait...');
-      socket?.emit('chat', 'CALL_WAITER');
     },
+
     sendMessage: (message: ReactNode, options?: MessageOption) => {
       const widget =
         options &&
