@@ -1,10 +1,10 @@
 import React from 'react';
 import chefImg from '@/assets/images/chef.jpg';
 import Image from 'next/image';
-
+// before:w-20 before:h-full before:bg-neutral-200 before:absolute before:top-0 before:-left-20 after:w-20 after:h-full after:bg-neutral-200 after:absolute after:top-0 after:-right-20
 export default function HeadChefSection() {
   return (
-    <div className='relative text-white flex flex-col md:flex-row gap-24 items-center justify-center py-24 bg-zinc-800 before:w-20 before:h-full before:bg-zinc-800 before:absolute before:top-0 before:-left-20 after:w-20 after:h-full after:bg-zinc-800 after:absolute after:top-0 after:-right-20'>
+    <div className='relative text-slate-800 flex flex-col md:flex-row gap-24 items-center justify-center py-24 bg-neutral-200'>
       <div className="relative w-100 h-128">
         <Image
           src={chefImg}
@@ -15,9 +15,9 @@ export default function HeadChefSection() {
         />
       </div>
       <div className=' lg:max-w-[30vw] xl:max-w-2xl flex flex-col gap-6 mx-2 md:mx-0'>
-        <h2 className='uppercase text-primary-yellow text-xl'>Head chef</h2>
-        <h2 className='uppercase text-3xl font-bold'>Carl Schmidt</h2>
-        <p className='tracking-widest'>
+        <h2 className='uppercase text-primary-orange text-xl'>Head chef</h2>
+        <h2 className='uppercase text-4xl font-bold'>Carl Schmidt</h2>
+        <p className='tracking-widest text-lg'>
           Proactive, Ambitious and Creative Executive Chef with a notable career
           trajectory and achievements list. Experience in catering for up to 450
           covers at some of the most prestigious establishments in the world.

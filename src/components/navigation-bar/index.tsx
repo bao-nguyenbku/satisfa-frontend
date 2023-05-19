@@ -43,7 +43,7 @@ const NavigationBar = () => {
           return (
             <li
               key={item.href}
-              className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow lg:block hidden">
+              className="hover:border-b-2 border-b-2 border-transparent hover:border-primary-orange hover:text-primary-orange lg:block hidden transition-all duration-300">
               <Link href={item.href}>{item.title}</Link>
             </li>
           );
@@ -58,7 +58,7 @@ const NavigationBar = () => {
         {!user.isLoading && user.isSuccess && !_.isEmpty(user.data) ? (
           <AccountMenu data={user.data} />
         ) : (
-          <li className="hover:bg-primary-yellow hover:transition-colors p-2 lg:block hidden">
+          <li className="hover:border-b-2 border-b-2 border-transparent hover:border-primary-orange hover:text-primary-orange lg:block hidden transition-all duration-300">
             <Link href="/login">Sign in</Link>
           </li>
         )}

@@ -13,26 +13,26 @@ export default function SingleItem(props: Props) {
     return <></>;
   }
   return (
-    <div className="flex gap-10 items-center relative my-8 text-white">
-      <figure className="relative w-44 h-44">
-        <Image
-          src={data?.customerId?.avatar}
-          alt="testimonial-avatar"
-          quality={75}
-          fill
-          className="object-cover rounded-t-full rounded-r-full -z-10"
-        />
-      </figure>
-      <div className="bg-white/20 backdrop-blur-md p-6 absolute -bottom-5 left-60 z-10 text-2xl font-bold shadow-xl">
-        {data?.customerId?.fullname ?? 'Unknown'}
-      </div>
-      <div className="flex-1 flex flex-col gap-10 bg-zinc-800 p-4">
-        <p className="tracking-widest text-xl">{data?.review}</p>
-        <span className="flex gap-3">
+    <div className='bg-transparent p-4 flex h-full mx-auto'>
+      <div className="child-card shadow-md flex flex-col gap-8 items-center text-slate-800 bg-white max-w-lg p-4 h-full">
+        <span className="flex gap-3 ml-auto">
           {[1, 2, 3, 4, 5].map((item) => (
             <StarOutlinedIcon key={item} className="text-yellow-500" />
           ))}
         </span>
+        <p className="tracking-widest text-xl min-h-[350px]">{data?.review}</p>
+        <div className='mt-auto flex flex-col items-center'>
+          <Image
+            src={data?.customerId?.avatar}
+            alt="testimonial-avatar"
+            quality={75}
+            width={100}
+            height={100}
+            sizes="(max-width: 768px) 100vw"
+            className="object-cover rounded-full aspect-square"
+          />
+          <div className="">{data?.customerId?.fullname ?? 'Unknown'}</div>
+        </div>
       </div>
     </div>
   );
