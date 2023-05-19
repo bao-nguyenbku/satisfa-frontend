@@ -56,7 +56,7 @@ export default function ReservationCard(props: Props) {
           className={`bg-zinc-600/30 backdrop-blur-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] p-2`}
           ref={tableRef}>
           <h2 className="text-white text-end normal-case text-2xl font-bold">
-            {data.tableId.code}
+            {data.tableId?.code}
           </h2>
         </div>
       </button>

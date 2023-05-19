@@ -30,7 +30,7 @@ export default function ChooseReservation(props: Props) {
             key={item.id}
             onClick={() => handleClick(item)}
             className="flex justify-between max-w-[15rem] min-w-[14rem] bg-white text-black p-2 rounded-full hover:bg-white/30 hover:text-white">
-            <span>{item.tableId.code}</span>
+            <span>{item.tableId?.code}</span>
             <span>{formatDate(item.date)}</span>
             <span>{item.numberOfGuests}</span>
           </Button>

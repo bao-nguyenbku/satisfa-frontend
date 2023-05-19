@@ -42,6 +42,7 @@ export const getTablesByFilter = createAsyncThunk<
             getState()?.reservation?.createReservationData?.data.numberOfGuests,
           reservationDate:
             getState()?.reservation?.createReservationData?.data.date,
+          reserveFlag: true
         }),
       );
       return data as Table[];

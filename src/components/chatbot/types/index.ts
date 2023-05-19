@@ -24,6 +24,7 @@ export type BotActions = {
 export enum BotService {
   RESERVATION = 'RESERVATION',
   ORDER = 'ORDER',
+  RECOMMENDATION = 'RECOMMENDATION',
   NONE = 'NONE',
 }
 

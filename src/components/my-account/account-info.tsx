@@ -3,7 +3,7 @@ import Image from 'next/image';
 import StatCard from './user-statcard';
 import { useFormik } from 'formik';
 import { User } from '@/types';
-import { TextField, IconButton } from '@mui/material';
+import { TextField } from '@mui/material';
 import Button from '../common/button';
 import styles from './styles.module.scss';
 import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance';
@@ -13,7 +13,7 @@ type Props = {
 };
 
 const handleValidate = (values: User) => {
-  const { fullname, email, phone } = values;
+  const { fullname } = values;
   const errors: User = {
     id: '',
     fullname: '',
@@ -21,6 +21,8 @@ const handleValidate = (values: User) => {
     phone: '',
     avatar: '',
   };
+
+  console.log(fullname);
 
   // if (Object.values(customerId).every((item) => _.isEmpty(item))) {
   //   errors.customerId = 'You must choose a customer';
@@ -57,6 +59,8 @@ const AccountInfo = (props: Props) => {
     //   date: dayjs(values.date).toISOString(),
     // });
     console.log(id);
+
+    console.log(rest);
   };
   const formik = useFormik({
     initialValues,
@@ -71,7 +75,10 @@ const AccountInfo = (props: Props) => {
           <div className="text-info flex flex-col gap-4">
             <h2 className="font-bold text-white text-5xl">{user.fullname}</h2>
             <h2 className="font-bold text-white text-2xl">Customer</h2>
-            <Button component="label" className='bg-teal-600 hover:bg-teal-500 text-xl' variant="contained" startIcon={<CameraEnhanceIcon className='text-7xl'/>}>
+            <Button
+              className="bg-teal-600 hover:bg-teal-500 text-xl"
+              variant="contained"
+              startIcon={<CameraEnhanceIcon className="text-7xl" />}>
               Change avatar
               <input hidden accept="image/*" multiple type="file" />
             </Button>
