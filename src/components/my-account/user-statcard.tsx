@@ -18,7 +18,7 @@ const StatCard = (props: Props) => {
     switch (name) {
       case 'orders': {
         return {
-          bg: 'bg-teal-800/20 border-teal-800 border text-teal-500',
+          bg: 'bg-teal-800 border-teal-800 border text-white',
           title: 'Orders',
           icon: <AttachMoneyIcon fontSize="medium" />,
         };
@@ -32,14 +32,14 @@ const StatCard = (props: Props) => {
       }
       case 'reservations': {
         return {
-          bg: 'bg-sky-800/20 border border-sky-800 text-sky-500',
+          bg: 'bg-sky-800 border border-sky-800 text-white',
           title: 'Reservations',
           icon: <TableRestaurantIcon fontSize="medium" />,
         };
       }
       case 'join': {
         return {
-          bg: 'bg-orange-800/20 border border-orange-800 text-orange-500',
+          bg: 'bg-orange-800 border border-orange-800 text-white',
           title: 'Join In',
           icon: <HourglassEmptyRoundedIcon fontSize="medium" />,
         };
@@ -51,7 +51,7 @@ const StatCard = (props: Props) => {
     <div
       className={`card-props flex flex-col gap-4 ${
         '' || getStylesByName(name)?.bg
-      } rounded-none min-w-[200px] flex-1 p-4 text-white`}>
+      } rounded-none min-w-[200px] flex-1 p-4`}>
       <h1 className="font-bold text-xl">{getStylesByName(name)?.title}</h1>
       <div className="flex gap-4 items-center">
         {getStylesByName(name)?.icon}

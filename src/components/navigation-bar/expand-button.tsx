@@ -21,7 +21,7 @@ const ExpandButton = () => {
         open={open}
         keepMounted
         PaperProps={{
-          className: 'w-2/4 bg-transparent',
+          className: 'w-screen bg-transparent',
         }}
         className="bg-transparent"
         onClose={handleToggleDrawer}>
@@ -31,6 +31,7 @@ const ExpandButton = () => {
               <li key={item.href} className="flex">
                 <Link
                   href={item.href}
+                  onClick={handleToggleDrawer}
                   className="hover:bg-zinc-700 py-4 w-full">
                   {item.title}
                 </Link>

@@ -10,7 +10,7 @@ const GuestMessageItem = (props: Props) => {
   return (
     <div className="flex items-end gap-2">
       <BotAvatar />
-      <div className="bg-white rounded-xl p-2 max-w-[16rem]">{message}</div>
+      <div className="bg-neutral-200 rounded-xl p-2 max-w-[16rem]">{message}</div>
     </div>
   );
 };

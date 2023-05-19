@@ -45,13 +45,13 @@ const MessageInput = (props: Props) => {
   return (
     <div
       className={`w-full flex items-center px-3 gap-2 ${
-        isDisaleInput(isTyping) ? 'bg-primary-dark' : 'bg-white/10'
+        isDisaleInput(isTyping) ? 'bg-neutral-300' : 'bg-neutral-200'
       } h-14 rounded-full`}>
       <input
-        className={`flex-1 focus:outline-none h-full text-white bg-transparent ${
+        className={`flex-1 focus:outline-none h-full text-slate-800 bg-transparent ${
           isDisaleInput(isTyping)
             ? 'placeholder:text-gray-700'
-            : 'placeholder:text-white/60'
+            : 'placeholder:text-slate-800/70'
         }`}
         placeholder="Aa"
         autoFocus
@@ -62,7 +62,7 @@ const MessageInput = (props: Props) => {
         onKeyDown={handleKeyPress}
       />
       <IconButton
-        className="hover:bg-white/30 disabled:text-gray-700 text-white"
+        className="hover:bg-neutral-200 disabled:text-neutral-300 text-primary-orange"
         onClick={onSubmit}
         disabled={isDisaleInput(isTyping) || text === ''}>
         <SendIcon className="text-inherit" />

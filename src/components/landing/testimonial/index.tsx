@@ -92,7 +92,7 @@ const settings = {
   centerMode: true,
   // adaptiveHeight: true,
   accessibility: true,
-  centerPadding: '100px',
+  centerPadding: '0px',
   pauseOnFocus: true,
   slidesToShow: 3,
   slidesPerRow: 1,
@@ -110,7 +110,7 @@ export default function TestimonalSection() {
   });
   return (
     <div className="bg-transparent flex flex-col items-center py-20">
-      <h1 className="text-7xl mb-24 text-slate-800 font-thin">
+      <h1 className="text-7xl mb-16 text-slate-800 font-thin">
         What customers say?
       </h1>
       {isLoading ? (

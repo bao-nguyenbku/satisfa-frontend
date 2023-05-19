@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import * as _ from 'lodash';
 import CartIconButton from '../cart/icon-button';
 import { useAppSelector } from '@/hooks';
@@ -7,6 +8,7 @@ import { selectUserState } from '@/store/reducer/user';
 import AccountMenu from './account-menu';
 import ExpandButton from './expand-button';
 import Logo from './logo';
+import useScrollPosition from '@/hooks/useScrollPosition';
 
 // type Props = {
 //   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
@@ -32,10 +34,16 @@ export const navigation = [
 
 const NavigationBar = () => {
   const user = useAppSelector(selectUserState);
+  const router = useRouter();
+  const scrollY = useScrollPosition();
   return (
     <>
       <ul
-        className={`lg:px-20 px-6 py-6 flex flex-row items-center justify-end text-white right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 transition-all duration-700 uppercase absolute`}>
+        className={`lg:px-20 px-6 py-4 flex flex-row items-center justify-end ${
+          router.pathname === '/' && scrollY < 300
+            ? 'text-white absolute'
+            : 'text-slate-800 bg-neutral-200 fixed border-b border-slate-800'
+        } top-0 left-0 right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 transition-[background-color] duration-500 uppercase`}>
         <li className="mr-auto text-5xl normal-case">
           <Logo />
         </li>
@@ -49,7 +57,7 @@ const NavigationBar = () => {
           );
         })}
 
-        <li className="hover:bg-white/40 rounded-full">
+        <li className="hover:bg-white/40 text-inherit rounded-full">
           <CartIconButton />
         </li>
         <li className="hover:bg-white/40 rounded-full lg:hidden block">

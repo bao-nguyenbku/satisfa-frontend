@@ -31,7 +31,7 @@ const AccountInfo = (props: Props) => {
     fullname: '',
     avatar: '',
     // email: user.email ? user.email : '',
-    email: 'hellresiak@gmail.com',
+    email: 'username@gmail.com',
     phone: user.phone ? user.phone : '',
   };
 
@@ -47,8 +47,8 @@ const AccountInfo = (props: Props) => {
     onSubmit: handleSubmit,
   });
   return (
-    <div className="flex flex-col gap-16 max-w-5xl items-center w-full justify-center bg-zinc-800 p-6">
-      <div className="flex flex-col justify-between">
+    <div className="flex flex-col gap-16 max-w-5xl items-center w-full justify-center bg-neutral-200 p-6 text-slate-800">
+      <div className="flex flex-col justify-between text-inherit">
         <div className="flex gap-8 items-center mx-auto mb-10">
           <div className="relative w-60 h-60">
             <Image
@@ -59,16 +59,16 @@ const AccountInfo = (props: Props) => {
             />
           </div>
           <div className="flex flex-col gap-4">
-            <h2 className="font-bold text-white text-5xl">{user?.fullname}</h2>
+            <h2 className="font-bold text-5xl">{user?.fullname}</h2>
             <Button
-              className="bg-primary-yellow rounded-none w-fit h-10 font-bold text-white hover:bg-primary-yellow/70"
+              className="bg-primary-orange rounded-none w-fit h-10 font-bold hover:bg-primary-orange/80 text-white"
               startIcon={<CameraEnhanceIcon />}>
               Change avatar
               <input hidden accept="image/*" multiple type="file" />
             </Button>
           </div>
         </div>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 text-inherit">
           <StatCard name="orders" data={10} />
           <StatCard name="reservations" data={12} />
           {/* <StatCard name="spent" data={102000} /> */}
@@ -77,7 +77,7 @@ const AccountInfo = (props: Props) => {
       </div>
       <div className="flex flex-col w-full">
         <div className="flex flex-col gap-2">
-          <h1 className=" text-xl mb-0 text-primary-yellow">Profile</h1>
+          <h1 className=" text-xl mb-0 text-primary-orange">Profile</h1>
           <Divider className="border-slate-600" />
           <form
             onSubmit={formik.handleSubmit}
@@ -105,7 +105,7 @@ const AccountInfo = (props: Props) => {
               </div>
               <div className="flex items-center justify-end">
                 <Button
-                  className="bg-primary-yellow rounded-none !px-10 h-16 font-bold text-xl text-white hover:bg-primary-yellow/70"
+                  className="bg-primary-orange rounded-none !px-10 h-16 font-bold text-xl text-white hover:bg-primary-orange/80"
                   type="submit"
                   isLoading={false}>
                   Update
@@ -115,7 +115,7 @@ const AccountInfo = (props: Props) => {
           </form>
         </div>
         <div className="flex flex-col gap-2">
-          <h1 className=" text-xl mb-0 text-primary-yellow">Change password</h1>
+          <h1 className=" text-xl mb-0 text-primary-orange">Change password</h1>
           <Divider className="border-slate-600" />
           <form
             onSubmit={formik.handleSubmit}
@@ -150,7 +150,7 @@ const AccountInfo = (props: Props) => {
               </div>
               <div className="flex items-center justify-end  ">
                 <Button
-                  className="bg-primary-yellow rounded-none !px-10 h-16 font-bold text-xl text-white hover:bg-primary-yellow/70"
+                  className="bg-primary-orange rounded-none !px-10 h-16 font-bold text-xl text-white hover:bg-primary-orange/80"
                   type="submit"
                   isLoading={false}>
                   Confirm

@@ -12,7 +12,7 @@ type Props = {
   errorMessage?: string;
 };
 const defaultClasses =
-  'border bg-white/5 h-16 outline-none px-2 text-zinc-400 w-full placeholder:text-zinc-500 focus:border-gray-500 ';
+  'border border-neutral-400 bg-neutral-100 h-16 text-slate-800 outline-none px-2 w-full placeholder:text-neutral-400 focus:border-neutral-500 ';
 
 const Input = (props: Props) => {
   const {
@@ -31,14 +31,12 @@ const Input = (props: Props) => {
   }
   return (
     <div className="flex flex-col gap-1 w-full">
-      <label className="text-zinc-400 font-bold">{label}</label>
+      <label className="text-slate-800 font-bold">{label}</label>
       <input
         type={type}
         name={name}
         autoComplete="new-password"
-        className={`${defaultClasses} ${
-          error ? errorClasses : 'border-gray-600'
-        }`}
+        className={`${defaultClasses} ${error ? errorClasses : ''}`}
         value={value}
         placeholder={placeholder}
         onChange={onChange}
