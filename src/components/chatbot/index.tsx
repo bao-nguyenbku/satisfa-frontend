@@ -263,6 +263,10 @@ const Chatbot = (props: Props) => {
 
 
   };
+
+  // const handleBotRecommendation = async (message: string) => {
+  //   return 1;
+  // }
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
     createUserMessage(message);

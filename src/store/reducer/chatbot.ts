@@ -37,6 +37,10 @@ type ChatbotState = {
     steps: BotStep;
     created: CreateOrder;
   };
+  recommendation: {
+    steps: BotStep;
+    created: any;
+  };
 };
 // Define the initial state using that type
 const initialState: ChatbotState = {
@@ -101,6 +105,29 @@ const initialState: ChatbotState = {
         phone: '',
         takingTime: '',
       },
+    },
+  },
+  recommendation: {
+    steps: {
+      1: {
+        isComplete: false,
+      },
+      2: {
+        isComplete: false,
+      },
+      3: {
+        isComplete: false,
+      },
+      4: {
+        isComplete: false,
+      },
+    },
+    created: {
+      customerId: '',
+      tableId: '',
+      note: '',
+      date: '',
+      numberOfGuests: 0,
     },
   },
 };
@@ -179,6 +206,17 @@ export const setOrderItemsThunk = createAsyncThunk<
   return cart;
 });
 
+export const getRecommendationFoodThunk = createAsyncThunk<
+  any,
+  any,
+  { state: RootState }
+>('chatbot/setOrderItems', async (un, { getState, dispatch }) => {
+  const cart = getState().cart;
+  if (cart.itemList.length > 0) {
+    dispatch(setOrderItems(cart.itemList));
+  }
+  return cart;
+});
 export const chatbotSlice = createSlice({
   name: 'chatbot',
   // `createSlice` will infer the state type from the `initialState` argument

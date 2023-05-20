@@ -39,6 +39,7 @@ export type ReservationFilter = {
 export type TableFilter = {
   minSeat?: number;
   reservationDate?: string;
+  reserveFlag?: boolean;
 };
 
 export type Product = {
