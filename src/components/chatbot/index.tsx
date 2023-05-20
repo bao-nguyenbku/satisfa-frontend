@@ -25,20 +25,26 @@ import dayjs from 'dayjs';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
 import {
+  compareDate,
   isNumber,
   isValidDate,
   isValidDatetime,
   isValidPhoneNumber,
   isValidTime,
+  validateDatetime,
 } from '@/utils';
 import { toast } from 'react-toastify';
 import ShowCart from './widgets/show-cart';
 import { DATE_INPUT_FORMAT, OrderType, QueryStatus } from '@/types';
-import { useCreateOrderServiceMutation } from '@/services/order';
+import {
+  useCreateOrderByGuestServiceMutation,
+  useCreateOrderServiceMutation,
+} from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { Indent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
+import { selectUserData } from '@/store/reducer/user';
 
 type Props = {
   boxOpen?: boolean;
@@ -52,22 +58,28 @@ const Chatbot = (props: Props) => {
   }, [actions]);
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
+  const [createOrderGuest, createOrderGuestRes] =
+    useCreateOrderByGuestServiceMutation();
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
   const reserveData = useAppSelector((state) => state.reservation);
+  const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
 
   // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
+    if (!user) {
+      actions.sendMessage('You must sign in to make a reservation');
+      return;
+    }
     if (!botReservationState.steps[1].isComplete) {
-      const currentDate = new Date();
+      const currentDate = new Date().toISOString();
       if (isValidDate(message)) {
-        if (dayjs(message) && dayjs(message) < dayjs(currentDate)) {
+        if (!compareDate(message, currentDate)) {
           actions.sendMessage(
-            'You can not book a date in the past. I will set the date to today for you',
+            'You can not book a date in the past. Please choose other day',
           );
-          dispatch(getTime(currentDate.toISOString()));
-          dispatch(setReservationDate(currentDate.toISOString()));
+          return;
         } else {
           dispatch(setReservationDate(message));
           dispatch(getTime(dayjs(message, DATE_INPUT_FORMAT).toISOString()));
@@ -116,7 +128,7 @@ const Chatbot = (props: Props) => {
         actions.showTables();
       } else {
         actions.sendMessage(
-          'That is not a valid number. Please provide a positive number for me.',
+          'That is not a valid number. Please provide a positive number',
         );
         actions.getGuestPicker();
       }
@@ -136,19 +148,20 @@ const Chatbot = (props: Props) => {
         actions.sendMessage(
           'Your cart is empty, so I can not make an order for you. Please pick some food to continue',
         );
-      } 
-      
-      else if (cartRes && cartRes.itemList.length > 0) {
-        actions.sendMessage('I am confirming your cart');
-        actions.sendWidget(<ShowCart data={cartRes.itemList} />);
-        actions.sendMessage(botOrderMessage[2].text, {
-          delay: 600,
+      } else if (cartRes && cartRes.itemList.length > 0) {
+        actions.sendMessage('Your cart is showing below', {
+          widget: <ShowCart data={cartRes.itemList} />,
         });
+
+        actions.chooseDineInOrTakeaway();
       }
     }
     // Choose OrderType
     else if (!botOrderState.steps[2].isComplete) {
-      if (!/^takeaway$/.test(lowCaseMessage) && !/^dine in$/.test(lowCaseMessage)) {
+      if (
+        !/^takeaway$/.test(lowCaseMessage) &&
+        !/^dine in$/.test(lowCaseMessage)
+      ) {
         actions.unhandleInput();
         return;
       }
@@ -158,6 +171,10 @@ const Chatbot = (props: Props) => {
       }
       // In case choose dine-in option
       else if (/^dine in$/.test(lowCaseMessage)) {
+        if (!user) {
+          actions.sendMessage('You must sign in to book a table');
+          return;
+        }
         const reservation = await dispatch(getReservationByUser()).unwrap();
         if (reservation && _.isArray(reservation) && reservation.length === 0) {
           actions.sendMessage(botOrderMessage[4].text);
@@ -201,11 +218,17 @@ const Chatbot = (props: Props) => {
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
       if (isValidDatetime(lowCaseMessage)) {
+        const validate = validateDatetime(lowCaseMessage);
+        if (!validate.status) {
+          actions.sendMessage(validate.message);
+          return;
+        }
         dispatch(setTakeawayTime(lowCaseMessage));
         actions.sendMessage(botOrderMessage[8].text, {
           widget: <ShowConfirmationOrder />,
         });
-      } else {
+      } 
+      else {
         actions.sendMessage(
           'That is invalid datetime. Please following my syntax and type again😔',
         );
@@ -220,8 +243,9 @@ const Chatbot = (props: Props) => {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.reservationId;
         delete createBotOrderData.customerId;
-        createOrder(createBotOrderData);
+        createOrderGuest(createBotOrderData);
       }
+      return;
     }
     // Confirm Order dine-in
     else if (
@@ -232,12 +256,12 @@ const Chatbot = (props: Props) => {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.tempCustomer;
         createOrder(createBotOrderData);
-      } else {
-        actions.unhandleInput();
-      }
-    } else {
-      actions.unhandleInput();
-    }
+      } 
+      return;
+    } 
+    actions.unhandleInput();
+
+
   };
 
   // const handleBotRecommendation = async (message: string) => {
@@ -256,6 +280,8 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
+    } else {
+      actions.unhandleInput();
     }
   };
   useEffect(() => {
@@ -277,8 +303,21 @@ const Chatbot = (props: Props) => {
           <strong>#{createOrderRes.data.id}</strong>
         </p>,
       );
+    } else if (
+      createOrderGuestRes.status === QueryStatus.fulfilled &&
+      !createOrderGuestRes.isLoading &&
+      createOrderGuestRes.isSuccess
+    ) {
+      toast.success('Created order successfully');
+      actions.completeService();
+      actions.sendMessage(
+        <p>
+          Successfully. Your order id is{' '}
+          <strong>#{createOrderGuestRes.data.id}</strong>
+        </p>,
+      );
     }
-  }, [createOrderRes]);
+  }, [createOrderRes, createOrderGuestRes]);
 
   useEffect(() => {
     actions.askForHelp();

@@ -80,13 +80,13 @@ const TableModel = (props: Props) => {
           {Array.from(Array(table.numberOfSeats).keys()).map((item) => (
             <div
               key={item}
-              className={`w-16 h-16 bg-green-500 rounded-full`}></div>
+              className={`w-16 h-16 bg-stone-500 rounded-full`}></div>
           ))}
         </div>
         <div
-          className={`bg-zinc-600/30 backdrop-blur-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] border-l-green-500 p-2`}
+          className={`bg-zinc-400/30 backdrop-blur-md absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 rounded-xl border-l-[12px] border-l-stone-500 p-2`}
           ref={tableRef}>
-          <h2 className="text-white text-end font-playfair normal-case">
+          <h2 className="text-slate-800 text-end text-3xl normal-case">
             {table.code}
           </h2>
         </div>

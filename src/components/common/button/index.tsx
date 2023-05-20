@@ -7,10 +7,10 @@ type Props = ButtonProps & {
 };
 
 const Button = (props: Props) => {
-  const { children, isLoading, className } = props;
+  const { children, isLoading, className, ...rest } = props;
   return (
     <Btn
-      {...props}
+      {...rest}
       className={`disabled:opacity-50 ${className}`}
       disabled={isLoading}
       style={{

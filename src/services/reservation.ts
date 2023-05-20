@@ -1,24 +1,18 @@
-import {
-  CreateReservation,
-  Reservation,
-  ReservationFilter,
-} from '@/types';
+import { CreateReservation, Reservation, ReservationFilter } from '@/types';
 
-// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 // import { HYDRATE } from 'next-redux-wrapper';
 // import { BASE_URL } from '@/constants';
-// import { baseQuery } from '@/utils/request';
+import { baseQuery } from '@/utils/request';
 
-import { tableApi } from './table';
-
-export const reservationApi = tableApi.injectEndpoints({
-  overrideExisting: true,
+export const reservationApi = createApi({
+  reducerPath: 'reservationApi',
+  baseQuery,
   endpoints: (build) => ({
     getAllReservation: build.query<Reservation[], void>({
       query: () => '/reservations',
     }),
     createReservation: build.mutation<Reservation, CreateReservation>({
-      // invalidatesTags: ['Reservations'],
       query(body) {
         return {
           url: '/reservations/create',
@@ -28,7 +22,6 @@ export const reservationApi = tableApi.injectEndpoints({
       },
     }),
     getReservationByFilter: build.query<Reservation[], ReservationFilter>({
-      providesTags: ['Reservations'],
       query: (filter) => {
         return {
           url: '/reservations',

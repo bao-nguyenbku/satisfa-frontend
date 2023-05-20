@@ -11,13 +11,18 @@ import { toast } from 'react-toastify';
 export const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
   // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
   if (isRejectedWithValue(action)) {
+    console.log('🚀 ~ file: error-handling.ts:14 ~ action:', action);
     if (action.payload && action.payload?.status === 'FETCH_ERROR') {
       const message = 'Can not connect to server, you are offline';
       toast.error(message, {
         toastId: message,
       });
     }
-    const resMessage = action.payload?.data?.message || action.payload?.message;
+    let resMessage = action.payload?.data?.message || action.payload?.message;
+    if (action.payload?.status === 401) {
+      resMessage = 'You must sign in to do the action';
+    }
+
     if (resMessage && Array.isArray(resMessage)) {
       toast.error(resMessage.join('\n'), {
         toastId: resMessage.join('\n'),

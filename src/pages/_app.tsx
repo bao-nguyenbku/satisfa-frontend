@@ -1,4 +1,7 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode, ReactElement, useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import type { NextPage } from 'next';
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
@@ -49,6 +52,11 @@ const App = ({
   pageProps: { session, ...rest },
 }: AppPropsWithLayout) => {
   const { store } = wrapper.useWrappedStore(rest);
+  useEffect(() => {
+    AOS.init({
+      anchorPlacement: 'top-bottom',
+    });
+  }, []);
   const getLayout =
     Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
   return (
@@ -57,7 +65,7 @@ const App = ({
         <CacheProvider value={muiCache}>
           <ThemeProvider theme={theme}>
             <SessionProvider session={session} refetchOnWindowFocus={false}>
-              <main className={primaryFont.className}>
+              <main className={`${primaryFont.className}`}>
                 <ModalContextProvider>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <PayPalScriptProvider options={paypalScriptOptions}>

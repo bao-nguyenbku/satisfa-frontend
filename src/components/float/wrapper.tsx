@@ -9,6 +9,6 @@ export default function Wrapper(props: Props) {
 
   return cloneElement(children as ReactElement, {
     className:
-      'w-16 h-16 border-gray-600 bg-white/5 p-3 border rounded-full z-10 animate-pulse',
+      'w-16 h-16 bg-slate-800 p-3 rounded-full z-10',
   });
 }

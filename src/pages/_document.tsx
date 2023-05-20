@@ -3,10 +3,9 @@ import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
   return (
-    <Html>
+    <Html lang='en'>
       <Head>
-        <link rel="icon" type="image/png" href="/logo.png" />
-        {/* <meta name="viewport" content="initial-scale=1.0, width=device-width" /> */}
+        <link rel="icon" type="image/png" href="/logo-2.png" />
         <meta charSet="utf-8" />
         <meta name="description" content="Satisfa Restaurant. Luxury services" />
       </Head>

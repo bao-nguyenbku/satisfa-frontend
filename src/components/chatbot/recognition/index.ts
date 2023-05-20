@@ -9,8 +9,10 @@ type IndentData = {
 
 class Indent {
   data: IndentData;
+  symbol: string[];
   actions: BotActions;
   constructor(actions: BotActions) {
+    this.symbol = ['?', '!', '/', '\\'];
     this.data = {
       introduction: {
         texts: ['hello', 'xin chào', 'chào bạn', 'hi'],
@@ -42,6 +44,7 @@ class Indent {
           'today menu',
           'show menu',
           'see menu',
+          'menu'
         ],
         action: actions.suggestMenu,
       },
@@ -51,12 +54,6 @@ class Indent {
   simlify(message: string) {
     return message.toLowerCase().trim();
   }
-  // isValid(message: string) {
-  //   const rawMessage = this.simlify(message);
-  //   Object.keys(this.data).forEach((key) => {
-  //     return this.data[key].texts.some((sentence) => rawMessage.includes(sentence));
-  //   });
-  // }
   parse(message: string) {
     const rawMessage = this.simlify(message);
     const parseToWordMessages = rawMessage.split(' ');

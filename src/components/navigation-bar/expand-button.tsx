@@ -3,11 +3,10 @@ import Link from 'next/link';
 import * as _ from 'lodash';
 import { useAppSelector } from '@/hooks';
 import { selectUserState } from '@/store/reducer/user';
-import { podkova } from '@/constants/font';
-// import AccountMenu from './account-menu';
-import { Drawer, IconButton } from '@mui/material';
+import { Divider, Drawer, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountMenuResponsive from './account-menu-res';
+import { navigation } from '.';
 
 const ExpandButton = () => {
   const user = useAppSelector(selectUserState);
@@ -22,27 +21,27 @@ const ExpandButton = () => {
         open={open}
         keepMounted
         PaperProps={{
-          className: 'w-2/4',
+          className: 'w-screen bg-transparent',
         }}
+        className="bg-transparent"
         onClose={handleToggleDrawer}>
-        <ul className='flex flex-col justify-start py-4 gap-6 text-center bg-dark-2 h-full text-white'>
-          <li className={`flex items-center justify-center text-2xl ${podkova.className} text-center`}>SATISFA</li>
-          <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
-            <Link href="/#about-us">About us</Link>
-          </li>
-          <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
-            <Link href="/menu">Our menu</Link>
-          </li>
-          <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
-            <Link href="/reservation">Reservation</Link>
-          </li>
-          <li className="hover:border-b-2 hover:border-primary-yellow hover:text-primary-yellow">
-            <Link href="#footer">Contact</Link>
-          </li>
-          <hr className='flex mx-auto w-9/12'/>
+        <ul className="flex flex-col justify-start py-4 gap-6 text-center bg-zinc-800/50 backdrop-blur-lg h-full text-white">
+          {navigation.map((item) => {
+            return (
+              <li key={item.href} className="flex">
+                <Link
+                  href={item.href}
+                  onClick={handleToggleDrawer}
+                  className="hover:bg-zinc-700 py-4 w-full">
+                  {item.title}
+                </Link>
+              </li>
+            );
+          })}
+          <Divider className="border-slate-600" />
           {!user.isLoading && user.isSuccess && !_.isEmpty(user.data) ? (
             <li>
-                <AccountMenuResponsive data={user.data} />
+              <AccountMenuResponsive data={user.data} />
             </li>
           ) : (
             <li className="hover:bg-primary-yellow hover:transition-colors p-2">
@@ -52,12 +51,9 @@ const ExpandButton = () => {
         </ul>
       </Drawer>
       <IconButton
-        size="large"
         onClick={handleToggleDrawer}
-        edge="start"
         color="inherit"
-        aria-label="menu"
-        sx={{ mr: 2 }}>
+        aria-label="menu">
         <MenuIcon />
       </IconButton>
     </>

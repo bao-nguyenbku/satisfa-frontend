@@ -1,14 +1,22 @@
-import React from 'react';
-// import { useAppDispatch } from '@/hooks';
+import React, { useEffect } from 'react';
 import { useGetTablesByFilterQuery } from '@/services/table';
 import Loading from '@/components/common/loading';
-import { useAppSelector } from '@/hooks';
-import { selectBotReservationState } from '@/store/reducer/chatbot';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import {
+  selectBotReservationState,
+  setSelectTable,
+} from '@/store/reducer/chatbot';
 import Button from '@/components/common/button';
+import { Table } from '@/types';
+import { useCreateReservationMutation } from '@/services/reservation';
+import { selectUserData } from '@/store/reducer/user';
 
 export default function ShowTables(props: any) {
-  console.log('🚀 ~ file: show-tables.tsx:10 ~ ShowTables ~ props:', props);
+  const { actions } = props;
+  const dispatch = useAppDispatch();
   const botReservationState = useAppSelector(selectBotReservationState);
+  const user = useAppSelector(selectUserData);
+  const [createReservation, result] = useCreateReservationMutation();
   const { data, isLoading } = useGetTablesByFilterQuery(
     {
       minSeat: botReservationState.created.numberOfGuests,
@@ -18,7 +26,22 @@ export default function ShowTables(props: any) {
       refetchOnMountOrArgChange: true,
     },
   );
-  if (isLoading) {
+  const onSelect = (table: Table) => {
+    dispatch(setSelectTable(table.id));
+    createReservation({
+      ...botReservationState.created,
+      tableId: table.id,
+      customerId: user?.id,
+    });
+  };
+  useEffect(() => {
+    const { isLoading: resultLoading, data, isSuccess, isError } = result;
+    if (!resultLoading && isSuccess && !isError && data) {
+      actions.completeBookingTable(data);
+    }
+  }, [result]);
+  console.log(!result.isLoading && result.isSuccess && result.data);
+  if (isLoading || result.isLoading) {
     return <Loading />;
   }
   if (!data) {
@@ -30,6 +53,10 @@ export default function ShowTables(props: any) {
         return (
           <Button
             key={item.id}
+            disabled={Boolean(
+              !result.isLoading && result.isSuccess && result.data,
+            )}
+            onClick={() => onSelect(item)}
             className="bg-white rounded-full font-bold text-inherit hover:bg-white/20 hover:text-white">
             {item.code}
           </Button>

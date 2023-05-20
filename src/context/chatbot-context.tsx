@@ -194,6 +194,7 @@ export const ChatbotProvider = ({ children }: Props) => {
     }
   }, [messages]);
   const actions = {
+    // ! GENERAL
     unhandleInput: () => {
       createBotMessage(
         <p>
@@ -202,62 +203,10 @@ export const ChatbotProvider = ({ children }: Props) => {
         </p>,
       );
     },
-    askForHelp: () => {
-      createBotMessage('Hi, I am Satisgi. How can I help you?');
-      createWidget(<Options actions={actions} />, {
-        widgetType: WidgetType.SELECTION,
-      });
+    callWaiter: () => {
+      createBotMessage('I called watier for you. Please wait...');
     },
-    showLocation: () => {
-      createBotMessage(
-        <ul>
-          <li>
-            👉Satisfa restaurant is place at{' '}
-            <strong>
-              122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh
-              City
-            </strong>
-          </li>
-          <li>
-            👉We serve from <strong>8:00am</strong> to <strong>10:00pm</strong>{' '}
-            everyday
-          </li>
-        </ul>,
-      );
-    },
-    // checkOrder: () => {
 
-    // },
-    suggestMenu: () => {
-      createBotMessage(
-        <span>
-          We think you may like these <br />
-          Do any of them make you fancy?
-        </span>,
-      );
-    },
-    introduce: () => {
-      createBotMessage(
-        'Hi, I am Satisgi. Nice to meet you 😍. If you need some help, type help in the textbox👇',
-      );
-    },
-    navigateToReservation: () => {
-      router.replace('/reservation');
-    },
-    navigateToMenu: () => {
-      router.replace('/menu');
-    },
-    handleReservation: () => {
-      setBotService(BotService.RESERVATION);
-      actions.navigateToReservation();
-      createBotMessage('I navigated you to reservation page, do you see it😉');
-      createBotMessage(botReserveMessage[1].text, {
-        delay: 500,
-      });
-    },
-    getDatePicker: (options?: MessageOption) => {
-      createBotMessage(botReserveMessage[1].text, options);
-    },
     sendMessage: (message: ReactNode, options?: MessageOption) => {
       const widget =
         options &&
@@ -281,6 +230,61 @@ export const ChatbotProvider = ({ children }: Props) => {
     sendWidget: (widget: ReactElement, options?: MessageOption) => {
       createWidget(widget, options);
     },
+    askForHelp: () => {
+      createBotMessage('Hi, I am Satisgi. How can I help you?');
+      createWidget(
+        <Options actions={actions} createUserMessage={createUserMessage} />,
+        {
+          widgetType: WidgetType.SELECTION,
+        },
+      );
+    },
+    showLocation: () => {
+      createBotMessage(
+        <ul>
+          <li>
+            👉Satisfa restaurant is place at{' '}
+            <strong>
+              122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh
+              City
+            </strong>
+          </li>
+          <li>
+            👉We serve from <strong>8:00am</strong> to <strong>10:00pm</strong>{' '}
+            everyday
+          </li>
+        </ul>,
+      );
+    },
+    suggestMenu: () => {
+      createBotMessage(
+        <span>
+          We think you may like these <br />
+          Do any of them make you fancy?
+        </span>,
+      );
+    },
+    introduce: () => {
+      createBotMessage(
+        'Hi, I am Satisgi. Nice to meet you 😍. If you need some help, type help in the textbox👇',
+      );
+    },
+    // ! MAKE RESERVATION
+    navigateToReservation: () => {
+      router.replace('/reservation');
+    },
+    handleReservation: () => {
+      setBotService(BotService.RESERVATION);
+      actions.navigateToReservation();
+      createBotMessage('I navigated you to reservation page, do you see it😉');
+      createBotMessage(botReserveMessage[1].text, {
+        delay: 500,
+      });
+    },
+    getDatePicker: (options?: MessageOption) => {
+      createBotMessage(botReserveMessage[1].text, options);
+    },
+
     getTimePicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[2].text, options);
     },
@@ -291,10 +295,6 @@ export const ChatbotProvider = ({ children }: Props) => {
       );
       router.push('/me/reservations');
     },
-    checkMyOrders: (options?: MessageOption) => {
-      createBotMessage('We navigate you to your history orders. Let check out the screen😘', options);
-      router.push('/me/orders');
-    },
     getGuestPicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[3].text, options);
     },
@@ -304,28 +304,20 @@ export const ChatbotProvider = ({ children }: Props) => {
         delay: 500,
       });
     },
-    completeBookingTable: (options?: MessageOption) => {
+    completeBookingTable: (
+      reservation?: Reservation,
+      options?: MessageOption,
+    ) => {
       open();
       const message = `Congratulations! You now can come to my restaurant at ${formatDate(
-        reservationInfo.createReservationData.data.date,
+        reservationInfo.createReservationData.data.date ||
+          (reservation?.date as string),
       )} 
-      on table ${reservationInfo.createReservationData.code}`;
+      on table ${
+        reservationInfo.createReservationData.code || reservation?.tableId?.code
+      }`;
       createBotMessage(message, options);
       actions.completeService();
-    },
-    confirmYes: () => {
-      return;
-    },
-    chooseFoodFromMenu: () => {
-      createBotMessage(botOrderMessage[1].text);
-    },
-    handleOrder: () => {
-      setBotService(BotService.ORDER);
-      actions.navigateToMenu();
-      actions.chooseFoodFromMenu();
-    },
-    completeService: () => {
-      setBotService(BotService.NONE);
     },
     onSelectReservation: (item: Reservation) => {
       dispatch(setReservationDinein(item));
@@ -333,6 +325,40 @@ export const ChatbotProvider = ({ children }: Props) => {
         widget: <ShowConfirmationOrder />,
       });
     },
+    confirmYes: () => {
+      return;
+    },
+    // ! ORDER FOOD
+    checkMyOrders: (options?: MessageOption) => {
+      createBotMessage(
+        'We navigate you to your history orders. Let check out the screen😘',
+        options,
+      );
+      router.push('/me/orders');
+    },
+    navigateToMenu: () => {
+      router.replace('/menu');
+    },
+    chooseFoodFromMenu: () => {
+      createBotMessage(botOrderMessage[1].text);
+    },
+    chooseDineInOrTakeaway: (options?: MessageOption) => {
+      createBotMessage(botOrderMessage[2].text, options);
+    },
+    getPhoneTakeaway: (options?: MessageOption) => {
+      createBotMessage(botOrderMessage[6].text, options);
+    },
+    handleOrder: () => {
+      setBotService(BotService.ORDER);
+      actions.navigateToMenu();
+      actions.chooseFoodFromMenu();
+    },
+
+    // ! COMMON
+    completeService: () => {
+      setBotService(BotService.NONE);
+    },
+
     resetService: () => {
       dispatch(resetCreateOrder());
       dispatch(resetCreateReservation());

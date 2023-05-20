@@ -91,17 +91,18 @@ export const cartSlice = createSlice({
       if (foundItemIdx === -1) {
         return;
       }
-      cloneData[foundItemIdx].qty -= cloneData[foundItemIdx].qty === 0 ? 0 : 1;
+      const minus = cloneData[foundItemIdx].qty === 0 ? 0 : 1;
+      cloneData[foundItemIdx].qty -= minus;
       setCookie(CART_COOKIE_KEY, {
         itemList: cloneData,
         totalCost:
           state.totalCost -
           cloneData[foundItemIdx].price * cloneData[foundItemIdx].qty,
-        totalQty: state.totalQty - cloneData[foundItemIdx].qty === 0 ? 0 : 1,
+        totalQty: state.totalQty - minus,
       });
       state.totalCost -=
         cloneData[foundItemIdx].price * cloneData[foundItemIdx].qty;
-      state.totalQty -= 1;
+      state.totalQty -= minus;
     },
     increaseTotalCost: (state, action: PayloadAction<number>) => {
       state.totalCost += action.payload;

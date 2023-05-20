@@ -82,7 +82,7 @@ export default function UserPaymentInfo(props: Props) {
           fullWidth
           label="EMAIL"
           id="email"
-          value={userInfo.email}
+          value={userInfo?.email}
           type="email"
         />
         <TextField

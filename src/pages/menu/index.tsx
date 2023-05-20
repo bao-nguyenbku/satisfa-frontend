@@ -13,6 +13,7 @@ import { AnimatePresence } from 'framer-motion';
 import Head from 'next/head';
 import CategoryTab from '@/components/menu/category';
 import { Product } from '@/types';
+import SectionTitle from '@/components/section-title';
 
 const Menu: NextPageWithLayout = () => {
   const { data: productList, isLoading } = useGetAllProductQuery();
@@ -25,8 +26,8 @@ const Menu: NextPageWithLayout = () => {
         <title>Menu | Satisfa</title>
       </Head>
       <AnimatePresence initial mode="wait">
-        <div className="bg-primary-dark min-h-screen w-full flex flex-col items-center px-2 md:px-24">
-          <span className="text-primary-yellow text-7xl mt-20">Menu</span>
+        <div className="min-h-screen w-full flex flex-col items-center px-2 md:px-24 pt-40">
+          <SectionTitle title='Menu'/>
           <div className="mt-12 flex flex-wrap gap-2 w-full justify-center">
             <CategoryTab data={productList as Product[]}/>
           </div>

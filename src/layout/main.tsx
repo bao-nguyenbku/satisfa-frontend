@@ -13,13 +13,14 @@ type LayoutProps = {
 export default function MainLayout({ children }: LayoutProps) {
   const dispatch = useAppDispatch();
   const sessionData = useSession();
+
   useEffect(() => {
     if (sessionData.status === 'authenticated' && sessionData.data) {
       dispatch(authCurrentUser());
     }
   }, [sessionData]);
   return (
-    <div className="px-0 md:px-20 overflow-y-auto overflow-x-hidden bg-primary-dark">
+    <div className="bg-primary bg-repeat h-auto">
       <NavigationBar />
       <>{children}</>
       <FloatMenu />
