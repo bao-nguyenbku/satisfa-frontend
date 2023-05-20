@@ -1,10 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs';
+import * as _ from 'lodash';
 import customeParseFormat from 'dayjs/plugin/customParseFormat';
 import { DATE_INPUT_FORMAT } from '@/types';
 import { hasCookie, getCookie } from 'cookies-next';
 dayjs.extend(customeParseFormat);
-
-import * as _ from 'lodash';
 
 export const getDataFromCookie = (key: string) => {
   if (hasCookie(key)) {
@@ -44,6 +43,24 @@ export function isValidDate(date: string) {
 export function isValidTime(inputField: string) {
   const isValid = /^([0][8-9]|2[0-3]|1[0-9]):([0,3][0])$/.test(inputField);
   return isValid;
+}
+
+export function validateDatetime(datetime: string) {
+  const currentDate = dayjs();
+  const inputDate = dayjs(datetime, DATE_INPUT_FORMAT, true);
+  if (!inputDate.isValid())
+    return {
+      status: false,
+      message: 'Input date is invalid',
+    };
+  if (inputDate.diff(currentDate) < 0)
+    return {
+      status: false,
+      message: 'You can not pick a date in the past',
+    };
+  return {
+    status: true,
+  };
 }
 
 export function isValidDatetime(datetime: string) {

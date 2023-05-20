@@ -57,8 +57,7 @@ export const botOrderMessage: BotMessage = {
   8: {
     text: (
       <span>
-        Ok. I am confirming your order. Now, please look at widget below on the
-        chat area. If the order information is right, type ok
+        Ok. I am confirming your order. Now, please look at widget below. If the order information is right, type <strong>ok</strong>
       </span>
     ),
   },

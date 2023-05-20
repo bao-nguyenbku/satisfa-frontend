@@ -98,7 +98,7 @@ const settings = {
   slidesPerRow: 1,
   slidesToScroll: 1,
   vertical: false,
-  autoplay: false,
+  autoplay: true,
   autoplaySpeed: 5000,
   nextArrow: <NextArrow />,
   prevArrow: <BackArrow />

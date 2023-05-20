@@ -61,6 +61,9 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
     error: '/login',
   },
+  session: {
+    maxAge: 24 * 60 * 60,
+  },
   cookies: {
     sessionToken: {
       name: `next-auth-landing.session-token`,

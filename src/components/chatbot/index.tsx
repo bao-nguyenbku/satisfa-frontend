@@ -31,11 +31,15 @@ import {
   isValidDatetime,
   isValidPhoneNumber,
   isValidTime,
+  validateDatetime,
 } from '@/utils';
 import { toast } from 'react-toastify';
 import ShowCart from './widgets/show-cart';
 import { DATE_INPUT_FORMAT, OrderType, QueryStatus } from '@/types';
-import { useCreateOrderServiceMutation } from '@/services/order';
+import {
+  useCreateOrderByGuestServiceMutation,
+  useCreateOrderServiceMutation,
+} from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { Indent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
@@ -54,6 +58,8 @@ const Chatbot = (props: Props) => {
   }, [actions]);
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
+  const [createOrderGuest, createOrderGuestRes] =
+    useCreateOrderByGuestServiceMutation();
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
   const reserveData = useAppSelector((state) => state.reservation);
@@ -212,11 +218,17 @@ const Chatbot = (props: Props) => {
       botOrderState.created.type === OrderType.TAKEAWAY
     ) {
       if (isValidDatetime(lowCaseMessage)) {
+        const validate = validateDatetime(lowCaseMessage);
+        if (!validate.status) {
+          actions.sendMessage(validate.message);
+          return;
+        }
         dispatch(setTakeawayTime(lowCaseMessage));
         actions.sendMessage(botOrderMessage[8].text, {
           widget: <ShowConfirmationOrder />,
         });
-      } else {
+      } 
+      else {
         actions.sendMessage(
           'That is invalid datetime. Please following my syntax and type again😔',
         );
@@ -231,8 +243,9 @@ const Chatbot = (props: Props) => {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.reservationId;
         delete createBotOrderData.customerId;
-        createOrder(createBotOrderData);
+        createOrderGuest(createBotOrderData);
       }
+      return;
     }
     // Confirm Order dine-in
     else if (
@@ -243,12 +256,12 @@ const Chatbot = (props: Props) => {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.tempCustomer;
         createOrder(createBotOrderData);
-      } else {
-        actions.unhandleInput();
-      }
-    } else {
-      actions.unhandleInput();
-    }
+      } 
+      return;
+    } 
+    actions.unhandleInput();
+
+
   };
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
@@ -286,8 +299,21 @@ const Chatbot = (props: Props) => {
           <strong>#{createOrderRes.data.id}</strong>
         </p>,
       );
+    } else if (
+      createOrderGuestRes.status === QueryStatus.fulfilled &&
+      !createOrderGuestRes.isLoading &&
+      createOrderGuestRes.isSuccess
+    ) {
+      toast.success('Created order successfully');
+      actions.completeService();
+      actions.sendMessage(
+        <p>
+          Successfully. Your order id is{' '}
+          <strong>#{createOrderGuestRes.data.id}</strong>
+        </p>,
+      );
     }
-  }, [createOrderRes]);
+  }, [createOrderRes, createOrderGuestRes]);
 
   useEffect(() => {
     actions.askForHelp();

@@ -10,7 +10,7 @@ export default function WidgetWrapper(props: Props) {
   const { children, option } = props;
   if (!option || option === WidgetType.WIDGET) {
     return (
-      <div className="bg-neutral-900/40 text-white border border-gray-600 rounded-xl p-2">
+      <div className="bg-slate-800 text-white rounded-xl p-2">
         {children}
       </div>
     );

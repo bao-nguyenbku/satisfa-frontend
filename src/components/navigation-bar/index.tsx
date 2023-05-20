@@ -42,7 +42,7 @@ const NavigationBar = () => {
         className={`lg:px-20 px-6 py-4 flex flex-row items-center justify-end ${
           router.pathname === '/' && scrollY < 300
             ? 'text-white absolute'
-            : 'text-slate-800 bg-neutral-200 fixed border-b border-slate-800'
+            : 'text-slate-800 bg-second fixed border-b border-slate-800'
         } top-0 left-0 right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 transition-[background-color] duration-500 uppercase`}>
         <li className="mr-auto text-5xl normal-case">
           <Logo />

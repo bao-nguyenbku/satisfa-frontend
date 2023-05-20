@@ -2,21 +2,13 @@ import React from 'react';
 import Button from '@/components/common/button';
 import useSocket from '@/hooks/useSocket';
 import { selectUserData } from '@/store/reducer/user';
-import { useAppSelector } from '@/hooks';
-import { useGetReservationByFilterQuery } from '@/services/reservation';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { getReservationByFilter } from '@/services/reservation';
 
 export default function Options(props: any) {
   const { actions, createUserMessage } = props;
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUserData);
-  const { data, isLoading } = useGetReservationByFilterQuery(
-    {
-      currentDate: true,
-      currentUser: true,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
   const { socket } = useSocket();
   const options = [
     {
@@ -49,12 +41,18 @@ export default function Options(props: any) {
     },
     {
       text: 'Call waiter',
-      handler: () => {
-        if (socket?.connected && !isLoading) {
+      handler: async () => {
+        if (socket?.connected) {
+          const res = await dispatch(
+            getReservationByFilter.initiate({
+              currentDate: true,
+              currentUser: true,
+            }),
+          ).unwrap();
           createUserMessage(options[4].text);
           socket?.emit('call-waiter', {
             userId: user?.id,
-            reservation: data,
+            reservation: res,
           });
           actions.callWaiter();
         }

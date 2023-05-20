@@ -20,12 +20,12 @@
 
 .Toastify__toast-theme--light {
   min-height: 100px !important;
-  @apply backdrop-blur-md border border-solid border-slate-600 text-white rounded-none;
+  @apply backdrop-blur-md border border-solid border-slate-800 text-slate-800 rounded-none;
   // @apply rounded-xl;
   .Toastify__toast-body {
     @apply text-white;
   }
-  @apply bg-primary-dark/50 #{!important};
+  @apply bg-primary #{!important};
   .Toastify__toast-icon {
     @apply text-white;
     svg {
@@ -33,7 +33,7 @@
     }
   }
   .Toastify__close-button--light {
-    @apply text-white opacity-100;
+    @apply text-slate-800 opacity-100;
   }
   .Toastify__progress-bar {
     opacity: 0 !important;

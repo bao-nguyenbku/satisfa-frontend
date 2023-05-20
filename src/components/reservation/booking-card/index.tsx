@@ -32,7 +32,7 @@ const BookingCard = (props: Props) => {
       reserveData.tableId = table.id;
       reserveData.date = data.data.date;
       reserveData.numberOfGuests = data.data.numberOfGuests;
-      reserveData.customerId = user.id;
+      reserveData.customerId = user?.id || '';
       dispatch(getTableCode(table.code));
       createReservation(reserveData);
     }

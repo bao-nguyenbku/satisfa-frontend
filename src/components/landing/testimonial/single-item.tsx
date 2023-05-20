@@ -21,7 +21,9 @@ export default function SingleItem(props: Props) {
             <StarOutlinedIcon key={item} className="text-yellow-500" />
           ))}
         </span>
-        <p className="tracking-widest text-xl min-h-[300px]">{data?.review}</p>
+        <div className='min-h-[300px] flex items-center justify-center'>
+          <p className="tracking-widest text-xl text-justify">{data?.review}</p>
+        </div>
         <div className='mt-auto flex flex-col items-center gap-2'>
           <Image
             src={data?.customerId?.avatar}

@@ -23,16 +23,16 @@ type BtnProps = {
 const QuantityButton = (props: BtnProps) => {
   const { data, onIncrease, onDecrease } = props;
   return (
-    <div className="bg-neutral-200 w-max text-slate-800 flex h-12 items-center">
+    <div className="bg-second w-max text-slate-800 flex h-12 items-center">
       <span className="w-12 text-center">{data.qty}</span>
       <IconButton
         onClick={() => onDecrease(data.id)}
-        className="bg-white/20 h-full rounded-none w-14">
+        className="bg-second h-full rounded-none w-12">
         <KeyboardArrowLeftIcon className="text-center text-slate-800" />
       </IconButton>
       <IconButton
         onClick={() => onIncrease(data.id)}
-        className="bg-white/20 h-full rounded-none w-12">
+        className="bg-second h-full rounded-none w-12">
         <KeyboardArrowRightIcon className="text-center text-slate-800" />
       </IconButton>
     </div>
@@ -42,7 +42,7 @@ export default function CartItemDetail(props: Props) {
   const { data, onIncrease, onDecrease, onRemove } = props;
   return (
     <div className="flex">
-      <div className="relative aspect-square w-28 h-28 bg-neutral-300">
+      <div className="relative aspect-square w-28 h-28 bg-second">
         <Image
           src={data.images[0]}
           alt={data.name}

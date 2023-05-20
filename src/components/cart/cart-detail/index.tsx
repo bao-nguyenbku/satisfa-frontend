@@ -53,7 +53,7 @@ export default function CartDetail(props: Props) {
   };
 
   return (
-    <div className="h-screen w-full  bg-neutral-200 p-4 flex flex-col ">
+    <div className="h-screen w-full  bg-primary p-4 flex flex-col ">
       <div className="flex justify-between text-slate-800">
         <h2 className="text-inherit text-xl flex items-center pb-4">
           Your Cart
