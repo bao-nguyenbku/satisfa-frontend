@@ -307,17 +307,27 @@ export const ChatbotProvider = ({ children }: Props) => {
       reservation?: Reservation,
       options?: MessageOption,
     ) => {
+      console.log(
+        '🚀 ~ file: chatbot-context.tsx:310 ~ ChatbotProvider ~ reservation:',
+        reservationInfo.createReservationData,
+      );
       open();
       const message = (
+        // <span>
+        //   Congratulations! You now can come to my restaurant at{' '}
+        //   {formatDate(
+        //     reservationInfo.createReservationData.data.date ||
+        //       (reservation?.date as string),
+        //   )}{' '}
+        //   on table{' '}
+        //   {reservationInfo.createReservationData.code ||
+        //     reservation?.tableId?.code}
+        // </span>
         <span>
-          Congratulations! You now can come to my restaurant at{' '}
-          {formatDate(
-            reservationInfo.createReservationData.data.date ||
-              (reservation?.date as string),
-          )}{' '}
-          on table{' '}
-          {reservationInfo.createReservationData.code ||
-            reservation?.tableId?.code}
+          Successfullly! Your reservation code is{' '}
+          <strong>#{reservation?.id}</strong>. Remember to come to restaurant on{' '}
+          <strong>{formatDate(reservation?.date as string)}</strong>. Glad to be
+          of service.
         </span>
       );
 

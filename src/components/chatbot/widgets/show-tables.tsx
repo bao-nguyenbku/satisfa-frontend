@@ -17,21 +17,17 @@ export default function ShowTables(props: any) {
   const botReservationState = useAppSelector(selectBotReservationState);
   const user = useAppSelector(selectUserData);
   const [createReservation, result] = useCreateReservationMutation();
-  const { data, isLoading } = useGetTablesByFilterQuery(
-    {
-      minSeat: botReservationState.created.numberOfGuests,
-      reservationDate: botReservationState.created.date,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
+  const { data, isLoading } = useGetTablesByFilterQuery({
+    minSeat: botReservationState.created.numberOfGuests,
+    reservationDate: botReservationState.created.date,
+    reserveFlag: true,
+  });
   const onSelect = (table: Table) => {
     dispatch(setSelectTable(table.id));
     createReservation({
       ...botReservationState.created,
       tableId: table.id,
-      customerId: user?.id,
+      customerId: user?.id as string,
     });
   };
   useEffect(() => {
@@ -40,7 +36,6 @@ export default function ShowTables(props: any) {
       actions.completeBookingTable(data);
     }
   }, [result]);
-  console.log(!result.isLoading && result.isSuccess && result.data);
   if (isLoading || result.isLoading) {
     return <Loading />;
   }

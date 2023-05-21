@@ -18,9 +18,9 @@ module.exports = {
       'primary-yellow': '#C49246',
       'dark-2': '#263238',
       'primary-orange': '#FF621F',
-      'primary': '#F5EADB',
+      primary: '#F5EADB',
       // 'second': '#D6c5b0'
-      'second': '#Dccfbf'
+      second: '#Dccfbf',
     },
     screens: {
       xs: '475px',
@@ -43,6 +43,9 @@ module.exports = {
         100: '25rem',
         128: '32rem',
       },
+      screens: {
+        '1400': '1400px'
+      }
     },
     plugins: [],
   },

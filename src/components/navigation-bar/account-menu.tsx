@@ -67,7 +67,7 @@ export default function AccountMenu(props: Props) {
         onClick={handleClose}
         PaperProps={{
           elevation: 0,
-          className: 'bg-zinc-800 border border-slate-600 text-white',
+          className: 'bg-second text-slate-800 border border-slate-800 rounded-none',
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
@@ -77,7 +77,7 @@ export default function AccountMenu(props: Props) {
               <MenuItem
                 onClick={handleSignOut}
                 key={item.title}
-                className="text-red-600 hover:bg-white/10">
+                className="text-red-600 hover:bg-primary">
                 {item.title}
               </MenuItem>
             );
@@ -86,7 +86,7 @@ export default function AccountMenu(props: Props) {
             <MenuItem
               onClick={handleClose}
               key={item.title}
-              className="hover:bg-white/10">
+              className="hover:bg-primary">
               <Link href={item.link} className="flex items-center">
                 {item.title}
               </Link>

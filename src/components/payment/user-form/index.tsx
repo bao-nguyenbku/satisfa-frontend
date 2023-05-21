@@ -9,7 +9,7 @@ import {
 import Input from '@/components/input';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { OrderType, Reservation, CartItem, TakeawayCustomer } from '@/types';
-import { formatDate } from '@/utils';
+import { formatDate, isNumber } from '@/utils';
 import dayjs, { Dayjs } from 'dayjs';
 import styles from './styles.module.scss';
 import pickerStyles from '@/components/reservation/styles.module.scss';
@@ -39,7 +39,7 @@ export default function UserPaymentInfo(props: Props) {
   } = props;
   const [values, setValues] = useState<TakeawayCustomer>({
     name: userInfo?.fullname ? userInfo?.fullname : '',
-    phone: 0,
+    phone: '',
     takingTime: '',
   });
   const handleChange = (event: any) => {
@@ -75,31 +75,19 @@ export default function UserPaymentInfo(props: Props) {
             });
           }}
         />
-        {/* <TextField
-          fullWidth
-          label="Full name"
-          id="fullname"
-          value={values.name}
-          onChange={(e: InputChangeEvent) => {
-            setValues((prev) => {
-              return {
-                ...prev,
-                name: e.target.value,
-              };
-            });
-          }}
-        /> */}
         <Input label="Email" value={userInfo?.email} type="email" />
         <Input
           label="Phone number"
-          type="tel"
           value={values.phone}
-          placeholder='0000000000'
+          placeholder="0000000000"
           onChange={(e) => {
+            if (e.target.value !== '' && !isNumber(e.target.value)) {
+              return;
+            }
             setValues((prev) => {
               return {
                 ...prev,
-                phone: parseInt(e.target.value) || 0,
+                phone: e.target.value,
               };
             });
           }}

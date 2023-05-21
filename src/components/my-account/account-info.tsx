@@ -47,7 +47,7 @@ const AccountInfo = (props: Props) => {
     onSubmit: handleSubmit,
   });
   return (
-    <div className="flex flex-col gap-16 max-w-5xl items-center w-full justify-center bg-neutral-200 p-6 text-slate-800">
+    <div className="flex flex-col gap-16 max-w-5xl items-center w-full justify-center bg-second p-6 text-slate-800">
       <div className="flex flex-col justify-between text-inherit">
         <div className="flex gap-8 items-center mx-auto mb-10">
           <div className="relative w-60 h-60">
