@@ -11,8 +11,8 @@ const RegisterPage = () => {
       <div className="w-2/3">
         <ReviewSection />
       </div>
-      <div className="flex-1 bg-primary-dark pt-32 px-28 flex flex-col">
-        <div className="mb-16 text-white">
+      <div className="flex-1 py-10 px-28 flex flex-col text-slate-800">
+        <div className="mb-16">
           <h2 className="text-2xl font-bold mb-4">
             Get started using our services
           </h2>

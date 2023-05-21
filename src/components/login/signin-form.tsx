@@ -73,7 +73,7 @@ const SigninForm = () => {
         Forgot password?
       </Link> */}
       <Button
-        className="bg-primary-yellow w-full h-16 font-bold text-xl text-white hover:bg-primary-yellow/70 mt-10"
+        className="bg-primary-orange w-full h-16 font-bold text-xl text-white hover:bg-primary-orange/80 mt-10"
         onClick={onSubmit}
         isLoading={loading}
         >

@@ -3,9 +3,8 @@ import Image from '@/components/common/image';
 import StatCard from './user-statcard';
 import { useFormik } from 'formik';
 import { User } from '@/types';
-import { TextField } from '@mui/material';
-import { Divider } from '@mui/material';
 import Button from '../common/button';
+import { Divider } from '@mui/material';
 import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance';
 import Input from '../input';
 
@@ -13,9 +12,7 @@ type Props = {
   user: User;
 };
 
-
-const handleValidate = (values: User) => {
-  const { fullname } = values;
+const handleValidate = () => {
   const errors: User = {
     id: '',
     fullname: '',
@@ -37,12 +34,12 @@ const AccountInfo = (props: Props) => {
     phone: user.phone ? user.phone : '',
   };
 
-  const handleSubmit = (
-    values: User,
+  const handleSubmit = () =>
+    // values: User,
     // formikHelpers: FormikHelpers<ICreateReservation>
-  ) => {
-    const { id, ...rest } = values;
-  };
+    {
+      // const { id, ...rest } = values;
+    };
 
   const formik = useFormik({
     initialValues,

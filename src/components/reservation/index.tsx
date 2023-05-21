@@ -4,7 +4,7 @@ import TimePicker from '../time-picker';
 import GuestCounter from '../guest-counter';
 import TableModel from './table-model';
 import { useAppSelector, useAppDispatch } from '@/hooks';
-import { getTime } from '@/store/reducer/reservation';
+import { getTime, guestSelect } from '@/store/reducer/reservation';
 import dayjs, { Dayjs } from 'dayjs';
 import { useGetAllTableQuery } from '@/services/table';
 import { getTablesByFilter } from '@/store/reducer/table';
@@ -40,13 +40,11 @@ const Reservation = () => {
     }
   };
   const handleChangeTime = (newValue: Dayjs | null) => {
-    if (dayjs(newValue).get('hour') < 8 || dayjs(newValue).get('hour') >= 22) {
-      toast.warning('Choose a time in our open time: 8:00 am - 10:00 pm');
-      return;
-    }
-    if (newValue) {
-      dispatch(getTime(newValue.toISOString()));
-    }
+    if (!newValue) return;
+    dispatch(getTime(newValue.toISOString()));
+  };
+  const handleChangeGuest = (value: number) => {
+    dispatch(guestSelect(value));
   };
   if (tables && tables.length === 0) {
     return <div className="text-white">No table available!</div>;
@@ -62,7 +60,10 @@ const Reservation = () => {
           value={dayjs(bookingData.date)}
           onChange={handleChangeTime}
         />
-        <GuestCounter amount={bookingData.numberOfGuests} />
+        <GuestCounter
+          value={bookingData.numberOfGuests}
+          onChange={handleChangeGuest}
+        />
       </div>
       <div className="pt-10 flex gap-36 flex-wrap items-center justify-center overflow-hidden">
         {filterTables?.map((table: Table) => (

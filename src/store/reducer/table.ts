@@ -36,16 +36,22 @@ export const getTablesByFilter = createAsyncThunk<
   'table/getTablesByFilter',
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
-      const { data } = await dispatch(
-        tableApi.endpoints.getTablesByFilter.initiate({
-          minSeat:
-            getState()?.reservation?.createReservationData?.data.numberOfGuests,
-          reservationDate:
-            getState()?.reservation?.createReservationData?.data.date,
-          reserveFlag: true
-        }),
-      );
-      return data as Table[];
+      const res = await dispatch(
+        tableApi.endpoints.getTablesByFilter.initiate(
+          {
+            minSeat:
+              getState()?.reservation?.createReservationData?.data
+                .numberOfGuests,
+            reservationDate:
+              getState()?.reservation?.createReservationData?.data.date,
+            reserveFlag: true,
+          },
+          {
+            forceRefetch: true,
+          },
+        ),
+      ).unwrap();
+      return res as Table[];
     } catch (error) {
       return rejectWithValue(error);
     }

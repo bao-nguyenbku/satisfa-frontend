@@ -73,18 +73,17 @@ const Chatbot = (props: Props) => {
       return;
     }
     if (!botReservationState.steps[1].isComplete) {
-      const currentDate = new Date().toISOString();
+      const currentDate = dayjs().toISOString();
       if (isValidDate(message)) {
         if (!compareDate(message, currentDate)) {
           actions.sendMessage(
             'You can not book a date in the past. Please choose other day',
           );
           return;
-        } else {
-          dispatch(setReservationDate(message));
-          dispatch(getTime(dayjs(message, DATE_INPUT_FORMAT).toISOString()));
         }
 
+        dispatch(setReservationDate(message));
+        dispatch(getTime(dayjs(message, DATE_INPUT_FORMAT).toISOString()));
         actions.getTimePicker();
       } else {
         actions.sendMessage(
@@ -227,8 +226,7 @@ const Chatbot = (props: Props) => {
         actions.sendMessage(botOrderMessage[8].text, {
           widget: <ShowConfirmationOrder />,
         });
-      } 
-      else {
+      } else {
         actions.sendMessage(
           'That is invalid datetime. Please following my syntax and type again😔',
         );
@@ -256,12 +254,11 @@ const Chatbot = (props: Props) => {
         const createBotOrderData = { ...botOrderState.created };
         delete createBotOrderData.tempCustomer;
         createOrder(createBotOrderData);
-      } 
+      }
       return;
-    } 
-    actions.unhandleInput();
-
-
+    } else {
+      actions.unhandleInput();
+    }
   };
 
   // const handleBotRecommendation = async (message: string) => {
