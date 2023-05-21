@@ -42,9 +42,9 @@ const LoginPage = () => {
           </div>
           <Button
             onClick={handleSignInWithGoogle}
-            className="bg-white text-black gap-8 rounded-none py-3 hover:bg-white/80">
-            <Image src={googleImg} alt="google-img" className="w-10 h-10" />
-            Sign in with google
+            className="bg-blue-500 text-white text-lg flex rounded-none hover:bg-blue-600 !p-1">
+            <Image src={googleImg} alt="google-img" className="w-16 h-full bg-white p-3 mr-auto" />
+            <span className='flex-1 text-center w-full'>Sign in with Google</span>
           </Button>
           <span className="mt-4 text-center">
             Don&apos;t have an account?&nbsp;

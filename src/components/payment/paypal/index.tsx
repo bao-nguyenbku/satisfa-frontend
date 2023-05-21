@@ -68,9 +68,8 @@ const Checkout = (props: Props) => {
        *   facilitatorAccesstoken: string;
        * }
        */
-    return actions.order.capture().then(function (details: any) {
-      const { payer } = details
-      console.log(payer)
+    return actions.order.capture().then(function () {
+      // const { payer } = details
       setSuccess(true);
     });
   };
@@ -83,7 +82,6 @@ const Checkout = (props: Props) => {
   useEffect(() => {
     if (success) {
       toast.success('Payment with Paypal successfully!');
-      console.log('created order', createdOrder.id)
       const payment: CreatedOrder = {
         id: createdOrder.id,
         type: order.data.type,

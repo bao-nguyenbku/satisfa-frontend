@@ -284,7 +284,6 @@ export const ChatbotProvider = ({ children }: Props) => {
     getDatePicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[1].text, options);
     },
-
     getTimePicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[2].text, options);
     },
@@ -309,13 +308,19 @@ export const ChatbotProvider = ({ children }: Props) => {
       options?: MessageOption,
     ) => {
       open();
-      const message = `Congratulations! You now can come to my restaurant at ${formatDate(
-        reservationInfo.createReservationData.data.date ||
-          (reservation?.date as string),
-      )} 
-      on table ${
-        reservationInfo.createReservationData.code || reservation?.tableId?.code
-      }`;
+      const message = (
+        <span>
+          Congratulations! You now can come to my restaurant at{' '}
+          {formatDate(
+            reservationInfo.createReservationData.data.date ||
+              (reservation?.date as string),
+          )}{' '}
+          on table{' '}
+          {reservationInfo.createReservationData.code ||
+            reservation?.tableId?.code}
+        </span>
+      );
+
       createBotMessage(message, options);
       actions.completeService();
     },
@@ -357,6 +362,7 @@ export const ChatbotProvider = ({ children }: Props) => {
     // ! COMMON
     completeService: () => {
       setBotService(BotService.NONE);
+      actions.resetService();
     },
 
     resetService: () => {

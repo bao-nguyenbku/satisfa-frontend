@@ -76,11 +76,11 @@ const TableModel = (props: Props) => {
       <button
         className="relative cursor-pointer tracking-wide overflow-hidden w-max px-10"
         onClick={handleClick}>
-        <div className={`grid w-fit gap-4`} ref={chairRef}>
+        <div className={`grid w-fit gap-4 min-w-[100px]`} ref={chairRef}>
           {Array.from(Array(table.numberOfSeats).keys()).map((item) => (
             <div
               key={item}
-              className={`w-16 h-16 bg-stone-500 rounded-full`}></div>
+              className={`w-16 h-16 bg-stone-500 rounded-full mx-auto`}></div>
           ))}
         </div>
         <div

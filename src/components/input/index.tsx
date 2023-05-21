@@ -5,14 +5,14 @@ type Props = {
   type?: string;
   placeholder?: string;
   label?: string;
-  value?: string;
+  value?: string | number;
   name?: string;
   onChange?: (e: InputChangeEvent) => void;
   error?: boolean;
   errorMessage?: string;
 };
 const defaultClasses =
-  'border border-neutral-400 bg-neutral-100 h-16 text-slate-800 outline-none px-2 w-full placeholder:text-neutral-400 focus:border-neutral-500 ';
+  'border border-neutral-400 bg-neutral-200 h-16 text-slate-800 outline-none px-2 w-full placeholder:text-neutral-400 focus:border-neutral-500 ';
 
 const Input = (props: Props) => {
   const {
