@@ -20,16 +20,16 @@ export default function RatingOption(props: Props) {
     }
   }, [currentIdx]);
   return (
-    <div className="flex items-center">
+    <div className="flex sm:flex-row flex-col sm:mb-0 mb-4 items-center justify-between">
       <span className="text-xl font-bold">{question}</span>
       <div className="flex gap-2">
         {[1, 2, 3, 4, 5].map((item, index) => {
           return (
             <IconButton key={item} onClick={() => handleClick(index)}>
               {index <= currentIdx ? (
-                <StarIcon className="text-4xl text-primary-yellow" />
+                <StarIcon className="text-4xl text-primary-orange" />
               ) : (
-                <StarOutlineIcon className="text-4xl text-white" />
+                <StarOutlineIcon className="text-4xl text-inherit" />
               )}
             </IconButton>
           );

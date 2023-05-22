@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 // import { MessageOption, Message } from './types';
 import * as _ from 'lodash';
-import MessageHeader from './message-header';
-import MessageInput from './message-input';
-import MessageSection from './message-section';
+import MessageHeader from './components/message-header';
+import MessageInput from './components/message-input';
+import MessageSection from './components/message-section';
 import useChatbot from '@/hooks/useChatbot';
 import { BotService } from './types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -261,9 +261,6 @@ const Chatbot = (props: Props) => {
     }
   };
 
-  // const handleBotRecommendation = async (message: string) => {
-  //   return 1;
-  // }
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
     createUserMessage(message);

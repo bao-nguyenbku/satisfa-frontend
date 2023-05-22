@@ -7,6 +7,7 @@ import React, {
   cloneElement,
 } from 'react';
 import * as _ from 'lodash';
+import { useRouter } from 'next/router';
 import {
   MessageOption,
   BotActions,
@@ -16,8 +17,7 @@ import {
   WidgetType,
 } from '@/components/chatbot/types';
 import Options from '@/components/chatbot/options';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppDispatch } from '@/hooks';
 import {
   resetCreateOrder,
   resetCreateReservation,
@@ -25,12 +25,12 @@ import {
   setReservationDinein,
 } from '@/store/reducer/chatbot';
 import { botOrderMessage, botReserveMessage } from '@/components/chatbot/steps';
-import WidgetWrapper from '@/components/chatbot/widget-wrapper';
+import WidgetWrapper from '@/components/chatbot/components/widget-wrapper';
 import { Reservation } from '@/types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
-import { selectReservationState } from '@/store/reducer/reservation';
 import { formatDate } from '@/utils';
 import ShowTables from '@/components/chatbot/widgets/show-tables';
+import FrequentlyQuestion from '@/components/chatbot/widgets/frequently-question';
 
 type Props = {
   children: React.ReactNode;
@@ -86,7 +86,6 @@ export const ChatbotProvider = ({ children }: Props) => {
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const reservationInfo = useAppSelector(selectReservationState);
 
   const createBotMessage = (message: ReactNode, options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
@@ -138,6 +137,7 @@ export const ChatbotProvider = ({ children }: Props) => {
               <WidgetWrapper option={widgetType}>
                 {cloneElement(widget as ReactElement, {
                   actions,
+                  createUserMessage,
                 })}
               </WidgetWrapper>
             ),
@@ -194,19 +194,91 @@ export const ChatbotProvider = ({ children }: Props) => {
     }
   }, [messages]);
   const actions = {
+    // ! FREQUENTLY ASKED QUESTIONS
+    showLocation: () => {
+      createBotMessage(
+        <ul>
+          <li>
+            👉Satisfa restaurant is place at{' '}
+            <strong>
+              122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh
+              City
+            </strong>
+          </li>
+        </ul>,
+      );
+    },
+    answerHostEvent: () => {
+      createBotMessage(
+        <div className="flex flex-col gap-2">
+          <span>
+            ✅Absolutely! We would be delighted to help you host your event at
+            our restaurant. We offer event hosting services for various
+            occasions, including private parties, corporate gatherings, and
+            special celebrations.
+          </span>
+          <span>
+            ✅Our dedicated events team will work closely with you to ensure a
+            memorable experience for you and your guests.
+          </span>
+          <span>
+            👉To get started, I recommend contacting our events team directly at
+            <strong>0123 456 789</strong> or{' '}
+            <strong>customer@satisfa.com</strong>
+          </span>
+          <span>
+            👉They will be able to provide you with all the necessary details,
+            including available dates, event packages, and any additional
+            services or amenities we offer.
+          </span>
+        </div>,
+      );
+    },
+    answerOperatingHours: () => {
+      createBotMessage(
+        <div className="flex flex-col gap-2">
+          <span>
+            ✅Our restaurant is open all day from <strong>8:00 am</strong> to{' '}
+            <strong>10:00 pm</strong> (Except for some special activities).
+          </span>
+          <span>
+            ✅We are pleased to serve you during this time and look forward to
+            welcoming you to our establishment
+          </span>
+        </div>,
+      );
+    },
+    answerParking: () => {
+      createBotMessage(
+        <div className="flex flex-col gap-2">
+          <span>✅Yes, we do have parking available for our customers.</span>
+          <span> ✅We provide parking lot and street parking.</span>
+          <span>
+            ✅Our parking facilities are conveniently located near the
+            restaurant to ensure easy access for our guests and of course,
+            it&apos;s free.
+          </span>
+        </div>,
+      );
+    },
     // ! GENERAL
     unhandleInput: () => {
       createBotMessage(
         <p>
           I can not understand. Please provide correct syntax. If you need help,
-          let you type <strong className="font-bold">help</strong>
+          let you type <strong>help</strong>
         </p>,
       );
     },
     callWaiter: () => {
       createBotMessage('I called watier for you. Please wait...');
     },
-
+    showQuestions: () => {
+      createBotMessage('What do you want to ask?');
+      createWidget(<FrequentlyQuestion />, {
+        widgetType: WidgetType.SELECTION,
+      });
+    },
     sendMessage: (message: ReactNode, options?: MessageOption) => {
       const widget =
         options &&
@@ -232,29 +304,9 @@ export const ChatbotProvider = ({ children }: Props) => {
     },
     askForHelp: () => {
       createBotMessage('Hi, I am Satisgi. How can I help you?');
-      createWidget(
-        <Options actions={actions} createUserMessage={createUserMessage} />,
-        {
-          widgetType: WidgetType.SELECTION,
-        },
-      );
-    },
-    showLocation: () => {
-      createBotMessage(
-        <ul>
-          <li>
-            👉Satisfa restaurant is place at{' '}
-            <strong>
-              122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh
-              City
-            </strong>
-          </li>
-          <li>
-            👉We serve from <strong>8:00am</strong> to <strong>10:00pm</strong>{' '}
-            everyday
-          </li>
-        </ul>,
-      );
+      createWidget(<Options actions={actions} />, {
+        widgetType: WidgetType.SELECTION,
+      });
     },
     suggestMenu: () => {
       createBotMessage(
@@ -307,10 +359,6 @@ export const ChatbotProvider = ({ children }: Props) => {
       reservation?: Reservation,
       options?: MessageOption,
     ) => {
-      console.log(
-        '🚀 ~ file: chatbot-context.tsx:310 ~ ChatbotProvider ~ reservation:',
-        reservationInfo.createReservationData,
-      );
       open();
       const message = (
         // <span>
@@ -324,8 +372,7 @@ export const ChatbotProvider = ({ children }: Props) => {
         //     reservation?.tableId?.code}
         // </span>
         <span>
-          Successfullly! Your reservation code is{' '}
-          <strong>#{reservation?.id}</strong>. Remember to come to restaurant on{' '}
+          Successfullly! Remember to come to restaurant on{' '}
           <strong>{formatDate(reservation?.date as string)}</strong>. Glad to be
           of service.
         </span>
@@ -339,9 +386,6 @@ export const ChatbotProvider = ({ children }: Props) => {
       actions.sendMessage(botOrderMessage[8].text, {
         widget: <ShowConfirmationOrder />,
       });
-    },
-    confirmYes: () => {
-      return;
     },
     // ! ORDER FOOD
     checkMyOrders: (options?: MessageOption) => {

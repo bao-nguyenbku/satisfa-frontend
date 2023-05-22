@@ -18,9 +18,10 @@ module.exports = {
       'primary-yellow': '#C49246',
       'dark-2': '#263238',
       'primary-orange': '#FF621F',
-      primary: '#F5EADB',
-      // 'second': '#D6c5b0'
-      second: '#Dccfbf',
+      // primary: '#F5EADB',
+      primary: '#F6EEE3',
+      // second: '#Dccfbf',
+      second: '#E9E0D2',
     },
     screens: {
       xs: '475px',

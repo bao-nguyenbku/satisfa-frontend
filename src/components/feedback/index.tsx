@@ -51,7 +51,7 @@ export default function FeedbacksForm() {
     }
   }, [createReviewRes]);
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4 text-slate-800">
       <h1 className="font-bold text-2xl">
         Thanks for choosing us to have your food
       </h1>
@@ -62,7 +62,7 @@ export default function FeedbacksForm() {
       {isShowThankNoti ? (
         <h1>Thank you for feedback. We appreciate it.</h1>
       ) : (
-        <div>
+        <div className='flex flex-col gap-4'>
           <RatingOption
             onChange={onChangeFoodRating}
             question="Are food delicious?"
@@ -73,9 +73,8 @@ export default function FeedbacksForm() {
           />
           <TextField
             placeholder="Write everything you want about us..."
-            className="bg-white/20 text-white"
             InputProps={{
-              className: 'text-white',
+              className: 'text-inherit',
             }}
             fullWidth
             value={values.review}
@@ -84,7 +83,7 @@ export default function FeedbacksForm() {
             multiline
           />
           <Button
-            className="text-white bg-primary-yellow py-4 w-full rounded-none hover:bg-yellow-700 mt-4"
+            className="text-white bg-primary-orange py-4 w-full rounded-none hover:bg-primary-orange/80 mt-4 text-xl"
             onClick={handleSubmit}>
             Submit feedback
           </Button>

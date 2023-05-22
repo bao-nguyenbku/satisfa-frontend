@@ -12,6 +12,13 @@ export default function Options(props: any) {
   const { socket } = useSocket();
   const options = [
     {
+      text: 'I want to ask some questions',
+      handler: () => {
+        createUserMessage('I want to ask some questions');
+        actions.showQuestions();
+      }
+    },
+    {
       text: 'I want to book table',
       handler: () => {
         createUserMessage(options[0].text);
@@ -47,9 +54,17 @@ export default function Options(props: any) {
             getReservationByFilter.initiate({
               currentDate: true,
               currentUser: true,
+              checkedIn: true,
             }),
           ).unwrap();
           createUserMessage(options[4].text);
+          if (res && res.length === 0) {
+            actions.sendMessage(
+              'You must check-in at restaurant to call for service',
+            );
+            return;
+          }
+
           socket?.emit('call-waiter', {
             userId: user?.id,
             reservation: res,

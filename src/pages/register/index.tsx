@@ -24,9 +24,9 @@ const RegisterPage = () => {
           transition={{ duration: 0.5 }}>
           <SigninForm />
         </motion.div>
-        <span className="text-neutral-500 mt-4 text-center">
+        <span className="text-slate-800 mt-4 text-center">
           Have an account?{' '}
-          <Link href="/login" className="text-white font-bold hover:underline">
+          <Link href="/login" className="font-bold hover:underline">
             Sign in now
           </Link>
         </span>
