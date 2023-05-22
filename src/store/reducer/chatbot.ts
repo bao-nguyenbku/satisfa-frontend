@@ -39,7 +39,7 @@ type ChatbotState = {
   };
   recommendation: {
     steps: BotStep;
-    created: any;
+    created: CartItem[];
   };
 };
 // Define the initial state using that type
@@ -122,13 +122,7 @@ const initialState: ChatbotState = {
         isComplete: false,
       },
     },
-    created: {
-      customerId: '',
-      tableId: '',
-      note: '',
-      date: '',
-      numberOfGuests: 0,
-    },
+    created: [],
   },
 };
 // export const createReservation = createAsyncThunk(
@@ -336,7 +330,7 @@ export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation;
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
-
+export const selectBotRecommendationState = (state: RootState) => state.chatbot.recommendation;
 export const selectCreateBotOrderData = (state: RootState) =>
   state.chatbot.order.created;
 // export const selectTakeawayOrderCompletion = (state: RootState) => {

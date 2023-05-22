@@ -21,6 +21,13 @@ export const orderApi = createApi({
         };
       },
     }),
+    getLastestOrder: build.query<Order[], void>({
+      query: () => {
+        return {
+          url: '/orders/lastest',
+        };
+      },
+    }),
     createOrderService: build.mutation<Order, CreateOrder>({
       query: (body) => {
         return {
@@ -51,6 +58,14 @@ export const orderApi = createApi({
         };
       },
     }),
+    getBestSeller: build.query<any, number | void>({
+      query: (filter) => {
+        return {
+          url: 'analysis/orders/bestseller',
+          params: filter || {},
+        };
+      },
+    }),
   }),
 });
 
@@ -59,6 +74,8 @@ export const {
   useUpdateOrderServiceMutation,
   useGetAllOrderByCurrentUserQuery,
   useCreatePaidOrderServiceMutation,
+  useGetBestSellerQuery,
+  useGetLastestOrderQuery,
   util: { getRunningQueriesThunk },
 } = orderApi;
 

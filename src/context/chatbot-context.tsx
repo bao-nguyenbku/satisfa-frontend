@@ -18,13 +18,18 @@ import {
 import Options from '@/components/chatbot/options';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/hooks';
+import ShowBestSeller from '@/components/chatbot/widgets/show-best-seller';
 import {
   resetCreateOrder,
   resetCreateReservation,
   // selectBotReservationState,
   setReservationDinein,
 } from '@/store/reducer/chatbot';
-import { botOrderMessage, botReserveMessage } from '@/components/chatbot/steps';
+import {
+  botOrderMessage,
+  botReserveMessage,
+  botRecommendationMessage,
+} from '@/components/chatbot/steps';
 import WidgetWrapper from '@/components/chatbot/widget-wrapper';
 import { Reservation } from '@/types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
@@ -292,7 +297,10 @@ export const ChatbotProvider = ({ children }: Props) => {
       router.push('/me/reservations');
     },
     checkMyOrders: (options?: MessageOption) => {
-      createBotMessage('We navigate you to your history orders. Let check out the screen😘', options);
+      createBotMessage(
+        'We navigate you to your history orders. Let check out the screen😘',
+        options,
+      );
       router.push('/me/orders');
     },
     getGuestPicker: (options?: MessageOption) => {
@@ -323,6 +331,24 @@ export const ChatbotProvider = ({ children }: Props) => {
       setBotService(BotService.ORDER);
       actions.navigateToMenu();
       actions.chooseFoodFromMenu();
+    },
+    showBestSeller: () => {
+      actions.sendMessage(botRecommendationMessage[1].text, {
+        widget: <ShowBestSeller />,
+      });
+      createBotMessage(botRecommendationMessage[2].text, {
+        delay: 500,
+      });
+    },
+    completeRecommendation: () => {
+      createBotMessage(botRecommendationMessage[3].text, {
+        delay: 500,
+      });
+    },
+    handleRecommendation: () => {
+      setBotService(BotService.RECOMMENDATION);
+      actions.navigateToMenu();
+      actions.showBestSeller();
     },
     completeService: () => {
       setBotService(BotService.NONE);

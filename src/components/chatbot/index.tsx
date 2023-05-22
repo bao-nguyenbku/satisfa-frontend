@@ -19,6 +19,7 @@ import {
   setTakeawayPhone,
   setTakeawayTime,
   getReservationByUser,
+  selectBotRecommendationState,
 } from '@/store/reducer/chatbot';
 import { getTime, guestSelect } from '@/store/reducer/reservation';
 import dayjs from 'dayjs';
@@ -34,12 +35,16 @@ import {
 import { toast } from 'react-toastify';
 import ShowCart from './widgets/show-cart';
 import { DATE_INPUT_FORMAT, OrderType, QueryStatus } from '@/types';
-import { useCreateOrderServiceMutation } from '@/services/order';
+import {
+  useCreateOrderServiceMutation,
+  useGetLastestOrderQuery,
+} from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import { Indent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
-
+import ShowRecentOrder from './widgets/show-recent-order';
+import { botRecommendationMessage } from './steps';
 type Props = {
   boxOpen?: boolean;
 };
@@ -56,8 +61,9 @@ const Chatbot = (props: Props) => {
   const botReservationState = useAppSelector(selectBotReservationState);
   const reserveData = useAppSelector((state) => state.reservation);
   const botOrderState = useAppSelector(selectBotOrderState);
-
+  const botRecommendationState = useAppSelector(selectBotRecommendationState);
   // !! HANDLE RESERVATION SERVICE !!
+  const { data: lastestOrder } = useGetLastestOrderQuery();
   const handleBotReservation = (message: string) => {
     if (!botReservationState.steps[1].isComplete) {
       const currentDate = new Date();
@@ -136,9 +142,7 @@ const Chatbot = (props: Props) => {
         actions.sendMessage(
           'Your cart is empty, so I can not make an order for you. Please pick some food to continue',
         );
-      } 
-      
-      else if (cartRes && cartRes.itemList.length > 0) {
+      } else if (cartRes && cartRes.itemList.length > 0) {
         actions.sendMessage('I am confirming your cart');
         actions.sendWidget(<ShowCart data={cartRes.itemList} />);
         actions.sendMessage(botOrderMessage[2].text, {
@@ -148,7 +152,10 @@ const Chatbot = (props: Props) => {
     }
     // Choose OrderType
     else if (!botOrderState.steps[2].isComplete) {
-      if (!/^takeaway$/.test(lowCaseMessage) && !/^dine in$/.test(lowCaseMessage)) {
+      if (
+        !/^takeaway$/.test(lowCaseMessage) &&
+        !/^dine in$/.test(lowCaseMessage)
+      ) {
         actions.unhandleInput();
         return;
       }
@@ -240,9 +247,32 @@ const Chatbot = (props: Props) => {
     }
   };
 
-  // const handleBotRecommendation = async (message: string) => {
-  //   return 1;
-  // }
+  // !! HANDLE RECCOMENDATION SERVICE !!
+  const handleBotRecommendation = async (message: string) => {
+    const lowCaseMessage = message.toLowerCase().trim();
+    if (!botRecommendationState.steps[1].isComplete) {
+      if (!lowCaseMessage.includes('yes') && !lowCaseMessage.includes('no')) {
+        actions.unhandleInput();
+        return;
+      }
+      const itemList = lastestOrder ? lastestOrder[0].items : [];
+      if (lowCaseMessage.includes('yes')) {
+        if (itemList && itemList.length === 0) {
+          actions.sendMessage(
+            'You have not made any order in our restaurant, try it and use this service next time.',
+          );
+        } else if (itemList && itemList.length > 0) {
+          actions.sendMessage('I am showing you your food in recent order', {
+            widget: <ShowRecentOrder itemList={itemList} />,
+          });
+          actions.sendMessage(botRecommendationMessage[3].text);
+        }
+      } else if (lowCaseMessage.includes('no')) {
+        actions.sendMessage(botRecommendationMessage[3].text);
+      }
+    }
+    return lowCaseMessage;
+  };
   const parseMessage = async (message: string) => {
     // setCurrentMessage(message);
     createUserMessage(message);
@@ -256,6 +286,8 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
+    } else if (botService === BotService.RECOMMENDATION) {
+      handleBotRecommendation(message);
     }
   };
   useEffect(() => {
