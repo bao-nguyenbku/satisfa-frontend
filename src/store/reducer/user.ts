@@ -26,8 +26,8 @@ export const authCurrentUser = createAsyncThunk(
   },
 );
 // Define the initial state using that type
-const initialState: ReduxDataType = {
-  data: {} as User | undefined,
+const initialState: Omit<ReduxDataType, 'data'> & { data: User | null } = {
+  data: null,
   isLoading: false,
   isSuccess: false,
   error: null,
@@ -48,7 +48,7 @@ export const userSlice = createSlice({
       })
       .addCase(authCurrentUser.pending, (state) => {
         state.isLoading = true;
-        state.data = {} as User;
+        state.data = null;
         state.isSuccess = false;
         state.error = null;
       })
@@ -65,7 +65,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.error = action.payload as any;
-        state.data = undefined;
+        state.data = null;
       });
   },
 });

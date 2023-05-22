@@ -6,75 +6,37 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 // import Link from 'next/link';
 import { podkova } from '@/constants/font';
 import styles from './styles.module.scss';
-// import bgImage from '@/assets/images/contact-background.jpg';
-// type Props = {};
-
-// export default function FooterSection () {
-//   return (
-//     <div className="h-screen w-screen relative -left-20 top-0" id="footer">
-//       <Image
-//         className="object-cover absolute top-0 left-0 brightness-50 z-10"
-//         src={bgImage}
-//         alt="contact"
-//         fill
-//       />
-//       <div className="z-10 flex flex-col absolute h-full w-full p-4">
-//         <div className="flex flex-col text-white items-center top-1/2 -translate-y-1/2 absolute left-1/2 -translate-x-1/2">
-//           <span className="font-passions-conflict text-8xl text-primary-yellow">
-//             Questions
-//           </span>
-//           <span className="text-8xl">Get in touch</span>
-//         </div>
-//         <div className="mt-auto flex flex-col gap-6">
-//           <div className="flex items-center mx-auto gap-6">
-//             <IconButton className="bg-white/20 border border-slate-600 border-solid p-4">
-//               <FacebookRoundedIcon className="text-white" />
-//             </IconButton>
-//             <IconButton className="bg-white/20 border border-slate-600 border-solid p-4">
-//               <YouTubeIcon className="text-white" />
-//             </IconButton>
-//             <IconButton className="bg-white/20 border border-slate-600 border-solid p-4">
-//               <InstagramIcon className="text-white" />
-//             </IconButton>
-//           </div>
-
-//           <div className="flex flex-col max-w-max mx-auto gap-6">
-//             <div className="flex w-full text-white gap-8 text-2xl justify-between whitespace-nowrap">
-//               <Link href="/">Home</Link>
-//               <Link href="/menu">Our menu</Link>
-//               <Link href="#about-us">About us</Link>
-//               <Link href="#contact">Contact</Link>
-//             </div>
-//             <hr className="border-solid border-2 border-slate-500/50 w-full" />
-//           </div>
-//           <span className="text-white text-xl mx-auto">©2023 Satisfa</span>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default function FooterSection() {
   return (
-    <footer id={styles.footer}>
+    <footer
+      id="footer"
+      className={`h-128 relative flex justify-between items-center p-20 text-slate-800 ${styles.footer}`}
+    >
       <div className="flex flex-col lg:gap-2 xl:gap-4 z-10 max-w-[200px] md:max-w-md lg:max-w-sm">
-        <h2 className='text-lg md:text-xl font-bold'>Contact</h2>
-        <span className='text-sm md:text-base'>0123 456 789</span>
-        <span className='text-sm md:text-base'>122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh City</span>
-        <span className='text-sm md:text-base'>customer@satisfa.com</span>
+        <h2 className="text-lg md:text-xl font-bold">Contact</h2>
+        <span className="text-sm md:text-base">0123 456 789</span>
+        <span className="text-sm md:text-base">
+          122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh City
+        </span>
+        <span className="text-sm md:text-base">customer@satisfa.com</span>
       </div>
       <div className="absolute left-1/2 top-1/6 md:top-1/2 -translate-x-1/2 -translate-y-1/4 flex flex-col items-center gap-6 z-10">
-        <h2 className={`text-xl md:text-6xl ${podkova.className}`}>Satisfa Restaurant</h2>
+        <h2 className={`text-xl md:text-6xl ${podkova.className}`}>
+          Satisfa Restaurant
+        </h2>
         <div className="flex items-center gap-3">
-          <InstagramIcon className="text-3xl" />
-          <FacebookRoundedIcon className="text-3xl" />
-          <YouTubeIcon className="text-3xl" />
+          <InstagramIcon className="text-3xl cursor-pointer" />
+          <FacebookRoundedIcon className="text-3xl cursor-pointer" />
+          <YouTubeIcon className="text-3xl cursor-pointer" />
         </div>
-        <span className="mt-52 md:mt-44">©2023 Satisfa</span>
+        <span className="">©2023 Satisfa</span>
       </div>
       <div className="flex flex-col gap-2 md:gap-4 z-10">
-        <h2 className='text-xl font-bold'>Hours</h2>
-        <span className='text-sm md:text-base'>Monday - Sunday <br /> 8:00am - 22:00pm</span>
+        <h2 className="text-xl font-bold">Hours</h2>
+        <span className="text-sm md:text-base">
+          Monday - Sunday <br /> 8:00am - 10:00pm
+        </span>
       </div>
     </footer>
   );

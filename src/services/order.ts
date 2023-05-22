@@ -37,6 +37,15 @@ export const orderApi = createApi({
         };
       },
     }),
+    createOrderByGuestService: build.mutation<Order, CreateOrder>({
+      query: (body) => {
+        return {
+          url: '/orders/create-guest',
+          method: 'POST',
+          body,
+        };
+      },
+    }),
     createPaidOrderService: build.mutation<any, any>({
       query: (body) => {
         const { id, ...rest } = body;
@@ -72,6 +81,7 @@ export const orderApi = createApi({
 export const {
   useCreateOrderServiceMutation,
   useUpdateOrderServiceMutation,
+  useCreateOrderByGuestServiceMutation,
   useGetAllOrderByCurrentUserQuery,
   useCreatePaidOrderServiceMutation,
   useGetBestSellerQuery,

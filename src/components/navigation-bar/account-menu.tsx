@@ -3,10 +3,6 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-// import Divider from '@mui/material/Divider';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
 import { User } from '@/types';
 import Image from '@/components/common/image';
 
@@ -19,18 +15,19 @@ export default function AccountMenu(props: Props) {
   const open = Boolean(anchorEl);
   const menu = [
     {
+      title: 'Profile',
+      link: '/me/profile',
+    },
+    {
       title: 'My orders',
-      icon: <PersonAdd />,
       link: '/me/orders',
     },
     {
       title: 'My reservations',
-      icon: <Settings />,
       link: '/me/reservations',
     },
     {
       title: 'Sign out',
-      icon: <Logout />,
       link: '/api/auth/signout',
     },
   ];
@@ -50,7 +47,7 @@ export default function AccountMenu(props: Props) {
     <React.Fragment>
       <li
         onClick={handleOpenMenu}
-        className="flex items-center gap-2 hover:bg-primary-yellow hover:transition-colors p-2 cursor-pointer">
+        className="items-center gap-2 transition-colors duration-300 p-2 cursor-pointer lg:flex hidden">
         <Image
           src={data?.avatar}
           alt="user-avatar"
@@ -59,7 +56,7 @@ export default function AccountMenu(props: Props) {
           width={70}
           height={70}
         />
-        <span>{data?.fullname}</span>
+        <span className='hover:border-primary-orange border-b hover:text-primary-orange'>{data?.fullname}</span>
       </li>
 
       <Menu
@@ -70,7 +67,7 @@ export default function AccountMenu(props: Props) {
         onClick={handleClose}
         PaperProps={{
           elevation: 0,
-          className: 'bg-zinc-800 border border-slate-600 text-white'
+          className: 'bg-zinc-800 border border-slate-600 text-white',
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
@@ -86,9 +83,10 @@ export default function AccountMenu(props: Props) {
             );
           }
           return (
-            <MenuItem onClick={handleClose} key={item.title}
-              className='hover:bg-white/10'
-            >
+            <MenuItem
+              onClick={handleClose}
+              key={item.title}
+              className="hover:bg-white/10">
               <Link href={item.link} className="flex items-center">
                 {item.title}
               </Link>

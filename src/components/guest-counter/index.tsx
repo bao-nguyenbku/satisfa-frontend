@@ -25,17 +25,17 @@ const GuestCounter = (props: Props) => {
     setValue((prev) => (prev === 0 ? 0 : prev - 1));
   };
   return (
-    <div className="text-white bg-neutral-800 border-gray-600 border flex items-center w-fit">
-      <span className='px-6'>{amount}</span>
+    <div className="text-slate-800 bg-neutral-200 border-slate-800 border flex items-center w-fit">
+      <span className='px-8 text-xl'>{amount}</span>
       <IconButton onClick={onDecrease}
-        className='bg-white/20 rounded-none hover:bg-white/30 h-20 w-20'
+        className='bg-neutral-200 rounded-none hover:bg-white/30 h-20 w-20'
       >
-        <KeyboardArrowLeftIcon className='text-white'/>
+        <KeyboardArrowLeftIcon className='text-slate-800'/>
       </IconButton>
       <IconButton onClick={onIncrease}
-        className='bg-white/20 hover:bg-white/30 rounded-none h-20 w-20'
+        className='bg-neutral-200 hover:bg-white/30 rounded-none h-20 w-20'
       >
-        <KeyboardArrowRightIcon className='text-white'/>
+        <KeyboardArrowRightIcon className='text-slate-800'/>
       </IconButton>
     </div>
   );

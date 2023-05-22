@@ -27,7 +27,9 @@ const ChatbotButton = () => {
           className={styles.popover}
           PaperProps={{
             style: {
-              borderRadius: 12
+              borderRadius: 8,
+              width: '100%',
+              height: '100%'
             }
           }}
           keepMounted

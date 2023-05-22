@@ -17,7 +17,7 @@ export default function MyReservations() {
       <h1 className="text-7xl mb-24 text-primary-yellow text-center">
         Your reservations
       </h1>
-      <div className="flex flex-wrap space-x-8 gap-8">
+      <div className="flex flex-wrap space-x-8 gap-10">
         {isLoading ? (
           <Loading />
         ) : (

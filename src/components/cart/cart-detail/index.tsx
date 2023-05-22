@@ -53,17 +53,17 @@ export default function CartDetail(props: Props) {
   };
 
   return (
-    <div className="h-screen w-full  bg-primary-dark p-4 flex flex-col ">
-      <div className="flex justify-between">
-        <h2 className="text-yellow-500 text-xl flex items-center pb-4">
+    <div className="h-screen w-full  bg-primary p-4 flex flex-col ">
+      <div className="flex justify-between text-slate-800">
+        <h2 className="text-inherit text-xl flex items-center pb-4">
           Your Cart
         </h2>
         <IconButton aria-label="close" onClick={handleCloseCart}>
-          <ClearIcon className="text-white" />
+          <ClearIcon className="text-inherit" />
         </IconButton>
       </div>
 
-      <div className="flex flex-col gap-6 pt-2 h-9/12 overflow-y-scroll">
+      <div className="flex flex-col gap-6 pt-2 h-9/12 overflow-y-auto">
         {isCartEmpty(cartItems) ? (
           cartItems.map((item) => {
             return (
@@ -77,17 +77,17 @@ export default function CartDetail(props: Props) {
             );
           })
         ) : (
-          <span className="text-white">Your cart is empty</span>
+          <span className="text-slate-800">Your cart is empty</span>
         )}
       </div>
       {isCartEmpty(cartItems) && (
         <div className="mt-auto flex flex-col gap-4">
-          <div className="flex justify-between text-primary-yellow text-2xl">
+          <div className="flex justify-between text-slate-800 text-2xl">
             <span>Total</span>
-            <span>{formatCurrency(totalCost)}</span>
+            <span className='text-primary-orange'>{formatCurrency(totalCost)}</span>
           </div>
           <Button
-            className="hover:bg-yellow-500 normal-case text-xl text-white bg-yellow-600 w-full h-16 mx-auto rounded-none"
+            className="hover:bg-slate-800/80 normal-case text-xl text-white bg-slate-800 w-full h-16 mx-auto rounded-none"
             onClick={handleOrderClick}>
             Order now
           </Button>
