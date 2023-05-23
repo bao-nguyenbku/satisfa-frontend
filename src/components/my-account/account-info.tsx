@@ -31,7 +31,7 @@ const AccountInfo = (props: Props) => {
     avatar: '',
     // email: user.email ? user.email : '',
     email: 'username@gmail.com',
-    phone: user.phone ? user.phone : '',
+    phone: user?.phone ? user.phone : '',
   };
 
   const handleSubmit = () =>
@@ -52,7 +52,7 @@ const AccountInfo = (props: Props) => {
         <div className="flex gap-8 items-center mx-auto mb-10">
           <div className="relative w-60 h-60">
             <Image
-              src={user.avatar}
+              src={user?.avatar}
               fill
               alt="avatar"
               className="object-cover aspect-square rounded-full"

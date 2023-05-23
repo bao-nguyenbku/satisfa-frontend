@@ -4,6 +4,7 @@ import { useAppSelector } from '@/hooks';
 import { selectUserData } from '@/store/reducer/user';
 import AccountInfo from '@/components/my-account/account-info';
 import { User } from '@/types';
+
 export default function Profile() {
   const user = useAppSelector(selectUserData);
   return (

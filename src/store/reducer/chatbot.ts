@@ -20,6 +20,7 @@ import {
   CreateReservation,
   Table,
   DATE_INPUT_FORMAT,
+  ReservationStatus,
 } from '@/types';
 import { reservationApi } from '@/services/reservation';
 import dayjs from 'dayjs';
@@ -62,6 +63,7 @@ const initialState: ChatbotState = {
     created: {
       customerId: '',
       tableId: '',
+      status: ReservationStatus.RESERVED,
       note: '',
       date: '',
       numberOfGuests: 0,
@@ -247,6 +249,7 @@ export const chatbotSlice = createSlice({
       state.reservation.created = {
         customerId: '',
         tableId: '',
+        status: ReservationStatus.RESERVED,
         note: '',
         date: '',
         numberOfGuests: 0,

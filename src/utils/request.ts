@@ -3,12 +3,18 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query';
 import axios, { AxiosHeaders } from 'axios';
 import { getSession } from 'next-auth/react';
 
+export type rtkOptions = {
+  headers: HeaderOptions;
+};
+export type HeaderOptions = {
+  Authorization?: string;
+};
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   prepareHeaders: async (headers) => {
     const session = await getSession();
-    const token = session?.token;
+    const token = session?.token || '';
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
@@ -18,10 +24,6 @@ export const baseQuery = fetchBaseQuery({
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  timeout: 5000,
 });
 
 instance.interceptors.request.use(

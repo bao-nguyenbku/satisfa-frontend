@@ -1,9 +1,30 @@
-import { Reservation } from '@/types';
-import { formatDate } from '@/utils';
 import React from 'react';
+import { Reservation } from '@/types';
+import { formatDate, transformEnumText } from '@/utils';
 
 type Props = {
   data: Reservation;
+};
+
+const getStylesByStatus = (status: string) => {
+  switch (status) {
+    case 'RESERVED': {
+      return {
+        bg: 'bg-amber-500',
+      };
+    }
+    case 'CHECKED_IN': {
+      return {
+        bg: 'bg-teal-500',
+      };
+    }
+
+    default: {
+      return {
+        bg: 'bg-slate-800',
+      };
+    }
+  }
 };
 
 export default function ReservationCard(props: Props) {
@@ -41,11 +62,14 @@ export default function ReservationCard(props: Props) {
   // }, [chairRef]);
   return (
     <div className="flex w-fit">
-      <div className={`bg-amber-500 w-20 flex flex-col items-center justify-center`}>
+      <div
+        className={`${
+          getStylesByStatus(data.status).bg
+        } w-20 flex flex-col items-center justify-center`}>
         <h2 className="text-white normal-case text-2xl font-bold">
           {data.tableId?.code}
         </h2>
-        <span>Reserved</span>
+        <span>{transformEnumText(data.status)}</span>
       </div>
       <div className="flex flex-col text-slate-800 bg-second p-4">
         <span>

@@ -62,7 +62,14 @@ export function validateDatetime(datetime: string) {
     status: true,
   };
 }
-
+export function transformEnumText(text: string) {
+  if (!text) return '';
+  const tmp = text
+    .split('_')
+    .map((text) => text.toLowerCase())
+    .join(' ');
+  return tmp.charAt(0).toUpperCase() + tmp.substring(1);
+}
 export function isValidDatetime(datetime: string) {
   const temp = datetime.split(' ');
   if (temp.length !== 2) {

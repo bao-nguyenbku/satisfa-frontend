@@ -8,7 +8,7 @@ export type User = {
   email: string;
   fullname: string;
   avatar: string;
-  phone?:string;
+  phone?: string;
 };
 
 export type CreateUser = {
@@ -56,7 +56,7 @@ export type Product = {
 export type Category = {
   id: string;
   name: string;
-}
+};
 export type CartItem = Product & {
   qty: number;
 };
@@ -165,12 +165,18 @@ export type Table = {
   reservations: Reservation[];
 };
 
+export enum ReservationStatus {
+  RESERVED = 'RESERVED',
+  CHECKED_IN = 'CHECKED_IN',
+}
+
 export type Reservation = {
   id: string;
   customerId: User;
   tableId: Table;
   date: string;
   numberOfGuests: number;
+  status: ReservationStatus;
   note: string;
 };
 

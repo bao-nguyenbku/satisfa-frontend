@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { CreateReservation, Table } from '@/types';
+import { CreateReservation, ReservationStatus, Table } from '@/types';
 import { useCreateReservationMutation } from '@/services/reservation';
 import { toast } from 'react-toastify';
 import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
@@ -17,6 +17,7 @@ const reserveData: Omit<CreateReservation, 'customerId'> & {
   tableId: '',
   date: new Date().toString(),
   note: 'None',
+  status: ReservationStatus.RESERVED,
   numberOfGuests: 0,
   customerId: '',
 };
@@ -26,7 +27,6 @@ const BookingCard = (props: Props) => {
   const { data } = useAppSelector(
     (state) => state.reservation.createReservationData,
   );
-  console.log('🚀 ~ file: index.tsx:24 ~ BookingCard ~ table:', data);
   const [createReservation, result] = useCreateReservationMutation();
   const dispatch = useAppDispatch();
   const handleClick = () => {
