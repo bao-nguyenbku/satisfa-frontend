@@ -20,7 +20,8 @@ export const SocketProvider = ({ children }: Props) => {
       setSocket(newSocket);
     });
     return () => {
-      socket?.disconnect();
+      newSocket.disconnect();
+      newSocket.close();
     };
   }, []);
   useEffect(() => {

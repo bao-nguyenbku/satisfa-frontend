@@ -11,7 +11,7 @@ type Props = {
 export default function OrderCard(props: Props) {
   const { data } = props;
   return (
-    <div className="relative flex flex-col gap-4 bg-zinc-800 w-fit p-4">
+    <div className="relative flex flex-col gap-4 bg-second w-fit p-4 text-slate-800">
       {data.items.map((item) => {
         return (
           <div className="flex items-center" key={item.id}>

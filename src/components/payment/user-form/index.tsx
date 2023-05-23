@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import {
   TextField,
-  Typography,
   Select,
   FormControl,
   InputLabel,
   MenuItem,
 } from '@mui/material';
+import Input from '@/components/input';
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
 import { OrderType, Reservation, CartItem, TakeawayCustomer } from '@/types';
-import { formatDate } from '@/utils';
+import { formatDate, isNumber } from '@/utils';
 import dayjs, { Dayjs } from 'dayjs';
-import { InputChangeEvent } from '@/types/event-types';
+import styles from './styles.module.scss';
+import pickerStyles from '@/components/reservation/styles.module.scss';
 
 interface IOrderInfo {
   reservation: Reservation;
@@ -38,7 +39,7 @@ export default function UserPaymentInfo(props: Props) {
   } = props;
   const [values, setValues] = useState<TakeawayCustomer>({
     name: userInfo?.fullname ? userInfo?.fullname : '',
-    phone: 0,
+    phone: '',
     takingTime: '',
   });
   const handleChange = (event: any) => {
@@ -59,17 +60,13 @@ export default function UserPaymentInfo(props: Props) {
   }, [values]);
 
   return (
-    <div className="bg-[#2D2D2D] p-4">
-      <Typography variant="h6" className="text-yellow-600 font-bold">
-        CUSTOMER INFORMATION
-      </Typography>
+    <div>
+      <h3 className="text-2xl font-bold">Customer informations</h3>
       <div className="flex flex-col gap-8 pt-4 justify-center">
-        <TextField
-          fullWidth
-          label="FULLNAME"
-          id="fullname"
+        <Input
+          label="Fullname"
           value={values.name}
-          onChange={(e: InputChangeEvent) => {
+          onChange={(e) => {
             setValues((prev) => {
               return {
                 ...prev,
@@ -78,24 +75,19 @@ export default function UserPaymentInfo(props: Props) {
             });
           }}
         />
-        <TextField
-          fullWidth
-          label="EMAIL"
-          id="email"
-          value={userInfo?.email}
-          type="email"
-        />
-        <TextField
-          fullWidth
-          label="PHONE"
-          id="phone"
-          type="tel"
+        <Input label="Email" value={userInfo?.email} type="email" />
+        <Input
+          label="Phone number"
           value={values.phone}
-          onChange={(e: InputChangeEvent) => {
+          placeholder="0000000000"
+          onChange={(e) => {
+            if (e.target.value !== '' && !isNumber(e.target.value)) {
+              return;
+            }
             setValues((prev) => {
               return {
                 ...prev,
-                phone: parseInt(e.target.value) || 0,
+                phone: e.target.value,
               };
             });
           }}
@@ -108,7 +100,7 @@ export default function UserPaymentInfo(props: Props) {
                 labelId="reservation-select"
                 id="reservation-select"
                 label="Reservations"
-                className="text-white"
+                className={styles.input}
                 value={orderInfo?.reservation?.tableId?.code}
                 onChange={handleChange}>
                 {reservationList &&
@@ -128,6 +120,7 @@ export default function UserPaymentInfo(props: Props) {
           <MobileDateTimePicker
             value={dayjs(values.takingTime)}
             onChange={handleChangeDate}
+            className={pickerStyles.pickerContainer}
             renderInput={(params) => <TextField {...params} />}
             minutesStep={30}
             ampm

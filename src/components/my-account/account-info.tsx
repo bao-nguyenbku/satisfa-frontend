@@ -3,8 +3,8 @@ import Image from '@/components/common/image';
 import StatCard from './user-statcard';
 import { useFormik } from 'formik';
 import { User } from '@/types';
-import { Divider } from '@mui/material';
 import Button from '../common/button';
+import { Divider } from '@mui/material';
 import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance';
 import Input from '../input';
 
@@ -12,9 +12,7 @@ type Props = {
   user: User;
 };
 
-
-const handleValidate = (values: User) => {
-  console.log(values);
+const handleValidate = () => {
   const errors: User = {
     id: '',
     fullname: '',
@@ -36,13 +34,12 @@ const AccountInfo = (props: Props) => {
     phone: user.phone ? user.phone : '',
   };
 
-  const handleSubmit = (
-    values: User,
+  const handleSubmit = () =>
+    // values: User,
     // formikHelpers: FormikHelpers<ICreateReservation>
-  ) => {
-    const { id, ...rest } = values;
-    console.log(id, rest);
-  };
+    {
+      // const { id, ...rest } = values;
+    };
 
   const formik = useFormik({
     initialValues,
@@ -50,7 +47,7 @@ const AccountInfo = (props: Props) => {
     onSubmit: handleSubmit,
   });
   return (
-    <div className="flex flex-col gap-16 max-w-5xl items-center w-full justify-center bg-neutral-200 p-6 text-slate-800">
+    <div className="flex flex-col gap-16 max-w-5xl items-center w-full justify-center bg-second p-6 text-slate-800">
       <div className="flex flex-col justify-between text-inherit">
         <div className="flex gap-8 items-center mx-auto mb-10">
           <div className="relative w-60 h-60">

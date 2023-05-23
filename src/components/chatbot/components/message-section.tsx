@@ -2,7 +2,7 @@ import React, { ReactElement, cloneElement, useRef, useEffect } from 'react';
 import MeMessageItem from './me-message-item';
 import GuestMessageItem from './guest-message-item';
 import TypingIndicator from '@/components/common/typing-indicator';
-import { Message } from './types';
+import { Message } from '../types';
 import { motion } from 'framer-motion';
 
 type Props = {

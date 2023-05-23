@@ -1,5 +1,5 @@
 import React from 'react';
-import BotAvatar from '../common/bot-avatar/avatar';
+import BotAvatar from '../../common/bot-avatar/avatar';
 import useChatbot from '@/hooks/useChatbot';
 import { IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';

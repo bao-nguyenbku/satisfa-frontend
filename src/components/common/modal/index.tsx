@@ -74,7 +74,7 @@ export default function CustomDialog(props: Props) {
         aria-labelledby='scroll-dialog-title'
         aria-describedby='scroll-dialog-description'
       >
-        <div className='flex items-center justify-between w-full bg-primary-dark px-4 text-white'>
+        <div className='flex items-center justify-between w-full bg-slate-800 px-4 text-white'>
           <h2 id='scroll-dialog-title' className='p-4 font-bold text-xl'>
             {title}
           </h2>
@@ -82,7 +82,7 @@ export default function CustomDialog(props: Props) {
             <CloseIcon className='text-white'/>
           </IconButton>
         </div>
-        <DialogContent className='bg-zinc-800/50 backdrop-blur-lg text-white'>{children}</DialogContent>
+        <DialogContent className='bg-primary'>{children}</DialogContent>
         {isFooter && (
           <DialogActions>
             {cancel?.title && cancel.action && (

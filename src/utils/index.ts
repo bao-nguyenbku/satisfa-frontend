@@ -82,7 +82,13 @@ export function isValidPhoneNumber(phone: string) {
   return pattern.test(phone);
 }
 export function isNumber(value: string) {
-  return +value;
+  if (isNaN(+value)) {
+    return false;
+  }
+  if (typeof +value === 'number') {
+    return true;
+  }
+  return false;
 }
 
 export const formatCurrency = (num: number) => {

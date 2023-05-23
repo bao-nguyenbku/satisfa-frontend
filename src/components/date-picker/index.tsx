@@ -31,12 +31,7 @@ export default function DatePicker(props: Props) {
       value={value}
       closeOnSelect={false}
       onChange={handleChange}
-      renderInput={(params) => (
-        <TextField
-          className="border-white focus-within:border-blue-400"
-          {...params}
-        />
-      )}
+      renderInput={(params) => <TextField {...params} />}
     />
   );
 }
