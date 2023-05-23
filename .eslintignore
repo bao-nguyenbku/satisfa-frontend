@@ -1,0 +1,4 @@
+*.d.ts
+next.config.js
+tailwind.config.js
+.prettierrc

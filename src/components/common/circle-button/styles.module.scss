@@ -1,0 +1,16 @@
+.circleBtn {
+  @apply w-12;
+  @apply h-12;
+  :global .MuiButton-root {
+    @apply rounded-full;
+    @apply h-full;
+    @apply w-full;
+    @apply bg-white/10;
+    @apply text-white;
+    @apply border;
+    @apply p-0;
+    @apply border-solid;
+    @apply border-gray-600;
+    @apply min-w-0;
+  }
+}

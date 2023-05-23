@@ -1,0 +1,42 @@
+.customSlick {
+  // @apply flex items-center w-full absolute -translate-x-1/2 left-1/2;
+  @apply flex gap-4;
+  :global {
+    .slick-list {
+      @apply w-full flex flex-row items-center;
+    }
+    .slick-track {
+      @apply flex-1 flex flex-row h-full py-20;
+    }
+    .slick-slide {
+      height: 100% !important;
+    }
+    .slick-center {
+      @apply shadow-2xl bg-neutral-100 -translate-y-5 z-50 transition-all duration-500;
+      & .child-card {
+        @apply shadow-none transition-none;
+      }
+    }
+    .slick-arrow {
+      @apply text-black;
+      @apply bg-black;
+    }
+    .slick-dots {
+      @apply text-white w-full m-0 p-0 text-center block list-none -top-7 absolute h-2;
+      li {
+        @apply w-10 h-2;
+        @apply bg-zinc-700;
+        button {
+          @apply -translate-y-1/2  w-full h-full p-5;
+          &::before {
+            content: '';
+            @apply hidden;
+          }
+        }
+      }
+      li.slick-active {
+        @apply bg-primary-orange;
+      }
+    }
+  }
+}

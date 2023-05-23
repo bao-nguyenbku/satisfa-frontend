@@ -1,0 +1,31 @@
+.dialogRoot {
+  @apply bg-none text-slate-800;
+  :global .MuiTypography-root,
+  :global .MuiDialogActions-root {
+    @apply bg-second;
+  }
+  :global .MuiDialog-paper {
+    background-color: transparent !important;
+    @apply border border-slate-800;
+  }
+  :global .MuiTypography-root {
+    @apply rounded-none font-bold;
+  }
+  :global .MuiDialogActions-root {
+    @apply border-none;
+  }
+  :global .MuiDialogContent-root {
+    @apply py-3 font-semibold;
+    min-width: 300px;
+  }
+  .cancelBtn,
+  .confirmBtn {
+    @apply rounded-lg normal-case px-4;
+  }
+  .cancelBtn {
+    @apply text-black bg-white;
+  }
+  .saveBtn {
+    @apply bg-teal-600 text-white normal-case;
+  }
+}

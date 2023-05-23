@@ -1,0 +1,40 @@
+// Custom scrollbar here
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+*::-webkit-scrollbar {
+  @apply bg-transparent;
+  @apply w-2;
+  @apply h-2;
+  z-index: 999999;
+}
+
+/* background of the scrollbar except button or resizer */
+*::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+/* scrollbar itself */
+*::-webkit-scrollbar-thumb {
+  @apply bg-transparent;
+  @apply rounded-2xl;
+  @apply border-none;
+}
+
+/* set button(top and bottom of the scrollbar) */
+*::-webkit-scrollbar-button {
+  @apply hidden;
+}
+
+/* scrollbar when element is hovered */
+*:hover::-webkit-scrollbar-thumb {
+  @apply bg-zinc-800;
+  @apply border-4;
+  @apply border-transparent;
+}
+
+/* scrollbar when scrollbar is hovered */
+*::-webkit-scrollbar-thumb:hover {
+  @apply bg-zinc-700;
+}

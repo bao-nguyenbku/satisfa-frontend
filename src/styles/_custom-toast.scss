@@ -1,0 +1,97 @@
+:root {
+  --toastify-light: #fff;
+  --toastify-dark: #374151;
+  --toastify-info: #06b6d4;
+  --toastify-success: #22c55e;
+  --toastify-warning: #f59e0b;
+  --toastify-error: #ef4444;
+  --toastify-transparent: rgba(255, 255, 255, 0.7);
+  --toastify-width: 400px;
+}
+
+.Toastify__toast-container {
+  width: var(--toastify-width) !important;
+  border-radius: none !important;
+  @apply -mb-4;
+  .Toastify__toast {
+    @apply rounded-none;
+  }
+}
+
+.Toastify__toast-theme--light {
+  min-height: 100px !important;
+  @apply backdrop-blur-md border border-solid border-slate-800 text-slate-800 rounded-none;
+  // @apply rounded-xl;
+  .Toastify__toast-body {
+    @apply text-white;
+  }
+  @apply bg-primary #{!important};
+  .Toastify__toast-icon {
+    @apply text-white;
+    svg {
+      fill: var(--toastify-color-light);
+    }
+  }
+  .Toastify__close-button--light {
+    @apply text-slate-800 opacity-100;
+  }
+  .Toastify__progress-bar {
+    opacity: 0 !important;
+  }
+}
+
+.Toastify__toast-theme--light.Toastify__toast--success {
+  .Toastify__toast-icon {
+    svg {
+      fill: var(--toastify-success);
+    }
+  }
+  .Toastify__toast-body {
+    color: var(--toastify-success);
+    @apply font-semibold;
+  }
+}
+.Toastify__toast-theme--light.Toastify__toast--error {
+  .Toastify__toast-icon {
+    svg {
+      fill: var(--toastify-error);
+    }
+  }
+  .Toastify__toast-body {
+    color: var(--toastify-error);
+    @apply font-semibold;
+  }
+}
+.Toastify__toast-theme--light.Toastify__toast--warning {
+  .Toastify__toast-icon {
+    svg {
+      fill: var(--toastify-warning);
+    }
+  }
+  .Toastify__toast-body {
+    color: var(--toastify-warning);
+    @apply font-semibold;
+  }
+}
+.Toastify__toast-theme--light.Toastify__toast--info {
+  .Toastify__toast-icon {
+    svg {
+      fill: var(--toastify-info);
+    }
+  }
+  .Toastify__toast-body {
+    color: var(--toastify-info);
+    @apply font-semibold;
+  }
+}
+.Toastify__toast-theme--light.Toastify__toast--default {
+  .Toastify__toast-icon {
+    svg {
+      fill: var(--toastify-color-light);
+    }
+  }
+  .Toastify__toast-body {
+    color: var(--toastify-color-light);
+    @apply font-semibold;
+  }
+}
