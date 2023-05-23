@@ -7,8 +7,8 @@ import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/layout/main';
 
 import Loading from '@/components/common/loading';
-import { wrapper } from '@/store';
-import { useGetAllProductQuery, productApi } from '@/services/product';
+// import { wrapper } from '@/store';
+import { useGetAllProductQuery } from '@/services/product';
 import { AnimatePresence } from 'framer-motion';
 import Head from 'next/head';
 import CategoryTab from '@/components/menu/category';
@@ -38,15 +38,15 @@ const Menu: NextPageWithLayout = () => {
 };
 
 // !Warning: Error when use server side render
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  const response = await store.dispatch(productApi.endpoints.getAllProduct.initiate());
-  await Promise.all(store.dispatch(productApi.util.getRunningQueriesThunk()));
-  return {
-    props: {
-      data: response.data,
-    },
-  };
-});
+// export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+//   const response = await store.dispatch(productApi.endpoints.getAllProduct.initiate());
+//   await Promise.all(store.dispatch(productApi.util.getRunningQueriesThunk()));
+//   return {
+//     props: {
+//       data: response.data,
+//     },
+//   };
+// });
 Menu.getLayout = (page: ReactElement) => {
   return <MainLayout>{page}</MainLayout>;
 };
