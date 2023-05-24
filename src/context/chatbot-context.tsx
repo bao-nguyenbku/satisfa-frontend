@@ -17,8 +17,8 @@ import {
   WidgetType,
 } from '@/components/chatbot/types';
 import Options from '@/components/chatbot/options';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/hooks';
+// import { useRouter } from 'next/router';
+import { useAppDispatch } from '@/hooks';
 import ShowBestSeller from '@/components/chatbot/widgets/show-best-seller';
 import {
   resetCreateOrder,
@@ -31,7 +31,7 @@ import {
   botReserveMessage,
   botRecommendationMessage,
 } from '@/components/chatbot/steps';
-import WidgetWrapper from '@/components/chatbot/widget-wrapper';
+import WidgetWrapper from '@/components/chatbot/components/widget-wrapper';
 import { Reservation } from '@/types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
 import { formatDate } from '@/utils';

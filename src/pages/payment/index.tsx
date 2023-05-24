@@ -39,15 +39,19 @@ export default function Payment() {
   const orderInfo = createOrder.data;
   const userInfo = useAppSelector((state) => state.user.data);
   const filterReservation = useGetReservationByFilterQuery({
-    user: userInfo?.id,
+    currentUser: true,
   });
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
 
-  const [createPaidOrder] = useCreatePaidOrderServiceMutation();
+  const [createPaidOrder, res] = useCreatePaidOrderServiceMutation();
 
-  const handleSetReservation = (reservation: Reservation) => {
-    dispatch(setReservation(reservation));
+  const handleSetReservation = (id: string) => {
+    if (filterReservation) {
+      const reservation = filterReservation.currentData?.find(item => item.id == id);
+      console.log(reservation);
+      dispatch(setReservation(reservation));
+    }
   };
   const handleSetPaymentType = (type: PaymentType) => {
     dispatch(setPaymentType(type));
@@ -69,10 +73,18 @@ export default function Payment() {
       !createOrder.error &&
       createOrder.data.paymentType != PaymentType.CREDIT
     ) {
+      console.log(createdOrder);
       createPaidOrder(createdOrder);
-      window.location.href = '/payment-success';
+
+      
     }
   }, [createOrder]);
+
+  useEffect(()=> {
+    if (res.isSuccess && !res.isError){
+      window.location.href = '/payment-success';
+    }
+  }, [res])
   return (
     <div className="h-full flex flex-col items-center py-12 max-w-[1400px] mx-auto">
       <div className="flex items-center w-full relative justify-center">
