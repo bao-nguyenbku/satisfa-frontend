@@ -2,7 +2,6 @@ import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import googleImg from '@/assets/images/google.png';
-import ReviewSection from '@/components/login/review-section';
 import SigninForm from '@/components/login/signin-form';
 import SigninLayout from '@/layout/signin';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
@@ -21,11 +20,9 @@ const LoginPage = () => {
       <Head>
         <title>Sign in | Satisfa</title>
       </Head>
-      <div className="flex h-screen w-screen">
-        <div className="lg:flex-1 w-2/3 md:block hidden">
-          <ReviewSection />
-        </div>
-        <div className="py-10 w-full lg:w-128 md:w-100 lg:px-16 px-8 flex flex-col text-slate-800">
+      <div className="flex h-screen w-screen relative justify-center items-center">
+        <Image src='/login-background.jpg' width={1000} height={1000} alt='login-background' className='w-screen h-screen absolute top-0 left-0 object-cover brightness-75 blur-sm'/>
+        <div data-aos='fade-down' data-aos-delay='300' className="py-10 max-w-xl w-full px-8 flex flex-col text-slate-800 z-10 bg-primary">
           <Link href="/" className='mx-auto mb-10 hover:border-slate-800 border-b'>
             <KeyboardBackspaceIcon /> Home
           </Link>

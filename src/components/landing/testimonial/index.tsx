@@ -71,7 +71,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const NextArrow = (props: any) => {
   const { onClick } = props;
   return (
-    <Button onClick={onClick} className='text-slate-800'>
+    <Button onClick={onClick} className="text-slate-800">
       <ArrowForwardIosIcon />
     </Button>
   );
@@ -79,11 +79,11 @@ const NextArrow = (props: any) => {
 const BackArrow = (props: any) => {
   const { onClick } = props;
   return (
-    <Button onClick={onClick} className='text-slate-800'>
+    <Button onClick={onClick} className="text-slate-800">
       <ArrowBackIosIcon />
     </Button>
   );
-}
+};
 const settings = {
   dots: true,
   infinite: true,
@@ -101,7 +101,28 @@ const settings = {
   autoplay: true,
   autoplaySpeed: 5000,
   nextArrow: <NextArrow />,
-  prevArrow: <BackArrow />
+  prevArrow: <BackArrow />,
+  responsive: [
+    {
+      breakpoint: 1440,
+      settings: {
+        slidesToShow: 2,
+      },
+    },
+    // {
+    //   breakpoint: 1280,
+    //   settings: {
+    //     slidesToShow: 2,
+    //   },
+    // },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 1,
+        centerMode: false,
+      },
+    },
+  ],
 };
 
 export default function TestimonalSection() {
@@ -110,13 +131,18 @@ export default function TestimonalSection() {
   });
   return (
     <div className="bg-transparent flex flex-col items-center py-20">
-      <h1 className="text-7xl mb-16 text-slate-800 font-thin">
+      <h1
+        className="md:text-7xl text-5xl mb-16 text-slate-800 font-thin"
+        data-aos="zoom-in-left">
         What customers say?
       </h1>
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="relative z-20 w-full px-20 max-w-[1800px]">
+        <div
+          className="relative z-20 w-full px-4 xl:px-20 max-w-[1800px]"
+          data-aos="flip-up"
+          data-aos-delay="600">
           <Slider className={styles.customSlick} {...settings}>
             {data &&
               data.map((item) => {

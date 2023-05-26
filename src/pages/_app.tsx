@@ -55,6 +55,7 @@ const App = ({
   useEffect(() => {
     AOS.init({
       anchorPlacement: 'top-bottom',
+      duration: 600
     });
   }, []);
   const getLayout =

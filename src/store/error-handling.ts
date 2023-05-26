@@ -4,6 +4,7 @@ import {
   Middleware,
 } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { signOut } from 'next-auth/react';
 
 /**
  * Log a warning and show a toast!
@@ -18,8 +19,13 @@ export const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
         toastId: message,
       });
     }
+    if (action.type === 'auth/me/rejected') {
+      signOut({
+        redirect: false,
+      });
+    }
     let resMessage = action.payload?.data?.message || action.payload?.message;
-    if (action.payload?.status === 401) {
+    if (action.payload?.status === 401 && action.type !== 'auth/me/rejected') {
       resMessage = 'You must sign in to do the action';
     }
 

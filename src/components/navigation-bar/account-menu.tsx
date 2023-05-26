@@ -56,7 +56,7 @@ export default function AccountMenu(props: Props) {
           width={70}
           height={70}
         />
-        <span className='hover:border-primary-orange border-b hover:text-primary-orange'>{data?.fullname}</span>
+        <span className='hover:border-primary-orange hover:text-primary-orange'>{data?.fullname}</span>
       </li>
 
       <Menu

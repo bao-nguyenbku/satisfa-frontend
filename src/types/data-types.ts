@@ -67,6 +67,7 @@ export type Review = {
   foodRating: number;
   serviceRating: number;
   review: string;
+  createdAt: string;
 };
 export type ReviewFilter = {
   limit?: number;
@@ -238,4 +239,10 @@ export type BotMessage = {
   [key: number]: {
     text: ReactNode;
   };
+};
+
+export type CallWaiter = {
+  userId: string;
+  reservation: Reservation;
+  createdAt: string;
 };

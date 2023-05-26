@@ -11,18 +11,18 @@ export default function FooterSection() {
   return (
     <footer
       id="footer"
-      className={`h-128 relative flex justify-between items-center p-20 text-slate-800 ${styles.footer}`}
+      className={`h-128 text-white relative justify-center flex gap-0 items-center px-10 xl:p-20 ${styles.footer}`}
     >
-      <div className="flex flex-col lg:gap-2 xl:gap-4 z-10 max-w-[200px] md:max-w-md lg:max-w-sm">
+      <div className="flex flex-col lg:gap-2 xl:gap-4 z-10 2xl:w-full w-1/4 md:max-w-md lg:max-w-sm mr-auto xl:my-auto mt-auto">
         <h2 className="text-lg md:text-xl font-bold">Contact</h2>
         <span className="text-sm md:text-base">0123 456 789</span>
-        <span className="text-sm md:text-base">
+        <span className="text-sm md:text-base whitespace-pre-wrap">
           122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh City
         </span>
         <span className="text-sm md:text-base">customer@satisfa.com</span>
       </div>
-      <div className="absolute left-1/2 top-1/6 md:top-1/2 -translate-x-1/2 -translate-y-1/4 flex flex-col items-center gap-6 z-10">
-        <h2 className={`text-xl md:text-6xl ${podkova.className}`}>
+      <div className="w-full absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-6 z-10">
+        <h2 className={`text-6xl ${podkova.className}`}>
           Satisfa Restaurant
         </h2>
         <div className="flex items-center gap-3">
@@ -32,7 +32,7 @@ export default function FooterSection() {
         </div>
         <span className="">©2023 Satisfa</span>
       </div>
-      <div className="flex flex-col gap-2 md:gap-4 z-10">
+      <div className="flex flex-col gap-2 md:gap-4 z-10 ml-auto xl:my-auto mt-auto">
         <h2 className="text-xl font-bold">Hours</h2>
         <span className="text-sm md:text-base">
           Monday - Sunday <br /> 8:00am - 10:00pm

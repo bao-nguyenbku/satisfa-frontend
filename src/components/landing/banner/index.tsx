@@ -7,7 +7,6 @@ import Image from 'next/image';
 // import { selectUser } from '../../store/reducer/user';
 // import { useSession } from 'next-auth/react';
 import type { NextPageWithLayout } from '../../../pages/_app';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 // type Props = {};
 
@@ -22,19 +21,17 @@ const HomePage: NextPageWithLayout = () => {
           alt="banner"
         />
       </div>
-      <motion.div
-        className="flex flex-col absolute left-1/2 -translate-x-1/2 lg:left-0 lg:-translate-x-0 gap-12 md:gap-0 items-center lg:items-start w-full px-20"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5, ease: 'easeOut' }}>
+      <div
+        className="flex flex-col absolute lg:left-0 lg:-translate-x-0 gap-12 md:gap-0 items-center lg:items-start w-full px-20"
+        data-aos="fade-left" data-aos-delay='600'>
         <span className="text-white z-10 text-4xl md:text-6xl uppercase text-center lg:text-start font-thin">
           <h1>Inspired cuisine</h1>
-          <h2 className='whitespace-nowrap mt-4'>Around the world</h2>
+          <h2 className="whitespace-nowrap mt-4">Around the world</h2>
         </span>
         <div className="flex gap-4 flex-col md:flex-row mt-4 items-center">
           <Link
             href="/reservation"
-            className="text-white text-2xl z-10 p-6 w-max bg-primary-orange">
+            className="text-white text-2xl z-10 p-6 w-max bg-primary-orange hover:bg-primary-orange/80">
             Reservation now
           </Link>
           <Link
@@ -43,7 +40,7 @@ const HomePage: NextPageWithLayout = () => {
             See our menu
           </Link>
         </div>
-      </motion.div>
+      </div>
     </header>
   );
 };

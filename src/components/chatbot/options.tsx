@@ -67,7 +67,7 @@ export default function Options(props: any) {
 
           socket?.emit('call-waiter', {
             userId: user?.id,
-            reservation: res,
+            reservations: res,
           });
           actions.callWaiter();
         }

@@ -16,18 +16,15 @@ export const getDataFromCookie = (key: string) => {
   }
   return;
 };
-export const compareDate = (date_1: string | Dayjs, date_2: string | Dayjs) => {
-  const _date_1 = dayjs(date_1, DATE_INPUT_FORMAT).isValid()
-    ? dayjs(date_1, DATE_INPUT_FORMAT)
+export const isBefore = (date_1: string | Dayjs, date_2: string | Dayjs) => {
+  const _date_1 = dayjs(date_1, DATE_INPUT_FORMAT, true).isValid()
+    ? dayjs(date_1, DATE_INPUT_FORMAT, true)
     : undefined;
   const _date_2 = dayjs(date_2).isValid() ? dayjs(date_2) : undefined;
   if (!_date_1 || !_date_2) {
     return;
   }
-  if (_date_1.diff(_date_2) < 0) {
-    return false;
-  }
-  return true;
+  return _date_1.isBefore(_date_2);
 };
 export function isValidDate(date: string) {
   const temp = date.split('/');
@@ -41,7 +38,9 @@ export function isValidDate(date: string) {
 }
 
 export function isValidTime(inputField: string) {
-  const isValid = /^([0][8-9]|2[0-3]|1[0-9]):([0,3][0])$/.test(inputField);
+  const isValid = /^([0]([8-9]|[0])|2[0-3]|1[0-9]):([0,3][0])$/.test(
+    inputField,
+  );
   return isValid;
 }
 
@@ -106,10 +105,11 @@ export const formatCurrency = (num: number) => {
 };
 
 const parseOption = ['DD/MM/YYYY HH:mm', 'MM/DD/YYYY HH:mm'];
-export const formatDate = (date: string | Dayjs): string => {
+export const formatDate = (date: string | Dayjs, type?: string): string => {
   if (_.isEmpty(date)) return '';
+  const formatStr = type ? type : 'DD/MM/YYYY h:mm A';
   if (dayjs(date).isValid()) {
-    return dayjs(date).format('DD/MM/YYYY HH:mm A');
+    return dayjs(date).format(formatStr);
   }
-  return dayjs(date, parseOption).format('DD/MM/YYYY HH:mm A');
+  return dayjs(date, parseOption).format(formatStr);
 };
