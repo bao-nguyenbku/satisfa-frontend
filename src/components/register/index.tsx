@@ -24,7 +24,7 @@ const SignupValidation = Yup.object().shape({
     'Confirm password is not matched',
   ),
 });
-const SigninForm = () => {
+export default function SigninForm() {
   const initialValues: IUserInputData = {
     email: '',
     password: '',
@@ -90,7 +90,7 @@ const SigninForm = () => {
             />
             {!isLoading && (
               <Button
-                className="bg-primary-yellow w-full h-16 font-bold text-xl text-white hover:bg-primary-yellow/70 mt-10 font-podkova rounded-none normal-case"
+                className="bg-primary-orange w-full h-16 font-bold text-xl text-white hover:bg-primary-orange/80 mt-10 font-podkova rounded-none normal-case"
                 type="submit">
                 Create account
               </Button>
@@ -100,6 +100,4 @@ const SigninForm = () => {
       }}
     </Formik>
   );
-};
-
-export default SigninForm;
+}

@@ -14,14 +14,14 @@ export default function Options(props: any) {
     {
       text: 'I want to ask some questions',
       handler: () => {
-        createUserMessage('I want to ask some questions');
+        createUserMessage(options[0].text);
         actions.showQuestions();
-      }
+      },
     },
     {
       text: 'I want to book table',
       handler: () => {
-        createUserMessage(options[0].text);
+        createUserMessage(options[1].text);
         actions.handleReservation();
       },
     },
@@ -51,13 +51,18 @@ export default function Options(props: any) {
       handler: async () => {
         if (socket?.connected) {
           const res = await dispatch(
-            getReservationByFilter.initiate({
-              currentDate: true,
-              currentUser: true,
-              checkedIn: true,
-            }),
+            getReservationByFilter.initiate(
+              {
+                currentDate: true,
+                currentUser: true,
+                checkedIn: true,
+              },
+              {
+                forceRefetch: true,
+              },
+            ),
           ).unwrap();
-          createUserMessage(options[4].text);
+          createUserMessage(options[5].text);
           if (res && res.length === 0) {
             actions.sendMessage(
               'You must check-in at restaurant to call for service',

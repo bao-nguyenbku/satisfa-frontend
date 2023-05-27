@@ -1,29 +1,29 @@
 import React, { ReactElement } from 'react';
-import ReviewSection from '@/components/login/review-section';
-import SigninForm from '@/components/register/signin-form';
+import SigninForm from '@/components/register';
 import SigninLayout from '@/layout/signin';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import AuthScreen from '@/components/auth';
 
-const RegisterPage = () => {
+export default function RegisterPage() {
   return (
-    <div className="flex h-screen">
-      <div className="w-2/3">
-        <ReviewSection />
-      </div>
-      <div className="flex-1 py-10 px-28 flex flex-col text-slate-800">
-        <div className="mb-16">
-          <h2 className="text-2xl font-bold mb-4">
+    <AuthScreen>
+      <div
+        data-aos="fade-down"
+        data-aos-delay="300"
+        className="flex-1 overflow-auto py-10 px-10 lg:px-28 w-full h-full max-w-xl flex flex-col text-slate-800 z-10 bg-primary">
+        <Link
+          href="/"
+          className="mx-auto mb-10 hover:border-slate-800 border-b">
+          <KeyboardBackspaceIcon /> Home
+        </Link>
+        <div className="mb-16 flex flex-col items-center">
+          <h2 className="text-xl md:text-2xl font-bold mb-4">
             Get started using our services
           </h2>
           <span>Create an account now</span>
         </div>
-        <motion.div
-          initial={{ scale: 0.3 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}>
-          <SigninForm />
-        </motion.div>
+        <SigninForm />
         <span className="text-slate-800 mt-4 text-center">
           Have an account?{' '}
           <Link href="/login" className="font-bold hover:underline">
@@ -31,11 +31,9 @@ const RegisterPage = () => {
           </Link>
         </span>
       </div>
-    </div>
+    </AuthScreen>
   );
-};
-
-export default RegisterPage;
+}
 
 RegisterPage.getLayout = (page: ReactElement) => (
   <SigninLayout>{page}</SigninLayout>

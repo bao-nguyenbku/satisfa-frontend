@@ -71,7 +71,7 @@ export default function AccountMenuResponsive(props: Props) {
   };
   return (
     <div className='flex flex-col'>
-      <div className='flex justify-between items-center gap-2 hover:bg-primary-yellow hover:transition-colors p-2 cursor-pointer' onClick={openMenu}>
+      <div className='flex justify-between items-center gap-2 p-2 cursor-pointer' onClick={openMenu}>
         <div className="flex items-center gap-2">
           <Image
             src={data?.avatar}
@@ -100,14 +100,14 @@ export default function AccountMenuResponsive(props: Props) {
                   <li
                     onClick={handleSignOut}
                     key={item.title}
-                    className="text-red-600 hover:bg-zinc-700 py-2 w-full first-letter:gap-0 text-center cursor-pointer">
+                    className="hover:bg-primary-orange hover:text-white text-red-600  py-2 w-full text-center cursor-pointer">
                     {item.title}
                   </li>
                 );
               }
               return (
                 <li onClick={openMenu} key={item.title} className='flex w-full'>
-                  <Link href={item.link} className="hover:bg-zinc-700 py-2 w-full">
+                  <Link href={item.link} className="hover:bg-primary-orange hover:text-white py-2 w-full">
                     {item.title}
                   </Link>
                 </li>
