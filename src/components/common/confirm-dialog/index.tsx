@@ -1,9 +1,8 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
+import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import styles from './styles.module.scss';
 
@@ -38,17 +37,16 @@ export default function ConfirmDialog(props: Props) {
       open={isOpen}
       onClose={handleClose}
       className={styles.dialogRoot}
-      scroll='paper'
-      maxWidth='lg'
+      scroll="paper"
+      maxWidth="lg"
       disablePortal
       sx={{
         background: 'none',
         borderRadius: 0,
       }}
-      aria-labelledby='alert-dialog-title'
-      aria-describedby='alert-dialog-description'
-    >
-      <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description">
+      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>{content}</DialogContent>
       <DialogActions>
         <Button className={styles.cancelBtn} onClick={handleClose}>
