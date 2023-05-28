@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from '@/components/common/image';
 import StatCard from './user-statcard';
 import { useFormik } from 'formik';
@@ -7,14 +7,16 @@ import Button from '../common/button';
 import { Divider } from '@mui/material';
 import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance';
 import Input from '../input';
+import { useUpdateInfoMutation } from '@/services/user';
+import { toast } from 'react-toastify';
 
+type UpdateUserData = Omit<User, 'id'>;
 type Props = {
-  user: User;
+  user: UpdateUserData;
 };
 
 const handleValidate = () => {
-  const errors: User = {
-    id: '',
+  const errors: UpdateUserData = {
     fullname: '',
     email: '',
     phone: '',
@@ -25,21 +27,27 @@ const handleValidate = () => {
 
 const AccountInfo = (props: Props) => {
   const { user } = props;
-  const initialValues: User = {
-    id: '',
-    fullname: '',
-    avatar: '',
-    // email: user.email ? user.email : '',
-    email: 'username@gmail.com',
-    phone: user.phone ? user.phone : '',
+  const [updateInfo, updateInfoRes] = useUpdateInfoMutation();
+  const initialValues: UpdateUserData = {
+    fullname: user?.fullname,
+    avatar: user?.avatar,
+    email: user?.email ? user.email : '',
+    // email: 'username@gmail.com',
+    phone: user?.phone ? user.phone : '',
   };
 
-  const handleSubmit = () =>
-    // values: User,
-    // formikHelpers: FormikHelpers<ICreateReservation>
-    {
-      // const { id, ...rest } = values;
-    };
+  const handleSubmit = (values: UpdateUserData) => {
+    console.log(values);
+    // const { id, ...rest } = values;
+    updateInfo({ body: values });
+  };
+
+  useEffect(() => {
+    if (updateInfoRes && updateInfoRes.isSuccess && !updateInfoRes.isError) {
+      formik.resetForm();
+      toast.success('Update info successfully');
+    }
+  }, [updateInfoRes]);
 
   const formik = useFormik({
     initialValues,
@@ -52,19 +60,30 @@ const AccountInfo = (props: Props) => {
         <div className="flex gap-8 items-center mx-auto mb-10">
           <div className="relative w-60 h-60">
             <Image
-              src={user.avatar}
+              src={formik.values.avatar}
               fill
               alt="avatar"
               className="object-cover aspect-square rounded-full"
             />
           </div>
           <div className="flex flex-col gap-4">
-            <h2 className="font-bold text-5xl">{user?.fullname}</h2>
+            <input
+              name="fullname"
+              className="text-5xl font-bold bg-transparent"
+              onChange={formik.handleChange}
+              value={formik.values.fullname}
+            />
             <Button
               className="bg-primary-orange rounded-none w-fit h-10 font-bold hover:bg-primary-orange/80 text-white"
               startIcon={<CameraEnhanceIcon />}>
               Change avatar
-              <input hidden accept="image/*" multiple type="file" />
+              <input
+                hidden
+                accept="image/*"
+                multiple
+                type="file"
+                onChange={formik.handleChange}
+              />
             </Button>
           </div>
         </div>
@@ -90,7 +109,6 @@ const AccountInfo = (props: Props) => {
                   placeholder="username@gmail.com"
                   value={formik.values.email}
                   name="email"
-                  onChange={formik.handleChange}
                 />
               </div>
               <div className="flex items-center justify-between text-white">
@@ -107,7 +125,7 @@ const AccountInfo = (props: Props) => {
                 <Button
                   className="bg-primary-orange rounded-none !px-10 h-16 font-bold text-xl text-white hover:bg-primary-orange/80"
                   type="submit"
-                  isLoading={false}>
+                  isLoading={updateInfoRes.isLoading}>
                   Update
                 </Button>
               </div>
@@ -117,7 +135,7 @@ const AccountInfo = (props: Props) => {
         <div className="flex flex-col gap-2">
           <h1 className=" text-xl mb-0 text-primary-orange">Change password</h1>
           <Divider className="border-slate-600" />
-          <form
+          {/* <form
             onSubmit={formik.handleSubmit}
             className={`flex flex-col mt-10`}>
             <div className="flex flex-col gap-4">
@@ -157,7 +175,7 @@ const AccountInfo = (props: Props) => {
                 </Button>
               </div>
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
     </div>

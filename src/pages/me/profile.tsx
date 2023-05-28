@@ -9,11 +9,13 @@ export default function Profile() {
   return (
     <>
       <Head>
-        <title> {user?.fullname} | Satisfa</title>
+        <title> {user ? user.fullname : '' } | Satisfa</title>
       </Head>
+      {user &&
       <div className="py-40 flex w-full items-center justify-center">
         <AccountInfo user={user as User} />
       </div>
+      }
     </>
   );
 }

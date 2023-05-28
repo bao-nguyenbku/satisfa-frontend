@@ -55,6 +55,7 @@ export const userSlice = createSlice({
       .addCase(
         authCurrentUser.fulfilled,
         (state, action: PayloadAction<User>) => {
+          console.log(action.payload);
           state.isLoading = false;
           state.isSuccess = true;
           state.error = null;
