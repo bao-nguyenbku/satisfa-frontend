@@ -15,8 +15,8 @@ export default function SingleItem(props: Props) {
     return <></>;
   }
   return (
-    <div className="bg-transparent p-4 flex w-full">
-      <div className="flex flex-col gap-4 text-slate-800 bg-neutral-100 max-w-lg p-4 w-full mx-auto">
+    <div className="bg-transparent p-4 flex w-full" data-aos='fade-up'>
+      <div className="flex flex-col gap-4 text-slate-800 bg-transparent max-w-lg p-4 w-full mx-auto">
         <div className='flex items-center gap-2'>
           <Image
             src={data?.customerId?.avatar}
@@ -31,7 +31,7 @@ export default function SingleItem(props: Props) {
         </div>
         <span className="flex gap-1">
           {[1, 2, 3, 4, 5].map((item) => (
-            <StarOutlinedIcon key={item} className="text-yellow-500 text-4xl" />
+            <StarOutlinedIcon key={item} className="text-yellow-500 text-4xl"/>
           ))}
         </span>
         <div className="min-h-[50px] flex">

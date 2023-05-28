@@ -16,6 +16,12 @@ export const getDataFromCookie = (key: string) => {
   }
   return;
 };
+/**
+ * 
+ * @param date_1 valid date string from DATE_INPUT_FORMAT
+ * @param date_2 isoString or Dayjs
+ * @returns boolean
+ */
 export const isBefore = (date_1: string | Dayjs, date_2: string | Dayjs) => {
   const _date_1 = dayjs(date_1, DATE_INPUT_FORMAT, true).isValid()
     ? dayjs(date_1, DATE_INPUT_FORMAT, true)

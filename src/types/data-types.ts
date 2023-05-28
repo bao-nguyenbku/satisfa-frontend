@@ -169,6 +169,7 @@ export type Table = {
 export enum ReservationStatus {
   RESERVED = 'RESERVED',
   CHECKED_IN = 'CHECKED_IN',
+  CANCELED = 'CANCELED'
 }
 
 export type Reservation = {
