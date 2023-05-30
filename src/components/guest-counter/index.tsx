@@ -22,7 +22,7 @@ const GuestCounter = (props: Props) => {
     }
   }, [num]);
   return (
-    <div className="text-slate-800 bg-neutral-200 border-slate-800 border flex items-center w-fit">
+    <div className="text-slate-800 bg-neutral-200 border-slate-800 border flex items-center w-auto justify-center">
       <span className="px-8 text-xl">{num}</span>
       <IconButton
         onClick={onDecrease}

@@ -39,11 +39,13 @@ const NavigationBar = () => {
   return (
     <>
       <ul
-        className={`lg:px-20 px-6 py-4 flex flex-row items-center justify-end ${
-          router.pathname === '/' && scrollY < 300
-            ? 'text-white absolute'
-            : 'text-slate-800 bg-second fixed border-b border-slate-800'
-        } top-0 left-0 right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 transition-[background-color] duration-500 uppercase`}>
+        className={`lg:px-20 py-2 px-6 flex items-center justify-end left-0 right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 uppercase ${
+          router.pathname === '/' && scrollY < 100
+            ? 'text-white absolute top-0 delay-200 duration-500'
+            : scrollY >= 100 && scrollY < 400
+            ? '-top-32 absolute'
+            : 'top-0 duration-500 delay-200 text-slate-800 bg-second fixed border-b border-slate-800 transition-[top]'
+        }`}>
         <li className="mr-auto text-5xl normal-case">
           <Logo />
         </li>
@@ -57,10 +59,10 @@ const NavigationBar = () => {
           );
         })}
 
-        <li className="hover:bg-white/40 text-inherit rounded-full">
+        <li className="text-inherit rounded-full">
           <CartIconButton />
         </li>
-        <li className="hover:bg-white/40 rounded-full lg:hidden block">
+        <li className="rounded-full lg:hidden block">
           <ExpandButton />
         </li>
         {!user.isLoading && user.isSuccess && !_.isEmpty(user.data) ? (

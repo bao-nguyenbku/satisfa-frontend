@@ -67,6 +67,7 @@ export type Review = {
   foodRating: number;
   serviceRating: number;
   review: string;
+  createdAt: string;
 };
 export type ReviewFilter = {
   limit?: number;
@@ -168,6 +169,7 @@ export type Table = {
 export enum ReservationStatus {
   RESERVED = 'RESERVED',
   CHECKED_IN = 'CHECKED_IN',
+  CANCELED = 'CANCELED'
 }
 
 export type Reservation = {
@@ -238,4 +240,10 @@ export type BotMessage = {
   [key: number]: {
     text: ReactNode;
   };
+};
+
+export type CallWaiter = {
+  userId: string;
+  reservation: Reservation;
+  createdAt: string;
 };

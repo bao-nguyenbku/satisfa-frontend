@@ -30,7 +30,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
       className={`${
-        value !== index ? 'hidden' : 'flex gap-12 flex-wrap w-full'
+        value !== index ? 'hidden' : 'flex lg:gap-12 gap-4 flex-wrap w-full lg:items-start items-center lg:justify-start justify-center'
       } mt-12`}>
       {data.map((item) => {
         return (
@@ -70,13 +70,16 @@ export default function CategoryTab(props: Props) {
     return <Loading />;
   }
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full max-w-screen-1400 flex flex-col items-center px-10">
       <Tabs
         value={activeIndex}
         onChange={handleChange}
+        TabIndicatorProps={{ sx: { display: 'none' } }}
         scrollButtons="auto"
         variant="scrollable"
-        className={styles.tabs}>
+        centered
+        className={styles.tabs}
+        >
         {categories &&
           categories.map((category) => {
             return <Tab key={category.id} label={category.name} />;

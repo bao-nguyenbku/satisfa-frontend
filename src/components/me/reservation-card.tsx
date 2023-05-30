@@ -1,9 +1,13 @@
 import React from 'react';
-import { Reservation } from '@/types';
+import dayjs from 'dayjs';
+import { Reservation, ReservationStatus } from '@/types';
 import { formatDate, transformEnumText } from '@/utils';
+import Button from '../common/button';
+import { Tooltip } from '@mui/material';
 
 type Props = {
   data: Reservation;
+  onCancel?: (data: Reservation) => void;
 };
 
 const getStylesByStatus = (status: string) => {
@@ -26,58 +30,52 @@ const getStylesByStatus = (status: string) => {
     }
   }
 };
-
+const isAbleToCancel = (data: Reservation) => {
+  const currentTime = dayjs();
+  return currentTime.diff(data.date, 'hour') >= 3;
+};
 export default function ReservationCard(props: Props) {
-  const { data } = props;
-  // const chairRef = useRef<HTMLDivElement>(null);
-  // const tableRef = useRef<HTMLDivElement>(null);
-  // const [chairSize, setChairSize] = useState<{
-  //   width: number;
-  //   height: number;
-  // }>({
-  //   width: 0,
-  //   height: 0,
-  // });
-  // useEffect(() => {
-  //   if (tableRef.current && chairSize.width && chairSize.height) {
-  //     tableRef.current.style.width = chairSize.width + 'px';
-  //     tableRef.current.style.height = chairSize.height + 'px';
-  //   }
-  // }, [chairSize]);
-  // useEffect(() => {
-  //   if (chairRef.current && data) {
-  //     chairRef.current.style.gridTemplateColumns = ` repeat(${
-  //       data?.tableId?.numberOfSeats / 2
-  //     }, minmax(0, 1fr))`;
-  //     const width = chairRef.current?.offsetWidth;
-  //     const height = chairRef.current?.offsetHeight;
-  //     setChairSize((prev) => {
-  //       return {
-  //         ...prev,
-  //         width: width * 1.3,
-  //         height: height * 0.7,
-  //       };
-  //     });
-  //   }
-  // }, [chairRef]);
+  const { data, onCancel } = props;
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel(data);
+    }
+  };
   return (
-    <div className="flex w-fit">
+    <div className="flex min-w-[380px] w-fit">
       <div
         className={`${
           getStylesByStatus(data.status).bg
-        } w-20 flex flex-col items-center justify-center`}>
+        } w-24 flex flex-col items-center justify-center`}>
         <h2 className="text-white normal-case text-2xl font-bold">
           {data.tableId?.code}
         </h2>
         <span>{transformEnumText(data.status)}</span>
       </div>
-      <div className="flex flex-col text-slate-800 bg-second p-4">
+      <div className="flex flex-col text-slate-800 bg-second p-4 flex-1">
         <span>
           Arrive time: <strong>{formatDate(data.date)}</strong>
         </span>
         <span>
           Guests: <strong>{data.numberOfGuests}</strong>
         </span>
+        <div className="ml-auto">
+          {data.status === ReservationStatus.RESERVED &&
+            isAbleToCancel(data) && (
+              <Button
+                onClick={handleCancel}
+                className="bg-red-500 text-white hover:bg-red-600">
+                Cancel
+              </Button>
+            )}
+          {!isAbleToCancel(data) && (
+            <Tooltip title="You can only cancel a reservation at least 3 hours before">
+              <span className="italic text-slate-500">
+                *You can not cancel due to our policy
+              </span>
+            </Tooltip>
+          )}
+        </div>
       </div>
     </div>
   );
