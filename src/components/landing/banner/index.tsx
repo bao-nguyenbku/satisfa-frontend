@@ -31,7 +31,7 @@ const HomePage: NextPageWithLayout = () => {
         <div className="flex gap-4 flex-col md:flex-row mt-4 items-center">
           <Link
             href="/reservation"
-            className="text-white text-2xl z-10 p-6 w-max bg-primary-orange hover:bg-primary-orange/80">
+            className="text-white text-2xl z-10 p-6 w-max btn-primary">
             Reservation now
           </Link>
           <Link

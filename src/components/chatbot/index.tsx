@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 // import { MessageOption, Message } from './types';
 import * as _ from 'lodash';
 import MessageHeader from './components/message-header';
 import MessageInput from './components/message-input';
 import MessageSection from './components/message-section';
 import useChatbot from '@/hooks/useChatbot';
-import { BotService } from './types';
+import { BotService } from '@/types/chatbot-types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
@@ -41,7 +41,6 @@ import {
   useCreateOrderServiceMutation,
 } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
-import { Indent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
 import { selectUserData } from '@/store/reducer/user';
@@ -51,11 +50,8 @@ type Props = {
 };
 const Chatbot = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { messages, isTyping, createUserMessage, actions, botService } =
+  const { messages, isTyping, createUserMessage, actions, botService, indent } =
     useChatbot();
-  const indent = useMemo(() => {
-    return new Indent(actions);
-  }, [actions]);
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
   const [createOrderGuest, createOrderGuestRes] =
@@ -291,12 +287,9 @@ const Chatbot = (props: Props) => {
     }
   };
 
-  const parseMessage = async (message: string) => {
-    // setCurrentMessage(message);
+  const handleChecker = async (message: string) => {
     createUserMessage(message);
-
     if (indent.parse(message)) return;
-
     // Handle Reservation
     if (botService === BotService.RESERVATION) {
       handleBotReservation(message);
@@ -304,7 +297,9 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
-    } else {
+    } 
+    // Unknown message
+    else {
       actions.unhandleInput();
     }
   };
@@ -355,7 +350,7 @@ const Chatbot = (props: Props) => {
       </div>
       <div className="mt-auto w-full p-2">
         <MessageInput
-          onGetMessage={parseMessage}
+          onGetMessage={handleChecker}
           isTyping={isTyping}
           boxOpen={props.boxOpen}
         />
