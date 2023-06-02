@@ -1,0 +1,18 @@
+.input {
+  @apply bg-neutral-200 border;
+  :global .MuiInputBase-root {
+    @apply text-slate-800 text-xl h-20;
+  }
+  :global .MuiIconButton-root {
+    @apply text-slate-800;
+  }
+  :global .MuiOutlinedInput-notchedOutline {
+    @apply border-slate-800 rounded-none;
+  }
+  :global .MuiInputBase-root.Mui-focused fieldset {
+    @apply border-slate-800 border border-solid #{!important};
+  }
+  :global .MuiInputBase-root {
+    @apply h-full;
+  }
+}

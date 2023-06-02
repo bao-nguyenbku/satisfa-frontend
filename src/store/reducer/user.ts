@@ -5,9 +5,10 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
-import { authApi } from '@/service/auth';
+import { authApi } from '@/services/auth';
 import { HYDRATE } from 'next-redux-wrapper';
-import { User, ReduxDataType } from '@/types/data-types';
+import { User, ReduxDataType } from '@/types';
+// import { userApi } from '@/services/user';
 
 const hydrate = createAction<RootState>(HYDRATE);
 
@@ -25,9 +26,33 @@ export const authCurrentUser = createAsyncThunk(
     }
   },
 );
+
+// export const updateAvatar = createAsyncThunk(
+//   '/user',
+//   async (updateUserData: any, {rejectWithValue, dispatch }) => {
+//     try{
+//       let uploadRes;
+//       if (
+//         !_.isEmpty(updateUserData.avatar) &&
+//         updateUserData.images[0].file
+//       ) {
+//         uploadRes = await uploadFile(updateProductData.images[0].file);
+//       }
+//       const response = await dispatch(
+//         userApi.endpoints.updateInfo.initiate(),
+//       ).unwrap();
+//       return response;
+//       console.log(updateUserData);
+//     }
+//     catch (error){
+//       return rejectWithValue(error);
+//     }
+//   }
+// )
+
 // Define the initial state using that type
-const initialState: ReduxDataType = {
-  data: {} as User | undefined,
+const initialState: Omit<ReduxDataType, 'data'> & { data: User | null } = {
+  data: null,
   isLoading: false,
   isSuccess: false,
   error: null,
@@ -48,13 +73,14 @@ export const userSlice = createSlice({
       })
       .addCase(authCurrentUser.pending, (state) => {
         state.isLoading = true;
-        state.data = {} as User;
+        state.data = null;
         state.isSuccess = false;
         state.error = null;
       })
       .addCase(
         authCurrentUser.fulfilled,
         (state, action: PayloadAction<User>) => {
+          console.log(action.payload);
           state.isLoading = false;
           state.isSuccess = true;
           state.error = null;
@@ -64,8 +90,9 @@ export const userSlice = createSlice({
       .addCase(authCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = action.payload;
-        state.data = undefined;
+        state.error = action.payload as any;
+        console.log(action.payload);
+        state.data = null;
       });
   },
 });
@@ -74,5 +101,6 @@ export const userSlice = createSlice({
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectUserState = (state: RootState) => state.user;
+export const selectUserData = (state: RootState) => state.user.data;
 
 export default userSlice.reducer;

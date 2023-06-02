@@ -5,9 +5,9 @@ import {
   PaymentStatus,
   PaymentType,
   PaypalUnit,
-} from '@/types/data-types';
+} from '@/types';
 import { toast } from 'react-toastify';
-import { useCreatePaidOrderServiceMutation } from '@/service/order';
+import { useCreatePaidOrderServiceMutation } from '@/services/order';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectCreatedOrder,
@@ -20,8 +20,7 @@ type Props = {
 };
 const Checkout = (props: Props) => {
   const [success, setSuccess] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [orderID, setOrderID] = useState(false);
+  const [orderId, setOrderId] = useState(false);
   const { order } = props;
   const createdOrder = useAppSelector(selectCreatedOrder);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -52,14 +51,25 @@ const Checkout = (props: Props) => {
         },
       })
       .then((orderID: any) => {
-        setOrderID(orderID);
+        setOrderId(orderID);
+        console.log(orderId);
         return orderID;
       });
   };
 
   // check Approval
   const onApprove = (data: any, actions: any) => {
+     /**
+       * data: {
+       *   orderID: string;
+       *   payerID: string;
+       *   paymentID: string | null;
+       *   billingToken: string | null;
+       *   facilitatorAccesstoken: string;
+       * }
+       */
     return actions.order.capture().then(function () {
+      // const { payer } = details
       setSuccess(true);
     });
   };

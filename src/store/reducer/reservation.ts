@@ -4,10 +4,10 @@ import {
   PayloadAction,
   createAsyncThunk,
 } from '@reduxjs/toolkit';
-import { reservationApi } from '@/service/reservation';
+import { reservationApi } from '@/services/reservation';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
-import { ReduxDataType, ICreateReservation } from '@/types/data-types';
+import { CreateReservation, ReduxDataType, ReservationStatus } from '@/types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
@@ -15,7 +15,7 @@ const hydrate = createAction<RootState>(HYDRATE);
 interface ReservationState {
   reservationListByFilter: ReduxDataType;
   createReservationData: Omit<ReduxDataType, 'data'> & {
-    data: Omit<ICreateReservation, 'customerId'> & { customerId: string };
+    data: CreateReservation;
     code: string;
   };
 }
@@ -31,6 +31,7 @@ const initialState: ReservationState = {
   createReservationData: {
     data: {
       numberOfGuests: 0,
+      status: ReservationStatus.RESERVED,
       tableId: '',
       date: '',
       note: '',
@@ -47,7 +48,7 @@ export const getReservationByFilter = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await dispatch(
-        reservationApi.endpoints.getReservationByFilter.initiate(),
+        reservationApi.endpoints.getReservationByFilter.initiate({}),
       );
       return data;
     } catch (error) {
@@ -78,7 +79,7 @@ export const reservationSlice = createSlice({
       .addCase(hydrate, (state, action) => {
         return {
           ...state,
-          ...action.payload.reservation,
+          ...action.payload,
         };
       })
       .addCase(getReservationByFilter.pending, (state) => {
@@ -91,7 +92,7 @@ export const reservationSlice = createSlice({
       })
       .addCase(getReservationByFilter.rejected, (state, action) => {
         state.reservationListByFilter.isLoading = false;
-        state.reservationListByFilter.error = action.payload;
+        state.reservationListByFilter.error = action.payload as any;
       });
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper

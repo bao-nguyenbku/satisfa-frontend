@@ -1,9 +1,10 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
-import { Product, CartItem } from '@/types/data-types';
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
-
+import { Product, CartItem } from '@/types';
+import { deleteCookie, setCookie } from 'cookies-next';
+import { CART_COOKIE_KEY } from '@/constants';
+import { getDataFromCookie } from '@/utils';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
@@ -39,21 +40,31 @@ export const cartSlice = createSlice({
       } else {
         cloneData[foundItemIdx].qty += 1;
       }
-      cartSlice.caseReducers.increaseTotalCost(state, {
-        type: 'increaseTotalCost',
-        payload: action.payload.price,
-      });
+      // cartSlice.caseReducers.increaseTotalCost(state, {
+      //   type: 'increaseTotalCost',
+      //   payload: action.payload.price,
+      // });
       // cartSlice.actions.increaseTotalCost(action.payload.price);
-      setCookie('myCart', cloneData);
-      const cartItems = getCookie('myCart');
-      if (cartItems) {
-        state.itemList = JSON.parse(cartItems as string);
-      }
+      setCookie(
+        CART_COOKIE_KEY,
+        {
+          itemList: cloneData,
+          totalCost: state.totalCost + action.payload.price,
+          totalQty: state.totalQty + 1,
+        },
+        {
+          sameSite: 'strict',
+        },
+      );
+      state.itemList = cloneData;
+      state.totalCost += action.payload.price;
       state.totalQty += 1;
     },
     clearAll: (state) => {
       state.itemList = [];
       state.totalQty = 0;
+      state.totalCost = 0;
+      deleteCookie(CART_COOKIE_KEY);
     },
     increaseQty: (state, action: PayloadAction<string>) => {
       const cloneData = [...state.itemList];
@@ -64,11 +75,12 @@ export const cartSlice = createSlice({
         return;
       }
       cloneData[foundItemIdx].qty += 1;
-      setCookie('myCart', cloneData);
-      const cartItems = getCookie('myCart');
-      if (cartItems) {
-        state.itemList = JSON.parse(cartItems as string);
-      }
+      setCookie(CART_COOKIE_KEY, {
+        itemList: cloneData,
+        totalCost: state.totalCost + cloneData[foundItemIdx].price,
+        totalQty: state.totalQty + 1,
+      });
+      state.totalCost += cloneData[foundItemIdx].price;
       state.totalQty += 1;
     },
     decreaseQty: (state, action: PayloadAction<string>) => {
@@ -79,13 +91,18 @@ export const cartSlice = createSlice({
       if (foundItemIdx === -1) {
         return;
       }
-      cloneData[foundItemIdx].qty -= cloneData[foundItemIdx].qty === 0 ? 0 : 1;
-      setCookie('myCart', cloneData);
-      const cartItems = getCookie('myCart');
-      if (cartItems) {
-        state.itemList = JSON.parse(cartItems as string);
-      }
-      state.totalQty -= 1;
+      const minus = cloneData[foundItemIdx].qty === 0 ? 0 : 1;
+      cloneData[foundItemIdx].qty -= minus;
+      setCookie(CART_COOKIE_KEY, {
+        itemList: cloneData,
+        totalCost:
+          state.totalCost -
+          cloneData[foundItemIdx].price * cloneData[foundItemIdx].qty,
+        totalQty: state.totalQty - minus,
+      });
+      state.totalCost -=
+        cloneData[foundItemIdx].price * cloneData[foundItemIdx].qty;
+      state.totalQty -= minus;
     },
     increaseTotalCost: (state, action: PayloadAction<number>) => {
       state.totalCost += action.payload;
@@ -95,36 +112,36 @@ export const cartSlice = createSlice({
     },
     removeItem: (state, action: PayloadAction<string>) => {
       const cloneData = [...state.itemList];
+      const removeData = cloneData.find((item) => item.id === action.payload);
+      if (!removeData) return;
       const filterData = cloneData.filter((item) => item.id != action.payload);
-      setCookie('myCart', filterData);
-      const cartItems = getCookie('myCart');
-      if (cartItems) {
-        state.itemList = JSON.parse(cartItems as string);
-      }
+      setCookie(CART_COOKIE_KEY, {
+        itemList: filterData,
+        totalCost: state.totalCost - removeData.price * removeData.qty,
+        totalQty: state.totalQty - removeData.qty,
+      });
+      state.itemList = filterData;
+      state.totalCost -= removeData.price * removeData.qty;
+      state.totalQty -= removeData.qty;
     },
-    setCookieToCart: (state) => {
-      const cartItems = getCookie('myCart');
-      if (cartItems) {
-        state.itemList = JSON.parse(cartItems as string);
-      }
-    },
-    deleteCookieInCart: (state) => {
-      const cartItems = getCookie('myCart');
-      if (cartItems) {
-        deleteCookie('myCart');
-        state.itemList = [];
+    recoverCartFromCookie: (state) => {
+      const data = getDataFromCookie(CART_COOKIE_KEY);
+      if (data) {
+        state.itemList = data.itemList;
+        state.totalCost = data.totalCost;
+        state.totalQty = data.totalQty;
       }
     },
   },
   extraReducers: (builder) => {
+    // Special reducer for hydrating the state. Special case for next-redux-wrapper
     builder.addCase(hydrate, (state, action) => {
       return {
         ...state,
-        ...action.payload.cart,
+        ...action.payload,
       };
     });
   },
-  // Special reducer for hydrating the state. Special case for next-redux-wrapper
 });
 
 export const {
@@ -133,16 +150,14 @@ export const {
   decreaseQty,
   clearAll,
   removeItem,
-  setCookieToCart,
-  deleteCookieInCart
+  recoverCartFromCookie,
 } = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCartState = (state: RootState) => state.cart;
 
 export const selectAllItem = (state: RootState) => state.cart.itemList;
-export const selectTotalQty = (state: RootState) =>
-  state.cart.itemList.reduce((prev, curr) => prev + curr.qty, 0);
+export const selectTotalQty = (state: RootState) => state.cart.totalQty;
 export const selectTotalCost = (state: RootState) =>
   state.cart.itemList.reduce((prev, curr) => prev + curr.price * curr.qty, 0);
 

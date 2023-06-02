@@ -1,5 +1,5 @@
 import React from 'react';
-import { BotMessage } from '@/types/data-types';
+import { BotMessage } from '@/types';
 
 export const botOrderMessage: BotMessage = {
   1: {
@@ -14,7 +14,7 @@ export const botOrderMessage: BotMessage = {
   2: {
     text: (
       <span>
-        I saw your order cart. Would you like to dine-in or takeaway? Type{' '}
+        Would you like to dine-in or takeaway? Type{' '}
         <strong>dine in</strong> or <strong>takeaway</strong>
       </span>
     ),
@@ -57,8 +57,7 @@ export const botOrderMessage: BotMessage = {
   8: {
     text: (
       <span>
-        Ok. I am confirming your order. Now, please look at widget below on the
-        chat area. If the order information is right, type ok
+        Ok. I am confirming your order. Now, please look at widget below. If the order information is right, type <strong>ok</strong>
       </span>
     ),
   },

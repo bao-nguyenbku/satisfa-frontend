@@ -1,18 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import './scrollbar';
+// @import './scrollbar';
 @import './custom-toast';
 @import './variable';
-@import url('https://fonts.googleapis.com/css2?family=Passions+Conflict&display=swap');
-
+@import './custom-class';
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-systen, sans-serif;
-  overflow: visible !important;
-  @apply bg-primary-dark;
+  font-family: -apple-system, sans-serif;
+  overflow: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  @apply bg-primary;
 }
 
 a {

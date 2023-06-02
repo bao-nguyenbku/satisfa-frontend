@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@mui/material';
-import styles from './styles.module.scss';
+import Link from 'next/link';
 import OrderDetailPayment from '@/components/payment/order-detail';
 import PaymentTypeSelect from '@/components/payment/payment-type';
 import UserPaymentInfo from '@/components/payment/user-form';
 import OrderTypePayment from '@/components/payment/order-type';
-import { useGetReservationByFilterQuery } from '@/service/reservation';
+import { useGetReservationByFilterQuery } from '@/services/reservation';
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import { useAppSelector, useAppDispatch } from '@/hooks';
+import {
+  recoverCartFromCookie,
+  selectAllItem,
+  selectTotalCost,
+} from '@/store/reducer/cart';
+import { authCurrentUser } from '@/store/reducer/user';
 import {
   selectCreateOrder,
   setReservation,
@@ -15,27 +21,37 @@ import {
   setPaymentType,
   createOrderThunk,
   selectCreatedOrder,
+  setTakeawayInformation,
 } from '@/store/reducer/order';
-import { useCreatePaidOrderServiceMutation } from '@/service/order';
-import {  Reservation, PaymentType } from '@/types/data-types';
-import { selectAllItem, selectTotalCost } from '@/store/reducer/cart';
+import { useCreatePaidOrderServiceMutation } from '@/services/order';
+import { Reservation, PaymentType, TakeawayCustomer } from '@/types';
+import SigninLayout from '@/layout/signin';
+import SectionTitle from '@/components/section-title';
 
 export default function Payment() {
   const dispatch = useAppDispatch();
   const createOrder = useAppSelector(selectCreateOrder);
-  const createdOrder = useAppSelector(selectCreatedOrder)
+  const createdOrder = useAppSelector(selectCreatedOrder);
+  useEffect(() => {
+    dispatch(recoverCartFromCookie());
+    dispatch(authCurrentUser());
+  }, []);
   const orderInfo = createOrder.data;
   const userInfo = useAppSelector((state) => state.user.data);
   const filterReservation = useGetReservationByFilterQuery({
-    user: userInfo.id,
+    currentUser: true,
   });
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
 
-  const [createPaidOrder] = useCreatePaidOrderServiceMutation();
+  const [createPaidOrder, res] = useCreatePaidOrderServiceMutation();
 
-  const handleSetReservation = (reservation: Reservation) => {
-    dispatch(setReservation(reservation));
+  const handleSetReservation = (id: string) => {
+    if (filterReservation) {
+      const reservation = filterReservation.currentData?.find(item => item.id == id);
+      console.log(reservation);
+      dispatch(setReservation(reservation));
+    }
   };
   const handleSetPaymentType = (type: PaymentType) => {
     dispatch(setPaymentType(type));
@@ -44,58 +60,72 @@ export default function Payment() {
     dispatch(getItemList(cartItems));
     dispatch(saveTotalCost(totalCost));
   });
-
+  const handleTakeawayInformation = (data: TakeawayCustomer) => {
+    dispatch(setTakeawayInformation(data));
+  };
   const handlePlaceOrder = () => {
     dispatch(createOrderThunk());
   };
   useEffect(() => {
-    if (createOrder.isSuccess && !createOrder.isLoading && !createOrder.error && (createOrder.data.paymentType != PaymentType.CREDIT)) {
-
+    if (
+      createOrder.isSuccess &&
+      !createOrder.isLoading &&
+      !createOrder.error &&
+      createOrder.data.paymentType != PaymentType.CREDIT
+    ) {
+      console.log(createdOrder);
       createPaidOrder(createdOrder);
-      window.location.href = '/payment-success';
 
+      
     }
-  }, [createOrder])
+  }, [createOrder]);
 
+  useEffect(()=> {
+    if (res.isSuccess && !res.isError){
+      window.location.href = '/payment-success';
+    }
+  }, [res])
   return (
-    <div className="menu-page bg-dark-theme h-full">
-      <div className={styles.menuHeader}>
-        <div className={styles.firstLine} style={{ marginRight: '30px' }} />{' '}
-        Payment{' '}
-        <div style={{ marginLeft: '30px' }} className={styles.endLine} />
+    <div className="h-full flex flex-col items-center py-12 max-w-[1400px] mx-auto">
+      <div className="flex items-center w-full relative justify-center">
+        <Link
+          href="/"
+          className="absolute top-1/2 -translate-y-1/2 left-0 hover:border-slate-800 border-b">
+          <KeyboardBackspaceOutlinedIcon /> Home
+        </Link>
+        <SectionTitle title="Payment" />
       </div>
-      <div className="mx-auto mt-8 menu-content" style={{ width: '95vw' }}>
-        <Grid container>
-          <Grid item xs={6}>
-            <Grid container>
-              <Grid item xs={12} className={styles.leftColumn}>
-                <UserPaymentInfo
-                  orderInfo={orderInfo}
-                  userInfo={userInfo}
-                  reservationList={filterReservation.data}
-                  onReservationChange={handleSetReservation}
-                />
-              </Grid>
-              <Grid item xs={12} className="bg-[#2D2D2D] mt-4 w-11/12 mx-auto">
-                <OrderTypePayment orderType={orderInfo.type} />
-              </Grid>
-              <Grid item xs={12} className="bg-[#2D2D2D] mt-4 w-11/12 mx-auto">
-                <PaymentTypeSelect
-                  paymentType={orderInfo.paymentType}
-                  onPaymentTypeChange={handleSetPaymentType}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid
-            item
-            xs={5}
-            marginLeft={4}
-            className="order-detail bg-[#2D2D2D] h-full p-0">
-            <OrderDetailPayment orderInfo={createOrder} onPlaceOrder={handlePlaceOrder} isCreated={createOrder.isSuccess}/>
-          </Grid>
-        </Grid>
+      <div className="mt-8 w-full flex flex-col md:flex-row bg-second text-slate-800 p-4">
+        <div className="w-full md:w-1/2 border-r border-slate-800 border-dashed pr-4">
+          <UserPaymentInfo
+            orderInfo={orderInfo}
+            userInfo={userInfo}
+            reservationList={filterReservation?.data as Reservation[]}
+            onReservationChange={handleSetReservation}
+            onTakeawayChange={handleTakeawayInformation}
+          />
+
+          <div className="bg-second mt-4 text-inherit">
+            <OrderTypePayment orderType={orderInfo.type} />
+          </div>
+          <div className="bg-second mt-4 text-slate-800">
+            <PaymentTypeSelect
+              paymentType={orderInfo.paymentType}
+              onPaymentTypeChange={handleSetPaymentType}
+            />
+          </div>
+        </div>
+
+        <div className="order-detail bg-second h-full w-full flex-1 pl-4">
+          <OrderDetailPayment
+            orderInfo={createOrder}
+            onPlaceOrder={handlePlaceOrder}
+            isCreated={createOrder.isSuccess as boolean}
+          />
+        </div>
       </div>
     </div>
   );
 }
+
+Payment.getLayout = (page: any) => <SigninLayout>{page}</SigninLayout>;

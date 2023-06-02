@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '@/hooks';
 import { selectCreateBotOrderData } from '@/store/reducer/chatbot';
-import { CreateOrder, OrderType } from '@/types/data-types';
+import { CreateOrder, OrderType } from '@/types';
 import { formatCurrency, formatDate } from '@/utils';
 
 type Props = {
@@ -40,6 +40,7 @@ const ReserveInformation = (props: Props) => {
       </div>
     );
   }
+  return <></>;
 };
 export default function ShowConfirmationOrder() {
   const createOrderData = useAppSelector(selectCreateBotOrderData);
@@ -58,7 +59,7 @@ export default function ShowConfirmationOrder() {
           );
         })}
       </div>
-      {<ReserveInformation data={data} />}
+      <ReserveInformation data={data} />
     </div>
   );
 }

@@ -1,9 +1,15 @@
-import React from 'react'
+import React from 'react';
+import styles from './styles.module.scss';
 
 const Loading = () => {
   return (
-    <div>Loading</div>
-  )
-}
+    <div className={styles['lds-ellipsis']}>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  );
+};
 
-export default Loading
+export default Loading;

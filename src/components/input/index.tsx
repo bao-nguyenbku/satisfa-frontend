@@ -5,14 +5,14 @@ type Props = {
   type?: string;
   placeholder?: string;
   label?: string;
-  value?: string;
+  value?: string | number;
   name?: string;
   onChange?: (e: InputChangeEvent) => void;
   error?: boolean;
   errorMessage?: string;
 };
 const defaultClasses =
-  'border bg-white/5 h-16 outline-none px-2 text-zinc-400 w-full placeholder:text-zinc-500 focus:border-gray-500 ';
+  'border border-neutral-400 bg-neutral-200 h-16 text-slate-800 outline-none px-2 w-full placeholder:text-neutral-400 focus:border-neutral-500 ';
 
 const Input = (props: Props) => {
   const {
@@ -30,14 +30,13 @@ const Input = (props: Props) => {
     errorClasses = 'border-red-500';
   }
   return (
-    <div className="flex flex-col gap-1">
-      <label className="text-zinc-400 font-bold">{label}</label>
+    <div className="flex flex-col gap-1 w-full">
+      <label className="text-slate-800 font-bold">{label}</label>
       <input
         type={type}
         name={name}
-        className={`${defaultClasses} ${
-          error ? errorClasses : 'border-gray-600'
-        }`}
+        autoComplete="new-password"
+        className={`${defaultClasses} ${error ? errorClasses : ''}`}
         value={value}
         placeholder={placeholder}
         onChange={onChange}

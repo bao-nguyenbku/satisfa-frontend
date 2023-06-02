@@ -8,15 +8,17 @@ import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
 import {
   CartItem,
-  ReduxDataType,
   Reservation,
   OrderType,
   Order,
   PaymentType,
   PaymentStatus,
   CreatedOrder,
-} from '@/types/data-types';
-import { createOrderService } from '@/service/order';
+  TakeawayCustomer,
+  CreateOrder,
+  ReduxDataType
+} from '@/types';
+import { createOrderService } from '@/services/order';
 // import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 // import { store } from '@/store';
 const hydrate = createAction<RootState>(HYDRATE);
@@ -29,6 +31,7 @@ interface OrderState {
       totalCost: number;
       type: OrderType;
       paymentType: PaymentType;
+      customerId?: TakeawayCustomer | string;
     };
   };
   createdOrder: CreatedOrder;
@@ -43,6 +46,7 @@ const initialState: OrderState = {
       totalCost: 0,
       type: OrderType.DINE_IN,
       paymentType: PaymentType.CASH,
+      customerId: {} as TakeawayCustomer,
     },
     isLoading: false,
     isSuccess: false,
@@ -70,15 +74,21 @@ export const createOrderThunk = createAsyncThunk<
   'order/createOrderThunk',
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
+      const data = getState()?.order?.createOrder.data;
+      console.log(data);
+      const createOrderData: CreateOrder = {
+        reservationId: data.reservation?.id,
+        items: data?.itemList,
+        totalCost: data?.totalCost,
+        type: data?.type,
+      };
+      if (data.type === OrderType.TAKEAWAY) {
+        createOrderData.tempCustomer = data.customerId as TakeawayCustomer;
+      } else if (data.type === OrderType.DINE_IN) {
+        createOrderData.customerId = data?.reservation.customerId?.id;
+      }
       const result = await dispatch(
-        createOrderService.initiate({
-          reservationId: getState()?.order?.createOrder?.data.reservation.id,
-          customerId:
-            getState()?.order?.createOrder?.data?.reservation.customerId?.id,
-          items: getState()?.order?.createOrder?.data?.itemList,
-          totalCost: getState()?.order?.createOrder?.data?.totalCost,
-          type: getState()?.order?.createOrder?.data?.type,
-        }),
+        createOrderService.initiate(createOrderData),
       ).unwrap();
       return result;
     } catch (error) {
@@ -107,6 +117,14 @@ export const orderSlice = createSlice({
     setPaymentType: (state, action) => {
       state.createOrder.data.paymentType = action.payload;
     },
+    setTakeawayInformation: (
+      state,
+      action: PayloadAction<TakeawayCustomer>,
+    ) => {
+      if (state.createOrder.data.type === OrderType.TAKEAWAY) {
+        state.createOrder.data.customerId = action.payload;
+      }
+    },
     reset: (state) => {
       state.createOrder = {
         data: {
@@ -127,7 +145,7 @@ export const orderSlice = createSlice({
       .addCase(hydrate, (state, action) => {
         return {
           ...state,
-          ...action.payload.order,
+          ...action.payload,
         };
       })
       .addCase(createOrderThunk.pending, (state) => {
@@ -136,6 +154,7 @@ export const orderSlice = createSlice({
         state.createOrder.error = null;
       })
       .addCase(createOrderThunk.fulfilled, (state, action) => {
+        console.log(action.payload.id);
         state.createOrder.isLoading = false;
         state.createOrder.isSuccess = true;
         state.createOrder.error = null;
@@ -145,13 +164,12 @@ export const orderSlice = createSlice({
         state.createdOrder.paymentStatus = PaymentStatus.PAID;
         state.createdOrder.paymentData.info.totalCost =
           action.payload.totalCost;
-        state.createdOrder.paymentData.info.totalPay =
-          action.payload.totalCost;
+        state.createdOrder.paymentData.info.totalPay = action.payload.totalCost;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
         state.createOrder.isLoading = false;
         state.createOrder.isSuccess = false;
-        state.createOrder.error = action.payload;
+        state.createOrder.error = action.payload as any;
       });
   },
   // Special reducer for hydrating the state. Special case for next-redux-wrapper
@@ -164,6 +182,7 @@ export const {
   reset,
   setOrderType,
   setPaymentType,
+  setTakeawayInformation,
 } = orderSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

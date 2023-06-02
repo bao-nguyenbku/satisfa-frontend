@@ -1,5 +1,5 @@
 import React from 'react';
-import { BotMessage } from '@/types/data-types';
+import { BotMessage } from '@/types';
 
 export const botReserveMessage: BotMessage = {
   1: {
@@ -15,14 +15,14 @@ export const botReserveMessage: BotMessage = {
   },
   3: {
     text: (
-      <span>Ok good. How many guests you go with? Please type a number</span>
+      <span>How many guests you will go with? Please type a number</span>
     ),
   },
   4: {
     text: (
       <span>
         Now, we will show you availables table that match your requirement on
-        the screen, pick one table.
+        the screen, or you can choose a table on chat screen.
       </span>
     ),
   },

@@ -8,6 +8,7 @@ export type User = {
   email: string;
   fullname: string;
   avatar: string;
+  phone?: string;
 };
 
 export type CreateUser = {
@@ -16,39 +17,39 @@ export type CreateUser = {
   password: string;
 };
 
+export type UpdateUser = {
+  fullname?: string;
+  phone?: string;
+  avatar?: string;
+  currentPassword?: string;
+  password?: string;
+  confirmpassword?: string;
+}
+
 export type ChatBotType = {
   re_type: string;
 };
 
-export type CreateReservation = Omit<Reservation, 'id' | 'customerId' | 'tableId'> & {
+export type CreateReservation = Omit<
+  Reservation,
+  'id' | 'customerId' | 'tableId'
+> & {
   customerId: string;
   tableId: string;
-}
-export type Reservation = {
-  id: string;
-  customerId: User;
-  tableId: Table;
-  date: string;
-  numberOfGuests: number;
-  note: string;
 };
 
 export type ReservationFilter = {
   date?: string;
   user?: string;
-};
-
-export type TableType = {
-  _id: string;
-  id: string;
-  code: string;
-  numberOfSeats: number;
-  status: TableStatus;
+  currentDate?: boolean;
+  currentUser?: boolean;
+  checkedIn?: boolean;
 };
 
 export type TableFilter = {
   minSeat?: number;
   reservationDate?: string;
+  reserveFlag?: boolean;
 };
 
 export type Product = {
@@ -61,15 +62,12 @@ export type Product = {
   visible: boolean;
 };
 
+export type Category = {
+  id: string;
+  name: string;
+};
 export type CartItem = Product & {
   qty: number;
-};
-
-export type ReduxDataType = {
-  data: any;
-  isLoading: boolean;
-  isSuccess: boolean;
-  error: ErrorType | any;
 };
 
 export type Review = {
@@ -78,6 +76,7 @@ export type Review = {
   foodRating: number;
   serviceRating: number;
   review: string;
+  createdAt: string;
 };
 export type ReviewFilter = {
   limit?: number;
@@ -137,7 +136,7 @@ export type OrderFilter = {
 };
 export type TakeawayCustomer = {
   name: string;
-  phone: string;
+  phone: number | string;
   takingTime: string;
 };
 export type CreateOrder = Omit<
@@ -153,6 +152,7 @@ export type CreateOrder = Omit<
   reservationId?: string;
   customerId?: string;
   tempCustomer?: TakeawayCustomer;
+  type: OrderType;
 };
 
 export type Order = {
@@ -171,8 +171,24 @@ export type Order = {
 export type Table = {
   id: string;
   code: string;
-  numberOfSeat: number;
+  numberOfSeats: number;
   reservations: Reservation[];
+};
+
+export enum ReservationStatus {
+  RESERVED = 'RESERVED',
+  CHECKED_IN = 'CHECKED_IN',
+  CANCELED = 'CANCELED'
+}
+
+export type Reservation = {
+  id: string;
+  customerId: User;
+  tableId: Table;
+  date: string;
+  numberOfGuests: number;
+  status: ReservationStatus;
+  note: string;
 };
 
 export type CreatePayment = {
@@ -217,7 +233,9 @@ interface PayPalScriptDataAttributes {
   'data-client-token'?: string;
 }
 
-export interface PayPalScriptOptions extends PayPalScriptQueryParameters, PayPalScriptDataAttributes {
+export interface PayPalScriptOptions
+  extends PayPalScriptQueryParameters,
+    PayPalScriptDataAttributes {
   [key: string]: string | boolean | undefined;
   sdkBaseURL?: string;
 }
@@ -231,4 +249,10 @@ export type BotMessage = {
   [key: number]: {
     text: ReactNode;
   };
+};
+
+export type CallWaiter = {
+  userId: string;
+  reservation: Reservation;
+  createdAt: string;
 };

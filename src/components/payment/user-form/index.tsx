@@ -1,8 +1,18 @@
-import React from 'react';
-import { TextField, Typography, Select, FormControl, InputLabel, MenuItem } from '@mui/material';
-
-import { OrderType, Reservation, CartItem } from '@/types/data-types';
-import { formatDate } from '@/utils';
+import React, { useState, useEffect } from 'react';
+import {
+  TextField,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+} from '@mui/material';
+import Input from '@/components/input';
+import { MobileDateTimePicker } from '@mui/x-date-pickers';
+import { OrderType, Reservation, CartItem, TakeawayCustomer } from '@/types';
+import { formatDate, isNumber } from '@/utils';
+import dayjs, { Dayjs } from 'dayjs';
+import styles from './styles.module.scss';
+import pickerStyles from '@/components/reservation/styles.module.scss';
 
 interface IOrderInfo {
   reservation: Reservation;
@@ -15,41 +25,72 @@ type Props = {
   orderInfo: IOrderInfo;
   userInfo: any;
   reservationList: Reservation[];
-  onReservationChange: (value: Reservation) => void;
+  onReservationChange: (value: string) => void;
+  onTakeawayChange: (value: TakeawayCustomer) => void;
 };
 
-
-
 export default function UserPaymentInfo(props: Props) {
-  const { orderInfo, userInfo, reservationList, onReservationChange } = props;
+  const {
+    orderInfo,
+    userInfo,
+    reservationList,
+    onReservationChange,
+    onTakeawayChange,
+  } = props;
+  const [values, setValues] = useState<TakeawayCustomer>({
+    name: userInfo?.fullname ? userInfo?.fullname : '',
+    phone: '',
+    takingTime: '',
+  });
   const handleChange = (event: any) => {
-    onReservationChange(event.target.value)
-  }
+    onReservationChange(event.target.value);
+  };
+  const handleChangeDate = (value: Dayjs | null) => {
+    if (dayjs(value).isValid()) {
+      setValues((prev) => {
+        return {
+          ...prev,
+          takingTime: dayjs(value).toISOString(),
+        };
+      });
+    }
+  };
+  useEffect(() => {
+    onTakeawayChange(values);
+  }, [values]);
+
   return (
-    <div className="bg-[#2D2D2D] p-4">
-      <Typography variant="h6" className="text-yellow-600 font-bold">
-        CUSTOMER INFORMATION
-      </Typography>
+    <div>
+      <h3 className="text-2xl font-bold">Customer informations</h3>
       <div className="flex flex-col gap-8 pt-4 justify-center">
-        <TextField
-          fullWidth
-          label="FULLNAME"
-          id="fullname"
-          value={userInfo.fullname}
+        <Input
+          label="Fullname"
+          value={values.name}
+          onChange={(e) => {
+            setValues((prev) => {
+              return {
+                ...prev,
+                name: e.target.value,
+              };
+            });
+          }}
         />
-        <TextField
-          fullWidth
-          label="EMAIL"
-          id="email"
-          value={userInfo.email}
-          type="email"
-        />
-        <TextField
-          fullWidth
-          label="PHONE"
-          id="phone"
-          value="phone"
-          type="tel"
+        <Input label="Email" value={userInfo?.email} type="email" />
+        <Input
+          label="Phone number"
+          value={values.phone}
+          placeholder="0000000000"
+          onChange={(e) => {
+            if (e.target.value !== '' && !isNumber(e.target.value)) {
+              return;
+            }
+            setValues((prev) => {
+              return {
+                ...prev,
+                phone: e.target.value,
+              };
+            });
+          }}
         />
         {orderInfo?.type == OrderType.DINE_IN ? (
           <div className="flex flex-row justify-between">
@@ -59,28 +100,31 @@ export default function UserPaymentInfo(props: Props) {
                 labelId="reservation-select"
                 id="reservation-select"
                 label="Reservations"
-                className='text-white'
-                value={orderInfo.reservation.tableId?.code}
+                className={styles.input}
+                value={orderInfo?.reservation?.tableId?.id}
                 onChange={handleChange}>
-                {reservationList && reservationList.map(item => (
-                  <MenuItem value={item} key={item.id}>
-                    <div className='flex flex-row gap-4'>
-                      <Typography>Table {item.tableId?.code}</Typography>
-                      <Typography>{formatDate(item.date)}</Typography>
-                      <Typography>{item.numberOfGuests} people</Typography>
-                    </div>
-                  </MenuItem>
-                ))}
+                {reservationList &&
+                  reservationList.map((item) => (
+                    <MenuItem value={item?.id} key={item.id}>
+                      <div>
+                        <span>Table {item?.tableId?.code} </span>
+                        <span>{formatDate(item.date)} </span>
+                        <span> {item.numberOfGuests} </span>
+                      </div>
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </div>
         ) : (
-          <TextField
-            className="w-2/5 "
-            label="Estimated Time To Pick"
-            id="time"
-            value="time"
-            type="time"
+          <MobileDateTimePicker
+            value={dayjs(values.takingTime)}
+            onChange={handleChangeDate}
+            className={pickerStyles.pickerContainer}
+            renderInput={(params) => <TextField {...params} />}
+            minutesStep={30}
+            ampm
+            label="Taking time"
           />
         )}
       </div>

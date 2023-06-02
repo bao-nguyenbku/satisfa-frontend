@@ -29,11 +29,12 @@ const providers = [
           email: userInput.email,
           password: userInput.password,
         });
-        console.log(
-          '🚀 ~ file: [...nextauth].ts:31 ~ authorize ~ response:',
-          response,
-        );
-        return response && response?.data?.accessToken;
+        if (response) {
+          return {
+            accessToken: response.data.accessToken,
+          };
+        }
+        return null;
       } catch (error: any) {
         throw new Error(JSON.stringify(error.response.data));
       }
@@ -59,6 +60,9 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
     error: '/login',
+  },
+  session: {
+    maxAge: 24 * 60 * 60,
   },
   cookies: {
     sessionToken: {
@@ -91,21 +95,28 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     jwt: async (params) => {
-      const { token, account } = params;
+      const { token, account, user } = params;
       if (account) {
         token.provider = account.provider;
       }
-
-      const response = await axios.post(BASE_URL + '/auth/google', {
-        email: token.email,
-        fullname: token.name,
-        avatar: token.picture,
-        id: token.sub,
-      });
-      if (response && response.status === 201) {
+      if (account?.provider === 'google') {
+        const response = await axios.post(BASE_URL + '/auth/google', {
+          email: token.email,
+          fullname: token.name,
+          avatar: token.picture,
+          id: token.sub,
+        });
+        if (response && response.status === 201) {
+          return {
+            ...token,
+            accessToken: response?.data?.accessToken,
+          };
+        }
+      }
+      if (user) {
         return {
           ...token,
-          accessToken: response?.data?.accessToken,
+          accessToken: user.accessToken,
         };
       }
       return token;

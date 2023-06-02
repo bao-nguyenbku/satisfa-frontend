@@ -1,4 +1,7 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode, ReactElement, useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import type { NextPage } from 'next';
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
@@ -20,7 +23,10 @@ import { primaryFont } from '@/constants';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { PayPalScriptOptions } from '@/types/data-types';
+import { PayPalScriptOptions } from '@/types';
+import { ModalContextProvider } from '@/context/modal-context';
+import { ChatbotProvider } from '@/context/chatbot-context';
+import { ConfirmContextProvider } from '@/context/confirm-dialog-context';
 const paypalScriptOptions: PayPalScriptOptions = {
   'client-id': process.env.NEXT_PUBLIC_CLIENT_ID as string,
   currency: 'USD',
@@ -47,7 +53,13 @@ const App = ({
   Component,
   pageProps: { session, ...rest },
 }: AppPropsWithLayout) => {
-  const { store, props } = wrapper.useWrappedStore(rest);
+  const { store } = wrapper.useWrappedStore(rest);
+  useEffect(() => {
+    AOS.init({
+      anchorPlacement: 'top-bottom',
+      duration: 600,
+    });
+  }, []);
   const getLayout =
     Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
   return (
@@ -56,17 +68,23 @@ const App = ({
         <CacheProvider value={muiCache}>
           <ThemeProvider theme={theme}>
             <SessionProvider session={session} refetchOnWindowFocus={false}>
-              <main className={primaryFont.className}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <PayPalScriptProvider options={paypalScriptOptions}>
-                    {getLayout(
-                      <>
-                        <Component {...props.pageProps} />
-                        <ToastContainer />
-                      </>,
-                    )}
-                  </PayPalScriptProvider>
-                </LocalizationProvider>
+              <main className={`${primaryFont.className}`}>
+                <ModalContextProvider>
+                  <ConfirmContextProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <PayPalScriptProvider options={paypalScriptOptions}>
+                        <ChatbotProvider>
+                          {getLayout(
+                            <>
+                              <Component {...rest} />
+                              <ToastContainer />
+                            </>,
+                          )}
+                        </ChatbotProvider>
+                      </PayPalScriptProvider>
+                    </LocalizationProvider>
+                  </ConfirmContextProvider>
+                </ModalContextProvider>
               </main>
             </SessionProvider>
           </ThemeProvider>

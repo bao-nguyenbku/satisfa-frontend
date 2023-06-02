@@ -19,11 +19,13 @@ import {
   ErrorType,
   CreateReservation,
   Table,
-} from '@/types/data-types';
-import { reservationApi } from '@/service/reservation';
+  DATE_INPUT_FORMAT,
+  ReservationStatus,
+  CallWaiter,
+} from '@/types';
+import { reservationApi } from '@/services/reservation';
 import dayjs from 'dayjs';
-import { getTablesByFilter } from '@/service/table';
-// import { ChatBotType } from '@/types/data-types';
+import { getTablesByFilter } from '@/services/table';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
@@ -36,6 +38,14 @@ type ChatbotState = {
   order: {
     steps: BotStep;
     created: CreateOrder;
+  };
+  recommendation: {
+    steps: BotStep;
+    created: CartItem[];
+  };
+  callWaiter: {
+    steps: BotStep;
+    created: CallWaiter;
   };
 };
 // Define the initial state using that type
@@ -58,6 +68,7 @@ const initialState: ChatbotState = {
     created: {
       customerId: '',
       tableId: '',
+      status: ReservationStatus.RESERVED,
       note: '',
       date: '',
       numberOfGuests: 0,
@@ -103,13 +114,37 @@ const initialState: ChatbotState = {
       },
     },
   },
+  recommendation: {
+    steps: {
+      1: {
+        isComplete: false,
+      },
+      2: {
+        isComplete: false,
+      },
+      3: {
+        isComplete: false,
+      },
+      4: {
+        isComplete: false,
+      },
+    },
+    created: [],
+  },
+  callWaiter: {
+    steps: {
+      1: {
+        isComplete: false,
+      },
+    },
+    created: {
+      userId: '',
+      reservation: {} as Reservation,
+      createdAt: '',
+    },
+  },
 };
-// export const createReservation = createAsyncThunk(
-//   "/reservations/createReservation",
-//   async (_, { rejectWithValue }) => {
 
-//   }
-// );
 export const getTablesByFilterThunk = createAsyncThunk<
   Table[] | unknown,
   void,
@@ -179,11 +214,23 @@ export const setOrderItemsThunk = createAsyncThunk<
   return cart;
 });
 
+export const getRecommendationFoodThunk = createAsyncThunk<
+  any,
+  any,
+  { state: RootState }
+>('chatbot/setOrderItems', async (un, { getState, dispatch }) => {
+  const cart = getState().cart;
+  if (cart.itemList.length > 0) {
+    dispatch(setOrderItems(cart.itemList));
+  }
+  return cart;
+});
 export const chatbotSlice = createSlice({
   name: 'chatbot',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    // ! FOR RESERVATION FLOW
     setReservationDate: (state, action: PayloadAction<string>) => {
       state.reservation.created.date = action.payload;
       state.reservation.steps[1].isComplete = true;
@@ -192,6 +239,8 @@ export const chatbotSlice = createSlice({
       const date = state.reservation.created.date;
       state.reservation.created.date = dayjs(
         `${date} ${action.payload}`,
+        DATE_INPUT_FORMAT,
+        true,
       ).toISOString();
       state.reservation.steps[2].isComplete = true;
     },
@@ -207,6 +256,7 @@ export const chatbotSlice = createSlice({
       state.reservation.created = {
         customerId: '',
         tableId: '',
+        status: ReservationStatus.RESERVED,
         note: '',
         date: '',
         numberOfGuests: 0,
@@ -215,7 +265,7 @@ export const chatbotSlice = createSlice({
         state.reservation.steps[key as any].isComplete = false;
       });
     },
-    // For Order feature
+    // ! FOR ORDER FLOW
     setOrderItems: (state, action: PayloadAction<CartItem[]>) => {
       state.order.created.items = action.payload;
       state.order.steps[1].isComplete = true;
@@ -235,8 +285,11 @@ export const chatbotSlice = createSlice({
       state.order.steps[6].isComplete = true;
     },
     setTakeawayTime: (state, action: PayloadAction<string>) => {
-      (state.order.created.tempCustomer as TakeawayCustomer).takingTime =
-        action.payload;
+      (state.order.created.tempCustomer as TakeawayCustomer).takingTime = dayjs(
+        action.payload,
+        DATE_INPUT_FORMAT,
+        true,
+      ).toISOString();
       state.order.steps[7].isComplete = true;
     },
     setReservationDinein: (state, action: PayloadAction<Reservation>) => {
@@ -286,6 +339,7 @@ export const {
   setTakeawayTime,
   resetCreateOrder,
   resetCreateReservation,
+  setSelectTable,
   setReservationDinein,
 } = chatbotSlice.actions;
 
@@ -294,7 +348,7 @@ export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation;
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
-
+export const selectBotRecommendationState = (state: RootState) => state.chatbot.recommendation;
 export const selectCreateBotOrderData = (state: RootState) =>
   state.chatbot.order.created;
 // export const selectTakeawayOrderCompletion = (state: RootState) => {

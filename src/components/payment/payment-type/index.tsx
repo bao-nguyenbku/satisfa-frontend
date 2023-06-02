@@ -4,11 +4,10 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-  Typography,
 } from '@mui/material';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
-import { PaymentType } from '@/types/data-types';
+import { PaymentType } from '@/types';
 
 type Props = {
   paymentType: PaymentType;
@@ -21,46 +20,32 @@ export default function PaymentTypeSelect(props: Props) {
     onPaymentTypeChange(event.target.value);
   };
   return (
-    <div className="p-4">
-      <Typography
-        variant="h6"
-        className="text-yellow-600">
-        {' '}
-        PAYMENT OPTION
-      </Typography>
-      <FormControl className="w-9/12 pt-4">
+    <div>
+      <h3 className="text-2xl font-bold">Payment options</h3>
+      <FormControl>
         <RadioGroup
           aria-labelledby="payment-select"
           name="payment-select"
           value={paymentType}
-          onChange={handleChange}
-        >
-            <div className="flex flex-col gap-4 justify-center">
-                <div className='flex flex-row gap-4'>
-                    <FormControlLabel
-                    className="text-white mt-0 "
-                    value={PaymentType.CASH}
-                    control={<Radio disableRipple style={{ color: '#c49246' }} />}
-                    label="Pay directly at the table"
-                    />
-                    <PaymentsIcon fontSize="large" style={{ color: '#c49246' }} />
-                </div>
-                <div className='flex flex-row gap-4'>
-                    <FormControlLabel
-                    className="text-white"
-                    value={PaymentType.CREDIT}
-                    control={<Radio disableRipple style={{ color: '#c49246' }} />}
-                    label="Pay via international and domestic card (ATM)"
-                    />
-                    <CreditCardIcon fontSize="large" style={{ color: '#c49246' }} />
-                </div>
-                <FormControlLabel
-                    className="text-white"
-                    value={PaymentType.E_WALLET}
-                    control={<Radio disableRipple style={{ color: '#c49246' }} />}
-                    label="Pay via momo"
-                />
+          onChange={handleChange}>
+          <div className="flex flex-col gap-4 justify-center">
+            <div className="flex flex-row gap-4">
+              <FormControlLabel
+                value={PaymentType.CASH}
+                control={<Radio disableRipple />}
+                label="Pay directly at the table"
+              />
+              <PaymentsIcon fontSize="large" />
             </div>
+            <div className="flex flex-row gap-4">
+              <FormControlLabel
+                value={PaymentType.CREDIT}
+                control={<Radio disableRipple />}
+                label="Paypal or Visa"
+              />
+              <CreditCardIcon fontSize="large" />
+            </div>
+          </div>
         </RadioGroup>
       </FormControl>
     </div>

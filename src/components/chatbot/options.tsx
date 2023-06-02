@@ -1,31 +1,97 @@
 import React from 'react';
 import Button from '@/components/common/button';
-// import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
-// import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-// import MenuBookIcon from '@mui/icons-material/MenuBook';
+import useSocket from '@/hooks/useSocket';
+import { selectUserData } from '@/store/reducer/user';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { getReservationByFilter } from '@/services/reservation';
 
 export default function Options(props: any) {
-  const { actions } = props;
+  const { actions, createUserMessage } = props;
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUserData);
+  const { socket } = useSocket();
   const options = [
     {
-      text: 'I want to book table',
-      handler: actions.handleReservation,
-      id: 0,
+      text: 'I want to ask some questions',
+      handler: () => {
+        createUserMessage(options[0].text);
+        actions.showQuestions();
+      },
     },
     {
-      text: 'I want to see the menu',
-      handler: actions.handleOrder,
-      id: 2,
+      text: 'I want to book table',
+      handler: () => {
+        createUserMessage(options[1].text);
+        actions.handleReservation();
+      },
+    },
+    {
+      text: 'I want to order',
+      handler: () => {
+        createUserMessage(options[1].text);
+        actions.handleOrder();
+      },
+    },
+    {
+      text: 'Check my reservations',
+      handler: () => {
+        createUserMessage(options[2].text);
+        actions.checkMyReservations();
+      },
+    },
+    {
+      text: 'Check my orders',
+      handler: () => {
+        createUserMessage(options[3].text);
+        actions.checkMyOrders();
+      },
+    },
+    {
+      text: 'Call waiter',
+      handler: async () => {
+        if (socket?.connected) {
+          const res = await dispatch(
+            getReservationByFilter.initiate(
+              {
+                currentDate: true,
+                currentUser: true,
+                checkedIn: true,
+              },
+              {
+                forceRefetch: true,
+              },
+            ),
+          ).unwrap();
+          createUserMessage(options[5].text);
+          if (res && res.length === 0) {
+            actions.sendMessage(
+              'You must check-in at restaurant to call for service',
+            );
+            return;
+          }
+
+          socket?.emit('call-waiter', {
+            userId: user?.id,
+            reservations: res,
+          });
+          actions.callWaiter();
+        }
+      },
+    },
+    {
+      text: 'Reccomend food for me',
+      handler: actions.handleRecommendation,
+      id: 5,
     },
   ];
   return (
     <div className="flex flex-col gap-2 justify-end items-end">
       {options.map((option) => (
         <Button
-          key={option.id}
+          key={option.text}
           variant="outlined"
           onClick={option.handler}
-          className="bg-white/20 hover:bg-white/30 p-3 text-white rounded-lg normal-case border-none hover:border-none">
+          className="bg-neutral-100 hover:bg-neutral-200 p-3 text-slate-800 normal-case border-none hover:border-none rounded-xl">
           {option.text}
         </Button>
       ))}

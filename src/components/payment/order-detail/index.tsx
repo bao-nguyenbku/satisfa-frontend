@@ -1,9 +1,9 @@
 import React from 'react';
-import { Typography, Button } from '@mui/material';
+import { Divider } from '@mui/material';
+import Button from '@/components/common/button';
 import OrderItem from './order-item';
-import styles from './styles.module.scss';
 import { formatCurrency } from '@/utils';
-import { PaymentType } from '@/types/data-types';
+import { PaymentType } from '@/types';
 import Checkout from '../paypal';
 
 type Props = {
@@ -15,70 +15,35 @@ type Props = {
 export default function OrderDetailPayment(props: Props) {
   const { orderInfo, onPlaceOrder } = props;
   return (
-    <div className="order-detail bg-[#2D2D2D] h-full p-0">
-      <Typography marginLeft={4} variant="h6" className="text-yellow-600 mt-8">
-        ORDER DETAIL
-      </Typography>
-      <div className="flex flex-col gap-6 mt-4">
+    <div className="h-full text-slate-800">
+      <h3 className="text-2xl font-bold">Order details</h3>
+      <div className="flex flex-col gap-6 mt-4 h-[450px] overflow-y-auto">
         {orderInfo.data.itemList.map((item: any) => (
           <OrderItem item={item} key={item.name} />
         ))}
       </div>
-      <div className={styles.two0line}></div>
-      <div className="flex flex-col w-10/12 mx-auto mt-4 text-white">
-        <div className="flex flex-row justify-between">
-          <Typography variant="h5"> Calculate</Typography>
-          <Typography
-            variant="h4"
-            style={{ color: '#CA8A04' }}
-            textAlign={'right'}>
-            {formatCurrency(orderInfo.data.totalCost)}
-          </Typography>
+      <div className="flex flex-col w-full mx-auto mt-4 text-xl gap-4 mb-6">
+        <div className="flex justify-between">
+          <h3>Total</h3>
+          <span className='font-bold'> {formatCurrency(orderInfo.data.totalCost)}</span>
         </div>
-        <div className="flex flex-row justify-between">
-          <Typography variant="h5"> Reduce </Typography>
-          <Typography
-            variant="h4"
-            style={{ color: '#CA8A04' }}
-            textAlign={'right'}>
-            0 VND
-          </Typography>
+        <div className="flex justify-between">
+          <h3>Discount (0%)</h3>
+          <span>-0 VND</span>
         </div>
-        <div className="flex flex-row justify-between">
-          <Typography variant="h5"> VAT </Typography>
-          <Typography
-            variant="h4"
-            style={{ color: '#CA8A04' }}
-            textAlign={'right'}>
-            {formatCurrency(orderInfo.data.totalCost)}
-          </Typography>
+        <Divider className="border-slate-800" />
+        <div className="flex justify-between">
+          <h3>Summary</h3>
+          <span className='font-bold'>{formatCurrency(orderInfo.data.totalCost)}</span>
         </div>
       </div>
-      <div className={styles.two0line}></div>
-      <div className="flex flex-row justify-between w-10/12 mx-auto mt-4">
-        <Typography variant="h5" className="text-white font-bold">
-          TOTAL
-        </Typography>
-        <Typography
-          variant="h4"
-          style={{ color: '#CA8A04' }}
-          textAlign={'right'}>
-          {formatCurrency(orderInfo.data.totalCost)}
-        </Typography>
-      </div>
+
       {orderInfo.data.paymentType == PaymentType.CASH && (
-        <div className="flex justify-center items-center mt-4 mb-8">
+        <div className="flex justify-center items-center mt-auto">
           <Button
             onClick={onPlaceOrder}
-            variant="contained"
-            className={styles.payBtn}
-            sx={{
-              ml: 1,
-              '&.MuiButtonBase-root:hover': {
-                bgcolor: '#c49246',
-              },
-            }}>
-            <Typography variant="h5"> PAYMENT </Typography>
+            className="bg-primary-orange hover:bg-primary-orange/80 w-full rounded-none py-6 text-white text-3xl">
+            Payment
           </Button>
         </div>
       )}

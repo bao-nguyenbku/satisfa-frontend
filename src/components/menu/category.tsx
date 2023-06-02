@@ -1,175 +1,101 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 // import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import { useGetAllCategoryServiceQuery } from '@/services/category';
+import Loading from '../common/loading';
+import { Product } from '@/types';
 // import Grid from '@mui/material/Grid';
-// import FoodCard from './food-card';
-// import styles from './styles.module.scss';
+import FoodCard from './food-card';
+import styles from './styles.module.scss';
+import { motion } from 'framer-motion';
 
-// interface TabPanelProps {
-//   children?: React.ReactNode;
-//   index: number;
-//   value: number;
-// }
-
-const datas = [
-  {
-    id: 1001,
-    name: 'Pizza',
-    include: [
-      {
-        id: 'MA1001',
-        name: 'Shrred Chicken Salad',
-        price: 4.14,
-        image:
-          'https://res.cloudinary.com/kogleo/image/upload/v1674442327/hamburger_m1l0gx.png',
-      },
-      {
-        id: 'MA1002',
-        name: 'Roasted chicken with chili salt',
-        price: 5.24,
-        image:
-          'https://res.cloudinary.com/kogleo/image/upload/v1674442328/salad_qgebex.png',
-        info: 'good',
-      },
-      {
-        id: 'MA1001',
-        name: 'Hamburger beef',
-        price: 3.6,
-        image:
-          'https://res.cloudinary.com/kogleo/image/upload/v1674442327/fryfish_nst5ao.png',
-        info: 'good',
-      },
-      {
-        id: 'MA1002',
-        name: 'Beef rice paper',
-        price: 2.12,
-        image:
-          'https://res.cloudinary.com/kogleo/image/upload/v1674442327/fryfish_nst5ao.png',
-        info: 'good',
-      },
-    ],
-  },
-  {
-    id: 1002,
-    name: 'HotPot',
-    include: [
-      {
-        id: 'MA1001',
-        name: 'IPizza',
-        price: 20000,
-        image:
-          'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=600',
-        info: 'good',
-      },
-      {
-        id: 'MA1002',
-        name: 'BPizza',
-        price: 20000,
-        image:
-          'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=600',
-        info: 'good',
-      },
-    ],
-  },
-  {
-    id: 1003,
-    name: 'Noodle',
-
-    include: [
-      {
-        id: 'MA1001',
-        name: 'IPizza',
-        price: 20000,
-        image:
-          'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=600',
-        info: 'good',
-      },
-      {
-        id: 'MA1002',
-        name: 'CPizza',
-        price: 20000,
-        image:
-          'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=600',
-        info: 'good',
-      },
-    ],
-  },
-  {
-    id: 1004,
-    name: 'Buffet',
-    include: [
-      {
-        id: 'MA1001',
-        name: 'IPizza',
-        price: 20000,
-        image:
-          'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=600',
-        info: 'good',
-      },
-      {
-        id: 'MA1002',
-        name: 'DPizza',
-        price: 20000,
-        image:
-          'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=600',
-        info: 'good',
-      },
-    ],
-  },
-];
-
-// function TabPanel(props: TabPanelProps) {
-//   const { children, value, index, ...other } = props;
-
-//   return (
-//     <div
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`simple-tabpanel-${index}`}
-//       aria-labelledby={`simple-tab-${index}`}
-//       {...other}>
-//       {value === index && <Box sx={{ p: datas.length }}>{children}</Box>}
-//     </div>
-//   );
-// }
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+  data: Product[];
 }
 
-export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+type Props = {
+  data: Product[];
+};
+function TabPanel(props: TabPanelProps) {
+  const { data, value, index, ...other } = props;
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderColor: 'divider' }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          TabIndicatorProps={{ style: { background: 'white' } }}
-          aria-label="basic tabs example"
-          centered>
-          {datas.map((data, index) => {
-            return (
-              <Tab
-                key={index}
-                style={{ color: 'white', fontFamily: 'Playfair Display' }}
-                label={data.name}
-                {...a11yProps(index)}
-              />
-            );
+    <div
+      role="tabpanel"
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+      className={`${
+        value !== index ? 'hidden' : 'flex lg:gap-12 gap-4 flex-wrap w-full lg:items-start items-center lg:justify-start justify-center'
+      } mt-12`}>
+      {data.map((item) => {
+        return (
+          <motion.div
+            key={item.id}
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            transition={{
+              duration: Math.random() * 0.3 + 0.3,
+            }}>
+            <FoodCard data={item} />
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+// function a11yProps(index: number) {
+//   return {
+//     id: `simple-tab-${index}`,
+//     'aria-controls': `simple-tabpanel-${index}`,
+//   };
+// }
+
+const getProductsByCategory = (products: Product[], category: string) => {
+  return products.filter((item) => item.category === category);
+};
+export default function CategoryTab(props: Props) {
+  const { data: products } = props;
+  const [activeIndex, setAactiveIndex] = useState(0);
+  const { data: categories, isLoading } = useGetAllCategoryServiceQuery();
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setAactiveIndex(newValue);
+  };
+  if (isLoading) {
+    return <Loading />;
+  }
+  return (
+    <div className="w-full max-w-screen-1400 flex flex-col items-center px-10">
+      <Tabs
+        value={activeIndex}
+        onChange={handleChange}
+        TabIndicatorProps={{ sx: { display: 'none' } }}
+        scrollButtons="auto"
+        variant="scrollable"
+        centered
+        className={styles.tabs}
+        >
+        {categories &&
+          categories.map((category) => {
+            return <Tab key={category.id} label={category.name} />;
           })}
-        </Tabs>
-      </Box>
-    </Box>
+      </Tabs>
+      {categories &&
+        categories.map((category, index) => {
+          return (
+            <TabPanel
+              key={category.id}
+              value={activeIndex}
+              index={index}
+              data={getProductsByCategory(products, category.name)}
+            />
+          );
+        })}
+    </div>
   );
 }

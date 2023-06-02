@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { InputChangeEvent } from '@/types/event-types';
+import Button from '@/components/common/button';
 import Input from '@/components/input';
-import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 // import { useRouter } from 'next/router';
+import { ErrorType } from '@/types';
 
 type UserInput = {
   email: string;
@@ -15,6 +16,8 @@ const SigninForm = () => {
     email: '',
     password: '',
   });
+  const [error, setErrror] = useState<ErrorType | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const onChangeEmail = (e: InputChangeEvent) => {
     setUserInput((prev) => {
       return {
@@ -32,17 +35,18 @@ const SigninForm = () => {
     });
   };
   const onSubmit = async () => {
+    setLoading(true);
     const response = await signIn('credentials', {
       email: userInput.email,
       password: userInput.password,
       redirect: false,
     });
-    console.log(
-      '🚀 ~ file: signin-form.tsx:40 ~ onSubmit ~ response:',
-      response,
-    );
     if (response?.ok) {
       window.location.href = '/';
+    }
+    if (response?.error) {
+      setErrror(JSON.parse(response?.error));
+      setLoading(false);
     }
   };
   return (
@@ -51,6 +55,7 @@ const SigninForm = () => {
         type="email"
         value={userInput.email}
         placeholder="example@gmail.com"
+        error={Boolean(error)}
         label="Your email or phone number"
         onChange={onChangeEmail}
       />
@@ -58,17 +63,22 @@ const SigninForm = () => {
         type="password"
         value={userInput.password}
         placeholder="****"
+        error={Boolean(error)}
         label="Your password"
         onChange={onChangePassword}
       />
-      <Link href="/" className="text-white ml-auto">
+      {error && <span className="text-red-500">{error.message}</span>}
+
+      {/* <Link href="/" className="text-white ml-auto">
         Forgot password?
-      </Link>
-      <button
-        className="bg-primary-yellow w-full h-16 font-bold text-xl text-white hover:bg-primary-yellow/70 mt-10"
-        onClick={onSubmit}>
+      </Link> */}
+      <Button
+        className="bg-primary-orange w-full h-16 font-bold text-xl text-white hover:bg-primary-orange/80 mt-10"
+        onClick={onSubmit}
+        isLoading={loading}
+        >
         Sign in
-      </button>
+      </Button>
     </div>
   );
 };
