@@ -15,7 +15,7 @@ import {
   BotService,
   DEFAULT_DELAY,
   WidgetType,
-} from '@/components/chatbot/types';
+} from '@/types/chatbot-types';
 import Options from '@/components/chatbot/options';
 // import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/hooks';
@@ -37,6 +37,7 @@ import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmatio
 import { formatDate } from '@/utils';
 import ShowTables from '@/components/chatbot/widgets/show-tables';
 import FrequentlyQuestion from '@/components/chatbot/widgets/frequently-question';
+import { Indent } from './chatbot-indent';
 
 type Props = {
   children: React.ReactNode;
@@ -54,6 +55,7 @@ interface IChatbotContext {
   isOpen: boolean;
   open: () => void;
   close: () => void;
+  indent: Indent;
   botService: BotService;
 }
 export const ChatbotContext = createContext<IChatbotContext>({
@@ -79,6 +81,7 @@ export const ChatbotContext = createContext<IChatbotContext>({
   disableTyping: () => {
     return;
   },
+  indent: {} as Indent,
   isTyping: false,
   isOpen: false,
   actions: {},
@@ -321,10 +324,11 @@ export const ChatbotProvider = ({ children }: Props) => {
           Do any of them make you fancy?
         </span>,
       );
+      router.push('/menu');
     },
     introduce: () => {
       createBotMessage(
-        'Hi, I am Satisgi. Nice to meet you 😍. If you need some help, type help in the textbox👇',
+        <span>Hi, I am Satisgi. Nice to meet you 😍. If you need some <strong>help</strong>, type <strong>help</strong> in the textbox👇</span>,
       );
     },
     // ! MAKE RESERVATION
@@ -374,16 +378,6 @@ export const ChatbotProvider = ({ children }: Props) => {
     ) => {
       open();
       const message = (
-        // <span>
-        //   Congratulations! You now can come to my restaurant at{' '}
-        //   {formatDate(
-        //     reservationInfo.createReservationData.data.date ||
-        //       (reservation?.date as string),
-        //   )}{' '}
-        //   on table{' '}
-        //   {reservationInfo.createReservationData.code ||
-        //     reservation?.tableId?.code}
-        // </span>
         <span>
           Successfullly! Remember to come to restaurant on{' '}
           <strong>{formatDate(reservation?.date as string)}</strong>. Glad to be
@@ -446,10 +440,11 @@ export const ChatbotProvider = ({ children }: Props) => {
       dispatch(resetCreateReservation());
     },
   };
-
+  const indent = new Indent(actions);
   return (
     <ChatbotContext.Provider
       value={{
+        indent,
         messages,
         createBotMessage,
         createUserMessage,

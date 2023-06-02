@@ -25,6 +25,8 @@ import { ToastContainer } from 'react-toastify';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { PayPalScriptOptions } from '@/types';
 import { ModalContextProvider } from '@/context/modal-context';
+import { ChatbotProvider } from '@/context/chatbot-context';
+import { ConfirmContextProvider } from '@/context/confirm-dialog-context';
 const paypalScriptOptions: PayPalScriptOptions = {
   'client-id': process.env.NEXT_PUBLIC_CLIENT_ID as string,
   currency: 'USD',
@@ -55,6 +57,7 @@ const App = ({
   useEffect(() => {
     AOS.init({
       anchorPlacement: 'top-bottom',
+      duration: 600,
     });
   }, []);
   const getLayout =
@@ -67,16 +70,20 @@ const App = ({
             <SessionProvider session={session} refetchOnWindowFocus={false}>
               <main className={`${primaryFont.className}`}>
                 <ModalContextProvider>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <PayPalScriptProvider options={paypalScriptOptions}>
-                      {getLayout(
-                        <>
-                          <Component {...rest} />
-                          <ToastContainer />
-                        </>,
-                      )}
-                    </PayPalScriptProvider>
-                  </LocalizationProvider>
+                  <ConfirmContextProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <PayPalScriptProvider options={paypalScriptOptions}>
+                        <ChatbotProvider>
+                          {getLayout(
+                            <>
+                              <Component {...rest} />
+                              <ToastContainer />
+                            </>,
+                          )}
+                        </ChatbotProvider>
+                      </PayPalScriptProvider>
+                    </LocalizationProvider>
+                  </ConfirmContextProvider>
                 </ModalContextProvider>
               </main>
             </SessionProvider>

@@ -70,7 +70,7 @@ const TableModel = (props: Props) => {
           vertical: 'center',
           horizontal: 'left',
         }}>
-        <BookingCard table={table} />
+        <BookingCard table={table} onClose={handleClose}/>
       </Popover>
 
       <button

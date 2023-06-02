@@ -29,8 +29,8 @@ const ChatbotButton = () => {
             style: {
               borderRadius: 8,
               width: '100%',
-              height: '100%'
-            }
+              height: '100%',
+            },
           }}
           keepMounted
           disablePortal={false}
@@ -48,21 +48,18 @@ const ChatbotButton = () => {
         </Popover>
       </ClickAwayListener>
 
-      {!isOpen && (
-        <Wrapper>
-          <button
-            onClick={handleClick}>
-            <div className="relative w-full h-full">
-              <Image
-                src={SatisgiAvatar}
-                fill
-                className="rounded-full object-cover"
-                alt="bot-avatar"
-              />
-            </div>
-          </button>
-        </Wrapper>
-      )}
+      <Wrapper>
+        <button onClick={handleClick}>
+          <div className="relative w-full h-full">
+            <Image
+              src={SatisgiAvatar}
+              fill
+              className="rounded-full object-cover"
+              alt="bot-avatar"
+            />
+          </div>
+        </button>
+      </Wrapper>
     </>
   );
 };

@@ -45,7 +45,7 @@ const MessageInput = (props: Props) => {
   return (
     <div
       className={`w-full flex items-center px-3 gap-2 ${
-        isDisaleInput(isTyping) ? 'bg-neutral-300' : 'bg-neutral-200'
+        isDisaleInput(isTyping) ? 'bg-neutral-300' : 'bg-neutral-100'
       } h-14 rounded-full`}>
       <input
         className={`flex-1 focus:outline-none h-full text-slate-800 bg-transparent ${

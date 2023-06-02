@@ -20,6 +20,8 @@ import {
   CreateReservation,
   Table,
   DATE_INPUT_FORMAT,
+  ReservationStatus,
+  CallWaiter,
 } from '@/types';
 import { reservationApi } from '@/services/reservation';
 import dayjs from 'dayjs';
@@ -40,6 +42,10 @@ type ChatbotState = {
   recommendation: {
     steps: BotStep;
     created: CartItem[];
+  };
+  callWaiter: {
+    steps: BotStep;
+    created: CallWaiter;
   };
 };
 // Define the initial state using that type
@@ -62,6 +68,7 @@ const initialState: ChatbotState = {
     created: {
       customerId: '',
       tableId: '',
+      status: ReservationStatus.RESERVED,
       note: '',
       date: '',
       numberOfGuests: 0,
@@ -124,13 +131,20 @@ const initialState: ChatbotState = {
     },
     created: [],
   },
+  callWaiter: {
+    steps: {
+      1: {
+        isComplete: false,
+      },
+    },
+    created: {
+      userId: '',
+      reservation: {} as Reservation,
+      createdAt: '',
+    },
+  },
 };
-// export const createReservation = createAsyncThunk(
-//   "/reservations/createReservation",
-//   async (_, { rejectWithValue }) => {
 
-//   }
-// );
 export const getTablesByFilterThunk = createAsyncThunk<
   Table[] | unknown,
   void,
@@ -216,6 +230,7 @@ export const chatbotSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    // ! FOR RESERVATION FLOW
     setReservationDate: (state, action: PayloadAction<string>) => {
       state.reservation.created.date = action.payload;
       state.reservation.steps[1].isComplete = true;
@@ -241,6 +256,7 @@ export const chatbotSlice = createSlice({
       state.reservation.created = {
         customerId: '',
         tableId: '',
+        status: ReservationStatus.RESERVED,
         note: '',
         date: '',
         numberOfGuests: 0,
@@ -249,7 +265,7 @@ export const chatbotSlice = createSlice({
         state.reservation.steps[key as any].isComplete = false;
       });
     },
-    // For Order feature
+    // ! FOR ORDER FLOW
     setOrderItems: (state, action: PayloadAction<CartItem[]>) => {
       state.order.created.items = action.payload;
       state.order.steps[1].isComplete = true;

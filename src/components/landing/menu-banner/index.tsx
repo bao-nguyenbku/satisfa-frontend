@@ -42,7 +42,7 @@ export default function MenuBanner() {
               className="font-serif-bold text-4xl sm:text-6xl text-center uppercase text-slate-800 font-thin">
               Menu
             </h2>
-            <div data-aos="zoom-in-up" className="text-center text-lg max-w-lg">
+            <div data-aos="zoom-in-up" className="text-center text-lg xl:max-w-lg w-full">
               <p>
                 Our food menus are tailored appropriately to season and
                 availability. Changing daily, we use the highest quality of

@@ -29,6 +29,7 @@ const handleValidate = () => {
 
 const AccountInfo = (props: Props) => {
   const { user } = props;
+
   const [updateInfo, updateInfoRes] = useUpdateInfoMutation();
   // const dispatch = useAppDispatch();
   const initialValues: UpdateUser = {
