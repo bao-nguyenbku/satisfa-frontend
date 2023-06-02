@@ -9,7 +9,7 @@ export default function Profile() {
   return (
     <>
       <Head>
-        <title> {user ? user.fullname : '' } | Satisfa</title>
+        <title>  LEO | Satisfa</title>
       </Head>
       {user &&
       <div className="py-40 flex w-full items-center justify-center">

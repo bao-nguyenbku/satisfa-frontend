@@ -17,6 +17,15 @@ export type CreateUser = {
   password: string;
 };
 
+export type UpdateUser = {
+  fullname?: string;
+  phone?: string;
+  avatar?: string;
+  currentPassword?: string;
+  password?: string;
+  confirmpassword?: string;
+}
+
 export type ChatBotType = {
   re_type: string;
 };

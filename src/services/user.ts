@@ -1,18 +1,25 @@
-import { CreateUser, User } from '@/types';
+import { UpdateUser } from '@/types';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { HYDRATE } from 'next-redux-wrapper';
 import { baseQuery } from '@/utils/request';
 
+type changePassword = {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery,
+  tagTypes: ['Auth'],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
     }
   },
   endpoints: (build) => ({
-    updateInfo: build.mutation<void, {body: Omit<User, 'id'>}>({
+    updateInfo: build.mutation<void, { body: UpdateUser }>({
+      invalidatesTags: ['Auth'],
       query({ body }) {
         return {
           url: `/users/`,
@@ -21,8 +28,15 @@ export const userApi = createApi({
         };
       },
     }),
-    updatePassword: build.mutation<Omit<CreateUser, 'email fullname'>, void>({
-      query: () => '/users',
+    updatePassword: build.mutation<void, {body: changePassword}>({
+      invalidatesTags: ['Auth'],
+      query({ body }) {
+        return {
+          url: `/users/`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
     }),
   }),
   refetchOnFocus: true,
