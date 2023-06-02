@@ -47,7 +47,7 @@ class Indent {
       operationTime: {
         texts: ['time', 'what', 'operation', 'working', 'open', 'close'],
         action: actions.answerOperatingHours,
-      }
+      },
     };
     this.actions = actions;
   }
@@ -62,7 +62,8 @@ class Indent {
     const highestIndent = Object.keys(scores).reduce((prev, curr) =>
       scores[prev] >= scores[curr] ? prev : curr,
     );
-    if (highestIndent) {
+
+    if (highestIndent && scores[highestIndent] !== 0) {
       this.data[highestIndent].action();
       isSupport = true;
     }

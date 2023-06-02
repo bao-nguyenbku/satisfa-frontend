@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  content?: any;
+  content?: React.ReactNode;
   title?: string;
   onConfirm: () => void;
 };
@@ -22,15 +22,15 @@ export default function ConfirmDialog(props: Props) {
   const handleConfirm = () => {
     onConfirm();
   };
-  const descriptionElementRef = React.useRef<HTMLElement>(null);
-  React.useEffect(() => {
-    if (isOpen) {
-      const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
-        descriptionElement.focus();
-      }
-    }
-  }, [isOpen]);
+  // const descriptionElementRef = React.useRef<HTMLElement>(null);
+  // React.useEffect(() => {
+  //   if (isOpen) {
+  //     const { current: descriptionElement } = descriptionElementRef;
+  //     if (descriptionElement !== null) {
+  //       descriptionElement.focus();
+  //     }
+  //   }
+  // }, [isOpen]);
 
   return (
     <Dialog

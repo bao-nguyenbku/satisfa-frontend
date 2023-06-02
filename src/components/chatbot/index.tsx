@@ -297,7 +297,7 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
-    } 
+    }
     // Unknown message
     else {
       actions.unhandleInput();
@@ -305,7 +305,7 @@ const Chatbot = (props: Props) => {
   };
   useEffect(() => {
     if (reserveData.createReservationData.isSuccess) {
-      actions.completeBookingTable();
+      actions.completeBookingTable(reserveData.createReservationData.data);
     }
   }, [reserveData.createReservationData.isSuccess]);
   useEffect(() => {

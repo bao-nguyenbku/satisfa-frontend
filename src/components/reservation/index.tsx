@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { wrapper } from '@/store';
 import DatePicker from '../date-picker';
 import TimePicker from '../time-picker';
 import GuestCounter from '../guest-counter';
@@ -6,7 +7,7 @@ import TableModel from './table-model';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { getTime, guestSelect } from '@/store/reducer/reservation';
 import dayjs, { Dayjs } from 'dayjs';
-import { useGetAllTableQuery } from '@/services/table';
+import { useGetAllTableQuery, tableApi } from '@/services/table';
 import { getTablesByFilter } from '@/store/reducer/table';
 import { Table } from '@/types';
 import { toast } from 'react-toastify';
@@ -75,3 +76,13 @@ const Reservation = () => {
 };
 
 export default Reservation;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    await store.dispatch(tableApi.endpoints.getTablesByFilter.initiate());
+    await Promise.all(store.dispatch(tableApi.util.getRunningQueriesThunk()));
+    return {
+      props: {},
+    };
+  },
+);

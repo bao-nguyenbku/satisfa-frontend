@@ -10,6 +10,7 @@ import { formatDate } from '@/utils';
 
 type Props = {
   table: Table;
+  onClose: () => void;
 };
 const reserveData: Omit<CreateReservation, 'customerId'> & {
   customerId: string;
@@ -22,7 +23,7 @@ const reserveData: Omit<CreateReservation, 'customerId'> & {
   customerId: '',
 };
 const BookingCard = (props: Props) => {
-  const { table } = props;
+  const { table, onClose } = props;
   const user = useAppSelector(selectUserData);
   const { data } = useAppSelector(
     (state) => state.reservation.createReservationData,
@@ -37,6 +38,7 @@ const BookingCard = (props: Props) => {
       reserveData.customerId = user?.id || '';
       dispatch(getTableCode(table.code));
       createReservation(reserveData);
+      onClose();
     }
   };
   useEffect(() => {

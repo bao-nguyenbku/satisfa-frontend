@@ -25,9 +25,14 @@ const sortReservationByDate = (data: Reservation[], type?: 'asc' | 'des') => {
 };
 export default function MyReservations() {
   const { data, isLoading, isSuccess, refetch } =
-    useGetReservationByFilterQuery({
-      currentUser: true,
-    });
+    useGetReservationByFilterQuery(
+      {
+        currentUser: true,
+      },
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
   const [updateReservation, updateReservationRes] =
     useUpdateReservationMutation();
   const handleCancel = (data: Reservation) => {

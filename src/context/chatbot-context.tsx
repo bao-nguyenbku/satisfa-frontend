@@ -365,16 +365,6 @@ export const ChatbotProvider = ({ children }: Props) => {
     ) => {
       open();
       const message = (
-        // <span>
-        //   Congratulations! You now can come to my restaurant at{' '}
-        //   {formatDate(
-        //     reservationInfo.createReservationData.data.date ||
-        //       (reservation?.date as string),
-        //   )}{' '}
-        //   on table{' '}
-        //   {reservationInfo.createReservationData.code ||
-        //     reservation?.tableId?.code}
-        // </span>
         <span>
           Successfullly! Remember to come to restaurant on{' '}
           <strong>{formatDate(reservation?.date as string)}</strong>. Glad to be
