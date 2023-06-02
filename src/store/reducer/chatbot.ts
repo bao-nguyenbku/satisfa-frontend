@@ -41,7 +41,7 @@ type ChatbotState = {
   };
   recommendation: {
     steps: BotStep;
-    created: any;
+    created: CartItem[];
   };
   callWaiter: {
     steps: BotStep;
@@ -129,13 +129,7 @@ const initialState: ChatbotState = {
         isComplete: false,
       },
     },
-    created: {
-      customerId: '',
-      tableId: '',
-      note: '',
-      date: '',
-      numberOfGuests: 0,
-    },
+    created: [],
   },
   callWaiter: {
     steps: {
@@ -354,7 +348,7 @@ export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation;
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
-
+export const selectBotRecommendationState = (state: RootState) => state.chatbot.recommendation;
 export const selectCreateBotOrderData = (state: RootState) =>
   state.chatbot.order.created;
 // export const selectTakeawayOrderCompletion = (state: RootState) => {

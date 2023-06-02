@@ -17,14 +17,20 @@ import {
   WidgetType,
 } from '@/types/chatbot-types';
 import Options from '@/components/chatbot/options';
+// import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/hooks';
+import ShowBestSeller from '@/components/chatbot/widgets/show-best-seller';
 import {
   resetCreateOrder,
   resetCreateReservation,
   // selectBotReservationState,
   setReservationDinein,
 } from '@/store/reducer/chatbot';
-import { botOrderMessage, botReserveMessage } from '@/components/chatbot/steps';
+import {
+  botOrderMessage,
+  botReserveMessage,
+  botRecommendationMessage,
+} from '@/components/chatbot/steps';
 import WidgetWrapper from '@/components/chatbot/components/widget-wrapper';
 import { Reservation } from '@/types';
 import ShowConfirmationOrder from '@/components/chatbot/widgets/show-confirmation-order';
@@ -350,6 +356,13 @@ export const ChatbotProvider = ({ children }: Props) => {
       );
       router.push('/me/reservations');
     },
+    checkMyOrders: (options?: MessageOption) => {
+      createBotMessage(
+        'We navigate you to your history orders. Let check out the screen😘',
+        options,
+      );
+      router.push('/me/orders');
+    },
     getGuestPicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[3].text, options);
     },
@@ -382,13 +395,6 @@ export const ChatbotProvider = ({ children }: Props) => {
       });
     },
     // ! ORDER FOOD
-    checkMyOrders: (options?: MessageOption) => {
-      createBotMessage(
-        'We navigate you to your history orders. Let check out the screen😘',
-        options,
-      );
-      router.push('/me/orders');
-    },
     navigateToMenu: () => {
       router.replace('/menu');
     },
@@ -406,8 +412,24 @@ export const ChatbotProvider = ({ children }: Props) => {
       actions.navigateToMenu();
       actions.chooseFoodFromMenu();
     },
-
-    // ! COMMON
+    showBestSeller: () => {
+      actions.sendMessage(botRecommendationMessage[1].text, {
+        widget: <ShowBestSeller />,
+      });
+      createBotMessage(botRecommendationMessage[2].text, {
+        delay: 500,
+      });
+    },
+    completeRecommendation: () => {
+      createBotMessage(botRecommendationMessage[3].text, {
+        delay: 500,
+      });
+    },
+    handleRecommendation: () => {
+      setBotService(BotService.RECOMMENDATION);
+      actions.navigateToMenu();
+      actions.showBestSeller();
+    },
     completeService: () => {
       setBotService(BotService.NONE);
       actions.resetService();
