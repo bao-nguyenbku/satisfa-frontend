@@ -19,6 +19,7 @@ import {
   setTakeawayPhone,
   setTakeawayTime,
   getReservationByUser,
+  selectBotRecommendationState,
 } from '@/store/reducer/chatbot';
 import { getTime, guestSelect } from '@/store/reducer/reservation';
 import dayjs from 'dayjs';
@@ -39,12 +40,14 @@ import { DATE_INPUT_FORMAT, OrderType, QueryStatus } from '@/types';
 import {
   useCreateOrderByGuestServiceMutation,
   useCreateOrderServiceMutation,
+  useGetLastestOrderQuery
 } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
+import ShowRecentOrder from './widgets/show-recent-order';
+import { botRecommendationMessage } from './steps';
 import { selectUserData } from '@/store/reducer/user';
-
 type Props = {
   boxOpen?: boolean;
 };
@@ -60,8 +63,9 @@ const Chatbot = (props: Props) => {
   const botReservationState = useAppSelector(selectBotReservationState);
   const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
-
+  const botRecommendationState = useAppSelector(selectBotRecommendationState);
   // !! HANDLE RESERVATION SERVICE !!
+  const { data: lastestOrder } = useGetLastestOrderQuery();
   const handleBotReservation = (message: string) => {
     if (!user) {
       actions.sendMessage('You must sign in to make a reservation');
@@ -285,6 +289,32 @@ const Chatbot = (props: Props) => {
       actions.unhandleInput();
     }
   };
+  // !! HANDLE RECCOMENDATION SERVICE !!
+  const handleBotRecommendation = async (message: string) => {
+    const lowCaseMessage = message.toLowerCase().trim();
+    if (!botRecommendationState.steps[1].isComplete) {
+      if (!lowCaseMessage.includes('yes') && !lowCaseMessage.includes('no')) {
+        actions.unhandleInput();
+        return;
+      }
+      const itemList = lastestOrder ? lastestOrder[0].items : [];
+      if (lowCaseMessage.includes('yes')) {
+        if (itemList && itemList.length === 0) {
+          actions.sendMessage(
+            'You have not made any order in our restaurant, try it and use this service next time.',
+          );
+        } else if (itemList && itemList.length > 0) {
+          actions.sendMessage('I am showing you your food in recent order', {
+            widget: <ShowRecentOrder itemList={itemList} />,
+          });
+          actions.sendMessage(botRecommendationMessage[3].text);
+        }
+      } else if (lowCaseMessage.includes('no')) {
+        actions.sendMessage(botRecommendationMessage[3].text);
+      }
+    }
+    return lowCaseMessage;
+  };
 
   const handleChecker = async (message: string) => {
     createUserMessage(message);
@@ -296,11 +326,17 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
+
+    }
+    else if (botService === BotService.RECOMMENDATION) {
+      handleBotRecommendation(message);
+
     }
     // Unknown message
     else {
       actions.unhandleInput();
-    }
+    } 
+    
   };
   // useEffect(() => {
   //   if (reserveData.createReservationData.isSuccess) {

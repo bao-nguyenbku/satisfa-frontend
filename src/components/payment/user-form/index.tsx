@@ -25,7 +25,7 @@ type Props = {
   orderInfo: IOrderInfo;
   userInfo: any;
   reservationList: Reservation[];
-  onReservationChange: (value: Reservation) => void;
+  onReservationChange: (value: string) => void;
   onTakeawayChange: (value: TakeawayCustomer) => void;
 };
 
@@ -101,15 +101,15 @@ export default function UserPaymentInfo(props: Props) {
                 id="reservation-select"
                 label="Reservations"
                 className={styles.input}
-                value={orderInfo?.reservation?.tableId?.code}
+                value={orderInfo?.reservation?.tableId?.id}
                 onChange={handleChange}>
                 {reservationList &&
                   reservationList.map((item) => (
-                    <MenuItem value={item?.tableId?.code} key={item.id}>
+                    <MenuItem value={item?.id} key={item.id}>
                       <div>
-                        <span>Table {item?.tableId?.code}</span>
-                        <span>{formatDate(item.date)}</span>
-                        <span>{item.numberOfGuests}</span>
+                        <span>Table {item?.tableId?.code} </span>
+                        <span>{formatDate(item.date)} </span>
+                        <span> {item.numberOfGuests} </span>
                       </div>
                     </MenuItem>
                   ))}

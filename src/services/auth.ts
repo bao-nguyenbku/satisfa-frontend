@@ -6,6 +6,7 @@ import { baseQuery } from '@/utils/request';
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery,
+  tagTypes: ['Auth'],
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
@@ -22,6 +23,7 @@ export const authApi = createApi({
       },
     }),
     authCurrentUserService: build.query<User, void>({
+      providesTags: ['Auth'],
       query: () => '/auth/me',
     }),
   }),

@@ -78,17 +78,23 @@ export default function Options(props: any) {
         }
       },
     },
+    7: {
+      text: 'Reccomend food for me',
+      handler: actions.handleRecommendation,
+      id: 5,
+    },
+
   };
-  type Key = keyof typeof options;
+
   return (
     <div className="flex flex-col gap-2 justify-end items-end">
       {Object.keys(options).map((key) => (
         <Button
-          key={options[key as unknown as Key].text}
+          key={options[key as unknown as keyof typeof options].text}
           variant="outlined"
-          onClick={options[key as unknown as Key].handler}
+          onClick={options[key as unknown as keyof typeof options].handler}
           className="bg-neutral-100 hover:bg-neutral-200 p-3 text-slate-800 normal-case border-none hover:border-none rounded-xl">
-          {options[key as unknown as Key].text}
+          {options[key as unknown as keyof typeof options].text}
         </Button>
       ))}
     </div>
