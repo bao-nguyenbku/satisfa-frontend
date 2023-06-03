@@ -10,43 +10,43 @@ export default function Options(props: any) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUserData);
   const { socket } = useSocket();
-  const options = [
-    {
+  const options = {
+    1: {
       text: 'I want to ask some questions',
       handler: () => {
-        createUserMessage(options[0].text);
+        createUserMessage(options[1].text);
         actions.showQuestions();
       },
     },
-    {
+    2: {
       text: 'I want to book table',
       handler: () => {
-        createUserMessage(options[1].text);
+        createUserMessage(options[2].text);
         actions.handleReservation();
       },
     },
-    {
+    3: {
       text: 'I want to order',
       handler: () => {
-        createUserMessage(options[1].text);
+        createUserMessage(options[3].text);
         actions.handleOrder();
       },
     },
-    {
+    4: {
       text: 'Check my reservations',
       handler: () => {
-        createUserMessage(options[2].text);
+        createUserMessage(options[4].text);
         actions.checkMyReservations();
       },
     },
-    {
+    5: {
       text: 'Check my orders',
       handler: () => {
-        createUserMessage(options[3].text);
+        createUserMessage(options[5].text);
         actions.checkMyOrders();
       },
     },
-    {
+    6: {
       text: 'Call waiter',
       handler: async () => {
         if (socket?.connected) {
@@ -62,7 +62,7 @@ export default function Options(props: any) {
               },
             ),
           ).unwrap();
-          createUserMessage(options[5].text);
+          createUserMessage(options[6].text);
           if (res && res.length === 0) {
             actions.sendMessage(
               'You must check-in at restaurant to call for service',
@@ -78,16 +78,17 @@ export default function Options(props: any) {
         }
       },
     },
-  ];
+  };
+  type Key = keyof typeof options;
   return (
     <div className="flex flex-col gap-2 justify-end items-end">
-      {options.map((option) => (
+      {Object.keys(options).map((key) => (
         <Button
-          key={option.text}
+          key={options[key as unknown as Key].text}
           variant="outlined"
-          onClick={option.handler}
+          onClick={options[key as unknown as Key].handler}
           className="bg-neutral-100 hover:bg-neutral-200 p-3 text-slate-800 normal-case border-none hover:border-none rounded-xl">
-          {option.text}
+          {options[key as unknown as Key].text}
         </Button>
       ))}
     </div>

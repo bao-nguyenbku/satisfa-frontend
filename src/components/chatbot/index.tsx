@@ -58,7 +58,6 @@ const Chatbot = (props: Props) => {
     useCreateOrderByGuestServiceMutation();
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
-  const reserveData = useAppSelector((state) => state.reservation);
   const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
 
@@ -303,11 +302,11 @@ const Chatbot = (props: Props) => {
       actions.unhandleInput();
     }
   };
-  useEffect(() => {
-    if (reserveData.createReservationData.isSuccess) {
-      actions.completeBookingTable(reserveData.createReservationData.data);
-    }
-  }, [reserveData.createReservationData.isSuccess]);
+  // useEffect(() => {
+  //   if (reserveData.createReservationData.isSuccess) {
+  //     actions.completeBookingTable(reserveData.createReservationData.data);
+  //   }
+  // }, [reserveData.createReservationData.isSuccess]);
   useEffect(() => {
     if (
       createOrderRes.status === QueryStatus.fulfilled &&

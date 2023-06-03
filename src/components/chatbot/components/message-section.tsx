@@ -29,12 +29,21 @@ const MessageSection = (props: Props) => {
         messages.map((payload) => {
           if (payload.role === 'user') {
             return (
-              <div
+              <motion.div
                 className="ml-auto"
                 key={payload.id}
-                >
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0,
+                }}
+                style={{
+                  originX: 0,
+                  originY: 1,
+                }}>
                 <MeMessageItem message={payload.text} />
-              </div>
+              </motion.div>
             );
           }
           if (payload.role === 'bot') {

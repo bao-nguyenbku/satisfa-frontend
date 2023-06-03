@@ -198,19 +198,6 @@ export const ChatbotProvider = ({ children }: Props) => {
   }, [messages]);
   const actions = {
     // ! FREQUENTLY ASKED QUESTIONS
-    showLocation: () => {
-      createBotMessage(
-        <ul>
-          <li>
-            👉Satisfa restaurant is place at{' '}
-            <strong>
-              122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi Minh
-              City
-            </strong>
-          </li>
-        </ul>,
-      );
-    },
     answerHostEvent: () => {
       createBotMessage(
         <div className="flex flex-col gap-2">
@@ -322,8 +309,18 @@ export const ChatbotProvider = ({ children }: Props) => {
     },
     introduce: () => {
       createBotMessage(
-        <span>Hi, I am Satisgi. Nice to meet you 😍. If you need some <strong>help</strong>, type <strong>help</strong> in the textbox👇</span>,
+        <span>
+          I am Satisgi, an automatic bot that support customer🥰. Type{' '}
+          <strong>help</strong> to get support
+        </span>,
       );
+    },
+    greeting: (message: ReactNode) => {
+      // <span>
+      //     Hi, I am Satisgi. Nice to meet you 😍. If you need some{' '}
+      //     <strong>help</strong>, type <strong>help</strong> in the textbox👇
+      //   </span>,
+      createBotMessage(message);
     },
     // ! MAKE RESERVATION
     navigateToReservation: () => {

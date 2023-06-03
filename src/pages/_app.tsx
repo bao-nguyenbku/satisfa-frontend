@@ -21,16 +21,13 @@ import MainLayout from '@/layout/main';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { primaryFont } from '@/constants';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { PayPalScriptOptions } from '@/types';
+import { ToastContainer, Slide } from 'react-toastify';
 import { ModalContextProvider } from '@/context/modal-context';
 import { ChatbotProvider } from '@/context/chatbot-context';
 import { ConfirmContextProvider } from '@/context/confirm-dialog-context';
-const paypalScriptOptions: PayPalScriptOptions = {
-  'client-id': process.env.NEXT_PUBLIC_CLIENT_ID as string,
-  currency: 'USD',
-};
+import { AnimatePresence } from 'framer-motion';
+
+
 const theme = createTheme({});
 // const emotionCache = createCache({
 //   key: 'css',
@@ -62,6 +59,7 @@ const App = ({
   }, []);
   const getLayout =
     Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
+
   return (
     <Provider store={store}>
       <StyledEngineProvider injectFirst>
@@ -72,16 +70,16 @@ const App = ({
                 <ModalContextProvider>
                   <ConfirmContextProvider>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <PayPalScriptProvider options={paypalScriptOptions}>
-                        <ChatbotProvider>
-                          {getLayout(
-                            <>
+                      <ChatbotProvider>
+                        {getLayout(
+                          <>
+                            <AnimatePresence mode="wait">
                               <Component {...rest} />
-                              <ToastContainer />
-                            </>,
-                          )}
-                        </ChatbotProvider>
-                      </PayPalScriptProvider>
+                            </AnimatePresence>
+                            <ToastContainer transition={Slide} />
+                          </>,
+                        )}
+                      </ChatbotProvider>
                     </LocalizationProvider>
                   </ConfirmContextProvider>
                 </ModalContextProvider>
