@@ -15,6 +15,7 @@ class Indent {
   actions: BotActions;
   constructor(actions: BotActions) {
     this.symbol = /,|\.|'|\s|:|;|\?|!/;
+    this.actions = actions;
     this.data = {
       greeting: {
         texts: ['hello', 'xin chào', 'chào bạn', 'hi', 'moring', 'hey'],
@@ -41,22 +42,56 @@ class Indent {
           <ul key={0}>
             <li>
               👉Satisfa restaurant is place at{' '}
-              <strong>
-                122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
-                Minh City
-              </strong>
+              <a
+                href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
+                target="_blank"
+                rel="noreferrer"
+                className='text-cyan-600 hover:underline'
+                >
+                <strong>
+                  122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
+                  Minh City
+                </strong>
+              </a>
             </li>
           </ul>,
         ],
       },
       help: {
         texts: ['help', 'helps'],
-        responses: [],
+        responses: [
+          <span key={0}>
+            Hi. I am <strong>Satisgi</strong>, automatic bot. How can I help
+            you?
+          </span>,
+        ],
         action: () => {
           actions.completeService();
           actions.resetService();
-          actions.askForHelp();
+          actions.askForHelp({
+            delay: 800,
+          });
         },
+      },
+      order: {
+        texts: ['I', 'want', 'to', 'order'],
+        responses: [
+          <span key={0}>
+            Of course! I showed you the menu on the screen. <br /> If you want
+            to order some food, please choose food on the screen and check your
+            cart. If you confirm with it, type <strong>ok</strong> on the
+            message box😉
+          </span>,
+        ],
+        action: actions.handleOrder,
+      },
+      askQuestion: {
+        texts: ['I', 'want', 'to', 'ask', 'some', 'questions'],
+        responses: [<span key={0}>What do you want to ask?</span>],
+        action: () =>
+          actions.showQuestions({
+            delay: 800,
+          }),
       },
       myOrders: {
         texts: ['orders', 'order', 'order', 'my', 'check'],
@@ -71,6 +106,20 @@ class Indent {
         responses: [],
         action: actions.suggestMenu,
       },
+      parking: {
+        texts: [],
+        responses: [
+          <div className="flex flex-col gap-2" key={0}>
+            <span>✅Yes, we do have parking available for our customers.</span>
+            <span> ✅We provide parking lot and street parking.</span>
+            <span>
+              ✅Our parking facilities are conveniently located near the
+              restaurant to ensure easy access for our guests and of course,
+              it&apos;s free.
+            </span>
+          </div>,
+        ],
+      },
       reservation: {
         texts: ['reservation', 'book', 'table'],
         responses: [],
@@ -78,11 +127,32 @@ class Indent {
       },
       operationTime: {
         texts: ['time', 'what', 'operation', 'working', 'open', 'close'],
-        responses: [],
+        responses: [
+          <div className="flex flex-col gap-2" key={0}>
+            <span>
+              ✅Our restaurant is open all day from <strong>8:00 am</strong> to{' '}
+              <strong>10:00 pm</strong> (Except for some special activities).
+            </span>
+            <span>
+              ✅We are pleased to serve you during this time and look forward to
+              welcoming you to our establishment
+            </span>
+          </div>,
+        ],
         action: actions.answerOperatingHours,
       },
       event: {
-        texts: ['how', 'special', 'event', 'party', 'host', 'birthday'],
+        texts: [
+          'how',
+          'special',
+          'event',
+          'party',
+          'host',
+          'birthday',
+          'can',
+          'parties',
+          'private',
+        ],
         responses: [
           <div className="flex flex-col gap-2" key={0}>
             <span>
@@ -110,7 +180,6 @@ class Indent {
         ],
       },
     };
-    this.actions = actions;
   }
   simplify(message: string) {
     return message.toLowerCase().trim();

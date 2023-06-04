@@ -15,21 +15,19 @@ export default function Options(props: any) {
       text: 'I want to ask some questions',
       handler: () => {
         createUserMessage(options[1].text);
-        actions.showQuestions();
       },
     },
     2: {
       text: 'I want to book table',
       handler: () => {
         createUserMessage(options[2].text);
-        actions.handleReservation();
       },
     },
     3: {
       text: 'I want to order',
       handler: () => {
         createUserMessage(options[3].text);
-        actions.handleOrder();
+        // actions.handleOrder();
       },
     },
     4: {

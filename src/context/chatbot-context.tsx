@@ -203,60 +203,6 @@ export const ChatbotProvider = ({ children }: Props) => {
     }
   }, [messages]);
   const actions = {
-    // ! FREQUENTLY ASKED QUESTIONS
-    answerHostEvent: () => {
-      createBotMessage(
-        <div className="flex flex-col gap-2">
-          <span>
-            ✅Absolutely! We would be delighted to help you host your event at
-            our restaurant. We offer event hosting services for various
-            occasions, including private parties, corporate gatherings, and
-            special celebrations.
-          </span>
-          <span>
-            ✅Our dedicated events team will work closely with you to ensure a
-            memorable experience for you and your guests.
-          </span>
-          <span>
-            👉To get started, I recommend contacting our events team directly at
-            <strong>0123 456 789</strong> or{' '}
-            <strong>customer@satisfa.com</strong>
-          </span>
-          <span>
-            👉They will be able to provide you with all the necessary details,
-            including available dates, event packages, and any additional
-            services or amenities we offer.
-          </span>
-        </div>,
-      );
-    },
-    answerOperatingHours: () => {
-      createBotMessage(
-        <div className="flex flex-col gap-2">
-          <span>
-            ✅Our restaurant is open all day from <strong>8:00 am</strong> to{' '}
-            <strong>10:00 pm</strong> (Except for some special activities).
-          </span>
-          <span>
-            ✅We are pleased to serve you during this time and look forward to
-            welcoming you to our establishment
-          </span>
-        </div>,
-      );
-    },
-    answerParking: () => {
-      createBotMessage(
-        <div className="flex flex-col gap-2">
-          <span>✅Yes, we do have parking available for our customers.</span>
-          <span> ✅We provide parking lot and street parking.</span>
-          <span>
-            ✅Our parking facilities are conveniently located near the
-            restaurant to ensure easy access for our guests and of course,
-            it&apos;s free.
-          </span>
-        </div>,
-      );
-    },
     // ! GENERAL
     unhandleInput: () => {
       createBotMessage(
@@ -267,11 +213,11 @@ export const ChatbotProvider = ({ children }: Props) => {
       );
     },
     callWaiter: () => {
-      createBotMessage('I called watier for you. Please wait...');
+      createBotMessage('I called waiter for you. Please wait for a moment😉');
     },
-    showQuestions: () => {
-      createBotMessage('What do you want to ask?');
+    showQuestions: (options?: MessageOption) => {
       createWidget(<FrequentlyQuestion />, {
+        ...options,
         widgetType: WidgetType.SELECTION,
       });
     },
@@ -298,9 +244,9 @@ export const ChatbotProvider = ({ children }: Props) => {
     sendWidget: (widget: ReactElement, options?: MessageOption) => {
       createWidget(widget, options);
     },
-    askForHelp: () => {
-      createBotMessage('Hi, I am Satisgi. How can I help you?');
+    askForHelp: (options?: MessageOption) => {
       createWidget(<Options actions={actions} />, {
+        ...options,
         widgetType: WidgetType.SELECTION,
       });
     },
@@ -312,21 +258,6 @@ export const ChatbotProvider = ({ children }: Props) => {
         </span>,
       );
       router.push('/menu');
-    },
-    introduce: () => {
-      createBotMessage(
-        <span>
-          I am Satisgi, an automatic bot that support customer🥰. Type{' '}
-          <strong>help</strong> to get support
-        </span>,
-      );
-    },
-    greeting: (message: ReactNode) => {
-      // <span>
-      //     Hi, I am Satisgi. Nice to meet you 😍. If you need some{' '}
-      //     <strong>help</strong>, type <strong>help</strong> in the textbox👇
-      //   </span>,
-      createBotMessage(message);
     },
     // ! MAKE RESERVATION
     navigateToReservation: () => {
@@ -395,9 +326,6 @@ export const ChatbotProvider = ({ children }: Props) => {
     navigateToMenu: () => {
       router.replace('/menu');
     },
-    chooseFoodFromMenu: () => {
-      createBotMessage(botOrderMessage[1].text);
-    },
     chooseDineInOrTakeaway: (options?: MessageOption) => {
       createBotMessage(botOrderMessage[2].text, options);
     },
@@ -407,7 +335,6 @@ export const ChatbotProvider = ({ children }: Props) => {
     handleOrder: () => {
       setBotService(BotService.ORDER);
       actions.navigateToMenu();
-      actions.chooseFoodFromMenu();
     },
     showBestSeller: () => {
       actions.sendMessage(botRecommendationMessage[1].text, {
