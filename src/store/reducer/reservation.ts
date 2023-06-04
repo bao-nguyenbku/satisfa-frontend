@@ -7,7 +7,7 @@ import {
 import { reservationApi } from '@/services/reservation';
 import type { RootState } from '@/store';
 import { HYDRATE } from 'next-redux-wrapper';
-import { CreateReservation, ReduxDataType } from '@/types';
+import { CreateReservation, ReduxDataType, ReservationStatus } from '@/types';
 
 const hydrate = createAction<RootState>(HYDRATE);
 // Define a type for the slice state
@@ -30,7 +30,8 @@ const initialState: ReservationState = {
   },
   createReservationData: {
     data: {
-      numberOfGuests: 0,
+      numberOfGuests: 1,
+      status: ReservationStatus.RESERVED,
       tableId: '',
       date: '',
       note: '',

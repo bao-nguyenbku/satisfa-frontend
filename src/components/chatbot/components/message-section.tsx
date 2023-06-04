@@ -34,8 +34,13 @@ const MessageSection = (props: Props) => {
                 key={payload.id}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0,
+                }}
                 style={{
                   originX: 0,
+                  originY: 1,
                 }}>
                 <MeMessageItem message={payload.text} />
               </motion.div>

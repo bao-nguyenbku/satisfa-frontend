@@ -48,7 +48,7 @@ export default function OrderDetailPayment(props: Props) {
         </div>
       )}
       {orderInfo.data.paymentType == PaymentType.CREDIT && (
-        <div className="mt-4 w-9/12 mx-auto">
+        <div className="mt-4 w-full mx-auto">
           <Checkout order={orderInfo} />
         </div>
       )}

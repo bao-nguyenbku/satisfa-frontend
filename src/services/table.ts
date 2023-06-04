@@ -43,7 +43,6 @@ export const {
   useGetAllTableQuery,
   useUpdateTableMutation,
   useGetTablesByFilterQuery,
-  util: { getRunningQueriesThunk },
 } = tableApi;
 
 export const { getAllTable, updateTable, getTablesByFilter } =

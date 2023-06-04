@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+// import { wrapper } from '@/store';
 import DatePicker from '../date-picker';
 import TimePicker from '../time-picker';
 import GuestCounter from '../guest-counter';
@@ -50,20 +51,29 @@ const Reservation = () => {
     return <div className="text-white">No table available!</div>;
   }
   return (
-    <div className="flex flex-col w-full gap-10 px-2 md:px-32">
+    <div className="flex flex-col w-full gap-10 xl:px-32 px-10">
       <div className="flex flex-col md:flex-row w-full justify-center gap-6 mt-10">
-        <DatePicker
-          value={dayjs(bookingData.date)}
-          onChange={handleChangeDate}
-        />
-        <TimePicker
-          value={dayjs(bookingData.date)}
-          onChange={handleChangeTime}
-        />
-        <GuestCounter
-          value={bookingData.numberOfGuests}
-          onChange={handleChangeGuest}
-        />
+        <div className='flex flex-col text-lg'>
+          <label htmlFor="date-picker-input">Pick a date</label>
+          <DatePicker
+            value={dayjs(bookingData.date)}
+            onChange={handleChangeDate}
+          />
+        </div>
+        <div className='flex flex-col text-lg'>
+          <label htmlFor="date-picker-input">Pick a time</label>
+          <TimePicker
+            value={dayjs(bookingData.date)}
+            onChange={handleChangeTime}
+          />
+        </div>
+        <div className='flex flex-col text-lg'>
+          <label htmlFor="date-picker-input">Choose number of guest</label>
+          <GuestCounter
+            value={bookingData.numberOfGuests}
+            onChange={handleChangeGuest}
+          />
+        </div>
       </div>
       <div className="pt-10 flex gap-36 flex-wrap items-center justify-center overflow-hidden">
         {filterTables?.map((table: Table) => (
@@ -75,3 +85,13 @@ const Reservation = () => {
 };
 
 export default Reservation;
+
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) => async () => {
+//     await store.dispatch(tableApi.endpoints.getTablesByFilter.initiate());
+//     await Promise.all(store.dispatch(tableApi.util.getRunningQueriesThunk()));
+//     return {
+//       props: {},
+//     };
+//   },
+// );

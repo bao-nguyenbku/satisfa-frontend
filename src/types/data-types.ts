@@ -8,7 +8,7 @@ export type User = {
   email: string;
   fullname: string;
   avatar: string;
-  phone?:string;
+  phone?: string;
 };
 
 export type CreateUser = {
@@ -65,7 +65,7 @@ export type Product = {
 export type Category = {
   id: string;
   name: string;
-}
+};
 export type CartItem = Product & {
   qty: number;
 };
@@ -76,6 +76,7 @@ export type Review = {
   foodRating: number;
   serviceRating: number;
   review: string;
+  createdAt: string;
 };
 export type ReviewFilter = {
   limit?: number;
@@ -174,12 +175,19 @@ export type Table = {
   reservations: Reservation[];
 };
 
+export enum ReservationStatus {
+  RESERVED = 'RESERVED',
+  CHECKED_IN = 'CHECKED_IN',
+  CANCELED = 'CANCELED'
+}
+
 export type Reservation = {
   id: string;
   customerId: User;
   tableId: Table;
   date: string;
   numberOfGuests: number;
+  status: ReservationStatus;
   note: string;
 };
 
@@ -241,4 +249,10 @@ export type BotMessage = {
   [key: number]: {
     text: ReactNode;
   };
+};
+
+export type CallWaiter = {
+  userId: string;
+  reservation: Reservation;
+  createdAt: string;
 };

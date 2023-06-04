@@ -22,7 +22,7 @@ const GuestCounter = (props: Props) => {
     }
   }, [num]);
   return (
-    <div className="text-slate-800 bg-neutral-200 border-slate-800 border flex items-center w-fit">
+    <div className="text-slate-800 bg-neutral-200 border-slate-800 border flex items-center w-auto justify-center relative">
       <span className="px-8 text-xl">{num}</span>
       <IconButton
         onClick={onDecrease}
@@ -34,6 +34,9 @@ const GuestCounter = (props: Props) => {
         className="bg-inherit hover:bg-white/30 rounded-none h-20 w-20">
         <KeyboardArrowRightIcon className="text-slate-800" />
       </IconButton>
+      <span className="absolute -bottom-8 top-auto left-0 italic text-base text-red-500">
+        {num === 0 ? '*Guest must be greater than 0' : ''}
+      </span>
     </div>
   );
 };

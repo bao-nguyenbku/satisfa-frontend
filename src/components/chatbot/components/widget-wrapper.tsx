@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { WidgetType } from '@/components/chatbot/types';
+import { WidgetType } from '@/types/chatbot-types';
 
 type Props = {
   children: React.ReactElement;

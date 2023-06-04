@@ -1,23 +1,24 @@
 import React from 'react';
 import chefImg from '@/assets/images/chef.jpg';
 import Image from 'next/image';
-// before:w-20 before:h-full before:bg-neutral-200 before:absolute before:top-0 before:-left-20 after:w-20 after:h-full after:bg-neutral-200 after:absolute after:top-0 after:-right-20
+
 export default function HeadChefSection() {
   return (
-    <div className='relative text-slate-800 flex flex-col md:flex-row gap-24 items-center justify-center py-24 bg-second'>
-      <div className="relative w-100 h-128">
+    <section className='relative text-slate-800 flex flex-col lg:flex-row gap-4 lg:gap-10 xl:gap-24 items-center justify-center py-24 bg-second px-10 max-w-screen-1400 mx-auto h-auto'>
+      <div className="relative max-w-screen-1400 lg:w-128 w-full h-full">
         <Image
           src={chefImg}
-          fill
+          sizes='(max-width: 768px) 100vw'
           alt="chef-portrait"
           className="object-cover"
-          // className="absolute top-0 left-0 w-full"
+          data-aos='zoom-in'
+          data-aos-delay='200'
         />
       </div>
-      <div className=' lg:max-w-[30vw] xl:max-w-2xl flex flex-col gap-6 mx-2 md:mx-0'>
-        <h2 className='uppercase text-primary-orange text-3xl'>Head chef</h2>
-        <h2 className='uppercase text-6xl font-bold'>Carl Schmidt</h2>
-        <p className='tracking-widest text-xl leading-8'>
+      <div className='lg:w-1/2 w-full flex flex-col gap-6 mx-2 md:mx-0'>
+        <h2 className='uppercase text-primary-orange text-3xl' data-aos='slide-up' data-aos-delay='200'>Head chef</h2>
+        <h2 className='uppercase text-6xl font-bold' data-aos='fade-left' data-aos-delay='500'>Carl Schmidt</h2>
+        <p className='tracking-widest text-xl leading-8' data-aos='fade-left' data-aos-delay='500'>
           Proactive, Ambitious and Creative Executive Chef with a notable career
           trajectory and achievements list. Experience in catering for up to 450
           covers at some of the most prestigious establishments in the world.
@@ -26,6 +27,6 @@ export default function HeadChefSection() {
           leader and problem solver, skilled in managing and developing staff.
         </p>
       </div>
-    </div>
+    </section>
   );
 }

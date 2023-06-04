@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 // import { MessageOption, Message } from './types';
 import * as _ from 'lodash';
 import MessageHeader from './components/message-header';
 import MessageInput from './components/message-input';
 import MessageSection from './components/message-section';
 import useChatbot from '@/hooks/useChatbot';
-import { BotService } from './types';
+import { BotService } from '@/types/chatbot-types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
@@ -26,7 +26,7 @@ import dayjs from 'dayjs';
 // import { BotService } from './types';
 // import Yes from './widgets/yes';
 import {
-  compareDate,
+  isBefore,
   isNumber,
   isValidDate,
   isValidDatetime,
@@ -43,7 +43,6 @@ import {
   useGetLastestOrderQuery
 } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
-import { Indent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
 import ShowRecentOrder from './widgets/show-recent-order';
@@ -54,18 +53,14 @@ type Props = {
 };
 const Chatbot = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { messages, isTyping, createUserMessage, actions, botService } =
+  const { messages, isTyping, createUserMessage, actions, botService, indent } =
     useChatbot();
-  const indent = useMemo(() => {
-    return new Indent(actions);
-  }, [actions]);
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
   const [createOrderGuest, createOrderGuestRes] =
     useCreateOrderByGuestServiceMutation();
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
-  const reserveData = useAppSelector((state) => state.reservation);
   const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
   const botRecommendationState = useAppSelector(selectBotRecommendationState);
@@ -77,9 +72,14 @@ const Chatbot = (props: Props) => {
       return;
     }
     if (!botReservationState.steps[1].isComplete) {
-      const currentDate = dayjs().toISOString();
+      const currentDate = dayjs()
+        .set('hour', 0)
+        .set('minute', 0)
+        .set('second', 0)
+        .set('millisecond', 0)
+        .toISOString();
       if (isValidDate(message)) {
-        if (!compareDate(message, currentDate)) {
+        if (isBefore(message, currentDate)) {
           actions.sendMessage(
             'You can not book a date in the past. Please choose other day',
           );
@@ -99,10 +99,33 @@ const Chatbot = (props: Props) => {
     // Get time
     else if (!botReservationState.steps[2].isComplete) {
       if (isValidTime(message)) {
+        const currentDate = dayjs().toISOString();
+        // Time is out of working range
         if (message >= '22:00' || message < '08:00') {
-          toast.warning('Please choose time from 08:00 AM to 22:00 PM');
+          actions.sendMessage(
+            <span>
+              Please choose time from <strong>8:00 am</strong> to{' '}
+              <strong>10:00 pm</strong>
+            </span>,
+          );
           actions.getTimePicker();
-        } else {
+          return;
+        }
+        // Datetime is in the past
+        const inputDate = dayjs(
+          `${botReservationState.created.date} ${message}`,
+          DATE_INPUT_FORMAT,
+          true,
+        );
+
+        if (isBefore(inputDate, currentDate)) {
+          actions.sendMessage(
+            'You can not book a date in the past. Please choose other time.',
+          );
+          actions.getTimePicker();
+        }
+        // Suitable datetime
+        else {
           dispatch(setReservationTime(message));
           const date = botReservationState.created.date;
           dispatch(
@@ -116,7 +139,9 @@ const Chatbot = (props: Props) => {
           );
           actions.getGuestPicker();
         }
-      } else {
+      }
+      // Invalid time
+      else {
         actions.sendMessage(
           'That time is invalid. Please type the time following our syntax: hh:mm (E.g: 14:30)',
         );
@@ -264,7 +289,6 @@ const Chatbot = (props: Props) => {
       actions.unhandleInput();
     }
   };
-
   // !! HANDLE RECCOMENDATION SERVICE !!
   const handleBotRecommendation = async (message: string) => {
     const lowCaseMessage = message.toLowerCase().trim();
@@ -291,12 +315,10 @@ const Chatbot = (props: Props) => {
     }
     return lowCaseMessage;
   };
-  const parseMessage = async (message: string) => {
-    // setCurrentMessage(message);
+
+  const handleChecker = async (message: string) => {
     createUserMessage(message);
-
     if (indent.parse(message)) return;
-
     // Handle Reservation
     if (botService === BotService.RESERVATION) {
       handleBotReservation(message);
@@ -304,15 +326,23 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
-    } else if (botService === BotService.RECOMMENDATION) {
+
+    }
+    else if (botService === BotService.RECOMMENDATION) {
       handleBotRecommendation(message);
+
     }
+    // Unknown message
+    else {
+      actions.unhandleInput();
+    } 
+    
   };
-  useEffect(() => {
-    if (reserveData.createReservationData.isSuccess) {
-      actions.completeBookingTable();
-    }
-  }, [reserveData.createReservationData.isSuccess]);
+  // useEffect(() => {
+  //   if (reserveData.createReservationData.isSuccess) {
+  //     actions.completeBookingTable(reserveData.createReservationData.data);
+  //   }
+  // }, [reserveData.createReservationData.isSuccess]);
   useEffect(() => {
     if (
       createOrderRes.status === QueryStatus.fulfilled &&
@@ -355,7 +385,7 @@ const Chatbot = (props: Props) => {
       </div>
       <div className="mt-auto w-full p-2">
         <MessageInput
-          onGetMessage={parseMessage}
+          onGetMessage={handleChecker}
           isTyping={isTyping}
           boxOpen={props.boxOpen}
         />

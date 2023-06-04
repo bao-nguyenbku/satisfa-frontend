@@ -4,8 +4,8 @@ import Image from 'next/image';
 
 const AboutUsSection = () => {
   return (
-    <section className="relative w-[80%] h-[1000px] max-w-[1400px] mx-auto" id="about-us">
-      <h1 className="absolute top-32 right-8 text-9xl z-10 whitespace-nowrap uppercase font-thin">
+    <section className="relative w-full min-h-[1000px] max-w-screen-1400 mx-auto px-0 xl:px-20" id="about-us">
+      <h1 className="absolute top-32 right-8 text-9xl z-10 whitespace-nowrap uppercase font-thin" data-aos='slide-left'>
         About us
       </h1>
       <Image
@@ -15,10 +15,11 @@ const AboutUsSection = () => {
         height={700}
         quality={100}
         sizes="(max-width: 768px) 100vw"
-        className="object-cover absolute top-28 left-0 z-0"
+        className="object-cover absolute top-28 2xl:left-0 2xl:translate-x-0 z-0"
+        data-aos='zoom-in'
       />
 
-      <p className="text-xl tracking-widest leading-10 absolute right-0 top-72 w-1/3">
+      <p className="text-xl tracking-widest h-fit leading-10 absolute top-auto right-20 md:bottom-16 lg:bottom-32 bottom-0 w-fit left-10" data-aos='slide-up'>
         Le Laurie Raphaël est une plateforme pour la mise en valeur du travail
         fait par des gens de la terre, trop souvent oubliés. Praesent commodo
         cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis

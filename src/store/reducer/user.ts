@@ -91,6 +91,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.error = action.payload as any;
+        console.log(action.payload);
         state.data = null;
       });
   },

@@ -2,13 +2,13 @@ import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import googleImg from '@/assets/images/google.png';
-import ReviewSection from '@/components/login/review-section';
 import SigninForm from '@/components/login/signin-form';
 import SigninLayout from '@/layout/signin';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Link from 'next/link';
 import Button from '@/components/common/button';
 import { signIn } from 'next-auth/react';
+import AuthScreen from '@/components/auth';
 
 const LoginPage = () => {
   const handleSignInWithGoogle = () => {
@@ -21,12 +21,14 @@ const LoginPage = () => {
       <Head>
         <title>Sign in | Satisfa</title>
       </Head>
-      <div className="flex h-screen w-screen">
-        <div className="lg:flex-1 w-2/3 md:block hidden">
-          <ReviewSection />
-        </div>
-        <div className="py-10 w-full lg:w-128 md:w-100 lg:px-16 px-8 flex flex-col text-slate-800">
-          <Link href="/" className='mx-auto mb-10 hover:border-slate-800 border-b'>
+      <AuthScreen>
+        <div
+          data-aos="fade-down"
+          data-aos-delay="300"
+          className="py-10 max-w-xl overflow-auto h-full w-full px-8 flex flex-col text-slate-800 z-10 bg-primary">
+          <Link
+            href="/"
+            className="mx-auto mb-10 hover:border-slate-800 border-b">
             <KeyboardBackspaceIcon /> Home
           </Link>
           <div className="mb-16">
@@ -43,8 +45,14 @@ const LoginPage = () => {
           <Button
             onClick={handleSignInWithGoogle}
             className="bg-blue-500 text-white text-lg flex rounded-none hover:bg-blue-600 !p-1">
-            <Image src={googleImg} alt="google-img" className="w-16 h-full bg-white p-3 mr-auto" />
-            <span className='flex-1 text-center w-full'>Sign in with Google</span>
+            <Image
+              src={googleImg}
+              alt="google-img"
+              className="w-16 h-full bg-white p-3 mr-auto"
+            />
+            <span className="flex-1 text-center w-full">
+              Sign in with Google
+            </span>
           </Button>
           <span className="mt-4 text-center">
             Don&apos;t have an account?&nbsp;
@@ -53,7 +61,7 @@ const LoginPage = () => {
             </Link>
           </span>
         </div>
-      </div>
+      </AuthScreen>
     </>
   );
 };
