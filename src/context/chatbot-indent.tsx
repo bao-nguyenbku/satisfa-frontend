@@ -46,8 +46,7 @@ class Indent {
                 href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
                 target="_blank"
                 rel="noreferrer"
-                className='text-cyan-600 hover:underline'
-                >
+                className="text-cyan-600 hover:underline">
                 <strong>
                   122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
                   Minh City
@@ -95,11 +94,21 @@ class Indent {
       },
       myOrders: {
         texts: ['orders', 'order', 'order', 'my', 'check'],
-        responses: [],
+        responses: [
+          <span key={0}>
+            We navigate you to your history orders. Let check out the screen😘
+          </span>,
+        ],
+        action: actions.checkMyOrders,
       },
       myReservations: {
         texts: ['reservation', 'reservations', 'my', 'check', 'show'],
-        responses: [],
+        responses: [
+          <span key={0}>
+            We show you all your reservations on the screen. Let check it out🥰
+          </span>,
+        ],
+        action: actions.checkMyReservations,
       },
       suggest: {
         texts: ['suggest', 'show', 'see', 'me', 'menu'],
@@ -122,7 +131,12 @@ class Indent {
       },
       reservation: {
         texts: ['reservation', 'book', 'table'],
-        responses: [],
+        responses: [
+          <span key={0}>
+            First, let you pick a date for your meal. Please type with syntax:
+            DD/MM/YYYY
+          </span>,
+        ],
         action: actions.handleReservation,
       },
       operationTime: {

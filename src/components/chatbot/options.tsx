@@ -34,7 +34,6 @@ export default function Options(props: any) {
       text: 'Check my reservations',
       handler: () => {
         createUserMessage(options[4].text);
-        actions.checkMyReservations();
       },
     },
     5: {

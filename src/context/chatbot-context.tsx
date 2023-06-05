@@ -266,10 +266,10 @@ export const ChatbotProvider = ({ children }: Props) => {
     handleReservation: () => {
       setBotService(BotService.RESERVATION);
       actions.navigateToReservation();
-      createBotMessage('I navigated you to reservation page, do you see it😉');
-      createBotMessage(botReserveMessage[1].text, {
-        delay: 500,
-      });
+      // createBotMessage('I navigated you to reservation page, do you see it😉');
+      // createBotMessage(botReserveMessage[1].text, {
+      //   delay: 500,
+      // });
     },
     getDatePicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[1].text, options);
@@ -277,18 +277,10 @@ export const ChatbotProvider = ({ children }: Props) => {
     getTimePicker: (options?: MessageOption) => {
       createBotMessage(botReserveMessage[2].text, options);
     },
-    checkMyReservations: (options?: MessageOption) => {
-      createBotMessage(
-        'We show you all your reservations on the screen. Let check it out🥰',
-        options,
-      );
+    checkMyReservations: () => {
       router.push('/me/reservations');
     },
-    checkMyOrders: (options?: MessageOption) => {
-      createBotMessage(
-        'We navigate you to your history orders. Let check out the screen😘',
-        options,
-      );
+    checkMyOrders: () => {
       router.push('/me/orders');
     },
     getGuestPicker: (options?: MessageOption) => {

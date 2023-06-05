@@ -4,11 +4,11 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import styles from './styles.module.scss';
 import SingleItem from './single-item';
-import { useGetReviewsServiceQuery } from '@/services/review';
 import Loading from '@/components/common/loading';
 import Button from '@/components/common/button';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+// import { Review } from '@/types';
 
 // const data = [
 //   {
@@ -85,10 +85,12 @@ const BackArrow = (props: any) => {
   );
 };
 
-export default function TestimonalSection() {
-  const { data, isLoading } = useGetReviewsServiceQuery({
-    limit: 8,
-  });
+type Props = {
+  reviewQueryResult: any;
+};
+export default function TestimonalSection(props: Props) {
+  const { reviewQueryResult } = props;
+  const { isLoading, data } = reviewQueryResult;
   const settings = {
     dots: true,
     infinite: !isLoading && data && data.length > 4,
@@ -143,7 +145,7 @@ export default function TestimonalSection() {
         <div className="relative z-20 w-full px-4 xl:px-20 max-w-[1800px]">
           <Slider className={styles.customSlick} {...settings}>
             {data &&
-              data.map((item) => {
+              data.map((item: any) => {
                 return <SingleItem key={item.id} data={item} />;
               })}
           </Slider>
