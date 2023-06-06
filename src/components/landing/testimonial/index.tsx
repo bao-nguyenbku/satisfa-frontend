@@ -71,7 +71,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const NextArrow = (props: any) => {
   const { onClick } = props;
   return (
-    <Button onClick={onClick} className="text-slate-800">
+    <Button onClick={onClick} className="text-slate-800 min-w-0">
       <ArrowForwardIosIcon />
     </Button>
   );
@@ -79,7 +79,7 @@ const NextArrow = (props: any) => {
 const BackArrow = (props: any) => {
   const { onClick } = props;
   return (
-    <Button onClick={onClick} className="text-slate-800">
+    <Button onClick={onClick} className="text-slate-800 min-w-0">
       <ArrowBackIosIcon />
     </Button>
   );
@@ -135,14 +135,14 @@ export default function TestimonalSection(props: Props) {
   return (
     <div className="bg-transparent flex flex-col items-center py-20">
       <h1
-        className="md:text-7xl text-5xl mb-16 text-slate-800 font-thin"
+        className="md:text-7xl text-4xl mb-16 text-slate-800 font-thin"
         data-aos="zoom-in-left">
         What customers say?
       </h1>
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="relative z-20 w-full px-4 xl:px-20 max-w-[1800px]">
+        <div className="relative z-20 w-full px-0 md:px-4 xl:px-20 max-w-[1800px]">
           <Slider className={styles.customSlick} {...settings}>
             {data &&
               data.map((item: any) => {

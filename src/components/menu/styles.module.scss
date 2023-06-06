@@ -2,7 +2,7 @@
   // :global .MuiTab-root {
   //   @apply text-slate-500 normal-case;
   // }
-  @apply px-10 max-w-screen-1400;
+  @apply px-10 max-w-screen-1400 w-screen md:w-full;
   // :global .MuiTabs-flexContainer {
   //   @apply flex flex-wrap md:flex-row text-sm;
   // }

@@ -37,7 +37,7 @@ export default function ReservationSection() {
           Every plate achieves that elusive, cuisine-defining balance of sweet,
           salty, and sour — even dessert.
         </p>
-        <Link className="uppercase border border-white p-6" href="/reservation">
+        <Link className="uppercase border border-white p-6 hover:bg-white hover:text-slate-800 transition-all duration-500" href="/reservation">
           Make a Reservation
         </Link>
       </div>

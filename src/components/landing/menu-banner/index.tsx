@@ -8,11 +8,11 @@ import Link from 'next/link';
 
 export default function MenuBanner() {
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 max-w-[90rem] mx-auto pb-48 mt-52 w-full">
+    <section className="grid grid-cols-1 md:grid-cols-2 mx-auto pb-48 mt-52 w-full">
       <div className="overflow-hidden col-span-1 md:col-span-2 lg:col-span-1">
         <Image
           src={food1}
-          className="hover:scale-110 transition-transform duration-500 h-full object-cover"
+          className="hover:scale-110 transition-transform duration-500 h-full w-full object-cover"
           alt="food-banner"
         />
       </div>
@@ -41,14 +41,14 @@ export default function MenuBanner() {
       <div className='overflow-hidden h-full'>
         <Image
           src={food2}
-          className="hover:scale-110 transition-transform duration-500"
+          className="hover:scale-110 h-full w-full transition-transform duration-500"
           alt="food-banner"
         />
       </div>
       <div className='overflow-hidden'>
         <Image
           src={food3}
-          className="hover:scale-110 transition-transform duration-500"
+          className="hover:scale-110 h-full w-full transition-transform duration-500"
           alt="food-banner"
         />
       </div>
