@@ -1,5 +1,5 @@
 .pickerContainer {
-  @apply bg-neutral-200 border;
+  @apply bg-neutral-200 border h-full;
   :global .MuiInputBase-root {
     @apply text-slate-800 text-xl h-20;
   }

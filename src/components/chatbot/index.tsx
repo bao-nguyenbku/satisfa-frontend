@@ -53,7 +53,7 @@ type Props = {
 };
 const Chatbot = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { messages, isTyping, createUserMessage, actions, botService, indent } =
+  const { messages, isTyping, actions, botService, indent } =
     useChatbot();
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
@@ -61,12 +61,11 @@ const Chatbot = (props: Props) => {
     useCreateOrderByGuestServiceMutation();
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
-  const reserveData = useAppSelector((state) => state.reservation);
   const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
   const botRecommendationState = useAppSelector(selectBotRecommendationState);
-  // !! HANDLE RESERVATION SERVICE !!
   const { data: lastestOrder } = useGetLastestOrderQuery();
+  // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
     if (!user) {
       actions.sendMessage('You must sign in to make a reservation');
@@ -318,7 +317,6 @@ const Chatbot = (props: Props) => {
   };
 
   const handleChecker = async (message: string) => {
-    createUserMessage(message);
     if (indent.parse(message)) return;
     // Handle Reservation
     if (botService === BotService.RESERVATION) {
@@ -339,11 +337,11 @@ const Chatbot = (props: Props) => {
     } 
     
   };
-  useEffect(() => {
-    if (reserveData.createReservationData.isSuccess) {
-      actions.completeBookingTable(reserveData.createReservationData.data);
-    }
-  }, [reserveData.createReservationData.isSuccess]);
+  // useEffect(() => {
+  //   if (reserveData.createReservationData.isSuccess) {
+  //     actions.completeBookingTable(reserveData.createReservationData.data);
+  //   }
+  // }, [reserveData.createReservationData.isSuccess]);
   useEffect(() => {
     if (
       createOrderRes.status === QueryStatus.fulfilled &&
@@ -375,18 +373,17 @@ const Chatbot = (props: Props) => {
   }, [createOrderRes, createOrderGuestRes]);
 
   useEffect(() => {
-    actions.askForHelp();
+    handleChecker('help');
   }, []);
 
   return (
     <div className="flex flex-col h-full">
       <MessageHeader />
       <div className="flex-1 overflow-y-auto flex flex-col overflow-x-hidden text-sm">
-        <MessageSection messages={messages} isTyping={isTyping} />
+        <MessageSection messages={messages} isTyping={isTyping} onNewUserMessage={handleChecker}/>
       </div>
       <div className="mt-auto w-full p-2">
         <MessageInput
-          onGetMessage={handleChecker}
           isTyping={isTyping}
           boxOpen={props.boxOpen}
         />

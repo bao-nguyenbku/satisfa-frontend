@@ -6,10 +6,10 @@
       @apply w-full flex flex-row items-center;
     }
     .slick-track {
-      @apply flex-1 flex flex-row h-full py-20;
+      @apply flex-1 flex flex-row h-full py-10;
     }
     .slick-slide {
-      height: 100% !important;
+      @apply h-full #{!important};
     }
     .slick-center {
       @apply shadow-2xl bg-neutral-100 -translate-y-5 z-50 transition-all duration-500 h-fit #{!important};

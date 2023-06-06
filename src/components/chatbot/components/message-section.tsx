@@ -2,17 +2,26 @@ import React, { ReactElement, cloneElement, useRef, useEffect } from 'react';
 import MeMessageItem from './me-message-item';
 import GuestMessageItem from './guest-message-item';
 import TypingIndicator from '@/components/common/typing-indicator';
-import { Message } from '../types';
+import { Message } from '@/types/chatbot-types';
 import { motion } from 'framer-motion';
 
 type Props = {
   messages?: Message[];
   isTyping?: boolean;
+  onNewUserMessage?: (message: string) => void;
 };
 
 const MessageSection = (props: Props) => {
-  const { messages, isTyping } = props;
+  const { messages, isTyping, onNewUserMessage } = props;
   const sectionRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (messages && messages.length > 0) {
+      const lastMessage = messages.slice(-1)[0];
+      if (lastMessage && lastMessage.isNew && lastMessage.role === 'user') {
+        onNewUserMessage?.(lastMessage.text as string);
+      }
+    }
+  }, [messages]);
   useEffect(() => {
     if (sectionRef.current) {
       sectionRef.current.scrollTo({
@@ -29,12 +38,21 @@ const MessageSection = (props: Props) => {
         messages.map((payload) => {
           if (payload.role === 'user') {
             return (
-              <div
+              <motion.div
                 className="ml-auto"
                 key={payload.id}
-                >
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0,
+                }}
+                style={{
+                  originX: 0,
+                  originY: 1,
+                }}>
                 <MeMessageItem message={payload.text} />
-              </div>
+              </motion.div>
             );
           }
           if (payload.role === 'bot') {

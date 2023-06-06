@@ -4,11 +4,11 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import styles from './styles.module.scss';
 import SingleItem from './single-item';
-import { useGetReviewsServiceQuery } from '@/services/review';
 import Loading from '@/components/common/loading';
 import Button from '@/components/common/button';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+// import { Review } from '@/types';
 
 // const data = [
 //   {
@@ -71,7 +71,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const NextArrow = (props: any) => {
   const { onClick } = props;
   return (
-    <Button onClick={onClick} className="text-slate-800">
+    <Button onClick={onClick} className="text-slate-800 min-w-0">
       <ArrowForwardIosIcon />
     </Button>
   );
@@ -79,16 +79,18 @@ const NextArrow = (props: any) => {
 const BackArrow = (props: any) => {
   const { onClick } = props;
   return (
-    <Button onClick={onClick} className="text-slate-800">
+    <Button onClick={onClick} className="text-slate-800 min-w-0">
       <ArrowBackIosIcon />
     </Button>
   );
 };
 
-export default function TestimonalSection() {
-  const { data, isLoading } = useGetReviewsServiceQuery({
-    limit: 8,
-  });
+type Props = {
+  reviewQueryResult: any;
+};
+export default function TestimonalSection(props: Props) {
+  const { reviewQueryResult } = props;
+  const { isLoading, data } = reviewQueryResult;
   const settings = {
     dots: true,
     infinite: !isLoading && data && data.length > 4,
@@ -133,17 +135,17 @@ export default function TestimonalSection() {
   return (
     <div className="bg-transparent flex flex-col items-center py-20">
       <h1
-        className="md:text-7xl text-5xl mb-16 text-slate-800 font-thin"
+        className="md:text-7xl text-4xl mb-16 text-slate-800 font-thin"
         data-aos="zoom-in-left">
         What customers say?
       </h1>
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="relative z-20 w-full px-4 xl:px-20 max-w-[1800px]">
+        <div className="relative z-20 w-full px-0 md:px-4 xl:px-20 max-w-[1800px]">
           <Slider className={styles.customSlick} {...settings}>
             {data &&
-              data.map((item) => {
+              data.map((item: any) => {
                 return <SingleItem key={item.id} data={item} />;
               })}
           </Slider>

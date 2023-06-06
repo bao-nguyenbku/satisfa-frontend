@@ -31,7 +31,7 @@ export default function DatePicker(props: Props) {
       value={value}
       closeOnSelect={false}
       onChange={handleChange}
-      renderInput={(params) => <TextField {...params} />}
+      renderInput={(params) => <TextField {...params} id='date-picker-input'/>}
     />
   );
 }

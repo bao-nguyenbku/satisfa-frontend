@@ -35,7 +35,7 @@ export default function SingleItem(props: Props) {
           ))}
         </span>
         <div className="min-h-[50px] flex">
-          <p className="tracking-widest text-xl text-justify">{data?.review}</p>
+          <p className="tracking-widest text-base md:text-xl text-justify">{data?.review}</p>
         </div>
         <span>{formatDate(data.createdAt, 'MMM D, YYYY')}</span>
         <div className="mt-auto flex flex-col gap-2">
