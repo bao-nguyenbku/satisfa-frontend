@@ -71,7 +71,11 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const NextArrow = (props: any) => {
   const { onClick } = props;
   return (
-    <Button onClick={onClick} className="text-slate-800 min-w-0">
+    <Button
+      onClick={onClick}
+      className="text-slate-800 min-w-0"
+      aria-pressed={false}
+      aria-label="next">
       <ArrowForwardIosIcon />
     </Button>
   );
@@ -79,7 +83,11 @@ const NextArrow = (props: any) => {
 const BackArrow = (props: any) => {
   const { onClick } = props;
   return (
-    <Button onClick={onClick} className="text-slate-800 min-w-0">
+    <Button
+      onClick={onClick}
+      className="text-slate-800 min-w-0"
+      aria-pressed={false}
+      aria-label="previous">
       <ArrowBackIosIcon />
     </Button>
   );

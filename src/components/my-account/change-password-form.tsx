@@ -45,8 +45,7 @@ const ChangePasswordForm = () => {
     newPassword: '',
     confirmNewPassword: '',
   };
-  const handleSubmit = (values: changePassword) => {
-    console.log(values);
+  const handleSubmit = () => {
     // const { id, ...rest } = values;
     // updatePassword(values)
   };

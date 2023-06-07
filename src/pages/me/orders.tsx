@@ -10,7 +10,7 @@ export default function MyOrdersPage() {
 
   return (
     <div className="min-h-screen py-32 text-white max-w-screen-1400 mx-auto flex flex-col items-center">
-      <div className="flex gap-12 flex-wrap mt-20">
+      <div className="flex flex-col items-center gap-12 flex-wrap mt-20">
         {isLoading ? (
           <Loading />
         ) : !data || data.length === 0 ? (
@@ -25,10 +25,12 @@ export default function MyOrdersPage() {
         ) : (
           <>
             <SectionTitle title="Your orders" />
-            {data &&
-              data.map((item) => {
-                return <OrderCard key={item.id} data={item} />;
-              })}
+            <div className='flex flex-wrap gap-20'>
+              {data &&
+                data.map((item) => {
+                  return <OrderCard key={item.id} data={item} />;
+                })}
+            </div>
           </>
         )}
       </div>

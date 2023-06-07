@@ -80,7 +80,6 @@ export const userSlice = createSlice({
       .addCase(
         authCurrentUser.fulfilled,
         (state, action: PayloadAction<User>) => {
-          console.log(action.payload);
           state.isLoading = false;
           state.isSuccess = true;
           state.error = null;
@@ -91,7 +90,6 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.error = action.payload as any;
-        console.log(action.payload);
         state.data = null;
       });
   },

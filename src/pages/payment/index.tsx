@@ -49,7 +49,6 @@ export default function Payment() {
   const handleSetReservation = (id: string) => {
     if (filterReservation) {
       const reservation = filterReservation.currentData?.find(item => item.id == id);
-      console.log(reservation);
       dispatch(setReservation(reservation));
     }
   };
@@ -73,10 +72,7 @@ export default function Payment() {
       !createOrder.error &&
       createOrder.data.paymentType != PaymentType.CREDIT
     ) {
-      console.log(createdOrder);
       createPaidOrder(createdOrder);
-
-      
     }
   }, [createOrder]);
 

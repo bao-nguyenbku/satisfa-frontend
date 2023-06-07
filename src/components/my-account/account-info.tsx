@@ -17,15 +17,14 @@ type Props = {
   user: User;
 };
 
-const handleValidate = () => {
-  const errors: UpdateUser = {
-    fullname: '',
-    phone: '',
-    avatar: '',
-  };
-  console.log(errors);
-  return null;
-};
+// const handleValidate = () => {
+//   const errors: UpdateUser = {
+//     fullname: '',
+//     phone: '',
+//     avatar: '',
+//   };
+//   return null;
+// };
 
 const AccountInfo = (props: Props) => {
   const { user } = props;
@@ -38,7 +37,6 @@ const AccountInfo = (props: Props) => {
     phone: user?.phone ? user.phone : '',
   };
   const handleSubmit = (values: UpdateUser) => {
-    console.log(values);
     // const { id, ...rest } = values;
     updateInfo({ body: values });
   };
@@ -51,7 +49,6 @@ const AccountInfo = (props: Props) => {
 
   const formik = useFormik({
     initialValues,
-    validate: handleValidate,
     onSubmit: handleSubmit,
   });
 
@@ -70,7 +67,7 @@ const AccountInfo = (props: Props) => {
         <div className="flex gap-8 items-center mx-auto mb-10">
           <div className="relative w-60 h-60">
             <Image
-              src={formik.values.avatar}
+              src={formik.values.avatar as string}
               fill
               alt="avatar"
               className="object-cover aspect-square rounded-full"

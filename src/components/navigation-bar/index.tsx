@@ -7,8 +7,9 @@ import { useAppSelector } from '@/hooks';
 import { selectUserState } from '@/store/reducer/user';
 import AccountMenu from './account-menu';
 import ExpandButton from './expand-button';
-import Logo from './logo';
 import useScrollPosition from '@/hooks/useScrollPosition';
+import Image from '../common/image';
+import { podkova } from '@/constants/font';
 
 // type Props = {
 //   scrollableNodeRef: RefObject<SimpleBarCore> | undefined;
@@ -46,31 +47,43 @@ const NavigationBar = () => {
             ? '-top-32 absolute'
             : 'top-0 duration-500 delay-200 text-slate-800 bg-second fixed border-b border-slate-800 transition-[top]'
         }`}>
-        <li className="mr-auto text-5xl normal-case">
-          <Logo />
-        </li>
+        <Link
+          href="/"
+          className={`flex items-center text-2xl gap-2 mr-auto ${podkova.className}`}>
+          <Image
+            src="/logo-2.png"
+            width={40}
+            height={40}
+            alt="satisfa-logo"
+            className="rounded-full"
+          />
+          Satisfa
+        </Link>
         {navigation.map((item) => {
           return (
-            <li
+            <Link
               key={item.href}
+              href={item.href}
               className="hover:border-b-2 border-b-2 border-transparent hover:border-primary-orange hover:text-primary-orange lg:block hidden transition-all duration-300">
-              <Link href={item.href}>{item.title}</Link>
-            </li>
+              {item.title}
+            </Link>
           );
         })}
 
-        <li className="text-inherit rounded-full">
+        <span className="text-inherit rounded-full">
           <CartIconButton />
-        </li>
-        <li className="rounded-full lg:hidden block">
+        </span>
+        <span className="rounded-full lg:hidden block">
           <ExpandButton />
-        </li>
+        </span>
         {!user.isLoading && user.isSuccess && !_.isEmpty(user.data) ? (
           <AccountMenu data={user.data} />
         ) : (
-          <li className="hover:border-b-2 border-b-2 border-transparent hover:border-primary-orange hover:text-primary-orange lg:block hidden transition-all duration-300">
-            <Link href="/login">Sign in</Link>
-          </li>
+          <Link
+            href="/login"
+            className="hover:border-b-2 border-b-2 border-transparent hover:border-primary-orange hover:text-primary-orange lg:block hidden transition-all duration-300">
+            Sign in
+          </Link>
         )}
       </nav>
     </>

@@ -54,7 +54,7 @@ export default function MyReservations() {
 
   return (
     <div className="min-h-screen py-32 flex flex-col items-center text-white max-w-[1400px] px-20 mx-auto">
-      <div className="flex flex-wrap gap-8 mt-20">
+      <div className="flex flex-wrap items-center flex-col gap-8 mt-20">
         {isLoading ? (
           <Loading />
         ) : (!isLoading && !data) || data?.length === 0 ? (
@@ -69,17 +69,19 @@ export default function MyReservations() {
         ) : (
           <>
             <SectionTitle title="Your reservations" />
-            {isSuccess &&
-              data &&
-              sortReservationByDate(data, 'des').map((reserve) => {
-                return (
-                  <ReservationCard
-                    data={reserve}
-                    key={reserve.id}
-                    onCancel={handleCancel}
-                  />
-                );
-              })}
+            <div className='flex flex-wrap gap-10'>
+              {isSuccess &&
+                data &&
+                sortReservationByDate(data, 'des').map((reserve) => {
+                  return (
+                    <ReservationCard
+                      data={reserve}
+                      key={reserve.id}
+                      onCancel={handleCancel}
+                    />
+                  );
+                })}
+            </div>
           </>
         )}
       </div>

@@ -25,7 +25,7 @@ type Props = {
 };
 const Checkout = (props: Props) => {
   const [success, setSuccess] = useState(false);
-  const [orderId, setOrderId] = useState(false);
+  const [, setOrderId] = useState(false);
   const { order } = props;
   const createdOrder = useAppSelector(selectCreatedOrder);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -57,7 +57,6 @@ const Checkout = (props: Props) => {
       })
       .then((orderID: any) => {
         setOrderId(orderID);
-        console.log(orderId);
         return orderID;
       });
   };

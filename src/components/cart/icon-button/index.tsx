@@ -39,7 +39,7 @@ const CartIconButton = () => {
             {totalQty}
           </div>
         }>
-        <IconButton onClick={handleToggleDrawer} className="text-inherit">
+        <IconButton onClick={handleToggleDrawer} className="text-inherit" aria-label='open cart button' aria-pressed aria-expanded={open}>
           <LocalMallOutlinedIcon className="text-inherit" />
         </IconButton>
       </Badge>
