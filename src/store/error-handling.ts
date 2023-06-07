@@ -12,7 +12,7 @@ import { signOut } from 'next-auth/react';
 export const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
   // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
   if (isRejectedWithValue(action)) {
-    console.log('🚀 ~ file: error-handling.ts:14 ~ action:', action);
+    // console.log('🚀 ~ file: error-handling.ts:14 ~ action:', action);
     if (action.payload && action.payload?.status === 'FETCH_ERROR') {
       const message = 'Can not connect to server, you are offline';
       toast.error(message, {

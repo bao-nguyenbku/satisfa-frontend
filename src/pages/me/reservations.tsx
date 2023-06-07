@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import ReservationCard from '@/components/me/reservation-card';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import {
   reservationApi,
   getRunningQueriesThunk,
@@ -25,9 +26,14 @@ const sortReservationByDate = (data: Reservation[], type?: 'asc' | 'des') => {
 };
 export default function MyReservations() {
   const { data, isLoading, isSuccess, refetch } =
-    useGetReservationByFilterQuery({
-      currentUser: true,
-    });
+    useGetReservationByFilterQuery(
+      {
+        currentUser: true,
+      },
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
   const [updateReservation, updateReservationRes] =
     useUpdateReservationMutation();
   const handleCancel = (data: Reservation) => {
@@ -48,22 +54,35 @@ export default function MyReservations() {
 
   return (
     <div className="min-h-screen py-32 flex flex-col items-center text-white max-w-[1400px] px-20 mx-auto">
-      <SectionTitle title="Your reservations" />
-      <div className="flex flex-wrap gap-8 mt-20">
+      <div className="flex flex-wrap items-center flex-col gap-8 mt-20">
         {isLoading ? (
           <Loading />
+        ) : (!isLoading && !data) || data?.length === 0 ? (
+          <div className="pt-32 flex flex-col items-center justify-center gap-4 text-slate-800">
+            <span className="text-xl">You do not have any reservation</span>
+            <Link
+              href="/menu"
+              className="border border-slate-800 hover:bg-primary-orange hover:text-white transition-colors duration-500 p-4">
+              Book a table now
+            </Link>
+          </div>
         ) : (
-          isSuccess &&
-          data &&
-          sortReservationByDate(data, 'des').map((reserve) => {
-            return (
-              <ReservationCard
-                data={reserve}
-                key={reserve.id}
-                onCancel={handleCancel}
-              />
-            );
-          })
+          <>
+            <SectionTitle title="Your reservations" />
+            <div className='flex flex-wrap gap-10'>
+              {isSuccess &&
+                data &&
+                sortReservationByDate(data, 'des').map((reserve) => {
+                  return (
+                    <ReservationCard
+                      data={reserve}
+                      key={reserve.id}
+                      onCancel={handleCancel}
+                    />
+                  );
+                })}
+            </div>
+          </>
         )}
       </div>
     </div>

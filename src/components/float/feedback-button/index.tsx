@@ -16,7 +16,7 @@ export default function FeedbacksButton() {
   };
   return (
     <Wrapper>
-      <button onClick={handleClick}>
+      <button onClick={handleClick} aria-label='feedback button' aria-pressed>
         <div className="w-full h-full flex items-center justify-center text-white">
           <FeedbackIcon />
         </div>

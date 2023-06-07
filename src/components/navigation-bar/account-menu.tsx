@@ -45,7 +45,7 @@ export default function AccountMenu(props: Props) {
   };
   return (
     <React.Fragment>
-      <li
+      <span
         onClick={handleOpenMenu}
         className="items-center gap-2 transition-colors duration-300 p-2 cursor-pointer lg:flex hidden">
         <Image
@@ -57,7 +57,7 @@ export default function AccountMenu(props: Props) {
           height={70}
         />
         <span className='hover:border-primary-orange hover:text-primary-orange'>{data?.fullname}</span>
-      </li>
+      </span>
 
       <Menu
         anchorEl={anchorEl}

@@ -4,6 +4,7 @@ import { Socket } from 'socket.io-client';
 import { KeyDownEvent } from '@/types/event-types';
 import { MessagePayload } from '../../mesage-box';
 import { IconButton } from '@mui/material';
+import useChatbot from '@/hooks/useChatbot';
 
 type Props = {
   socket?: Socket;
@@ -19,16 +20,15 @@ const isDisaleInput = (...condition: any[]) => {
 };
 const MessageInput = (props: Props) => {
   const [text, setText] = useState('');
-  const { onGetMessage, isTyping, boxOpen } = props;
+  const { createUserMessage } = useChatbot();
+  const { isTyping, boxOpen } = props;
   const inputRef = useRef<HTMLInputElement>(null);
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
   const onSubmit = () => {
-    if (onGetMessage) {
-      setText('');
-      onGetMessage(text);
-    }
+    setText('');
+    createUserMessage(text);
   };
 
   const handleKeyPress = (e: KeyDownEvent) => {
@@ -45,7 +45,7 @@ const MessageInput = (props: Props) => {
   return (
     <div
       className={`w-full flex items-center px-3 gap-2 ${
-        isDisaleInput(isTyping) ? 'bg-neutral-300' : 'bg-neutral-200'
+        isDisaleInput(isTyping) ? 'bg-neutral-300' : 'bg-neutral-100'
       } h-14 rounded-full`}>
       <input
         className={`flex-1 focus:outline-none h-full text-slate-800 bg-transparent ${

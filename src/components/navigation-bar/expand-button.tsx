@@ -50,7 +50,7 @@ const ExpandButton = () => {
             <Divider className="border-slate-600" />
             {!user.isLoading && user.isSuccess && !_.isEmpty(user.data) ? (
               <li className='hover:bg-second transition-colors duration-300'>
-                <AccountMenuResponsive data={user.data} />
+                <AccountMenuResponsive data={user.data} handleToggleDrawer={handleToggleDrawer}/>
               </li>
             ) : (
               <li className="hover:bg-primary-orange hover:transition-colors p-2">

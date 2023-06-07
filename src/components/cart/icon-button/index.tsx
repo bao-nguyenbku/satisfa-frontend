@@ -23,7 +23,7 @@ const CartIconButton = () => {
         open={open}
         keepMounted
         PaperProps={{
-          className: 'min-w-[300px] md:min-w-[400px] w-[500px]',
+          className: 'min-w-[300px] md:min-w-[400px]',
         }}
         onClose={handleToggleDrawer}>
         <div className={primaryFont.className}>
@@ -39,7 +39,7 @@ const CartIconButton = () => {
             {totalQty}
           </div>
         }>
-        <IconButton onClick={handleToggleDrawer} className="text-inherit">
+        <IconButton onClick={handleToggleDrawer} className="text-inherit" aria-label='open cart button' aria-pressed aria-expanded={open}>
           <LocalMallOutlinedIcon className="text-inherit" />
         </IconButton>
       </Badge>

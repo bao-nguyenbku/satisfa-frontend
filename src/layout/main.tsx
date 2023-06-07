@@ -22,7 +22,7 @@ export default function MainLayout({ children }: LayoutProps) {
   return (
     <div className="bg-primary bg-repeat h-auto">
       <NavigationBar />
-      <>{children}</>
+      {children}
       <FloatMenu />
       <FooterSection />
     </div>

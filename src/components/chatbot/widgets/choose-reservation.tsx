@@ -1,7 +1,7 @@
 import { Reservation } from '@/types';
 import React from 'react';
 import Button from '@/components/common/button';
-import { BotActions } from '../types';
+import { BotActions } from '@/types/chatbot-types';
 import { formatDate } from '@/utils';
 
 type Props = {

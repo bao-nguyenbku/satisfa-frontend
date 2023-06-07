@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 // import { MessageOption, Message } from './types';
 import * as _ from 'lodash';
 import MessageHeader from './components/message-header';
 import MessageInput from './components/message-input';
 import MessageSection from './components/message-section';
 import useChatbot from '@/hooks/useChatbot';
-import { BotService } from './types';
+import { BotService } from '@/types/chatbot-types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
@@ -19,6 +19,7 @@ import {
   setTakeawayPhone,
   setTakeawayTime,
   getReservationByUser,
+  selectBotRecommendationState,
 } from '@/store/reducer/chatbot';
 import { getTime, guestSelect } from '@/store/reducer/reservation';
 import dayjs from 'dayjs';
@@ -39,33 +40,29 @@ import { DATE_INPUT_FORMAT, OrderType, QueryStatus } from '@/types';
 import {
   useCreateOrderByGuestServiceMutation,
   useCreateOrderServiceMutation,
+  orderApi,
 } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
-import { Indent } from './recognition';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
+import ShowRecentOrder from './widgets/show-recent-order';
+import { botRecommendationMessage } from './steps';
 import { selectUserData } from '@/store/reducer/user';
-
 type Props = {
   boxOpen?: boolean;
 };
 const Chatbot = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { messages, isTyping, createUserMessage, actions, botService } =
-    useChatbot();
-  const indent = useMemo(() => {
-    return new Indent(actions);
-  }, [actions]);
+  const { messages, isTyping, actions, botService, indent } = useChatbot();
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
   const [createOrderGuest, createOrderGuestRes] =
     useCreateOrderByGuestServiceMutation();
   // Redux state
   const botReservationState = useAppSelector(selectBotReservationState);
-  const reserveData = useAppSelector((state) => state.reservation);
   const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
-
+  const botRecommendationState = useAppSelector(selectBotRecommendationState);
   // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
     if (!user) {
@@ -290,13 +287,38 @@ const Chatbot = (props: Props) => {
       actions.unhandleInput();
     }
   };
+  // !! HANDLE RECCOMENDATION SERVICE !!
+  const handleBotRecommendation = async (message: string) => {
+    const lowCaseMessage = message.toLowerCase().trim();
+    if (!botRecommendationState.steps[1].isComplete) {
+      if (!lowCaseMessage.includes('yes') && !lowCaseMessage.includes('no')) {
+        actions.unhandleInput();
+        return;
+      }
+      const lastestOrder = await dispatch(
+        orderApi.endpoints.getLastestOrder.initiate(),
+      ).unwrap();
+      const itemList = lastestOrder ? lastestOrder[0].items : [];
+      if (lowCaseMessage.includes('yes')) {
+        if (itemList && itemList.length === 0) {
+          actions.sendMessage(
+            'You have not made any order in our restaurant, try it and use this service next time.',
+          );
+        } else if (itemList && itemList.length > 0) {
+          actions.sendMessage('I am showing you your food in recent order', {
+            widget: <ShowRecentOrder itemList={itemList} />,
+          });
+          actions.sendMessage(botRecommendationMessage[3].text);
+        }
+      } else if (lowCaseMessage.includes('no')) {
+        actions.sendMessage(botRecommendationMessage[3].text);
+      }
+    }
+    return lowCaseMessage;
+  };
 
-  const parseMessage = async (message: string) => {
-    // setCurrentMessage(message);
-    createUserMessage(message);
-
+  const handleChecker = async (message: string) => {
     if (indent.parse(message)) return;
-
     // Handle Reservation
     if (botService === BotService.RESERVATION) {
       handleBotReservation(message);
@@ -304,15 +326,19 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
-    } else {
+    } else if (botService === BotService.RECOMMENDATION) {
+      handleBotRecommendation(message);
+    }
+    // Unknown message
+    else {
       actions.unhandleInput();
     }
   };
-  useEffect(() => {
-    if (reserveData.createReservationData.isSuccess) {
-      actions.completeBookingTable();
-    }
-  }, [reserveData.createReservationData.isSuccess]);
+  // useEffect(() => {
+  //   if (reserveData.createReservationData.isSuccess) {
+  //     actions.completeBookingTable(reserveData.createReservationData.data);
+  //   }
+  // }, [reserveData.createReservationData.isSuccess]);
   useEffect(() => {
     if (
       createOrderRes.status === QueryStatus.fulfilled &&
@@ -344,21 +370,21 @@ const Chatbot = (props: Props) => {
   }, [createOrderRes, createOrderGuestRes]);
 
   useEffect(() => {
-    actions.askForHelp();
+    handleChecker('help');
   }, []);
 
   return (
     <div className="flex flex-col h-full">
       <MessageHeader />
       <div className="flex-1 overflow-y-auto flex flex-col overflow-x-hidden text-sm">
-        <MessageSection messages={messages} isTyping={isTyping} />
+        <MessageSection
+          messages={messages}
+          isTyping={isTyping}
+          onNewUserMessage={handleChecker}
+        />
       </div>
       <div className="mt-auto w-full p-2">
-        <MessageInput
-          onGetMessage={parseMessage}
-          isTyping={isTyping}
-          boxOpen={props.boxOpen}
-        />
+        <MessageInput isTyping={isTyping} boxOpen={props.boxOpen} />
       </div>
     </div>
   );

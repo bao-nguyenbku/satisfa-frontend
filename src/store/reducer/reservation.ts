@@ -30,7 +30,7 @@ const initialState: ReservationState = {
   },
   createReservationData: {
     data: {
-      numberOfGuests: 0,
+      numberOfGuests: 1,
       status: ReservationStatus.RESERVED,
       tableId: '',
       date: '',

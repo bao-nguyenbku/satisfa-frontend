@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import {
   CreatedOrder,
   PaymentStatus,
   PaymentType,
   PaypalUnit,
+  PayPalScriptOptions,
 } from '@/types';
 import { toast } from 'react-toastify';
 import { useCreatePaidOrderServiceMutation } from '@/services/order';
@@ -15,12 +16,16 @@ import {
   setPaymentType,
 } from '@/store/reducer/order';
 
+const paypalScriptOptions: PayPalScriptOptions = {
+  'client-id': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+  currency: 'USD',
+};
 type Props = {
   order: any;
 };
 const Checkout = (props: Props) => {
   const [success, setSuccess] = useState(false);
-  const [orderId, setOrderId] = useState(false);
+  const [, setOrderId] = useState(false);
   const { order } = props;
   const createdOrder = useAppSelector(selectCreatedOrder);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -52,22 +57,21 @@ const Checkout = (props: Props) => {
       })
       .then((orderID: any) => {
         setOrderId(orderID);
-        console.log(orderId);
         return orderID;
       });
   };
 
   // check Approval
   const onApprove = (data: any, actions: any) => {
-     /**
-       * data: {
-       *   orderID: string;
-       *   payerID: string;
-       *   paymentID: string | null;
-       *   billingToken: string | null;
-       *   facilitatorAccesstoken: string;
-       * }
-       */
+    /**
+     * data: {
+     *   orderID: string;
+     *   payerID: string;
+     *   paymentID: string | null;
+     *   billingToken: string | null;
+     *   facilitatorAccesstoken: string;
+     * }
+     */
     return actions.order.capture().then(function () {
       // const { payer } = details
       setSuccess(true);
@@ -100,14 +104,14 @@ const Checkout = (props: Props) => {
   }, [success]);
 
   return (
-    <div className="paypal-button">
+    <PayPalScriptProvider options={paypalScriptOptions}>
       <PayPalButtons
         style={{ layout: 'vertical' }}
         createOrder={createOrder}
         onApprove={onApprove}
         onError={onError}
       />
-    </div>
+    </PayPalScriptProvider>
   );
 };
 

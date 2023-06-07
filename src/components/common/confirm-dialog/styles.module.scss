@@ -1,19 +1,13 @@
 .dialogRoot {
   @apply bg-none;
-  :global .MuiTypography-root,
+  :global .MuiTypography-root {
+    @apply bg-slate-800 text-white;
+  }
   :global .MuiDialogActions-root {
-    @apply bg-zinc-100;
+    @apply bg-second;
   }
   :global .MuiDialog-paper {
-    @apply bg-none;
-    @apply rounded-xl;
-    @apply border;
-    @apply border-gray-300;
-  }
-  :global .MuiTypography-root {
-    @apply rounded-t-xl;
-    @apply border-b-2;
-    @apply font-bold;
+    @apply bg-primary border border-slate-800;
   }
   :global .MuiDialogActions-root {
     @apply border-t-2;
@@ -25,17 +19,12 @@
   }
   .cancelBtn,
   .confirmBtn {
-    @apply rounded-lg;
-    @apply normal-case;
-    @apply px-4;
+    @apply normal-case px-4 rounded-none border-none;
   }
   .cancelBtn {
-    @apply text-black;
-    @apply bg-white;
+    @apply text-black bg-white;
   }
   .confirmBtn {
-    @apply bg-red-500;
-    @apply text-white;
-    @apply font-bold;
+    @apply bg-red-500 text-white hover:bg-red-600;
   }
 }

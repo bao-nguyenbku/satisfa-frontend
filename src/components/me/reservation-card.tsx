@@ -4,6 +4,7 @@ import { Reservation, ReservationStatus } from '@/types';
 import { formatDate, transformEnumText } from '@/utils';
 import Button from '../common/button';
 import { Tooltip } from '@mui/material';
+import useConfirm from '@/hooks/useConfirm';
 
 type Props = {
   data: Reservation;
@@ -32,11 +33,18 @@ const getStylesByStatus = (status: string) => {
 };
 const isAbleToCancel = (data: Reservation) => {
   const currentTime = dayjs();
-  return currentTime.diff(data.date, 'hour') >= 3;
+  return currentTime.diff(data.date) <= -1 * 3 * 3600 * 1000;
 };
 export default function ReservationCard(props: Props) {
   const { data, onCancel } = props;
-  const handleCancel = () => {
+  const { confirm } = useConfirm();
+  const handleCancel = async () => {
+    const isConfirm = await confirm({
+      message: 'Do you really want to cancel this reservation?',
+      title: 'Cancel Reservation confirmation',
+    });
+    if (!isConfirm) return;
+
     if (onCancel) {
       onCancel(data);
     }
@@ -64,11 +72,11 @@ export default function ReservationCard(props: Props) {
             isAbleToCancel(data) && (
               <Button
                 onClick={handleCancel}
-                className="bg-red-500 text-white hover:bg-red-600">
+                className="bg-red-500 text-white hover:bg-red-600 rounded-none">
                 Cancel
               </Button>
             )}
-          {!isAbleToCancel(data) && (
+          {data.status === ReservationStatus.RESERVED && !isAbleToCancel(data) && (
             <Tooltip title="You can only cancel a reservation at least 3 hours before">
               <span className="italic text-slate-500">
                 *You can not cancel due to our policy

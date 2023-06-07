@@ -8,9 +8,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 type Props = {
   data: User;
+  handleToggleDrawer: () => void;
 };
 export default function AccountMenuResponsive(props: Props) {
-  const { data } = props;
+  const { data, handleToggleDrawer } = props;
   //   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   //   const open = Boolean(anchorEl);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -48,30 +49,11 @@ export default function AccountMenuResponsive(props: Props) {
   //   const handleClose = () => {
   //     setAnchorEl(null);
   //   };
-  const subMenuAnimate = {
-    enter: {
-      opacity: 1,
-      rotateX: 0,
-      transition: {
-        duration: 0.5,
-      },
-      display: 'block',
-    },
-    exit: {
-      opacity: 0,
-      rotateX: -15,
-      transition: {
-        duration: 0.5,
-        delay: 0.3,
-      },
-      transitionEnd: {
-        display: 'none',
-      },
-    },
-  };
   return (
-    <div className='flex flex-col'>
-      <div className='flex justify-between items-center gap-2 p-2 cursor-pointer' onClick={openMenu}>
+    <div className="flex flex-col">
+      <div
+        className="flex justify-between items-center gap-2 p-2 cursor-pointer"
+        onClick={openMenu}>
         <div className="flex items-center gap-2">
           <Image
             src={data?.avatar}
@@ -87,27 +69,35 @@ export default function AccountMenuResponsive(props: Props) {
           <ExpandMoreIcon />
         </motion.div>
       </div>
-      <motion.div
-        className="sub-menu"
-        initial="exit"
-        animate={isOpen ? 'enter' : 'exit'}
-        variants={subMenuAnimate}>
+      <div>
         {isOpen && (
           <ul className="flex flex-col items-start gap-2 p-2">
-            {menu.map((item) => {
+            {menu.map((item, index) => {
               if (item.title === 'Sign out') {
                 return (
                   <li
                     onClick={handleSignOut}
                     key={item.title}
+                    data-aos="fade-down"
+                    data-aos-delay={index * 100}
                     className="hover:bg-primary-orange hover:text-white text-red-600  py-2 w-full text-center cursor-pointer">
                     {item.title}
                   </li>
                 );
               }
               return (
-                <li onClick={openMenu} key={item.title} className='flex w-full'>
-                  <Link href={item.link} className="hover:bg-primary-orange hover:text-white py-2 w-full">
+                <li
+                  onClick={() => {
+                    openMenu();
+                    handleToggleDrawer();
+                  }}
+                  key={item.title}
+                  className="flex w-full"
+                  data-aos="fade-down"
+                  data-aos-delay={index * 100}>
+                  <Link
+                    href={item.link}
+                    className="hover:bg-primary-orange hover:text-white py-2 w-full">
                     {item.title}
                   </Link>
                 </li>
@@ -115,7 +105,7 @@ export default function AccountMenuResponsive(props: Props) {
             })}
           </ul>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

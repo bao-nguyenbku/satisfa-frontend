@@ -8,6 +8,7 @@ import type { RootState } from '@/store';
 import { authApi } from '@/services/auth';
 import { HYDRATE } from 'next-redux-wrapper';
 import { User, ReduxDataType } from '@/types';
+// import { userApi } from '@/services/user';
 
 const hydrate = createAction<RootState>(HYDRATE);
 
@@ -25,6 +26,30 @@ export const authCurrentUser = createAsyncThunk(
     }
   },
 );
+
+// export const updateAvatar = createAsyncThunk(
+//   '/user',
+//   async (updateUserData: any, {rejectWithValue, dispatch }) => {
+//     try{
+//       let uploadRes;
+//       if (
+//         !_.isEmpty(updateUserData.avatar) &&
+//         updateUserData.images[0].file
+//       ) {
+//         uploadRes = await uploadFile(updateProductData.images[0].file);
+//       }
+//       const response = await dispatch(
+//         userApi.endpoints.updateInfo.initiate(),
+//       ).unwrap();
+//       return response;
+//       console.log(updateUserData);
+//     }
+//     catch (error){
+//       return rejectWithValue(error);
+//     }
+//   }
+// )
+
 // Define the initial state using that type
 const initialState: Omit<ReduxDataType, 'data'> & { data: User | null } = {
   data: null,
@@ -65,7 +90,6 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.error = action.payload as any;
-        console.log(action.payload);
         state.data = null;
       });
   },
