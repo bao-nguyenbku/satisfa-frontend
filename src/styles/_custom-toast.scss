@@ -10,7 +10,7 @@
 }
 
 .Toastify__toast-container {
-  width: var(--toastify-width) !important;
+  @apply sm:w-[var(--toastify-width)] w-full;
   border-radius: none !important;
   @apply -mb-4;
   .Toastify__toast {

@@ -1,44 +1,30 @@
 import React, { useState } from 'react';
-import { InputChangeEvent } from '@/types/event-types';
+import * as Yup from 'yup';
 import Button from '@/components/common/button';
 import Input from '@/components/input';
 import { signIn } from 'next-auth/react';
 // import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
 import { ErrorType } from '@/types';
 
 type UserInput = {
   email: string;
   password: string;
 };
+
+const SigninSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+  password: Yup.string().required('Required'),
+});
+
 const SigninForm = () => {
-  // TODO: VALIDATE INPUT
-  const [userInput, setUserInput] = useState<UserInput>({
-    email: '',
-    password: '',
-  });
   const [error, setErrror] = useState<ErrorType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const onChangeEmail = (e: InputChangeEvent) => {
-    setUserInput((prev) => {
-      return {
-        ...prev,
-        email: e.target.value,
-      };
-    });
-  };
-  const onChangePassword = (e: InputChangeEvent) => {
-    setUserInput((prev) => {
-      return {
-        ...prev,
-        password: e.target.value,
-      };
-    });
-  };
-  const onSubmit = async () => {
+  const onSubmit = async (values: UserInput) => {
     setLoading(true);
     const response = await signIn('credentials', {
-      email: userInput.email,
-      password: userInput.password,
+      email: values.email,
+      password: values.password,
       redirect: false,
     });
     if (response?.ok) {
@@ -49,37 +35,47 @@ const SigninForm = () => {
       setLoading(false);
     }
   };
+  const formik = useFormik<UserInput>({
+    onSubmit,
+    validationSchema: SigninSchema,
+    initialValues: {
+      email: '',
+      password: '',
+    },
+  });
   return (
-    <div className="flex flex-col gap-8">
+    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-8">
       <Input
         type="email"
-        value={userInput.email}
+        name="email"
+        value={formik.values.email}
         placeholder="example@gmail.com"
-        error={Boolean(error)}
+        error={Boolean(formik.errors.email)}
+        errorMessage={formik.errors.email}
         label="Your email or phone number"
-        onChange={onChangeEmail}
+        onChange={formik.handleChange}
       />
       <Input
         type="password"
-        value={userInput.password}
+        name="password"
+        value={formik.values.password}
         placeholder="****"
-        error={Boolean(error)}
+        error={Boolean(formik.errors.password)}
+        errorMessage={formik.errors.password}
         label="Your password"
-        onChange={onChangePassword}
+        onChange={formik.handleChange}
       />
-      {error && <span className="text-red-500">{error.message}</span>}
-
+      {error && <span className="text-red-500 bg-red-100 py-2 text-center font-bold">{error.message}</span>}
+      <Button
+        className="bg-primary-orange w-full h-16 font-bold text-xl text-white hover:bg-primary-orange/80 mt-10 rounded-none"
+        type="submit"
+        isLoading={loading}>
+        Sign in
+      </Button>
       {/* <Link href="/" className="text-white ml-auto">
         Forgot password?
       </Link> */}
-      <Button
-        className="bg-primary-orange w-full h-16 font-bold text-xl text-white hover:bg-primary-orange/80 mt-10"
-        onClick={onSubmit}
-        isLoading={loading}
-        >
-        Sign in
-      </Button>
-    </div>
+    </form>
   );
 };
 

@@ -25,21 +25,21 @@ const LoginPage = () => {
         <div
           data-aos="fade-down"
           data-aos-delay="300"
-          className="py-10 max-w-xl overflow-auto h-full w-full px-8 flex flex-col text-slate-800 z-10 bg-primary">
+          className="py-8 max-w-xl overflow-auto h-[95vh] w-full px-8 flex flex-col text-slate-800 z-10 bg-primary">
           <Link
             href="/"
             className="mx-auto mb-10 hover:border-slate-800 border-b">
             <KeyboardBackspaceIcon /> Home
           </Link>
-          <div className="mb-16">
-            <h2 className="uppercase text-5xl font-bold mb-4">Sign in.</h2>
+          <div className="mb-16 flex flex-col items-center">
+            <h2 className="uppercase text-4xl font-bold mb-2">Sign in.</h2>
             <span className="text-2xl flex">
               And
               <span>&nbsp;ENJOY&nbsp;</span>our services
             </span>
           </div>
           <SigninForm />
-          <div className="relative py-4 flex items-center justify-center before:absolute before:top-1/2 before:-translate-y-1/2 before:left-0 before:w-[40%] before:h-0.5 before:bg-slate-400 after:absolute after:top-1/2 after:-translate-y-1/2 after:right-0 after:w-[40%] after:h-0.5 after:bg-slate-400">
+          <div className="relative py-4 flex items-center justify-center before:absolute before:top-1/2 before:-translate-y-1/2 before:left-0 before:w-[40%] before:h-0.5 before:bg-slate-800 after:absolute after:top-1/2 after:-translate-y-1/2 after:right-0 after:w-[40%] after:h-0.5 after:bg-slate-800 mt-auto">
             Or
           </div>
           <Button

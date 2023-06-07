@@ -1,32 +1,53 @@
 import React from 'react';
 import Image from 'next/image';
+import aboutUsImg from '@/assets/images/about-us.jpg';
 // type Props = {};
 
 const AboutUsSection = () => {
   return (
-    <section className="relative w-full min-h-[1000px] max-w-screen-1400 mx-auto px-0 xl:px-20" id="about-us">
-      <h1 className="absolute top-32 right-8 text-9xl z-10 whitespace-nowrap uppercase font-thin" data-aos='slide-left'>
-        About us
-      </h1>
-      <Image
-        src="/about-us.jpg"
-        alt="about-us-background"
-        width={800}
-        height={700}
-        quality={100}
-        sizes="(max-width: 768px) 100vw"
-        className="object-cover absolute top-28 2xl:left-0 2xl:translate-x-0 z-0"
-        data-aos='zoom-in'
-      />
-
-      <p className="text-xl tracking-widest h-fit leading-10 absolute top-auto right-20 md:bottom-16 lg:bottom-32 bottom-0 w-fit left-10" data-aos='slide-up'>
-        Le Laurie Raphaël est une plateforme pour la mise en valeur du travail
-        fait par des gens de la terre, trop souvent oubliés. Praesent commodo
-        cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-        lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus
-        eget urna mollis ornare vel eu leo. Aenean lacinia bibendum nulla sed
-        consectetur.
-      </p>
+    <section
+      className="about-us-section relative w-full h-auto lg:h-[900px] px-0 my-20 flex lg:flex-row flex-col"
+      id="about-us">
+      <div className="relative w-full lg:w-1/2 2xl:w-2/3 lg:h-full h-[500px]">
+        <Image
+          src={aboutUsImg}
+          alt="about-us-background"
+          fill
+          sizes="(max-width: 768px) 100vw"
+          className="object-cover"
+          data-aos="slide-right"
+          data-aos-anchor=".about-us-section"
+          data-aos-anchor-placement="top-center"
+        />
+      </div>
+      <aside className="flex-1 p-8 text-2xl leading-10 tracking-widest flex flex-col">
+        <h1
+          className="text-6xl md:text-8xl whitespace-nowrap uppercase font-thin lg:text-start text-center"
+          data-aos='slide-left'
+          data-aos-easing="ease-in-out">
+          About us
+        </h1>
+        <div className="lg:m-auto w-full lg:max-w-[80%] flex flex-col gap-10 text-xl">
+          <p className='indent-6' data-aos='fade-left'>
+            We welcome you to sit back, unwind and appreciate the lovely sights
+            and hints of the ocean while our best gourmet expert sets you up for a
+            scrumptious dinner utilizing the best and freshest ingredients.
+          </p>
+          <p className='indent-6' data-aos='fade-left'>
+            At our restaurant, we are passionate about providing a remarkable
+            dining experience that goes beyond exceptional cuisine. Our team is
+            dedicated to creating a welcoming atmosphere where guests can feel
+            right at home
+          </p>
+          <p className='indent-6' data-aos='fade-left'>
+            From the moment you step through our doors, you will be greeted by our
+            friendly staff, who are committed to delivering attentive service with
+            a genuine smile. We take pride in sourcing the finest ingredients,
+            working with local suppliers to ensure freshness and quality in every
+            dish we serve
+          </p>
+        </div>
+      </aside>
       <div className="w-20 h-4 bg-slate-800 absolute bottom-32 right-0"></div>
     </section>
   );

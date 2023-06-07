@@ -1,6 +1,6 @@
 .popover {
-  @apply fixed sm:w-100 w-screen min-h-[600px] h-[55vh];
-  @apply sm:right-[var(--chatbot-right)] sm:bottom-[var(--chatbot-bottom)] right-0 bottom-0 top-auto left-auto;
+  @apply fixed sm:w-100 w-[95vw] left-1/2 -translate-x-1/2 min-h-[600px] h-[55vh];
+  @apply sm:right-[var(--chatbot-right)] sm:bottom-[var(--chatbot-bottom)] right-0 bottom-0 top-auto;
 
   :global {
     .MuiPaper-root {

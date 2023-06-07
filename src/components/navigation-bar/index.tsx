@@ -38,8 +38,8 @@ const NavigationBar = () => {
   const scrollY = useScrollPosition();
   return (
     <>
-      <ul
-        className={`lg:px-20 py-2 px-6 flex items-center justify-end left-0 right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 uppercase ${
+      <nav
+        className={`lg:px-20 py-2 px-6 flex items-center justify-end left-0 right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 uppercase list-none ${
           router.pathname === '/' && scrollY < 100
             ? 'text-white absolute top-5 delay-200 duration-500'
             : scrollY >= 100 && scrollY < 400
@@ -72,7 +72,7 @@ const NavigationBar = () => {
             <Link href="/login">Sign in</Link>
           </li>
         )}
-      </ul>
+      </nav>
     </>
   );
 };

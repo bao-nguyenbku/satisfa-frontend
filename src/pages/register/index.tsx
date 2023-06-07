@@ -11,7 +11,7 @@ export default function RegisterPage() {
       <div
         data-aos="fade-down"
         data-aos-delay="300"
-        className="flex-1 overflow-auto py-10 px-10 lg:px-28 w-full h-full max-w-xl flex flex-col text-slate-800 z-10 bg-primary">
+        className="flex-1 overflow-auto py-10 px-10 lg:px-28 w-full h-[90vh] max-w-xl flex flex-col text-slate-800 z-10 bg-primary">
         <Link
           href="/"
           className="mx-auto mb-10 hover:border-slate-800 border-b">

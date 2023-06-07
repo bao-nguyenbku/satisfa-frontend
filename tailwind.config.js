@@ -15,13 +15,12 @@ module.exports = {
     colors: {
       ...defaultColors,
       'primary-dark': '#212121',
-      'primary-yellow': '#C49246',
-      'dark-2': '#263238',
       'primary-orange': '#FF621F',
-      // primary: '#F5EADB',
-      primary: '#F6EEE3',
-      // second: '#Dccfbf',
-      second: '#E9E0D2',
+      // primary: '#F6EEE3',
+      // second: '#E9E0D2',
+      primary: '#F3F4F4',
+      // second: '#dddbd4',
+      second: '#E2E4EA',
     },
     screens: {
       xs: '475px',
@@ -45,8 +44,8 @@ module.exports = {
         128: '32rem',
       },
       screens: {
-        '1400': '1400px'
-      }
+        1400: '1400px',
+      },
     },
     plugins: [],
   },
