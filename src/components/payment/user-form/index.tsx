@@ -100,12 +100,13 @@ export default function UserPaymentInfo(props: Props) {
                 labelId="reservation-select"
                 id="reservation-select"
                 label="Reservations"
+                data-testid="reservation-list"
                 className={styles.input}
                 value={orderInfo?.reservation?.tableId?.id}
                 onChange={handleChange}>
                 {reservationList &&
                   reservationList.map((item) => (
-                    <MenuItem value={item?.id} key={item.id}>
+                    <MenuItem value={item?.id} key={item.id} >
                       <div>
                         <span>Table {item?.tableId?.code} </span>
                         <span>{formatDate(item.date)} </span>
