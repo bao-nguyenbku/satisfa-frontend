@@ -18,13 +18,28 @@ class Indent {
     this.actions = actions;
     this.data = {
       greeting: {
-        texts: ['hello', 'xin chào', 'chào bạn', 'hi', 'moring', 'hey'],
+        texts: [
+          'hello',
+          'hi',
+          'hey',
+          'good',
+          'morning',
+          'bot',
+          'afternoon',
+          'there',
+          'salutations',
+        ],
         responses: [
-          <span key={0}>Hello</span>,
-          <span key={1}>Hello 1</span>,
-          <span key={2}>Hello 2</span>,
-          <span key={3}>Hello 3</span>,
-          <span key={4}>Hello 4</span>,
+          <span key={0}>
+            Hello, how are you doing today? How may I assist you?
+          </span>,
+          <span key={1}>
+            Hi! Welcome to our chat service. How can I assist you today?
+          </span>,
+          <span key={2}>Good to see you! How may I help you today?</span>,
+          <span key={3}>Hello! How can I assist you today?</span>,
+          <span key={4}>Welcome! How may I help you?</span>,
+          <span key={5}>Nice to see you? How may I help you today?</span>,
         ],
       },
       introduction: {
@@ -37,23 +52,57 @@ class Indent {
         ],
       },
       location: {
-        texts: ['address', 'restaurant', 'location', 'where'],
+        texts: [
+          'address',
+          'restaurant',
+          'location',
+          'where',
+          'how',
+          'go',
+          'your',
+        ],
         responses: [
-          <ul key={0}>
-            <li>
-              👉Satisfa restaurant is place at{' '}
-              <a
-                href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
-                target="_blank"
-                rel="noreferrer"
-                className="text-cyan-600 hover:underline">
-                <strong>
-                  122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
-                  Minh City
-                </strong>
-              </a>
-            </li>
-          </ul>,
+          <span key={0}>
+            👉Satisfa restaurant is place at{' '}
+            <a
+              href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-600 hover:underline">
+              <strong>
+                122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
+                Minh City
+              </strong>
+            </a>
+          </span>,
+          <span key={1}>
+            Our restaurant is located at{' '}
+            <a
+              href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-600 hover:underline">
+              <strong>
+                122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
+                Minh City
+              </strong>
+            </a>
+            . We are conveniently situated near Bitexco Tower.
+          </span>,
+          <span key={2}>
+            You can find us at{' '}
+            <a
+              href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-600 hover:underline">
+              <strong>
+                122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
+                Minh City
+              </strong>
+            </a>
+            . We are easily accessible from Bitexco Tower.
+          </span>,
         ],
       },
       help: {

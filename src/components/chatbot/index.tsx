@@ -334,11 +334,6 @@ const Chatbot = (props: Props) => {
       actions.unhandleInput();
     }
   };
-  // useEffect(() => {
-  //   if (reserveData.createReservationData.isSuccess) {
-  //     actions.completeBookingTable(reserveData.createReservationData.data);
-  //   }
-  // }, [reserveData.createReservationData.isSuccess]);
   useEffect(() => {
     if (
       createOrderRes.status === QueryStatus.fulfilled &&

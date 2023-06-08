@@ -40,12 +40,12 @@ const NavigationBar = () => {
   return (
     <>
       <nav
-        className={`lg:px-20 py-2 px-6 flex items-center justify-end left-0 right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 uppercase list-none ${
+        className={`lg:px-20 py-2 px-6 flex items-center justify-end left-0 right-0 xl:text-base xl:gap-8 gap-4 text-sm w-full z-50 uppercase list-none fixed ${
           router.pathname === '/' && scrollY < 100
-            ? 'text-white absolute top-5 delay-200 duration-500'
-            : scrollY >= 100 && scrollY < 400
-            ? '-top-32 absolute'
-            : 'top-0 duration-500 delay-200 text-slate-800 bg-second fixed border-b border-slate-800 transition-[top]'
+            ? 'text-white py-8 delay-200 duration-500'
+            // : scrollY >= 100 && scrollY < 400
+            // ? '-top-32 absolute'
+            : 'top-0 duration-500 py-2 delay-200 text-slate-800 bg-second border-b border-slate-800 transition-all'
         }`}>
         <Link
           href="/"
