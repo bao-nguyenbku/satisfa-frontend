@@ -13,6 +13,10 @@ const TimePicker = (props: Props) => {
   const { value, onChange } = props;
 
   const handleChange = (newValue: Dayjs | null) => {
+    if (!newValue) {
+      onChange(null);
+      return;
+    };
     if (!dayjs(newValue).isValid()) return;
     onChange(dayjs(newValue));
   };

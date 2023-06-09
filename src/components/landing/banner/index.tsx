@@ -19,6 +19,7 @@ const HomePage: NextPageWithLayout = () => {
           fill
           className="object-cover brightness-75"
           alt="banner"
+          priority
         />
       </div>
       <div

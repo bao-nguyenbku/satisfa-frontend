@@ -24,11 +24,6 @@ export const SocketProvider = ({ children }: Props) => {
       newSocket.close();
     };
   }, []);
-  useEffect(() => {
-    if (socket?.connected) {
-      console.log('Connected from Landing: ', socket.id);
-    }
-  }, [socket]);
   return (
     <SocketContext.Provider
       value={{

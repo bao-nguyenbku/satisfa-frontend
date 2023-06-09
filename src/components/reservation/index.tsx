@@ -29,6 +29,10 @@ const Reservation = () => {
   const handleChangeDate = (newValue: Dayjs | null) => {
     //  check if time is a vailable
     const currentDate = dayjs().set('hour', 0).set('minute', 0);
+    if (!newValue) {
+      dispatch(getTime(''));
+      return;
+    }
     if (newValue && newValue < dayjs(currentDate)) {
       toast.warning(
         'You are picking a Date that not available. Date will be set to Today',
@@ -41,7 +45,17 @@ const Reservation = () => {
     }
   };
   const handleChangeTime = (newValue: Dayjs | null) => {
-    if (!newValue) return;
+    if (!newValue) {
+      if (!newValue) {
+        dispatch(getTime(''));
+        return;
+      }
+    };
+    const hour = dayjs(newValue).hour();
+    if (hour < 8 || hour > 22) {
+      toast.error('You can not book the time out of 8:00 am to 10:00 pm');
+      return;
+    }
     dispatch(getTime(newValue.toISOString()));
   };
   const handleChangeGuest = (value: number) => {
@@ -53,21 +67,21 @@ const Reservation = () => {
   return (
     <div className="flex flex-col w-full gap-10 xl:px-32 px-10">
       <div className="flex flex-col md:flex-row w-full justify-center gap-6 mt-10">
-        <div className='flex flex-col text-lg'>
+        <div className="flex flex-col text-lg">
           <label htmlFor="date-picker-input">Pick a date</label>
           <DatePicker
             value={dayjs(bookingData.date)}
             onChange={handleChangeDate}
           />
         </div>
-        <div className='flex flex-col text-lg'>
+        <div className="flex flex-col text-lg">
           <label htmlFor="date-picker-input">Pick a time</label>
           <TimePicker
             value={dayjs(bookingData.date)}
             onChange={handleChangeTime}
           />
         </div>
-        <div className='flex flex-col text-lg'>
+        <div className="flex flex-col text-lg">
           <label htmlFor="date-picker-input">Choose number of guest</label>
           <GuestCounter
             value={bookingData.numberOfGuests}

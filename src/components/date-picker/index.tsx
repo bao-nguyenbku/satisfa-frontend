@@ -18,6 +18,10 @@ export default function DatePicker(props: Props) {
   }, [inputReference]);
 
   const handleChange = (newValue: Dayjs | null) => {
+    if (!newValue) {
+      onChange(null);
+      return;
+    }
     if (!dayjs(newValue).isValid()) return;
     onChange(dayjs(newValue));
   };
@@ -26,6 +30,7 @@ export default function DatePicker(props: Props) {
     <DesktopDatePicker
       inputRef={inputReference}
       className={styles.pickerContainer}
+      reduceAnimations
       inputFormat="DD/MM/YYYY"
       minDate={dayjs(new Date())}
       value={value}

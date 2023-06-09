@@ -75,7 +75,6 @@ export const createOrderThunk = createAsyncThunk<
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
       const data = getState()?.order?.createOrder.data;
-      console.log(data);
       const createOrderData: CreateOrder = {
         reservationId: data.reservation?.id,
         items: data?.itemList,
@@ -185,7 +184,6 @@ export const orderSlice = createSlice({
         state.createOrder.error = null;
       })
       .addCase(createOrderThunk.fulfilled, (state, action) => {
-        console.log(action.payload.id);
         state.createOrder.isLoading = false;
         state.createOrder.isSuccess = true;
         state.createOrder.error = null;

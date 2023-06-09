@@ -40,7 +40,7 @@ import { DATE_INPUT_FORMAT, OrderType, QueryStatus } from '@/types';
 import {
   useCreateOrderByGuestServiceMutation,
   useCreateOrderServiceMutation,
-  useGetLastestOrderQuery
+  orderApi,
 } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import ChooseReservation from './widgets/choose-reservation';
@@ -53,8 +53,7 @@ type Props = {
 };
 const Chatbot = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { messages, isTyping, actions, botService, indent } =
-    useChatbot();
+  const { messages, isTyping, actions, botService, indent } = useChatbot();
   // RTK query
   const [createOrder, createOrderRes] = useCreateOrderServiceMutation();
   const [createOrderGuest, createOrderGuestRes] =
@@ -64,7 +63,6 @@ const Chatbot = (props: Props) => {
   const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
   const botRecommendationState = useAppSelector(selectBotRecommendationState);
-  const { data: lastestOrder } = useGetLastestOrderQuery();
   // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
     if (!user) {
@@ -297,6 +295,9 @@ const Chatbot = (props: Props) => {
         actions.unhandleInput();
         return;
       }
+      const lastestOrder = await dispatch(
+        orderApi.endpoints.getLastestOrder.initiate(),
+      ).unwrap();
       const itemList = lastestOrder ? lastestOrder[0].items : [];
       if (lowCaseMessage.includes('yes')) {
         if (itemList && itemList.length === 0) {
@@ -325,23 +326,14 @@ const Chatbot = (props: Props) => {
     // Handle Order
     else if (botService === BotService.ORDER) {
       handleBotOrder(message);
-
-    }
-    else if (botService === BotService.RECOMMENDATION) {
+    } else if (botService === BotService.RECOMMENDATION) {
       handleBotRecommendation(message);
-
     }
     // Unknown message
     else {
       actions.unhandleInput();
-    } 
-    
+    }
   };
-  // useEffect(() => {
-  //   if (reserveData.createReservationData.isSuccess) {
-  //     actions.completeBookingTable(reserveData.createReservationData.data);
-  //   }
-  // }, [reserveData.createReservationData.isSuccess]);
   useEffect(() => {
     if (
       createOrderRes.status === QueryStatus.fulfilled &&
@@ -380,13 +372,14 @@ const Chatbot = (props: Props) => {
     <div className="flex flex-col h-full">
       <MessageHeader />
       <div className="flex-1 overflow-y-auto flex flex-col overflow-x-hidden text-sm">
-        <MessageSection messages={messages} isTyping={isTyping} onNewUserMessage={handleChecker}/>
+        <MessageSection
+          messages={messages}
+          isTyping={isTyping}
+          onNewUserMessage={handleChecker}
+        />
       </div>
       <div className="mt-auto w-full p-2">
-        <MessageInput
-          isTyping={isTyping}
-          boxOpen={props.boxOpen}
-        />
+        <MessageInput isTyping={isTyping} boxOpen={props.boxOpen} />
       </div>
     </div>
   );
