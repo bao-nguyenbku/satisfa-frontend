@@ -5,6 +5,8 @@ import OrderItem from './order-item';
 import { formatCurrency } from '@/utils';
 import { PaymentType } from '@/types';
 import Checkout from '../paypal';
+import * as _ from 'lodash';
+
 
 type Props = {
   orderInfo: any;
@@ -48,8 +50,17 @@ export default function OrderDetailPayment(props: Props) {
         </div>
       )}
       {orderInfo.data.paymentType == PaymentType.CREDIT && (
+        !_.isEmpty(orderInfo.data.reservation) ?
         <div className="mt-4 w-full mx-auto">
           <Checkout order={orderInfo} />
+        </div>
+        :
+        <div className="mt-4 w-full mx-auto text-center text-3xl">
+          <Button
+            disabled
+            className="bg-yellow-400 hover:bg-yellow-400/80 w-full rounded-none py-6 text-white text-xl">
+            Select a reservation to unlock paypal
+          </Button>
         </div>
       )}
     </div>

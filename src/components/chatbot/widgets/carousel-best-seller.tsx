@@ -1,4 +1,5 @@
 import React from 'react';
+import { useGetBestSellerQuery } from '@/services/order';
 import * as _ from 'lodash';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
@@ -12,13 +13,11 @@ import { Product } from '@/types';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-type Props = {
-  itemList: any;
-};
-const ShowRecentOrder = (props: Props) => {
+
+const CarouselBestSeller = () => {
   const { data: productList } = useGetAllProductQuery();
-  const { itemList } = props;
-  console.log(itemList);
+  const { data: itemList } = useGetBestSellerQuery(5);
+
   const dispatch = useAppDispatch();
   const handleAddItem = (event: any) => {
     if (productList) {
@@ -30,7 +29,7 @@ const ShowRecentOrder = (props: Props) => {
   };
   return (
     <div className="flex flex-col rounded-xl gap-2 mt-4">
-      <p className='text-center text-3xl text-yellow-500 '>Recent order</p>
+      <p className='text-center text-3xl text-yellow-500 '>Trending food</p>
       <Carousel
       className='w-10/12 mx-auto h-9/12'
         autoPlay
@@ -68,7 +67,7 @@ const ShowRecentOrder = (props: Props) => {
                 className="p-2  text-white flex flex-col bg-zinc-800  group cursor-pointer">
                 <div className="relative w-full h-80">
                   <Image
-                    src={item.images[0]}
+                    src={item.image[0]}
                     sizes="100%"
                     className="object-fit"
                     fill
@@ -96,4 +95,5 @@ const ShowRecentOrder = (props: Props) => {
     </div>
   );
 };
-export default ShowRecentOrder;
+
+export default CarouselBestSeller;
