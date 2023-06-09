@@ -6,5 +6,5 @@ type Props = {
 
 export default function SectionTitle(props: Props) {
   const { title } = props;
-  return <h2 className="text-slate-800 font-thin text-6xl">{title}</h2>;
+  return <h2 className="text-slate-800 font-thin md:text-6xl text-5xl">{title}</h2>;
 }
