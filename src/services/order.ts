@@ -98,5 +98,8 @@ export const {
   util: { getRunningQueriesThunk },
 } = orderApi;
 
-export const { createOrderService, createPaidOrderService, createTempOrderService } =
-  orderApi.endpoints;
+export const {
+  createOrderService,
+  createPaidOrderService,
+  createTempOrderService,
+} = orderApi.endpoints;
