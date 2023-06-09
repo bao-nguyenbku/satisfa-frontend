@@ -37,6 +37,15 @@ export const orderApi = createApi({
         };
       },
     }),
+    createTempOrderService: build.mutation<Order, CreateOrder>({
+      query: (body) => {
+        return {
+          url: '/orders/createTemp',
+          method: 'POST',
+          body,
+        };
+      },
+    }),
     createOrderByGuestService: build.mutation<Order, CreateOrder>({
       query: (body) => {
         return {
@@ -89,5 +98,5 @@ export const {
   util: { getRunningQueriesThunk },
 } = orderApi;
 
-export const { createOrderService, createPaidOrderService } =
+export const { createOrderService, createPaidOrderService, createTempOrderService } =
   orderApi.endpoints;

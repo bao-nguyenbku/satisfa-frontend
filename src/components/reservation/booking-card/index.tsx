@@ -23,7 +23,7 @@ const reserveData: Omit<CreateReservation, 'customerId'> & {
   customerId: '',
 };
 const BookingCard = (props: Props) => {
-  const { table, onClose } = props;
+  const { table } = props;
   const user = useAppSelector(selectUserData);
   const { data } = useAppSelector(
     (state) => state.reservation.createReservationData,
@@ -38,10 +38,11 @@ const BookingCard = (props: Props) => {
       reserveData.customerId = user?.id || '';
       dispatch(getTableCode(table.code));
       createReservation(reserveData);
-      onClose();
+      // onClose();
     }
   };
   useEffect(() => {
+    console.log(result);
     if (!result.isLoading && !result.error && result.isSuccess) {
       toast.success('Booking table successfully!');
       dispatch(setCreateSuccess());

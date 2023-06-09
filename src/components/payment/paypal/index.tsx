@@ -12,7 +12,8 @@ import { useCreatePaidOrderServiceMutation } from '@/services/order';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectCreatedOrder,
-  createOrderThunk,
+  // createOrderThunk,
+  createTempOrderThunk,
   setPaymentType,
 } from '@/store/reducer/order';
 
@@ -47,7 +48,7 @@ const Checkout = (props: Props) => {
       });
     }
     dispatch(setPaymentType(PaymentType.CREDIT));
-    dispatch(createOrderThunk());
+    dispatch(createTempOrderThunk());
     return actions.order
       .create({
         purchase_units: paypalUnit,
@@ -81,6 +82,7 @@ const Checkout = (props: Props) => {
 
   // capture likely error
   const onError = (error: any) => {
+    console.log(error);
     toast.error(error);
   };
 
@@ -100,7 +102,7 @@ const Checkout = (props: Props) => {
         },
       };
       paidOrder(payment);
-      window.location.href = '/payment-success';
+      // window.location.href = '/payment-success';
     }
   }, [success]);
 

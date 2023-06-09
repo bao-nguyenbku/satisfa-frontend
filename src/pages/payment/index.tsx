@@ -40,6 +40,7 @@ export default function Payment() {
   const userInfo = useAppSelector((state) => state.user.data);
   const filterReservation = useGetReservationByFilterQuery({
     currentUser: true,
+    fromNow: true,
   });
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
@@ -49,7 +50,6 @@ export default function Payment() {
   const handleSetReservation = (id: string) => {
     if (filterReservation) {
       const reservation = filterReservation.currentData?.find(item => item.id == id);
-      console.log(reservation);
       dispatch(setReservation(reservation));
     }
   };
@@ -73,10 +73,7 @@ export default function Payment() {
       !createOrder.error &&
       createOrder.data.paymentType != PaymentType.CREDIT
     ) {
-      console.log(createdOrder);
       createPaidOrder(createdOrder);
-
-      
     }
   }, [createOrder]);
 
