@@ -40,6 +40,7 @@ export default function Payment() {
   const userInfo = useAppSelector((state) => state.user.data);
   const filterReservation = useGetReservationByFilterQuery({
     currentUser: true,
+    fromNow: true,
   });
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);

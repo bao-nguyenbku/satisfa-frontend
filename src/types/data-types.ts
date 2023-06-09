@@ -45,6 +45,7 @@ export type ReservationFilter = {
   currentDate?: boolean;
   currentUser?: boolean;
   checkedIn?: boolean;
+  fromNow?: boolean;
 };
 
 export type TableFilter = {
