@@ -41,11 +41,10 @@ const BookingCard = (props: Props) => {
       reserveData.customerId = user?.id || '';
       dispatch(getTableCode(table.code));
       createReservation(reserveData);
-      // onClose();
+      onClose();
     }
   };
   useEffect(() => {
-    console.log(result);
     if (!result.isLoading && !result.error && result.isSuccess) {
       toast.success('Booking table successfully!');
       actions.completeBookingTable(result.data);

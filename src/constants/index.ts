@@ -1,5 +1,5 @@
 import { nunito } from './font';
-
+export const HEAD_TITLE = 'Satisfa Restaurant';
 export const primaryFont = nunito;
 export const DEV_MODE = process.env.NODE_ENV === 'development';
 

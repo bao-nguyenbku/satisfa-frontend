@@ -27,9 +27,10 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<Product>) => {
+      if (!action.payload) return;
       const cloneData = [...state.itemList];
       const foundItemIdx = cloneData.findIndex(
-        (item) => item.id === action.payload.id,
+        (item) => item.id === action.payload?.id,
       );
 
       if (foundItemIdx === -1) {
@@ -40,11 +41,6 @@ export const cartSlice = createSlice({
       } else {
         cloneData[foundItemIdx].qty += 1;
       }
-      // cartSlice.caseReducers.increaseTotalCost(state, {
-      //   type: 'increaseTotalCost',
-      //   payload: action.payload.price,
-      // });
-      // cartSlice.actions.increaseTotalCost(action.payload.price);
       setCookie(
         CART_COOKIE_KEY,
         {

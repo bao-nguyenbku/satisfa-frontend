@@ -20,7 +20,7 @@ import Options from '@/components/chatbot/options';
 // import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/hooks';
 // import ShowBestSeller from '@/components/chatbot/widgets/show-best-seller';
-import CarouselBestSeller from '@/components/chatbot/widgets/carousel-best-seller';
+import CarouselBestSeller from '@/components/chatbot/widgets/best-seller-slide';
 import {
   resetCreateOrder,
   resetCreateReservation,
@@ -330,8 +330,9 @@ export const ChatbotProvider = ({ children }: Props) => {
       actions.navigateToMenu();
     },
     showBestSeller: () => {
-      actions.sendMessage(botRecommendationMessage[1].text, {
-        widget: <CarouselBestSeller />,
+      createBotMessage(botRecommendationMessage[1].text);
+      createWidget(<CarouselBestSeller />, {
+        widgetType: WidgetType.SELECTION,
       });
       createBotMessage(botRecommendationMessage[2].text, {
         delay: 500,
