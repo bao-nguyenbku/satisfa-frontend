@@ -132,10 +132,6 @@ export const authOptions: NextAuthOptions = {
             Authorization: `Bearer ${token.refreshToken}`,
           },
         });
-        console.log(
-          '🚀 ~ file: [...nextauth].ts:93 ~ jwt: ~ response:',
-          response.data,
-        );
         return {
           ...token,
           accessToken: response.data.accessToken,
@@ -143,7 +139,6 @@ export const authOptions: NextAuthOptions = {
           expireIn: Date.now() + 10000,
         };
       } catch (error) {
-        console.error('Error refreshing access token', error);
         return { ...token, error: 'RefreshAccessTokenError' as const };
       }
 
@@ -155,10 +150,6 @@ export const authOptions: NextAuthOptions = {
       session.refreshToken = token.refreshToken as string;
       return session;
     },
-    // signIn: async () => {
-    //   // console.log('🚀 ~ file: [...nextauth].ts:82 ~ signIn: ~ params:', params);
-    //   return true;
-    // },
   },
 };
 export default NextAuth(authOptions);

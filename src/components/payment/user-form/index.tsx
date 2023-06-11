@@ -106,11 +106,13 @@ export default function UserPaymentInfo(props: Props) {
                 onChange={handleChange}>
                 {reservationList &&
                   reservationList.map((item) => (
-                    <MenuItem value={item?.id} key={item.id} >
-                      <div>
-                        <span>Table {item?.tableId?.code} </span>
-                        <span>{formatDate(item.date)} </span>
-                        <span> {item.numberOfGuests} </span>
+                    <MenuItem value={item?.id} key={item.id}>
+                      <div className="flex justify-around w-full">
+                        <span>
+                          Table <strong>{item?.tableId?.code}</strong>{' '}
+                        </span>
+                        <span>{formatDate(item.date)}</span>
+                        <span>Guests: {item.numberOfGuests}</span>
                       </div>
                     </MenuItem>
                   ))}

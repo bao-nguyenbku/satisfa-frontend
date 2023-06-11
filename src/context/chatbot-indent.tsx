@@ -122,7 +122,7 @@ class Indent {
         },
       },
       order: {
-        texts: ['I', 'want', 'to', 'order'],
+        texts: ['i', 'want', 'to', 'order'],
         responses: [
           <span key={0}>
             Of course! I showed you the menu on the screen. <br /> If you want
@@ -142,7 +142,20 @@ class Indent {
           }),
       },
       myOrders: {
-        texts: ['orders', 'order', 'order', 'my', 'check'],
+        texts: [
+          'orders',
+          'order',
+          'order',
+          'my',
+          'check',
+          'want',
+          'to',
+          'i',
+          'show',
+          'let',
+          'me',
+          'go',
+        ],
         responses: [
           <span key={0}>
             We navigate you to your history orders. Let check out the screen😘
@@ -165,7 +178,7 @@ class Indent {
         action: actions.suggestMenu,
       },
       parking: {
-        texts: [],
+        texts: ['do', 'you', 'have', 'parking', 'slot', 'area', 'available'],
         responses: [
           <div className="flex flex-col gap-2" key={0}>
             <span>✅Yes, we do have parking available for our customers.</span>
@@ -179,7 +192,17 @@ class Indent {
         ],
       },
       reservation: {
-        texts: ['reservation', 'book', 'table'],
+        texts: [
+          'reservation',
+          'book',
+          'table',
+          'i',
+          'want',
+          'to',
+          'make',
+          'create',
+          'booking',
+        ],
         responses: [
           <span key={0}>
             First, let you pick a date for your meal. Please type with syntax:
@@ -189,7 +212,18 @@ class Indent {
         action: actions.handleReservation,
       },
       operationTime: {
-        texts: ['time', 'what', 'operation', 'working', 'open', 'close'],
+        texts: [
+          'time',
+          'what',
+          'operation',
+          'working',
+          'open',
+          'close',
+          'is',
+          'your',
+          'of',
+          'restaurant',
+        ],
         responses: [
           <div className="flex flex-col gap-2" key={0}>
             <span>
@@ -252,7 +286,7 @@ class Indent {
       //     'seller',
       //     'favorite'
       //   ],
-      //   responses: 
+      //   responses:
       // },
     };
   }
