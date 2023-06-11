@@ -40,7 +40,7 @@ import { DATE_INPUT_FORMAT, OrderType, QueryStatus } from '@/types';
 import {
   useCreateOrderByGuestServiceMutation,
   useCreateOrderServiceMutation,
-  // useGetLastestOrderQuery,
+  orderApi,
 } from '@/services/order';
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import ChooseReservation from './widgets/choose-reservation';
@@ -63,9 +63,6 @@ const Chatbot = (props: Props) => {
   const user = useAppSelector(selectUserData);
   const botOrderState = useAppSelector(selectBotOrderState);
   const botRecommendationState = useAppSelector(selectBotRecommendationState);
-  // const { data: lastestOrder } = useGetLastestOrderQuery();
-  // const { data: lastestOrder } = useGetLastestOrderQuery();
-
   // !! HANDLE RESERVATION SERVICE !!
   const handleBotReservation = (message: string) => {
     if (!user) {
@@ -298,12 +295,21 @@ const Chatbot = (props: Props) => {
         actions.unhandleInput();
         return;
       }
-
+      const lastestOrder = await dispatch(
+        orderApi.endpoints.getLastestOrder.initiate(),
+      ).unwrap();
+      const itemList = lastestOrder ? lastestOrder[0].items : [];
       if (lowCaseMessage.includes('yes')) {
-        actions.sendMessage('I am showing you your food in recent order', {
-          widget: <ShowRecentOrder />,
-        });
-        actions.sendMessage(botRecommendationMessage[3].text);
+        if (itemList && itemList.length === 0) {
+          actions.sendMessage(
+            'You have not made any order in our restaurant, try it and use this service next time.',
+          );
+        } else if (itemList && itemList.length > 0) {
+          actions.sendMessage('I am showing you your food in recent order', {
+            widget: <ShowRecentOrder itemList={itemList} />,
+          });
+          actions.sendMessage(botRecommendationMessage[3].text);
+        }
       } else if (lowCaseMessage.includes('no')) {
         actions.sendMessage(botRecommendationMessage[3].text);
       }
@@ -328,11 +334,6 @@ const Chatbot = (props: Props) => {
       actions.unhandleInput();
     }
   };
-  // useEffect(() => {
-  //   if (reserveData.createReservationData.isSuccess) {
-  //     actions.completeBookingTable(reserveData.createReservationData.data);
-  //   }
-  // }, [reserveData.createReservationData.isSuccess]);
   useEffect(() => {
     if (
       createOrderRes.status === QueryStatus.fulfilled &&

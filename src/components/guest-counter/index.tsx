@@ -14,7 +14,7 @@ const GuestCounter = (props: Props) => {
     setNum((prev) => prev + 1);
   };
   const onDecrease = () => {
-    setNum((prev) => (prev === 0 ? 0 : prev - 1));
+    setNum((prev) => (prev === 1 ? 1 : prev - 1));
   };
   useEffect(() => {
     if (onChange) {

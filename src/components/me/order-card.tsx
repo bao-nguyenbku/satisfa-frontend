@@ -22,6 +22,7 @@ export default function OrderCard(props: Props) {
               width={80}
               height={80}
               quality={75}
+              priority
             />
             <div className="flex flex-col gap-4 ml-2 w-full">
               <div className="flex gap-4 w-full">
@@ -58,7 +59,7 @@ export default function OrderCard(props: Props) {
           <span className="font-bold">{formatCurrency(data.totalCost)}</span>
         </span>
       </div>
-      <div className="absolute -top-10 -right-10 bg-teal-600 rounded-full w-16 h-16 flex items-center justify-center font-bold -rotate-12">
+      <div className="py-8 bg-slate-200 border-2 border-slate-800 border-dashed w-full text-slate-800 text-2xl flex items-center justify-center font-bold">
         {data.status}
       </div>
     </div>

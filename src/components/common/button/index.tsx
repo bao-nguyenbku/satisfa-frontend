@@ -17,7 +17,6 @@ const Button = (props: Props) => {
         fontFamily: primaryFont.style.fontFamily,
         fontWeight: primaryFont.style.fontWeight,
         fontSize: primaryFont.style.fontStyle,
-        textTransform: 'uppercase',
         paddingLeft: 8,
         paddingRight: 8,
       }}>

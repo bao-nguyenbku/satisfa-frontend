@@ -52,8 +52,7 @@ const ChangePasswordForm = (props: Props) => {
     newPassword: '',
     confirmNewPassword: '',
   };
-  const handleSubmit = (values: changePassword) => {
-    console.log(values);
+  const handleSubmit = () => {
     // const { id, ...rest } = values;
     updatePassword({
       body: {

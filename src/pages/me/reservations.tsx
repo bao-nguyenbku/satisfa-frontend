@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Head from 'next/head';
 import ReservationCard from '@/components/me/reservation-card';
 import dayjs from 'dayjs';
 import Link from 'next/link';
@@ -12,6 +13,7 @@ import Loading from '@/components/common/loading';
 import SectionTitle from '@/components/section-title';
 import { wrapper } from '@/store';
 import { Reservation, ReservationStatus } from '@/types';
+import { HEAD_TITLE } from '@/constants';
 
 const sortReservationByDate = (data: Reservation[], type?: 'asc' | 'des') => {
   const cloneData = data.slice();
@@ -53,37 +55,44 @@ export default function MyReservations() {
   }, [updateReservationRes]);
 
   return (
-    <div className="min-h-screen py-32 flex flex-col items-center text-white max-w-[1400px] px-20 mx-auto">
-      <div className="flex flex-wrap gap-8 mt-20">
-        {isLoading ? (
-          <Loading />
-        ) : (!isLoading && !data) || data?.length === 0 ? (
-          <div className="pt-32 flex flex-col items-center justify-center gap-4 text-slate-800">
-            <span className="text-xl">You do not have any reservation</span>
-            <Link
-              href="/menu"
-              className="border border-slate-800 hover:bg-primary-orange hover:text-white transition-colors duration-500 p-4">
-              Book a table now
-            </Link>
-          </div>
-        ) : (
-          <>
-            <SectionTitle title="Your reservations" />
-            {isSuccess &&
-              data &&
-              sortReservationByDate(data, 'des').map((reserve) => {
-                return (
-                  <ReservationCard
-                    data={reserve}
-                    key={reserve.id}
-                    onCancel={handleCancel}
-                  />
-                );
-              })}
-          </>
-        )}
+    <>
+      <Head>
+        <title>My reservations | {HEAD_TITLE}</title>
+      </Head>
+      <div className="min-h-screen py-32 flex flex-col items-center text-white max-w-[1400px] px-20 mx-auto">
+        <div className="flex flex-wrap items-center flex-col gap-8 mt-20">
+          {isLoading ? (
+            <Loading />
+          ) : (!isLoading && !data) || data?.length === 0 ? (
+            <div className="pt-32 flex flex-col items-center justify-center gap-4 text-slate-800">
+              <span className="text-xl">You do not have any reservation</span>
+              <Link
+                href="/menu"
+                className="border border-slate-800 hover:bg-primary-orange hover:text-white transition-colors duration-500 p-4">
+                Book a table now
+              </Link>
+            </div>
+          ) : (
+            <>
+              <SectionTitle title="Your reservations" />
+              <div className="flex flex-wrap gap-10">
+                {isSuccess &&
+                  data &&
+                  sortReservationByDate(data, 'des').map((reserve) => {
+                    return (
+                      <ReservationCard
+                        data={reserve}
+                        key={reserve.id}
+                        onCancel={handleCancel}
+                      />
+                    );
+                  })}
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

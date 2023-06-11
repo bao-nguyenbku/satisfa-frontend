@@ -13,6 +13,7 @@ export default function MenuBanner() {
         <Image
           src={food1}
           className="hover:scale-110 transition-transform duration-500 h-full w-full object-cover"
+          priority
           alt="food-banner"
         />
       </div>
@@ -43,6 +44,7 @@ export default function MenuBanner() {
           src={food2}
           className="hover:scale-110 h-full w-full transition-transform duration-500"
           alt="food-banner"
+          priority
         />
       </div>
       <div className='overflow-hidden'>
@@ -50,6 +52,7 @@ export default function MenuBanner() {
           src={food3}
           className="hover:scale-110 h-full w-full transition-transform duration-500"
           alt="food-banner"
+          priority
         />
       </div>
     </section>

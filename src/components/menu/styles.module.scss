@@ -6,6 +6,9 @@
   // :global .MuiTabs-flexContainer {
   //   @apply flex flex-wrap md:flex-row text-sm;
   // }
+  :global .MuiTabs-flexContainer {
+    @apply justify-center;
+  }
   :global .Mui-selected {
     @apply text-primary-orange;
   }

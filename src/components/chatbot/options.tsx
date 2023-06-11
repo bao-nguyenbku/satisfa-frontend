@@ -76,9 +76,8 @@ export default function Options(props: any) {
       },
     },
     7: {
-      text: 'Reccomend food for me',
+      text: 'Recommend food for me',
       handler: actions.handleRecommendation,
-      id: 5,
     },
 
   };

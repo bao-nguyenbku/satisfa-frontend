@@ -17,15 +17,14 @@ type Props = {
   user: User;
 };
 
-const handleValidate = () => {
-  const errors: UpdateUser = {
-    fullname: '',
-    phone: '',
-    avatar: '',
-  };
-  console.log(errors);
-  return null;
-};
+// const handleValidate = () => {
+//   const errors: UpdateUser = {
+//     fullname: '',
+//     phone: '',
+//     avatar: '',
+//   };
+//   return null;
+// };
 
 const AccountInfo = (props: Props) => {
   const { user } = props;
@@ -51,7 +50,6 @@ const AccountInfo = (props: Props) => {
 
   const formik = useFormik({
     initialValues,
-    validate: handleValidate,
     onSubmit: handleSubmit,
   });
 

@@ -5,6 +5,8 @@ import { Table } from '@/types';
 import { Popover } from '@mui/material';
 
 import BookingCard from '../booking-card';
+import { useAppSelector } from '@/hooks';
+import { selectCreateReservation } from '@/store/reducer/reservation';
 
 type Props = {
   table: Table;
@@ -12,6 +14,7 @@ type Props = {
 
 const TableModel = (props: Props) => {
   const { table } = props;
+  const createReservationData = useAppSelector(selectCreateReservation);
   const chairRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -22,6 +25,10 @@ const TableModel = (props: Props) => {
     setAnchorEl(null);
   };
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const { data } = createReservationData;
+    if (!data.date || !data.numberOfGuests) {
+      return;
+    }
     setAnchorEl(event.currentTarget);
   };
   const open = Boolean(anchorEl);
@@ -70,7 +77,7 @@ const TableModel = (props: Props) => {
           vertical: 'center',
           horizontal: 'left',
         }}>
-        <BookingCard table={table} onClose={handleClose}/>
+        <BookingCard table={table} onClose={handleClose} />
       </Popover>
 
       <button

@@ -36,6 +36,7 @@ export type CreateReservation = Omit<
 > & {
   customerId: string;
   tableId: string;
+  tableCode?: string;
 };
 
 export type ReservationFilter = {
