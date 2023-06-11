@@ -28,6 +28,7 @@ type Props = {
 
 const AccountInfo = (props: Props) => {
   const { user } = props;
+  console.log(user);
 
   const [updateInfo, updateInfoRes] = useUpdateInfoMutation();
   // const dispatch = useAppDispatch();
@@ -146,7 +147,7 @@ const AccountInfo = (props: Props) => {
               <Divider className="border-slate-600" />
             </div>
           </form>
-          <ChangePasswordForm />
+          <ChangePasswordForm userId = {user.id}/>
         </div>
       </div>
     </div>
