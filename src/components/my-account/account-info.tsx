@@ -29,6 +29,7 @@ const handleValidate = () => {
 
 const AccountInfo = (props: Props) => {
   const { user } = props;
+  console.log(user);
 
   const [updateInfo, updateInfoRes] = useUpdateInfoMutation();
   // const dispatch = useAppDispatch();
@@ -38,7 +39,6 @@ const AccountInfo = (props: Props) => {
     phone: user?.phone ? user.phone : '',
   };
   const handleSubmit = (values: UpdateUser) => {
-    console.log(values);
     // const { id, ...rest } = values;
     updateInfo({ body: values });
   };
@@ -70,7 +70,7 @@ const AccountInfo = (props: Props) => {
         <div className="flex gap-8 items-center mx-auto mb-10">
           <div className="relative w-60 h-60">
             <Image
-              src={formik.values.avatar}
+              src={formik.values.avatar as string}
               fill
               alt="avatar"
               className="object-cover aspect-square rounded-full"
@@ -149,7 +149,7 @@ const AccountInfo = (props: Props) => {
               <Divider className="border-slate-600" />
             </div>
           </form>
-          <ChangePasswordForm />
+          <ChangePasswordForm userId = {user.id}/>
         </div>
       </div>
     </div>
