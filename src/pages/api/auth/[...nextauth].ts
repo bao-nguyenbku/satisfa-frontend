@@ -3,7 +3,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import axios from 'axios';
-import { BASE_URL, NEXTAUTH_SECRET, DEV_MODE } from '@/constants';
+import { BASE_URL, NEXTAUTH_SECRET, DEV_MODE, JWT_EXPIRE_IN } from '@/constants';
 
 const providers = [
   CredentialsProvider({
@@ -110,6 +110,8 @@ export const authOptions: NextAuthOptions = {
           return {
             ...token,
             accessToken: response?.data?.accessToken,
+            refreshToken: response?.data?.refreshToken,
+            expireIn: Date.now() + JWT_EXPIRE_IN,
           };
         }
       }
@@ -117,13 +119,40 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          expireIn: Date.now() + JWT_EXPIRE_IN,
         };
       }
+      if (token.expireIn && Date.now() < token.expireIn) {
+        return token;
+      }
+      try {
+        const response = await axios.get(BASE_URL + '/auth/refresh', {
+          headers: {
+            Authorization: `Bearer ${token.refreshToken}`,
+          },
+        });
+        console.log(
+          '🚀 ~ file: [...nextauth].ts:93 ~ jwt: ~ response:',
+          response.data,
+        );
+        return {
+          ...token,
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken || token.refreshToken,
+          expireIn: Date.now() + 10000,
+        };
+      } catch (error) {
+        console.error('Error refreshing access token', error);
+        return { ...token, error: 'RefreshAccessTokenError' as const };
+      }
+
       return token;
     },
     session: async (params) => {
       const { session, token } = params;
-      session.token = token.accessToken as string;
+      session.accessToken = token.accessToken as string;
+      session.refreshToken = token.refreshToken as string;
       return session;
     },
     // signIn: async () => {

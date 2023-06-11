@@ -242,6 +242,18 @@ class Indent {
           </div>,
         ],
       },
+      // recommendation: {
+      //   texts: [
+      //     'recommend',
+      //     'recommendation',
+      //     'food',
+      //     'today',
+      //     'best',
+      //     'seller',
+      //     'favorite'
+      //   ],
+      //   responses: 
+      // },
     };
   }
   simplify(message: string) {

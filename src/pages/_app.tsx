@@ -25,8 +25,8 @@ import { ToastContainer, Slide } from 'react-toastify';
 import { ModalContextProvider } from '@/context/modal-context';
 import { ChatbotProvider } from '@/context/chatbot-context';
 import { ConfirmContextProvider } from '@/context/confirm-dialog-context';
-import { AnimatePresence } from 'framer-motion';
-
+// import { AnimatePresence } from 'framer-motion';
+// import TransitionRoute from '@/components/common/transition';
 
 const theme = createTheme({});
 // const emotionCache = createCache({
@@ -73,9 +73,7 @@ const App = ({
                       <ChatbotProvider>
                         {getLayout(
                           <>
-                            <AnimatePresence mode="wait">
-                              <Component {...rest} />
-                            </AnimatePresence>
+                            <Component {...rest} />
                             <ToastContainer transition={Slide} />
                           </>,
                         )}

@@ -169,15 +169,15 @@ export const getTablesByFilterThunk = createAsyncThunk<
     }
   },
 );
-export const getReservationByUser = createAsyncThunk<
+export const getReservationByFilter = createAsyncThunk<
   Reservation[] | ErrorType,
   void,
   {
     state: RootState;
   }
 >(
-  'chatbot/getReservationByUser',
-  async (un, { getState, dispatch, rejectWithValue }) => {
+  'chatbot/getReservationByFilter',
+  async (_unuse, { getState, dispatch, rejectWithValue }) => {
     const user = getState().user;
     if (_.isEmpty(user.data)) {
       return rejectWithValue({
@@ -189,6 +189,8 @@ export const getReservationByUser = createAsyncThunk<
       const response = await dispatch(
         reservationApi.endpoints.getReservationByFilter.initiate({
           user: user.data.id,
+          fromNow: true,
+          status: ReservationStatus.RESERVED,
         }),
       );
       if (!response.isLoading && response.isSuccess && response.data) {
@@ -348,7 +350,8 @@ export const selectBotReservationState = (state: RootState) =>
   state.chatbot.reservation;
 
 export const selectBotOrderState = (state: RootState) => state.chatbot.order;
-export const selectBotRecommendationState = (state: RootState) => state.chatbot.recommendation;
+export const selectBotRecommendationState = (state: RootState) =>
+  state.chatbot.recommendation;
 export const selectCreateBotOrderData = (state: RootState) =>
   state.chatbot.order.created;
 // export const selectTakeawayOrderCompletion = (state: RootState) => {
