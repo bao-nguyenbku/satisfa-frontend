@@ -46,7 +46,7 @@ export default function Payment() {
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
 
-  const [createPaidOrder] = useCreatePaidOrderServiceMutation();
+  const [createPaidOrder, createPaidOrderRes] = useCreatePaidOrderServiceMutation();
 
   const handleSetReservation = (id: string) => {
     if (filterReservation) {
@@ -69,6 +69,11 @@ export default function Payment() {
   const handlePlaceOrder = () => {
     dispatch(createOrderThunk());
   };
+
+  const handlePaidPaypal = (createdOrder: any) => {
+    createPaidOrder(createdOrder);
+  }
+  
   useEffect(() => {
     if (
       createOrder.isSuccess &&
@@ -80,6 +85,9 @@ export default function Payment() {
     }
   }, [createOrder]);
   if (!createOrder.isLoading && createOrder.isSuccess && !createOrder.isError) {
+    return <PaymentSuccess />;
+  }
+  if (!createPaidOrderRes.isLoading && createPaidOrderRes.isSuccess && !createPaidOrderRes.isError) {
     return <PaymentSuccess />;
   }
   return (
@@ -117,6 +125,7 @@ export default function Payment() {
           <OrderDetailPayment
             orderInfo={createOrder}
             onPlaceOrder={handlePlaceOrder}
+            onPaidPaypal={handlePaidPaypal}
             isCreated={createOrder.isSuccess as boolean}
           />
         </div>
