@@ -213,9 +213,6 @@ export const ChatbotProvider = ({ children }: Props) => {
         </p>,
       );
     },
-    callWaiter: () => {
-      createBotMessage('I called waiter for you. Please wait for a moment😉');
-    },
     showQuestions: (options?: MessageOption) => {
       createWidget(<FrequentlyQuestion />, {
         ...options,
@@ -261,6 +258,9 @@ export const ChatbotProvider = ({ children }: Props) => {
         </span>,
       );
       router.push('/menu');
+    },
+    callWaiter: () => {
+      return;
     },
     // ! MAKE RESERVATION
     navigateToReservation: () => {

@@ -276,6 +276,15 @@ class Indent {
           </div>,
         ],
       },
+      callWaiter: {
+        texts: ['call', 'waiter', 'me', 'please', 'need'],
+        responses: [
+          <span key={0}>
+            I called waiter for you. Please wait for a moment😉
+          </span>,
+        ],
+        action: actions.callWaiter,
+      },
       // recommendation: {
       //   texts: [
       //     'recommend',
