@@ -15,23 +15,27 @@ export default function FoodCard(props: Props) {
   const dispatch = useAppDispatch();
   const handleAddItem = () => {
     dispatch(addItem(data));
-  }
+  };
   return (
-    <div className="p-3 text-white flex flex-col bg-zinc-800 hover:ease-out duration-300 hover:scale-110 group cursor-pointer">
-      <div className='relative w-80 h-80'>
+    <div className="p-3 bg-zinc-200 text-slate-800 flex flex-col hover:ease-out duration-300 hover:scale-110 group cursor-pointer">
+      <div className="relative w-80 h-80">
         <Image
           src={data.images[0]}
-          sizes="100%"
-          className='object-cover'
-          fill
+          width={0}
+          sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+          priority
+          height={0}
+          className="object-cover w-full h-full"
           alt={`thumbnail of ${data.id}`}
         />
       </div>
-      <span className="font-bold text-2xl my-6 text-white">{data.name}</span>
+      <span className="font-bold text-2xl my-6">{data.name}</span>
       <div className="flex items-center justify-between mt-10">
-        <Button 
-        onClick={handleAddItem}
-        className="bg-primary-orange hover:bg-primary-orange/80 normal-case rounded-none text-white p-4 px-10 font-bold">
+        <Button
+          onClick={handleAddItem}
+          className="bg-primary-orange hover:bg-primary-orange/80 normal-case rounded-none text-white p-4 px-10 font-bold">
           Add
         </Button>
         <span className="text-2xl text-primary-orange font-extrabold">

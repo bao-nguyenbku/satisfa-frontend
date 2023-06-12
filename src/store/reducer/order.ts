@@ -16,9 +16,9 @@ import {
   CreatedOrder,
   TakeawayCustomer,
   CreateOrder,
-  ReduxDataType
+  ReduxDataType,
 } from '@/types';
-import { createOrderService } from '@/services/order';
+import { createOrderService, createTempOrderService } from '@/services/order';
 // import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 // import { store } from '@/store';
 const hydrate = createAction<RootState>(HYDRATE);
@@ -96,6 +96,36 @@ export const createOrderThunk = createAsyncThunk<
   },
 );
 
+export const createTempOrderThunk = createAsyncThunk<
+  Order,
+  void,
+  { state: RootState }
+>(
+  'order/createTempOrderThunk',
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const data = getState()?.order?.createOrder.data;
+      const createOrderData: CreateOrder = {
+        reservationId: data.reservation?.id,
+        items: data?.itemList,
+        totalCost: data?.totalCost,
+        type: data?.type,
+      };
+      if (data.type === OrderType.TAKEAWAY) {
+        createOrderData.tempCustomer = data.customerId as TakeawayCustomer;
+      } else if (data.type === OrderType.DINE_IN) {
+        createOrderData.customerId = data?.reservation.customerId?.id;
+      }
+      const result = await dispatch(
+        createTempOrderService.initiate(createOrderData),
+      ).unwrap();
+      return result;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const orderSlice = createSlice({
   name: 'order',
   // `createSlice` will infer the state type from the `initialState` argument
@@ -157,6 +187,14 @@ export const orderSlice = createSlice({
         state.createOrder.isSuccess = true;
         state.createOrder.error = null;
         // data for paid order
+        state.createdOrder.id = action.payload.id;
+        state.createdOrder.type = action.payload.type;
+        state.createdOrder.paymentStatus = PaymentStatus.PAID;
+        state.createdOrder.paymentData.info.totalCost =
+          action.payload.totalCost;
+        state.createdOrder.paymentData.info.totalPay = action.payload.totalCost;
+      })
+      .addCase(createTempOrderThunk.fulfilled, (state, action) => {
         state.createdOrder.id = action.payload.id;
         state.createdOrder.type = action.payload.type;
         state.createdOrder.paymentStatus = PaymentStatus.PAID;

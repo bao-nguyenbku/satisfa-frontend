@@ -19,7 +19,8 @@ import {
 import Options from '@/components/chatbot/options';
 // import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/hooks';
-import ShowBestSeller from '@/components/chatbot/widgets/show-best-seller';
+// import ShowBestSeller from '@/components/chatbot/widgets/show-best-seller';
+import RecommendationSlide from '@/components/chatbot/widgets/recommendation-slide';
 import {
   resetCreateOrder,
   resetCreateReservation,
@@ -212,9 +213,6 @@ export const ChatbotProvider = ({ children }: Props) => {
         </p>,
       );
     },
-    callWaiter: () => {
-      createBotMessage('I called waiter for you. Please wait for a moment😉');
-    },
     showQuestions: (options?: MessageOption) => {
       createWidget(<FrequentlyQuestion />, {
         ...options,
@@ -234,10 +232,12 @@ export const ChatbotProvider = ({ children }: Props) => {
           : DEFAULT_DELAY;
       createBotMessage(message, {
         delay,
+        ...options,
       });
       if (widget) {
         createWidget(widget, {
           delay,
+          ...options,
         });
       }
     },
@@ -258,6 +258,9 @@ export const ChatbotProvider = ({ children }: Props) => {
         </span>,
       );
       router.push('/menu');
+    },
+    callWaiter: () => {
+      return;
     },
     // ! MAKE RESERVATION
     navigateToReservation: () => {
@@ -329,8 +332,9 @@ export const ChatbotProvider = ({ children }: Props) => {
       actions.navigateToMenu();
     },
     showBestSeller: () => {
-      actions.sendMessage(botRecommendationMessage[1].text, {
-        widget: <ShowBestSeller />,
+      createBotMessage(botRecommendationMessage[1].text);
+      createWidget(<RecommendationSlide />, {
+        widgetType: WidgetType.SELECTION,
       });
       createBotMessage(botRecommendationMessage[2].text, {
         delay: 500,

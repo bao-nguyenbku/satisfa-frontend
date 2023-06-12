@@ -100,16 +100,19 @@ export default function UserPaymentInfo(props: Props) {
                 labelId="reservation-select"
                 id="reservation-select"
                 label="Reservations"
+                data-testid="reservation-list"
                 className={styles.input}
                 value={orderInfo?.reservation?.tableId?.id}
                 onChange={handleChange}>
                 {reservationList &&
                   reservationList.map((item) => (
                     <MenuItem value={item?.id} key={item.id}>
-                      <div>
-                        <span>Table {item?.tableId?.code} </span>
-                        <span>{formatDate(item.date)} </span>
-                        <span> {item.numberOfGuests} </span>
+                      <div className="flex justify-around w-full">
+                        <span>
+                          Table <strong>{item?.tableId?.code}</strong>{' '}
+                        </span>
+                        <span>{formatDate(item.date)}</span>
+                        <span>Guests: {item.numberOfGuests}</span>
                       </div>
                     </MenuItem>
                   ))}

@@ -36,6 +36,7 @@ const initialState: ReservationState = {
       date: '',
       note: '',
       customerId: '',
+      tableCode: ''
     },
     isLoading: false,
     isSuccess: false,
@@ -103,6 +104,7 @@ export const { guestSelect, getTime, setCreateSuccess, getTableCode } =
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectReservationState = (state: RootState) => state.reservation;
+export const selectCreateReservation = (state: RootState) => state.reservation.createReservationData;
 export const selectReservationListByFilter = (state: RootState) =>
   state.reservation.reservationListByFilter;
 

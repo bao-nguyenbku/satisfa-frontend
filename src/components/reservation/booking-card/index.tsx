@@ -4,9 +4,13 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { CreateReservation, ReservationStatus, Table } from '@/types';
 import { useCreateReservationMutation } from '@/services/reservation';
 import { toast } from 'react-toastify';
-import { getTableCode, setCreateSuccess } from '@/store/reducer/reservation';
+import {
+  getTableCode,
+  selectCreateReservation,
+} from '@/store/reducer/reservation';
 import { selectUserData } from '@/store/reducer/user';
 import { formatDate } from '@/utils';
+import useChatbot from '@/hooks/useChatbot';
 
 type Props = {
   table: Table;
@@ -24,10 +28,9 @@ const reserveData: Omit<CreateReservation, 'customerId'> & {
 };
 const BookingCard = (props: Props) => {
   const { table, onClose } = props;
+  const { actions } = useChatbot();
   const user = useAppSelector(selectUserData);
-  const { data } = useAppSelector(
-    (state) => state.reservation.createReservationData,
-  );
+  const { data } = useAppSelector(selectCreateReservation);
   const [createReservation, result] = useCreateReservationMutation();
   const dispatch = useAppDispatch();
   const handleClick = () => {
@@ -44,7 +47,7 @@ const BookingCard = (props: Props) => {
   useEffect(() => {
     if (!result.isLoading && !result.error && result.isSuccess) {
       toast.success('Booking table successfully!');
-      dispatch(setCreateSuccess());
+      actions.completeBookingTable(result.data);
     }
   }, [result]);
   return (

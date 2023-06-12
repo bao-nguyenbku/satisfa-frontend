@@ -5,15 +5,20 @@ import { useFormik } from 'formik';
 // import { useUpdatePasswordMutation } from '@/services/user';
 import * as _ from 'lodash';
 import { toast } from 'react-toastify';
-
+import { useUpdatePasswordMutation } from '@/services/user';
 type changePassword = {
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
 };
 
+type Props = {
+  userId: string;
+};
+
 const handleValidate = (values: changePassword) => {
   const { currentPassword, newPassword, confirmNewPassword } = values;
+
   const errors: changePassword = {
     currentPassword: '',
     newPassword: '',
@@ -29,7 +34,7 @@ const handleValidate = (values: changePassword) => {
   if (Object.values(confirmNewPassword).every((item) => _.isEmpty(item))) {
     errors.confirmNewPassword = 'You must confirm new password';
   }
-  if (confirmNewPassword != newPassword){
+  if (confirmNewPassword != newPassword) {
     errors.confirmNewPassword = 'Unmatched password';
   }
   if (Object.values(errors).every((item) => _.isEmpty(item))) {
@@ -38,8 +43,10 @@ const handleValidate = (values: changePassword) => {
   return errors;
 };
 
-const ChangePasswordForm = () => {
+const ChangePasswordForm = (props: Props) => {
+  const { userId } = props;
   // const [updatePassword, updatePasswordRes] = useUpdatePasswordMutation();
+  const [updatePassword, updatePasswordRes] = useUpdatePasswordMutation();
   const initialValues: changePassword = {
     currentPassword: '',
     newPassword: '',
@@ -47,7 +54,13 @@ const ChangePasswordForm = () => {
   };
   const handleSubmit = () => {
     // const { id, ...rest } = values;
-    // updatePassword(values)
+    updatePassword({
+      body: {
+        id: userId,
+        password: values.currentPassword,
+        newPassword: values.newPassword,
+      },
+    });
   };
   const formik = useFormik({
     initialValues,
@@ -71,7 +84,15 @@ const ChangePasswordForm = () => {
       });
     }
   }, [formik.isSubmitting]);
-
+  useEffect(() => {
+    if (
+      updatePasswordRes &&
+      updatePasswordRes.isSuccess &&
+      !updatePasswordRes.isError
+    ) {
+      toast.success('Update password successfully');
+    }
+  }, [updatePasswordRes]);
   return (
     <form onSubmit={formik.handleSubmit} className={`flex flex-col mt-10`}>
       <div className="flex flex-col gap-4">

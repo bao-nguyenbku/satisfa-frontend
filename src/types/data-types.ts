@@ -36,6 +36,7 @@ export type CreateReservation = Omit<
 > & {
   customerId: string;
   tableId: string;
+  tableCode?: string;
 };
 
 export type ReservationFilter = {
@@ -44,6 +45,8 @@ export type ReservationFilter = {
   currentDate?: boolean;
   currentUser?: boolean;
   checkedIn?: boolean;
+  fromNow?: boolean;
+  status?: ReservationStatus;
 };
 
 export type TableFilter = {

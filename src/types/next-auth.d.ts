@@ -3,11 +3,13 @@ import JWT from 'next-auth/jwt';
 
 interface CustomUser {
   accessToken?: string;
+  refreshToken?: string;
 }
 
 declare module 'next-auth' {
   interface Session {
-    token: string;
+    accessToken: string;
+    refreshToken: string;
   }
   interface User extends CustomUser {
     id?: string;
@@ -16,6 +18,8 @@ declare module 'next-auth' {
 declare module 'next-auth/jwt' {
   interface JWT {
     provider?: string;
-    jwt?: string;
+    accessToken?: string;
+    refreshToken?: string;
+    expireIn?: number;
   }
 }

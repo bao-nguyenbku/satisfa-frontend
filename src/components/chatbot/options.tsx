@@ -59,7 +59,7 @@ export default function Options(props: any) {
               },
             ),
           ).unwrap();
-          createUserMessage(options[6].text);
+          // createUserMessage(options[6].text);
           if (res && res.length === 0) {
             actions.sendMessage(
               'You must check-in at restaurant to call for service',
@@ -71,16 +71,16 @@ export default function Options(props: any) {
             userId: user?.id,
             reservations: res,
           });
-          actions.callWaiter();
+          actions.sendMessage(
+            'I called waiter for you. Please wait for a moment😉',
+          );
         }
       },
     },
     7: {
-      text: 'Reccomend food for me',
+      text: 'Recommend food for me',
       handler: actions.handleRecommendation,
-      id: 5,
     },
-
   };
 
   return (

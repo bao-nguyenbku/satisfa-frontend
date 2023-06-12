@@ -4,9 +4,10 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { baseQuery } from '@/utils/request';
 
 type changePassword = {
-  currentPassword: string;
+  id: string;
+  password: string;
   newPassword: string;
-  confirmNewPassword: string;
+  // confirmNewPassword: string;
 };
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -32,7 +33,7 @@ export const userApi = createApi({
       invalidatesTags: ['Auth'],
       query({ body }) {
         return {
-          url: `/users/`,
+          url: `/users/update-password`,
           method: 'PATCH',
           body: body,
         };

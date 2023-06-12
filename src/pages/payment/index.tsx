@@ -27,6 +27,7 @@ import { useCreatePaidOrderServiceMutation } from '@/services/order';
 import { Reservation, PaymentType, TakeawayCustomer } from '@/types';
 import SigninLayout from '@/layout/signin';
 import SectionTitle from '@/components/section-title';
+import PaymentSuccess from '@/components/payment-success';
 
 export default function Payment() {
   const dispatch = useAppDispatch();
@@ -40,15 +41,18 @@ export default function Payment() {
   const userInfo = useAppSelector((state) => state.user.data);
   const filterReservation = useGetReservationByFilterQuery({
     currentUser: true,
+    fromNow: true,
   });
   const cartItems = useAppSelector(selectAllItem);
   const totalCost = useAppSelector(selectTotalCost);
 
-  const [createPaidOrder, res] = useCreatePaidOrderServiceMutation();
+  const [createPaidOrder] = useCreatePaidOrderServiceMutation();
 
   const handleSetReservation = (id: string) => {
     if (filterReservation) {
-      const reservation = filterReservation.currentData?.find(item => item.id == id);
+      const reservation = filterReservation.currentData?.find(
+        (item) => item.id == id,
+      );
       dispatch(setReservation(reservation));
     }
   };
@@ -75,12 +79,9 @@ export default function Payment() {
       createPaidOrder(createdOrder);
     }
   }, [createOrder]);
-
-  useEffect(()=> {
-    if (res.isSuccess && !res.isError){
-      window.location.href = '/payment-success';
-    }
-  }, [res])
+  if (!createOrder.isLoading && createOrder.isSuccess && !createOrder.isError) {
+    return <PaymentSuccess />;
+  }
   return (
     <div className="h-full flex flex-col items-center py-12 max-w-[1400px] mx-auto">
       <div className="flex items-center w-full relative justify-center">

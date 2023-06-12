@@ -18,13 +18,28 @@ class Indent {
     this.actions = actions;
     this.data = {
       greeting: {
-        texts: ['hello', 'xin chào', 'chào bạn', 'hi', 'moring', 'hey'],
+        texts: [
+          'hello',
+          'hi',
+          'hey',
+          'good',
+          'morning',
+          'bot',
+          'afternoon',
+          'there',
+          'salutations',
+        ],
         responses: [
-          <span key={0}>Hello</span>,
-          <span key={1}>Hello 1</span>,
-          <span key={2}>Hello 2</span>,
-          <span key={3}>Hello 3</span>,
-          <span key={4}>Hello 4</span>,
+          <span key={0}>
+            Hello, how are you doing today? How may I assist you?
+          </span>,
+          <span key={1}>
+            Hi! Welcome to our chat service. How can I assist you today?
+          </span>,
+          <span key={2}>Good to see you! How may I help you today?</span>,
+          <span key={3}>Hello! How can I assist you today?</span>,
+          <span key={4}>Welcome! How may I help you?</span>,
+          <span key={5}>Nice to see you? How may I help you today?</span>,
         ],
       },
       introduction: {
@@ -37,23 +52,57 @@ class Indent {
         ],
       },
       location: {
-        texts: ['address', 'restaurant', 'location', 'where'],
+        texts: [
+          'address',
+          'restaurant',
+          'location',
+          'where',
+          'how',
+          'go',
+          'your',
+        ],
         responses: [
-          <ul key={0}>
-            <li>
-              👉Satisfa restaurant is place at{' '}
-              <a
-                href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
-                target="_blank"
-                rel="noreferrer"
-                className="text-cyan-600 hover:underline">
-                <strong>
-                  122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
-                  Minh City
-                </strong>
-              </a>
-            </li>
-          </ul>,
+          <span key={0}>
+            👉Satisfa restaurant is place at{' '}
+            <a
+              href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-600 hover:underline">
+              <strong>
+                122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
+                Minh City
+              </strong>
+            </a>
+          </span>,
+          <span key={1}>
+            Our restaurant is located at{' '}
+            <a
+              href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-600 hover:underline">
+              <strong>
+                122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
+                Minh City
+              </strong>
+            </a>
+            . We are conveniently situated near Bitexco Tower.
+          </span>,
+          <span key={2}>
+            You can find us at{' '}
+            <a
+              href="https://goo.gl/maps/ikEaSvhSAMwK5Zxr6"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-600 hover:underline">
+              <strong>
+                122 - 126, Satisfa Tower, Pasteur street, District 1, Ho Chi
+                Minh City
+              </strong>
+            </a>
+            . We are easily accessible from Bitexco Tower.
+          </span>,
         ],
       },
       help: {
@@ -73,7 +122,7 @@ class Indent {
         },
       },
       order: {
-        texts: ['I', 'want', 'to', 'order'],
+        texts: ['i', 'want', 'to', 'order'],
         responses: [
           <span key={0}>
             Of course! I showed you the menu on the screen. <br /> If you want
@@ -93,7 +142,20 @@ class Indent {
           }),
       },
       myOrders: {
-        texts: ['orders', 'order', 'order', 'my', 'check'],
+        texts: [
+          'orders',
+          'order',
+          'order',
+          'my',
+          'check',
+          'want',
+          'to',
+          'i',
+          'show',
+          'let',
+          'me',
+          'go',
+        ],
         responses: [
           <span key={0}>
             We navigate you to your history orders. Let check out the screen😘
@@ -116,7 +178,7 @@ class Indent {
         action: actions.suggestMenu,
       },
       parking: {
-        texts: [],
+        texts: ['do', 'you', 'have', 'parking', 'slot', 'area', 'available'],
         responses: [
           <div className="flex flex-col gap-2" key={0}>
             <span>✅Yes, we do have parking available for our customers.</span>
@@ -130,7 +192,17 @@ class Indent {
         ],
       },
       reservation: {
-        texts: ['reservation', 'book', 'table'],
+        texts: [
+          'reservation',
+          'book',
+          'table',
+          'i',
+          'want',
+          'to',
+          'make',
+          'create',
+          'booking',
+        ],
         responses: [
           <span key={0}>
             First, let you pick a date for your meal. Please type with syntax:
@@ -140,7 +212,18 @@ class Indent {
         action: actions.handleReservation,
       },
       operationTime: {
-        texts: ['time', 'what', 'operation', 'working', 'open', 'close'],
+        texts: [
+          'time',
+          'what',
+          'operation',
+          'working',
+          'open',
+          'close',
+          'is',
+          'your',
+          'of',
+          'restaurant',
+        ],
         responses: [
           <div className="flex flex-col gap-2" key={0}>
             <span>
@@ -193,6 +276,27 @@ class Indent {
           </div>,
         ],
       },
+      callWaiter: {
+        texts: ['call', 'waiter', 'me', 'please', 'need'],
+        responses: [
+          <span key={0}>
+            I called waiter for you. Please wait for a moment😉
+          </span>,
+        ],
+        action: actions.callWaiter,
+      },
+      // recommendation: {
+      //   texts: [
+      //     'recommend',
+      //     'recommendation',
+      //     'food',
+      //     'today',
+      //     'best',
+      //     'seller',
+      //     'favorite'
+      //   ],
+      //   responses:
+      // },
     };
   }
   simplify(message: string) {
