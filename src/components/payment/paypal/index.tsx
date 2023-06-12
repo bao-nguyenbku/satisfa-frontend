@@ -16,18 +16,19 @@ import {
   createTempOrderThunk,
   setPaymentType,
 } from '@/store/reducer/order';
-
+import PaymentSuccess from '@/pages/payment-success';
 const paypalScriptOptions: PayPalScriptOptions = {
   'client-id': process.env.NEXT_PUBLIC_CLIENT_ID as string,
   currency: 'USD',
 };
 type Props = {
   order: any;
+  onPaidPaypal: (data: any) => void;
 };
 const Checkout = (props: Props) => {
   const [success, setSuccess] = useState(false);
   const [, setOrderId] = useState(false);
-  const { order } = props;
+  const { order, onPaidPaypal } = props;
   const createdOrder = useAppSelector(selectCreatedOrder);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [paidOrder, paidRes] = useCreatePaidOrderServiceMutation();
@@ -100,10 +101,14 @@ const Checkout = (props: Props) => {
           },
         },
       };
-      paidOrder(payment);
-      window.location.href = '/payment-success';
+      onPaidPaypal(payment);
     }
   }, [success]);
+
+  if (!paidRes.isLoading && paidRes.data && !paidRes.isError) {
+    console.log('here');
+    return <PaymentSuccess />;
+  }
 
   return (
     <PayPalScriptProvider options={paypalScriptOptions}>

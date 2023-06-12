@@ -11,10 +11,11 @@ type Props = {
   orderInfo: any;
   isCreated: boolean;
   onPlaceOrder: (data: any) => void;
+  onPaidPaypal: (data: any) => void;
 };
 
 export default function OrderDetailPayment(props: Props) {
-  const { orderInfo, onPlaceOrder } = props;
+  const { orderInfo, onPlaceOrder, onPaidPaypal } = props;
   return (
     <div className="h-full text-slate-800">
       <h3 className="text-2xl font-bold">Order details</h3>
@@ -64,7 +65,7 @@ export default function OrderDetailPayment(props: Props) {
           </div>
         ) : (orderInfo.data.paymentType == PaymentType.CREDIT &&
           <div className="mt-4 w-full mx-auto">
-            <Checkout order={orderInfo} />
+            <Checkout order={orderInfo} onPaidPaypal={onPaidPaypal}/>
           </div>
         
         ))}
