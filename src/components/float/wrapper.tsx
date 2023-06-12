@@ -9,6 +9,6 @@ export default function Wrapper(props: Props) {
 
   return cloneElement(children as ReactElement, {
     className:
-      'w-16 h-16 bg-slate-800 p-3 rounded-full z-10',
+      'w-12 h-12 lg:w-16 lg:h-16 bg-slate-800 p-1 lg:p-3 rounded-full z-10',
   });
 }

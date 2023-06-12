@@ -25,7 +25,7 @@ export default function ReservationSection() {
           data-aos="fade-up"
           data-aos-anchor-placement="top-center"
           data-aos-anchor=".eat-together"
-          className="text-5xl xs:text-6xl md:text-7xl font-bold text-white uppercase">
+          className="text-4xl sm:text-5xl xs:text-6xl md:text-7xl font-bold text-white uppercase">
           Eat Together
         </h1>
         <p

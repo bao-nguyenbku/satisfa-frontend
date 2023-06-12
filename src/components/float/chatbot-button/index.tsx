@@ -53,6 +53,7 @@ const ChatbotButton = () => {
           <div className="relative w-full h-full">
             <Image
               src={SatisgiAvatar}
+              sizes='(max-width: 768px) 100vw'
               fill
               className="rounded-full object-cover"
               alt="bot-avatar"

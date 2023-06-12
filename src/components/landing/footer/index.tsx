@@ -14,7 +14,7 @@ export default function FooterSection() {
       id="footer"
       className={`min-h-[500px] h-auto bg-second text-white relative justify-center flex gap-0 items-center md:p-10 p-4 flex-col w-full`}>
       <h2
-        className={`text-5xl z-10 whitespace-nowrap sm:text-6xl ${podkova.className}`}>
+        className={`text-4xl z-10 whitespace-nowrap sm:text-6xl ${podkova.className}`}>
         Satisfa Restaurant
       </h2>
       <Image
