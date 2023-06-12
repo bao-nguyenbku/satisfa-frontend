@@ -19,7 +19,7 @@ type Props = {
 const handleValidate = (values: ChangePassword) => {
   const { currentPassword, newPassword, confirmNewPassword } = values;
 
-  const errors: changePassword = {
+  const errors: ChangePassword = {
     currentPassword: '',
     newPassword: '',
     confirmNewPassword: '',
