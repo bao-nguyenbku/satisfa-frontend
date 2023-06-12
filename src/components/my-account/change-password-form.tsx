@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import * as _ from 'lodash';
 import { toast } from 'react-toastify';
 import { useUpdatePasswordMutation } from '@/services/user';
-type changePassword = {
+type ChangePassword = {
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
@@ -16,7 +16,7 @@ type Props = {
   userId: string;
 };
 
-const handleValidate = (values: changePassword) => {
+const handleValidate = (values: ChangePassword) => {
   const { currentPassword, newPassword, confirmNewPassword } = values;
 
   const errors: changePassword = {
@@ -47,13 +47,12 @@ const ChangePasswordForm = (props: Props) => {
   const { userId } = props;
   // const [updatePassword, updatePasswordRes] = useUpdatePasswordMutation();
   const [updatePassword, updatePasswordRes] = useUpdatePasswordMutation();
-  const initialValues: changePassword = {
+  const initialValues: ChangePassword = {
     currentPassword: '',
     newPassword: '',
     confirmNewPassword: '',
   };
-  const handleSubmit = () => {
-    // const { id, ...rest } = values;
+  const handleSubmit = (values: ChangePassword) => {
     updatePassword({
       body: {
         id: userId,
@@ -129,7 +128,7 @@ const ChangePasswordForm = (props: Props) => {
             onChange={formik.handleChange}
           />
         </div>
-        <div className="flex items-center justify-end  ">
+        <div className="flex items-center justify-end">
           <Button
             className="bg-primary-orange rounded-none !px-10 h-16 font-bold text-xl text-white hover:bg-primary-orange/80"
             type="submit"
