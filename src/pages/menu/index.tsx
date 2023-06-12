@@ -21,17 +21,16 @@ export default function MenuPage() {
           <Loading />
         ) : (
           isSuccess &&
-          productList && (
-            <div className="mt-12 flex flex-wrap gap-2 w-full justify-center">
-              <CategoryTab data={productList as Product[]} />
-            </div>
-          )
+          productList && <CategoryTab data={productList as Product[]} />
         )}
       </div>
     </>
   );
 }
-
+{
+  /* <div className="mt-12 flex flex-wrap gap-2 w-full justify-center">
+            </div> */
+}
 // !Warning: Error when use server side render
 // export const getStaticProps = wrapper.getStaticProps((store) => async () => {
 //   const response = await store.dispatch(productApi.endpoints.getAllProduct.initiate());

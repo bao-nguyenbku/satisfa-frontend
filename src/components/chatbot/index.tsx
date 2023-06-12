@@ -295,24 +295,37 @@ const Chatbot = (props: Props) => {
         actions.unhandleInput();
         return;
       }
-      const lastestOrder = await dispatch(
-        orderApi.endpoints.getLastestOrder.initiate(),
-      ).unwrap();
+      if (lowCaseMessage.includes('no')) {
+        actions.sendMessage(botRecommendationMessage[3].text);
+        return;
+      }
+      let lastestOrder;
+      try {
+        lastestOrder = await dispatch(
+          orderApi.endpoints.getLastestOrder.initiate(),
+        ).unwrap();
+      } catch (error: any) {
+        if (error && error.status === 401) {
+          actions.sendMessage(
+            'I can only recommend food in your old orders if you sign in',
+          );
+        }
+        return;
+      }
       const itemList = lastestOrder ? lastestOrder[0].items : [];
+
       if (lowCaseMessage.includes('yes')) {
         if (itemList && itemList.length === 0) {
           actions.sendMessage(
             'You have not made any order in our restaurant, try it and use this service next time.',
           );
         } else if (itemList && itemList.length > 0) {
-          actions.sendMessage('I am showing you your food in recent order', {
+          actions.sendMessage('I am showing you your food in recent orders', {
             widget: <RecentOrderSlide itemList={itemList} />,
             widgetType: WidgetType.SELECTION,
           });
           actions.sendMessage(botRecommendationMessage[3].text);
         }
-      } else if (lowCaseMessage.includes('no')) {
-        actions.sendMessage(botRecommendationMessage[3].text);
       }
     }
     return lowCaseMessage;

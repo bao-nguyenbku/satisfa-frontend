@@ -71,9 +71,7 @@ export default function CategoryTab(props: Props) {
         value={activeIndex}
         onChange={handleChange}
         TabIndicatorProps={{ sx: { display: 'none' } }}
-        scrollButtons="auto"
-        allowScrollButtonsMobile
-        variant="scrollable"
+        scrollButtons={false}
         className={styles.tabs}
         >
         {categories &&

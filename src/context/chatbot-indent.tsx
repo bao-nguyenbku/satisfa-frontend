@@ -279,24 +279,26 @@ class Indent {
       callWaiter: {
         texts: ['call', 'waiter', 'me', 'please', 'need'],
         responses: [
-          <span key={0}>
-            I called waiter for you. Please wait for a moment😉
-          </span>,
+          // <span key={0}>
+          //   I called waiter for you. Please wait for a moment😉
+          // </span>,
         ],
         action: actions.callWaiter,
       },
-      // recommendation: {
-      //   texts: [
-      //     'recommend',
-      //     'recommendation',
-      //     'food',
-      //     'today',
-      //     'best',
-      //     'seller',
-      //     'favorite'
-      //   ],
-      //   responses:
-      // },
+      recommendation: {
+        texts: [
+          'recommend',
+          'recommendation',
+          'show',
+          'food',
+          'today',
+          'best',
+          'seller',
+          'favorite',
+        ],
+        responses: [<span key={0}>Let you see our best seller food😉</span>],
+        action: actions.handleRecommendation,
+      },
     };
   }
   simplify(message: string) {
@@ -306,13 +308,13 @@ class Indent {
     const idx = Math.floor(
       Math.random() * this.data[indentKey].responses?.length,
     );
+    this.actions.sendMessage(this.data[indentKey].responses[idx]);
     if (
       this.data[indentKey].action &&
       typeof this.data[indentKey].action === 'function'
     ) {
       this.data[indentKey].action?.();
     }
-    this.actions.sendMessage(this.data[indentKey].responses[idx]);
   }
   parse(userInput: string) {
     const rawInput = this.simplify(userInput);

@@ -24,6 +24,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, Slide } from 'react-toastify';
 import { ModalContextProvider } from '@/context/modal-context';
 import { ChatbotProvider } from '@/context/chatbot-context';
+import { SocketProvider } from '@/context/socket-context';
 import { ConfirmContextProvider } from '@/context/confirm-dialog-context';
 // import { AnimatePresence } from 'framer-motion';
 // import TransitionRoute from '@/components/common/transition';
@@ -70,14 +71,16 @@ const App = ({
                 <ModalContextProvider>
                   <ConfirmContextProvider>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <ChatbotProvider>
-                        {getLayout(
-                          <>
-                            <Component {...rest} />
-                            <ToastContainer transition={Slide} />
-                          </>,
-                        )}
-                      </ChatbotProvider>
+                      <SocketProvider>
+                        <ChatbotProvider>
+                          {getLayout(
+                            <>
+                              <Component {...rest} />
+                              <ToastContainer transition={Slide} />
+                            </>,
+                          )}
+                        </ChatbotProvider>
+                      </SocketProvider>
                     </LocalizationProvider>
                   </ConfirmContextProvider>
                 </ModalContextProvider>

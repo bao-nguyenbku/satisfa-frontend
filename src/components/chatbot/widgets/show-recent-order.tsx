@@ -43,9 +43,8 @@ export default function RecentOrderSlide(props: Props) {
     autoplaySpeed: 5000,
   };
   return (
-    <div className="flex flex-col rounded-xl gap-2 mt-4 overflow-hidden">
+    <div className="flex flex-col rounded-xl w-full items-center gap-2 mt-4 overflow-hidden">
       <p className="text-center text-3xl text-primary-orange">Recent order</p>
-
       <Slider {...settings} className={styles.customSlick}>
         {itemList &&
           _.isArray(itemList) &&
@@ -63,7 +62,6 @@ export default function RecentOrderSlide(props: Props) {
                     className="object-cover"
                     alt={`thumbnail of ${item.name}`}
                   />
-
                   <span className="font-bold text-2xl my-2 mt-auto">
                     {item.name}
                   </span>

@@ -1,15 +1,9 @@
 import React from 'react';
 import Button from '@/components/common/button';
-import useSocket from '@/hooks/useSocket';
-import { selectUserData } from '@/store/reducer/user';
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import { getReservationByFilter } from '@/services/reservation';
 
 export default function Options(props: any) {
   const { actions, createUserMessage } = props;
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUserData);
-  const { socket } = useSocket();
+
   const options = {
     1: {
       text: 'I want to ask some questions',
@@ -45,41 +39,15 @@ export default function Options(props: any) {
     },
     6: {
       text: 'Call waiter',
-      handler: async () => {
-        if (socket?.connected) {
-          const res = await dispatch(
-            getReservationByFilter.initiate(
-              {
-                currentDate: true,
-                currentUser: true,
-                checkedIn: true,
-              },
-              {
-                forceRefetch: true,
-              },
-            ),
-          ).unwrap();
-          // createUserMessage(options[6].text);
-          if (res && res.length === 0) {
-            actions.sendMessage(
-              'You must check-in at restaurant to call for service',
-            );
-            return;
-          }
-
-          socket?.emit('call-waiter', {
-            userId: user?.id,
-            reservations: res,
-          });
-          actions.sendMessage(
-            'I called waiter for you. Please wait for a moment😉',
-          );
-        }
+      handler: () => {
+        createUserMessage(options[6].text);
       },
     },
     7: {
       text: 'Recommend food for me',
-      handler: actions.handleRecommendation,
+      handler: () => {
+        createUserMessage(options[7].text);
+      },
     },
   };
 

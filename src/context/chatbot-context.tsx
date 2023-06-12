@@ -18,7 +18,7 @@ import {
 } from '@/types/chatbot-types';
 import Options from '@/components/chatbot/options';
 // import { useRouter } from 'next/router';
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 // import ShowBestSeller from '@/components/chatbot/widgets/show-best-seller';
 import RecommendationSlide from '@/components/chatbot/widgets/recommendation-slide';
 import {
@@ -39,6 +39,9 @@ import { formatDate } from '@/utils';
 import ShowTables from '@/components/chatbot/widgets/show-tables';
 import FrequentlyQuestion from '@/components/chatbot/widgets/frequently-question';
 import { Indent } from './chatbot-indent';
+import useSocket from '@/hooks/useSocket';
+import { getReservationByFilter } from '@/services/reservation';
+import { selectUserData } from '@/store/reducer/user';
 
 type Props = {
   children: React.ReactNode;
@@ -90,12 +93,14 @@ export const ChatbotContext = createContext<IChatbotContext>({
 });
 
 export const ChatbotProvider = ({ children }: Props) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUserData);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [botService, setBotService] = useState<BotService>(BotService.NONE);
-  const dispatch = useAppDispatch();
-  const router = useRouter();
+  const { socket } = useSocket();
 
   const createBotMessage = (message: ReactNode, options?: MessageOption) => {
     const { delay = DEFAULT_DELAY } = options ? options : {};
@@ -230,10 +235,12 @@ export const ChatbotProvider = ({ children }: Props) => {
         options && _.has(options, 'delay') && !_.isEmpty(options.delay)
           ? options.delay
           : DEFAULT_DELAY;
-      createBotMessage(message, {
-        delay,
-        ...options,
-      });
+      if (message) {
+        createBotMessage(message, {
+          delay,
+          ...options,
+        });
+      }
       if (widget) {
         createWidget(widget, {
           delay,
@@ -259,8 +266,39 @@ export const ChatbotProvider = ({ children }: Props) => {
       );
       router.push('/menu');
     },
-    callWaiter: () => {
-      return;
+    callWaiter: async () => {
+      if (socket?.connected) {
+        try {
+          const res = await dispatch(
+            getReservationByFilter.initiate(
+              {
+                currentDate: true,
+                currentUser: true,
+                checkedIn: true,
+              },
+              {
+                forceRefetch: true,
+              },
+            ),
+          ).unwrap();
+          if (res && res.length === 0) {
+            actions.sendMessage(
+              'You must check-in at restaurant to call for service',
+            );
+            return;
+          }
+          createBotMessage('I am calling waiter for you. Please wait...😘')
+          socket?.emit('call-waiter', {
+            userId: user?.id,
+            reservations: res,
+          });
+        } catch (error: any) {
+          if (error && error.status === 401) {
+            actions.sendMessage('You must sign in to use this feature');
+            return;
+          }
+        }
+      }
     },
     // ! MAKE RESERVATION
     navigateToReservation: () => {
@@ -332,12 +370,11 @@ export const ChatbotProvider = ({ children }: Props) => {
       actions.navigateToMenu();
     },
     showBestSeller: () => {
-      createBotMessage(botRecommendationMessage[1].text);
       createWidget(<RecommendationSlide />, {
         widgetType: WidgetType.SELECTION,
       });
       createBotMessage(botRecommendationMessage[2].text, {
-        delay: 500,
+        delay: 800,
       });
     },
     completeRecommendation: () => {

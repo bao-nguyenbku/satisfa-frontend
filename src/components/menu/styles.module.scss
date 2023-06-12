@@ -4,9 +4,9 @@
   // }
   // @apply min-w-0;
   // @apply max-w-screen-1400 px-4 w-screen md:w-full;
-  // :global .MuiTabs-flexContainer {
-  //   @apply flex flex-wrap md:flex-row text-sm;
-  // }
+  :global .MuiTabs-flexContainer {
+    @apply flex flex-wrap text-sm items-start justify-start;
+  }
   // :global .MuiTabs-flexContainer {
   //   @apply justify-center;
   // }
