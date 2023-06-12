@@ -87,7 +87,7 @@ const Checkout = (props: Props) => {
 
   useEffect(() => {
     if (success) {
-      toast.success('Payment with Paypal successfully!');
+      // toast.success('Payment with Paypal successfully!');
       const payment: CreatedOrder = {
         id: createdOrder.id,
         type: order.data.type,
@@ -101,7 +101,7 @@ const Checkout = (props: Props) => {
         },
       };
       paidOrder(payment);
-      // window.location.href = '/payment-success';
+      window.location.href = '/payment-success';
     }
   }, [success]);
 

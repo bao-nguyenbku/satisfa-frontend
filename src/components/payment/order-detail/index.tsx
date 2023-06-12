@@ -3,10 +3,9 @@ import { Divider } from '@mui/material';
 import Button from '@/components/common/button';
 import OrderItem from './order-item';
 import { formatCurrency } from '@/utils';
-import { PaymentType } from '@/types';
+import { OrderType, PaymentType } from '@/types';
 import Checkout from '../paypal';
 import * as _ from 'lodash';
-
 
 type Props = {
   orderInfo: any;
@@ -27,7 +26,10 @@ export default function OrderDetailPayment(props: Props) {
       <div className="flex flex-col w-full mx-auto mt-4 text-xl gap-4 mb-6">
         <div className="flex justify-between">
           <h3>Total</h3>
-          <span className='font-bold'> {formatCurrency(orderInfo.data.totalCost)}</span>
+          <span className="font-bold">
+            {' '}
+            {formatCurrency(orderInfo.data.totalCost)}
+          </span>
         </div>
         <div className="flex justify-between">
           <h3>Discount (0%)</h3>
@@ -36,7 +38,9 @@ export default function OrderDetailPayment(props: Props) {
         <Divider className="border-slate-800" />
         <div className="flex justify-between">
           <h3>Summary</h3>
-          <span className='font-bold'>{formatCurrency(orderInfo.data.totalCost)}</span>
+          <span className="font-bold">
+            {formatCurrency(orderInfo.data.totalCost)}
+          </span>
         </div>
       </div>
 
@@ -49,20 +53,21 @@ export default function OrderDetailPayment(props: Props) {
           </Button>
         </div>
       )}
-      {orderInfo.data.paymentType == PaymentType.CREDIT && (
-        !_.isEmpty(orderInfo.data.reservation) ?
-        <div className="mt-4 w-full mx-auto">
-          <Checkout order={orderInfo} />
-        </div>
-        :
-        <div className="mt-4 w-full mx-auto text-center text-3xl">
-          <Button
-            disabled
-            className="bg-yellow-400 hover:bg-yellow-400/80 w-full rounded-none py-6 text-white text-xl">
-            Select a reservation to unlock paypal
-          </Button>
-        </div>
-      )}
+      {(orderInfo.data.paymentType == PaymentType.CREDIT &&
+        (_.isEmpty(orderInfo.data.reservation) && orderInfo.data.type != OrderType.TAKEAWAY) ? (
+          <div className="mt-4 w-full mx-auto text-center text-3xl">
+            <Button
+              disabled
+              className="bg-yellow-400 hover:bg-yellow-400/80 w-full rounded-none py-6 text-white text-xl">
+              Select a reservation to unlock paypal
+            </Button>
+          </div>
+        ) : (orderInfo.data.paymentType == PaymentType.CREDIT &&
+          <div className="mt-4 w-full mx-auto">
+            <Checkout order={orderInfo} />
+          </div>
+        
+        ))}
     </div>
   );
 }
