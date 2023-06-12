@@ -82,7 +82,13 @@ export default function CategoryTab(props: Props) {
         className={styles.tabs}>
         {categories &&
           categories.map((category) => {
-            return <Tab key={category.id} label={category.name} />;
+            return (
+              <Tab
+                key={category.id}
+                label={category.name}
+
+              />
+            );
           })}
       </Tabs>
       {categories &&

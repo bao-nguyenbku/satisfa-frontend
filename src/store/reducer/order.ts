@@ -105,7 +105,6 @@ export const createTempOrderThunk = createAsyncThunk<
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
       const data = getState()?.order?.createOrder.data;
-      console.log(data);
       const createOrderData: CreateOrder = {
         reservationId: data.reservation?.id,
         items: data?.itemList,

@@ -5,7 +5,7 @@ import MessageHeader from './components/message-header';
 import MessageInput from './components/message-input';
 import MessageSection from './components/message-section';
 import useChatbot from '@/hooks/useChatbot';
-import { BotService } from '@/types/chatbot-types';
+import { BotService, WidgetType } from '@/types/chatbot-types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   selectBotReservationState,
@@ -18,7 +18,7 @@ import {
   setTakeawayName,
   setTakeawayPhone,
   setTakeawayTime,
-  getReservationByUser,
+  getReservationByFilter,
   selectBotRecommendationState,
 } from '@/store/reducer/chatbot';
 import { getTime, guestSelect } from '@/store/reducer/reservation';
@@ -45,9 +45,9 @@ import {
 import ShowConfirmationOrder from './widgets/show-confirmation-order';
 import ChooseReservation from './widgets/choose-reservation';
 import { botOrderMessage } from './steps/order';
-import ShowRecentOrder from './widgets/show-recent-order';
 import { botRecommendationMessage } from './steps';
 import { selectUserData } from '@/store/reducer/user';
+import RecentOrderSlide from './widgets/show-recent-order';
 type Props = {
   boxOpen?: boolean;
 };
@@ -201,7 +201,7 @@ const Chatbot = (props: Props) => {
           actions.sendMessage('You must sign in to book a table');
           return;
         }
-        const reservation = await dispatch(getReservationByUser()).unwrap();
+        const reservation = await dispatch(getReservationByFilter()).unwrap();
         if (reservation && _.isArray(reservation) && reservation.length === 0) {
           actions.sendMessage(botOrderMessage[4].text);
         } else if (
@@ -306,7 +306,8 @@ const Chatbot = (props: Props) => {
           );
         } else if (itemList && itemList.length > 0) {
           actions.sendMessage('I am showing you your food in recent order', {
-            widget: <ShowRecentOrder itemList={itemList} />,
+            widget: <RecentOrderSlide itemList={itemList} />,
+            widgetType: WidgetType.SELECTION,
           });
           actions.sendMessage(botRecommendationMessage[3].text);
         }

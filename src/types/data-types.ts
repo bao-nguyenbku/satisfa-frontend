@@ -46,6 +46,7 @@ export type ReservationFilter = {
   currentUser?: boolean;
   checkedIn?: boolean;
   fromNow?: boolean;
+  status?: ReservationStatus;
 };
 
 export type TableFilter = {

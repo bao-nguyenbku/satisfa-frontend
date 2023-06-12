@@ -16,7 +16,7 @@ import Slider from 'react-slick';
 import styles from './styles.module.scss';
 import Loading from '@/components/common/loading';
 
-const CarouselBestSeller = () => {
+export default function RecommendationSlide() {
   const { data: productList } = useGetAllProductQuery();
   const { data: itemList, isLoading } = useGetBestSellerQuery(5);
   const dispatch = useAppDispatch();
@@ -151,6 +151,4 @@ const CarouselBestSeller = () => {
       </Carousel> */}
     </div>
   );
-};
-
-export default CarouselBestSeller;
+}
