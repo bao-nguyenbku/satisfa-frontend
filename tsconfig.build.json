@@ -3,6 +3,7 @@
   "exclude": [
     "node_modules",
     "cypress",
+    "screenshot",
     "test",
     "dist",
     "**/*spec.ts",

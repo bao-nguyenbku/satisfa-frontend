@@ -56,8 +56,8 @@ const ChangePasswordForm = (props: Props) => {
     updatePassword({
       body: {
         id: userId,
-        password: formik.values.currentPassword,
-        newPassword: formik.values.newPassword,
+        password: values.currentPassword,
+        newPassword: values.newPassword,
       },
     });
   };
