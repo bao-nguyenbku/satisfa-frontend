@@ -7,7 +7,7 @@ This website is a place to introduce about a restaurant named "Satisfa". This is
 - Chatbot can recommend food for customer
 ## Demo
 Link: [Satisfa Restaurant](https://satisfa.vercel.app)  
-Video: Coming soon...
+Video: https://youtu.be/GEYMi61EPkU
 ## Main Technical Stack
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
